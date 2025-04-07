@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Les dernières infos sur Facebook</title>
+    <!-- ✅ Bootstrap CSS CDN -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <script src="header.js"></script>
+  </head>
+  <body class="bg-light text-center p-4">
+    <div id="header-container"></div>
+    <h1>MVP Foot Search</h1>
+    <h2 class="mb-4">Les pages  qui parlent du football Ivoirien</h2>
+    <div
+      id="link-container"
+      class="d-flex flex-wrap justify-content-center gap-3"
+    ></div>
+    <div id="footer-container"></div>
+    <script>
+      const myArray = [
+      { nom: "MVP FOOT ", lien: "https://www.facebook.com/mvpfoot" },
+        { nom: "Sport Fun by TamyFlo  ", lien: "https://www.facebook.com/profile.php?id=100075593877551" },
+        { nom: "Tanière du football ivoirien ", lien: "https://www.facebook.com/TFI225" },
+
+        { nom: "sport ivoire", lien: "https://www.facebook.com/sportivoire.ci" },
+        { nom: "Top Foot Ivoire ", lien: "https://www.facebook.com/topdufootivoire" },
+        { nom: "Abidjan Sport ", lien: "https://www.facebook.com/abidjansports" },
+        { nom: "Les Talents Ivoiriens ", lien: "https://www.facebook.com/lestalentsivoiriens" },
+        { nom: "L'Intello du Foot Ivoirien ", lien: "https://www.facebook.com/profile.php?id=100078136961774" },
+        { nom: "ALLEZ LES ÉLÉPHANTS ", lien: "https://www.facebook.com/allezleselephants2" },
+
+        { nom: "Fédération Ivoirienne de Football", lien: "https://www.facebook.com/federationivoiriennedefootball" },
+        { nom: "SportMania ", lien: "https://www.facebook.com/www.sportmania.ci" },
+        { nom: "expert du football ivoirien ", lien: "https://www.facebook.com/profile.php?id=100067555482381" },
+        { nom: "Stadivoire ", lien: "https://www.facebook.com/Stadivoire" },
+        { nom: "1er supporteur ivoirien", lien: "https://www.facebook.com/profile.php?id=100091869319453" },
+        { nom: "Équipe de Côte d'Ivoire de Football  EDCIF ", lien: "https://www.facebook.com/Mac2Brignan" },
+
+        { nom: "PÉPITES FOOTBALL IVOIRIEN ", lien: "https://www.facebook.com/profile.php?id=100076180562486" },
+        { nom: "SOUTIEN AUX ÉLÉPHANTS  ", lien: "https://www.facebook.com/soutienauxelephantss" },
+        { nom: "Emerse Faé - IFCI ", lien: "https://www.facebook.com/profile.php?id=61556194437154" },
+        { nom: "DH-Sports TV1  ", lien: "https://www.facebook.com/DHSportsTV1" },
+        { nom: "Le Kpakpato Sportif ", lien: "https://www.facebook.com/LeKpakpatoSportif" },
+        { nom: "Prodiges du football ivoirien ", lien: "https://www.facebook.com/profile.php?id=61565884014836" },
+
+        { nom: "Actu Foot Ivoire", lien: "https://www.facebook.com/profile.php?id=100091316026373" },
+        { nom: "𝐒𝐏𝐎𝐑𝐓 𝟐𝟐𝟓 ", lien: "https://www.facebook.com/Sport225.ci" },
+        { nom: "Séléphanto Football 🇨🇮 ", lien: "https://x.com/Selephanto" },
+        { nom: "amoureux du foot ivoirien ", lien: "https://www.facebook.com/profile.php?id=100083017697974" },
+        { nom: "ULTRAS IVOIRIENS  ", lien: "https://www.facebook.com/lesultrasivoiriens" },
+        { nom: "Foot 225 ", lien: "https://www.facebook.com/LeFoot225" },
+
+      ];
+
+      const colors = [
+        "#e6194b", "#3cb44b", "#ffe119", "#4363d8", "#f58231", "#911eb4",
+        "#46f0f0", "#f032e6", "#bcf60c", "#fabebe", "#008080", "#317713",
+        "#9a6324", "#fe45f4", "#800000", "#8affc3", "#808000", "#ffd8b1",
+        "#000075", "#808080", "#f34fff", "#a9a9a9", "#000000", "#a52a2a",
+        "#7fffd4", "#ff69b4"
+      ];
+
+      const container = document.getElementById("link-container");
+
+      myArray.forEach(({ nom, lien }) => {
+        const firstChar = nom.trim()[0].toLowerCase();
+        const alphabetIndex = firstChar.charCodeAt(0) - 97;
+        const color =
+          alphabetIndex >= 0 && alphabetIndex < 26
+            ? colors[alphabetIndex]
+            : "#3a350d";
+
+        const link = document.createElement("a");
+        link.href = lien;
+        link.textContent = nom;
+        link.target = "_blank";
+
+        link.className = "btn btn-primary btn-lg";
+        link.style.backgroundColor = color;
+        link.style.color = color === "#ffffff" ? "#000" : "#fff";
+        link.style.border = "none";
+        link.style.margin = "5px";
+
+        link.addEventListener("click", function () {
+          this.style.backgroundColor = "#333";
+          this.style.color = "#fff";
+        });
+
+        container.appendChild(link);
+      });
+    </script>
+  </body>
+</html>

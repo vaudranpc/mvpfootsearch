@@ -64,32 +64,11 @@
       const container = document.getElementById("link-container");
 
       const colors = [
-        "#e6194b",
-        "#3cb44b",
-        "#ffe119",
-        "#4363d8",
-        "#f58231",
-        "#911eb4",
-        "#46f0f0",
-        "#f032e6",
-        "#bcf60c",
-        "#fabebe",
-        "#008080",
-        "#e6beff",
-        "#9a6324",
-        "#fe45f4",
-        "#800000",
-        "#aaffc3",
-        "#808000",
-        "#ffd8b1",
-        "#000075",
-        "#808080",
-        "#ffffff",
-        "#a9a9a9",
-        "#000000",
-        "#a52a2a",
-        "#7fffd4",
-        "#ff69b4",
+        "#e6194b", "#3cb44b", "#ffe119", "#4363d8", "#f58231", "#911eb4",
+        "#46f0f0", "#f032e6", "#bcf60c", "#fabebe", "#008080", "#317713",
+        "#9a6324", "#fe45f4", "#800000", "#8affc3", "#808000", "#ffd8b1",
+        "#000075", "#808080", "#f34fff", "#a9a9a9", "#000000", "#a52a2a",
+        "#7fffd4", "#ff69b4"
       ];
 
       myArray.forEach((item) => {
@@ -98,7 +77,7 @@
         const color =
           alphabetIndex >= 0 && alphabetIndex < 26
             ? colors[alphabetIndex]
-            : "#cccccc";
+            : "#3a350d";
 
         const link = document.createElement("a");
         link.href = baseUrl + encodeURIComponent(item) + suite;
