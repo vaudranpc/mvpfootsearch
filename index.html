@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>derniere infos sur facebook</title>
+    <!-- ✅ Bootstrap CSS CDN -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body class="bg-light text-center p-4">
+    <h1>MVP foot search</h1>
+    <h2 class="mb-4">derniere infos sur les joueurs</h2>
+    <div
+      id="link-container"
+      class="d-flex flex-wrap justify-content-center gap-3"
+    ></div>
+
+    <script>
+      const myArray = [
+        "yahia fofana",
+        "Mohamed kone gardien",
+        "badra ali sangare",
+        "guela doue",
+        "wilfried singo",
+        "christopher operi",
+        "hassane kamara",
+        "akpa clement",
+        "seri jean mickael",
+        "ahoulou jean eudes",
+        "Ousmane Diomandé",
+        "Willy Boly",
+        "Evan Ndicka",
+        "Wilfried Singo",
+        "Guela Doué",
+        "Hassane Kamara",
+        "Emmanuel Agbadou",
+        "Clément Akpa",
+        "Jean-Eudes Aholou",
+        "Jean-Philippe Gbamin",
+        "Franck Kessié",
+        "Ibrahim Sangaré",
+        "Hamed Junior Traoré",
+        "Simon Adingra",
+        "Mohamed Bayo",
+        "Oumar Diakité",
+        "Karim Konaté",
+        "Sébastien Haller",
+        "Nicolas Pépé",
+        "Evann Guessand",
+        "Vakoun Bayo",
+        "Evann Guessand",
+      ];
+
+      const baseUrl = "https://www.facebook.com/search/posts?q=";
+      const suite =
+        "&filters=eyJyZWNlbnRfcG9zdHM6MCI6IntcIm5hbWVcIjpcInJlY2VudF9wb3N0c1wiLFwiYXJnc1wiOlwiXCJ9In0%3D";
+
+      const container = document.getElementById("link-container");
+
+      const colors = [
+        "#e6194b",
+        "#3cb44b",
+        "#ffe119",
+        "#4363d8",
+        "#f58231",
+        "#911eb4",
+        "#46f0f0",
+        "#f032e6",
+        "#bcf60c",
+        "#fabebe",
+        "#008080",
+        "#e6beff",
+        "#9a6324",
+        "#fe45f4",
+        "#800000",
+        "#aaffc3",
+        "#808000",
+        "#ffd8b1",
+        "#000075",
+        "#808080",
+        "#ffffff",
+        "#a9a9a9",
+        "#000000",
+        "#a52a2a",
+        "#7fffd4",
+        "#ff69b4",
+      ];
+
+      myArray.forEach((item) => {
+        const firstChar = item.trim()[0].toLowerCase();
+        const alphabetIndex = firstChar.charCodeAt(0) - 97;
+        const color =
+          alphabetIndex >= 0 && alphabetIndex < 26
+            ? colors[alphabetIndex]
+            : "#cccccc";
+
+        const link = document.createElement("a");
+        link.href = baseUrl + encodeURIComponent(item) + suite;
+        link.textContent = item;
+        link.target = "_blank";
+
+        // Ajout de la classe Bootstrap btn pour appliquer le style bouton
+        link.className = "btn btn-primary btn-lg";
+        link.style.backgroundColor = color;
+        link.style.color = alphabetIndex === 20 ? "#000" : "#fff"; // pour fond blanc
+        link.style.border = "none";
+        link.style.margin = "5px"; // Ajout d'un léger espacement autour du bouton
+
+        // Changer couleur au clic
+        link.addEventListener("click", function () {
+          this.style.backgroundColor = "#333";
+          this.style.color = "#fff";
+        });
+
+        container.appendChild(link);
+      });
+    </script>
+  </body>
+</html>
