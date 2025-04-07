@@ -2,7 +2,7 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <title>les dernieres infos sur facebook</title>
+    <title>les dernières infos sur facebook</title>
     <!-- ✅ Bootstrap CSS CDN -->
     <link
       rel="stylesheet"
@@ -10,114 +10,58 @@
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous"
     />
+    <script src="header.js"></script>
   </head>
   <body class="bg-light text-center p-4">
+    <div id="header-container"></div>
     <h1>MVP foot search</h1>
-    <h2 class="mb-4">derniere infos sur les joueurs</h2>
-    <div
-      id="link-container"
-      class="d-flex flex-wrap justify-content-center gap-3"
-    ></div>
+    <h2 class="mb-4">rechercher un sujet</h2>
 
+    <!-- Barre de recherche -->
+    <div class="container mb-4">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <input
+            type="text"
+            id="searchInput"
+            class="form-control form-control-lg"
+            placeholder="Recherche un joueur ou sujet..."
+          />
+        </div>
+        <div class="col-md-2">
+          <button id="searchBtn" class="btn btn-success btn-lg btn-block">
+            Rechercher
+          </button>
+        </div>
+      </div>
+    </div>
+    <div id="footer-container"></div>
     <script>
-      const myArray = [
-  "ahoulou jean eudes",
-  "akpa clement",
-  "badra ali sangare",
-  "christopher operi",
-  "Clément Akpa",
-  "Emmanuel Agbadou",
-  "Evan Ndicka",
-  "Evann Guessand",
-  "Can U17 maroc",
-  "Franck Kessié",
-  "guela doue",
-  "Guela Doué",
-  "Hamed Junior Traoré",
-  "hassane kamara",
-  "Foot Ivoirien",
-  "Ibrahim Sangaré",
-  "Jean-Eudes Aholou",
-  "Jean-Philippe Gbamin",
-  "Karim Konaté",
-  "Football Ivoirien",
-  "Mohamed kone gardien",
-  "Nicolas Pépé",
-  "Oumar Diakité",
-  "Ousmane Diomandé",
-  "Simon Adingra",
-  "Sébastien Haller",
-  "seri jean mickael",
-  "Vakoun Bayo",
-  "Wilfried Singo",
-  "wilfried singo",
-  "Willy Boly",
-  "yahia fofana"
-];
-
       const baseUrl = "https://www.facebook.com/search/posts?q=";
       const suite =
         "&filters=eyJyZWNlbnRfcG9zdHM6MCI6IntcIm5hbWVcIjpcInJlY2VudF9wb3N0c1wiLFwiYXJnc1wiOlwiXCJ9In0%3D";
 
-      const container = document.getElementById("link-container");
+      const searchInput = document.getElementById("searchInput");
+      const searchBtn = document.getElementById("searchBtn");
 
-      const colors = [
-        "#e6194b",
-        "#3cb44b",
-        "#ffe119",
-        "#4363d8",
-        "#f58231",
-        "#911eb4",
-        "#46f0f0",
-        "#f032e6",
-        "#bcf60c",
-        "#fabebe",
-        "#008080",
-        "#e6beff",
-        "#9a6324",
-        "#fe45f4",
-        "#800000",
-        "#aaffc3",
-        "#808000",
-        "#ffd8b1",
-        "#000075",
-        "#808080",
-        "#ffffff",
-        "#a9a9a9",
-        "#000000",
-        "#a52a2a",
-        "#7fffd4",
-        "#ff69b4",
-      ];
-
-      myArray.forEach((item) => {
-        const firstChar = item.trim()[0].toLowerCase();
-        const alphabetIndex = firstChar.charCodeAt(0) - 97;
-        const color =
-          alphabetIndex >= 0 && alphabetIndex < 26
-            ? colors[alphabetIndex]
-            : "#cccccc";
-
-        const link = document.createElement("a");
-        link.href = baseUrl + encodeURIComponent(item) + suite;
-        link.textContent = item;
-        link.target = "_blank";
-
-        // Ajout de la classe Bootstrap btn pour appliquer le style bouton
-        link.className = "btn btn-primary btn-lg";
-        link.style.backgroundColor = color;
-        link.style.color = alphabetIndex === 20 ? "#000" : "#fff"; // pour fond blanc
-        link.style.border = "none";
-        link.style.margin = "5px"; // Ajout d'un léger espacement autour du bouton
-
-        // Changer couleur au clic
-        link.addEventListener("click", function () {
-          this.style.backgroundColor = "#333";
-          this.style.color = "#fff";
-        });
-
-        container.appendChild(link);
+      searchBtn.addEventListener("click", function () {
+        const query = searchInput.value.trim();
+        if (query) {
+          const fullUrl = baseUrl + encodeURIComponent(query) + suite;
+          window.open(fullUrl, "_blank");
+        } else {
+          alert("Veuillez entrer un nom ou un sujet à rechercher.");
+        }
       });
+
+      // Appuyer sur Entrée pour lancer la recherche
+      searchInput.addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          searchBtn.click();
+        }
+      });
+
+      
     </script>
   </body>
 </html>
