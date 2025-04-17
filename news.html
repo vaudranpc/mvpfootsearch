@@ -89,7 +89,7 @@
     fetch(proxyUrl)
       .then(response => {
         if (!response.ok) {
-          throw new Error('Erreur réseau lors de la récupération des données');
+          throw new Error('Chargement des données en cours ...');
         }
         return response.json();
       })
@@ -99,7 +99,7 @@
       })
       .catch(error => {
         console.error("Erreur de récupération des données : ", error);
-        document.getElementById("content-container").innerHTML = "<p>Erreur lors de la récupération des données. Vérifiez la console pour plus de détails.</p>";
+        document.getElementById("content-container").innerHTML = "<p>Chargement des données en cours ...</p>";
       });
   </script>
 </body>
