@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Les dernières infos sur Facebook</title>
+    <!-- ✅ Bootstrap CSS CDN -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <script src="header.js"></script>
+  </head>
+  <body class="bg-light text-center p-4">
+    <div id="header-container"></div>
+    <h1>MVP Foot Search</h1>
+    <h2 class="mb-4">Les pages qui parlent du football Ivoirien</h2>
+    <div
+      id="link-container"
+      class="d-flex flex-wrap justify-content-center gap-3"
+    ></div>
+    <div id="footer-container"></div>
+    <script>
+      const myArray = [
+        {
+          nom: "afrik foot ",
+          lien: "https://www.afrik-foot.com",
+        },
+        {
+          nom: "Actu Foot Maroc  ",
+          lien: "https://x.com/ActuFootMaroc",
+        },
+        {
+          nom: "selephanto  ",
+          lien: "https://x.com/Selephanto",
+        },
+         {
+          nom: "Actu Foot Afrique ",
+          lien: "https://x.com/ActuFootAfrique",
+        }, {
+          nom: "Maroc- Soccer 12 ",
+          lien: "https://x.com/SCCR_212",
+        },{
+          nom: "Twitter Instant Foot ",
+          lien: "https://x.com/lnstantFoot",
+        },{
+          nom: "Be Football ",
+          lien: "https://x.com/_BeFootball",
+        },
+        {
+          nom: "Senegal Football  ",
+          lien: "https://x.com/FootballSenegal",
+        },
+
+
+
+        {
+          nom: "Senegal galsen foot  ",
+          lien: "https://x.com/Galsenfootsn",
+        },
+
+
+        {
+          nom: "Aigle du Mali ",
+          lien: "https://x.com/AiglesDuMali_",
+        },
+        {
+          nom: "Allez les elephants  ",
+          lien: "https://www.facebook.com/allezleselephants2",
+        },
+        {
+          nom: "bf actu ",
+          lien: "https://www.facebook.com/profile.php?id=61567835308103",
+        },
+        {
+          nom: "Le cam foot ",
+          lien: "https://www.camfoot.com",
+        },
+        {
+          nom: "Le Cameroun CFOOT ",
+          lien: "https://www.facebook.com/cfootcameroun",
+        },
+        {
+          nom: "allez les lions ",
+          lien: "https://www.facebook.com/allezleslionscmr",
+        },
+        {
+          nom: "le RDC  ",
+          lien: "https://www.facebook.com/profile.php?id=100067028795638",
+        },
+         {
+          nom: "ALgerie  ",
+          lien: "https://www.livefoot.fr/afrique/algerie.php",
+        },{
+          nom: "Burkina faso  ",
+          lien: "https://www.livefoot.fr/afrique/BurkinaFaso.php",
+        },
+        {
+          nom: "Cameroun ",
+          lien: "https://www.livefoot.fr/afrique/cameroun.php",
+        },
+         {
+          nom: "Congo",
+          lien: "https://www.livefoot.fr/afrique-congo/mercato-transfert-actualite",
+        },
+         {
+          nom: "Cote d'ivoire ",
+          lien: "https://www.livefoot.fr/afrique/cotedivoire.php",
+        },
+         {
+          nom: "Gabon",
+          lien: "https://www.livefoot.fr/afrique/Gabon.php",
+        },
+         {
+          nom: "Guinee conakry",
+          lien: "https://www.livefoot.fr/afrique/guinee.php",
+        },
+        {
+          nom: "Guinee conakry",
+          lien: "https://www.livefoot.fr/afrique/guinee.php",
+        },
+         {
+          nom: "Mali",
+          lien: "https://www.livefoot.fr/afrique/mali.php",
+        },
+        {
+          nom: "maroc",
+          lien: "https://www.livefoot.fr/afrique/maroc-football.php",
+        },
+        {
+          nom: "senegal",
+          lien: "https://www.livefoot.fr/afrique/senegal.php",
+        },
+        
+        
+      ];
+
+      const colors = [
+        "#e6194b",
+        "#3cb44b",
+        "#ffe119",
+        "#4363d8",
+        "#f58231",
+        "#911eb4",
+        "#46f0f0",
+        "#f032e6",
+        "#bcf60c",
+        "#fabebe",
+        "#008080",
+        "#317713",
+        "#9a6324",
+        "#fe45f4",
+        "#800000",
+        "#8affc3",
+        "#808000",
+        "#ffd8b1",
+        "#000075",
+        "#808080",
+        "#f34fff",
+        "#a9a9a9",
+        "#000000",
+        "#a52a2a",
+        "#7fffd4",
+        "#ff69b4",
+      ];
+
+      const container = document.getElementById("link-container");
+
+      myArray.forEach(({ nom, lien }) => {
+        const firstChar = nom.trim()[0].toLowerCase();
+        const alphabetIndex = firstChar.charCodeAt(0) - 97;
+        const color =
+          alphabetIndex >= 0 && alphabetIndex < 26
+            ? colors[alphabetIndex]
+            : "#3a350d";
+
+        const link = document.createElement("a");
+        link.href = lien;
+        link.textContent = nom;
+        link.target = "_blank";
+
+        link.className = "btn btn-primary btn-lg";
+        link.style.backgroundColor = color;
+        link.style.color = color === "#ffffff" ? "#000" : "#fff";
+        link.style.border = "none";
+        link.style.margin = "5px";
+
+        link.addEventListener("click", function () {
+          this.style.backgroundColor = "#333";
+          this.style.color = "#fff";
+        });
+
+        container.appendChild(link);
+      });
+    </script>
+  </body>
+</html>
