@@ -2,7 +2,7 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <title>foot mondial</title>
+    <title>les dernieres infos sur facebook</title>
     <!-- ✅ Bootstrap CSS CDN -->
     <link
       rel="stylesheet"
@@ -14,7 +14,8 @@
   </head>
   <body class="bg-light text-center p-4">
     <div id="header-container"></div>
-    <h1>Football mondial</h1>
+    <h1>Politik 225</h1>
+    <h2 class="mb-4">derniere infos sur les joueurs</h2>
     <div
       id="link-container"
       class="d-flex flex-wrap justify-content-center gap-3"
@@ -22,77 +23,48 @@
     <div id="footer-container"></div>
     <script>
       const myArray = [
-        { nom: "KESSIYA", lien: "https://kessiya.com" },
-        {
-          nom: "ABoidjan People ",
-          lien: "https://www.abidjanpeople.net",
-        },
-        {
-          nom: "Connection Ivoirienne",
-          lien: "https://connectionivoirienne.net",
-        },
-
-        { nom: "afrkpresse", lien: "https://www.afrikipresse.fr" },
-        {
-          nom: "7info ",
-          lien: "https://www.7info.ci",
-        },
-        {
-          nom: "Connection afranews",
-          lien: "https://fr.africanews.com",
-        },
-      ];
-
-      const colors = [
-        "#e6194b",
-        "#3cb44b",
-        "#bfe119",
-        "#4363d8",
-        "#f58231",
-        "#911eb4",
-        "#46f0f0",
-        "#f032e6",
-        "#bcf60c",
-        "#fabebe",
-        "#008080",
-        "#317713",
-        "#9a6324",
-        "#fe45f4",
-        "#800000",
-        "#8affc3",
-        "#808000",
-        "#ffd8b1",
-        "#000075",
-        "#808080",
-        "#f34fff",
-        "#a9a9a9",
-        "#000000",
-        "#a52a2a",
-        "#7fffd4",
-        "#ff69b4",
-      ];
+  "Yahia 𝗙𝗼𝗳𝗮𝗻𝗮","Mohamed 𝗞𝗼𝗻𝗲","Alban 𝗟𝗮𝗳𝗼𝗻𝘁","Emmanuel 𝗔𝗴𝗯𝗮𝗱𝗼𝘂",
+  "Guela 𝗗𝗼𝘂𝗲","Jean-Philippe 𝗚𝗯𝗮𝗺𝗶𝗻","Ghislain 𝗞𝗼𝗻𝗮𝗻","Odillon 𝗞𝗼𝘀𝘀𝗼𝘂𝗻𝗼𝘂",
+  "Evan 𝗡𝗱𝗶𝗰𝗸𝗮","Christopher 𝗢𝗽𝗲𝗿𝗶","Wilfried 𝗦𝗶𝗻𝗴𝗼","Seko 𝗙𝗼𝗳𝗮𝗻𝗮","Franck 𝗞𝗲𝘀𝘀𝗶𝗲",
+  "Ibrahim 𝗦𝗮𝗻𝗴𝗮𝗿𝗲","Pacôme 𝗭𝗼𝘂𝘇𝗼𝘂𝗮","Simon 𝗔𝗱𝗶𝗻𝗴𝗿𝗮","Oumar 𝗗𝗶𝗮𝗸𝗶𝘁𝗲","Amad 𝗗𝗶𝗮𝗹𝗹𝗼",
+  "Yvan 𝗗𝗶𝗼𝗺𝗮𝗻𝗱𝗲","Evan 𝗚𝘂𝗲𝘀𝘀𝗮𝗻𝗱","Sébastien 𝗛𝗮𝗹𝗹𝗲𝗿","Nicolas 𝗣𝗲𝗽𝗲","Bazoumana 𝗧𝗼𝘂𝗿𝗲"
+  
+];
+      const baseUrl = "https://www.facebook.com/search/posts?q=";
+      const suite =
+        "&filters=eyJyZWNlbnRfcG9zdHM6MCI6IntcIm5hbWVcIjpcInJlY2VudF9wb3N0c1wiLFwiYXJnc1wiOlwiXCJ9In0%3D";
 
       const container = document.getElementById("link-container");
 
-      myArray.forEach(({ nom, lien }) => {
-        const firstChar = nom.trim()[0].toLowerCase();
+      const colors = [
+        "#ea194b", "#3cb44b", "#ffe119", "#4363d8", "#58231", "#911eb4",
+        "#4ff020", "#f032e6", "#bcf60c", "#fabebe", "#008080", "#317713",
+        "#9a6324", "#5e45f4", "#800000", "#8affc3", "#808000", "#ffd8b1",
+        "#000075", "#808080", "#f34fff", "#a9a9a9", "#00ee000", "#a52a2a",
+        "#7fefd4", "#9f69b4"
+      ];
+
+      myArray.forEach((item) => {
+        const firstChar = item.trim()[0].toLowerCase();
         const alphabetIndex = firstChar.charCodeAt(0) - 97;
         const color =
           alphabetIndex >= 0 && alphabetIndex < 26
             ? colors[alphabetIndex]
-            : "#3a350d";
+            : "#3f350d";
 
         const link = document.createElement("a");
-        link.href = lien;
-        link.textContent = nom;
+        link.href = baseUrl + encodeURIComponent(item) + suite;
+        link.textContent = item;
         link.target = "_blank";
 
+        // Ajout de la classe Bootstrap btn pour appliquer le style bouton
         link.className = "btn btn-primary btn-lg";
         link.style.backgroundColor = color;
-        link.style.color = color === "#ffffff" ? "#000" : "#fff";
+        link.style.color = alphabetIndex === 20 ? "#000" : "#fff"; // pour fond blanc
         link.style.border = "none";
-        link.style.margin = "5px";
+        link.style.margin = "5px"; // Ajout d'un léger espacement autour du bouton
 
+        // Changer couleur au clic
         link.addEventListener("click", function () {
           this.style.backgroundColor = "#333";
           this.style.color = "#fff";
@@ -100,6 +72,8 @@
 
         container.appendChild(link);
       });
+
+     
     </script>
   </body>
 </html>
