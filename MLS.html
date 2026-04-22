@@ -68,7 +68,6 @@
     letter-spacing: -0.5px;
     word-break: break-word;
   }
-  .preview-text .gold { color: #F5A800; }
 
   .controls {
     width: 100%;
@@ -76,6 +75,20 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
+  }
+
+  .input-label {
+    color: #888;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    display: block;
+  }
+
+  .input-group {
+    display: flex;
+    flex-direction: column;
   }
 
   textarea {
@@ -97,6 +110,39 @@
   textarea::placeholder { color: #444; }
   textarea:focus { border-color: #F5A800; }
 
+  .hint {
+    color: #555;
+    font-size: 11px;
+    letter-spacing: 1px;
+    margin-top: 5px;
+    font-style: italic;
+  }
+
+  .swatch-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .swatch-label {
+    color: #888;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .swatch {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: transform 0.1s;
+    flex-shrink: 0;
+  }
+  .swatch:hover { transform: scale(1.18); }
+  .swatch.active { border-color: #fff; box-shadow: 0 0 0 2px #F5A800; }
+
   .slider-row {
     display: flex;
     align-items: center;
@@ -104,7 +150,7 @@
   }
   .slider-label {
     color: #888;
-    font-size: 13px;
+    font-size: 11px;
     letter-spacing: 2px;
     text-transform: uppercase;
     white-space: nowrap;
@@ -140,10 +186,9 @@
   .btn:hover { opacity: 0.85; }
   .btn:disabled { opacity: 0.5; cursor: wait; }
 </style>
- <script src="header.js"></script>
 </head>
 <body>
-  <div id="header-container"></div>
+
 <div class="header">
   <div class="badge">MVP INFO</div>
   <span>Quote Generator</span>
@@ -156,71 +201,103 @@
 </div>
 
 <div class="controls">
-  <textarea id="inputText" rows="3" placeholder="ÉCRIS TON TEXTE ICI...">Guéla Doué freiné par un virus, retour attendu pour la demi-finale de Ligue Europa Conférence.</textarea>
 
-  <div class="slider-row">
-    <span class="slider-label">Mots en or :</span>
-    <input type="range" id="slider" min="1" value="5">
-    <span class="slider-val" id="sliderVal">5</span>
+  <div class="input-group">
+    <span class="input-label">Quote complète</span>
+    <textarea id="inputText" rows="3" placeholder="ÉCRIS TOUTE TA QUOTE ICI...">Guéla Doué freiné par un virus, retour attendu pour la demi-finale de Ligue Europa Conférence.</textarea>
   </div>
 
-  <button class="btn" id="dlBtn" onclick="telechargerPNG()">↓ Télécharger PNG</button>
-</div>
- 
-<script>
-  const textarea  = document.getElementById('inputText');
-  const slider    = document.getElementById('slider');
-  const sliderVal = document.getElementById('sliderVal');
-  const preview   = document.getElementById('preview');
-  const dlBtn     = document.getElementById('dlBtn');
+  <div class="input-group">
+    <span class="input-label">Portion à colorier (copie un bout de la quote)</span>
+    <textarea id="inputHighlight" rows="2" placeholder="COPIE LA PORTION À COLORIER...">demi-finale de Ligue Europa Conférence</textarea>
+    <span class="hint">La portion copiée sera mise en couleur dans la quote ci-dessus.</span>
+  </div>
 
-  function getWords() {
-    return textarea.value.trim().split(/\s+/).filter(w => w.length > 0);
+  <div class="swatch-row">
+    <span class="swatch-label">Couleur :</span>
+    <div id="swatches" style="display:flex;gap:10px;flex-wrap:wrap;"></div>
+  </div>
+
+  <div class="slider-row">
+    <span class="slider-label">Taille :</span>
+    <input type="range" id="slider" min="20" max="100" value="68" step="1">
+    <span class="slider-val" id="sliderVal">68</span>
+  </div>
+
+  <button class="btn" id="dlBtn">↓ Télécharger PNG</button>
+</div>
+
+<script>
+  const COLORS = [
+    '#F5A800', '#FF4444', '#00E676', '#29B6F6',
+    '#CE93D8', '#FF7043', '#F48FB1', '#80CBC4', '#FFFFFF'
+  ];
+  let activeColor = '#F5A800';
+
+  const swatchContainer = document.getElementById('swatches');
+  COLORS.forEach(hex => {
+    const s = document.createElement('div');
+    s.className = 'swatch' + (hex === activeColor ? ' active' : '');
+    s.style.background = hex;
+    if (hex === '#FFFFFF') s.style.border = '2px solid #555';
+    s.onclick = () => {
+      document.querySelectorAll('.swatch').forEach(x => x.classList.remove('active'));
+      s.classList.add('active');
+      activeColor = hex;
+      render();
+    };
+    swatchContainer.appendChild(s);
+  });
+
+  const inputText      = document.getElementById('inputText');
+  const inputHighlight = document.getElementById('inputHighlight');
+  const slider         = document.getElementById('slider');
+  const sliderVal      = document.getElementById('sliderVal');
+  const preview        = document.getElementById('preview');
+  const dlBtn          = document.getElementById('dlBtn');
+
+  function escapeRegex(str) {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   }
 
   function render() {
-    const words = getWords();
-    const total = words.length;
-    const n = parseInt(slider.value);
+    const full      = inputText.value.trim();
+    const highlight = inputHighlight.value.trim();
+    const sz        = parseInt(slider.value);
 
-    slider.max = Math.max(1, total);
-    sliderVal.textContent = n;
+    sliderVal.textContent  = sz;
+    preview.style.fontSize = sz + 'px';
 
-    if (total === 0) { preview.innerHTML = ''; return; }
+    if (!full) { preview.innerHTML = ''; return; }
+    if (!highlight) { preview.innerHTML = full; return; }
 
-    const split = Math.max(0, total - n);
-    const white = words.slice(0, split).join(' ');
-    const gold  = words.slice(split).join(' ');
-
-    preview.innerHTML =
-      (white ? white + ' ' : '') +
-      (gold ? `<span class="gold">${gold}</span>` : '');
+    const regex = new RegExp('(' + escapeRegex(highlight) + ')', 'gi');
+    preview.innerHTML = full.replace(regex, `<span style="color:${activeColor}">$1</span>`);
   }
 
   async function telechargerPNG() {
     dlBtn.disabled = true;
     dlBtn.textContent = 'Export en cours...';
-
     const capture = document.getElementById('capture');
-
-    const canvas = await html2canvas(capture, {
+    const canvas  = await html2canvas(capture, {
       scale: 2,
       useCORS: true,
       backgroundColor: '#000',
       logging: false,
     });
-
     canvas.toBlob(blob => {
       const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
+      a.href     = URL.createObjectURL(blob);
       a.download = 'mvp_info_quote.png';
       a.click();
-      dlBtn.disabled = false;
+      dlBtn.disabled    = false;
       dlBtn.textContent = '↓ Télécharger PNG';
     }, 'image/png');
   }
 
-  textarea.addEventListener('input', render);
+  dlBtn.addEventListener('click', telechargerPNG);
+  inputText.addEventListener('input', render);
+  inputHighlight.addEventListener('input', render);
   slider.addEventListener('input', render);
 
   render();
