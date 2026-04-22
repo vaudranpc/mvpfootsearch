@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MVP Quote Pro</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+  background:#111;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:20px;
+  font-family:'Barlow Condensed',sans-serif;
+  padding:10px;
+}
+
+/* CANVAS RESPONSIVE */
+#capture{
+  width:100%;
+  max-width:1080px;
+  aspect-ratio:4/5;
+  position:relative;
+  overflow:hidden;
+  background:#000;
+}
+
+#bgImg{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  position:absolute;
+  top:0;left:0;
+  filter:brightness(0.55);
+}
+
+/* OVERLAY PLUS SOMBRE */
+.overlay{
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:linear-gradient(
+    to top,
+    rgba(0,0,0,0.98) 0%,
+    rgba(0,0,0,0.9) 30%,
+    rgba(0,0,0,0.6) 55%,
+    transparent 75%
+  );
+}
+
+/* BRAND */
+.brand{
+  position:absolute;
+  top:3%;
+  left:3%;
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+
+.brand-name{
+  background:#F5A800;
+  color:#000;
+  font-weight:900;
+  padding:6px 14px;
+}
+
+.brand-date{
+  color:#aaa;
+}
+
+/* QUOTE */
+.quote{
+  position:absolute;
+  bottom:15%;
+  width:90%;
+  left:50%;
+  transform:translateX(-50%);
+  text-align:center;
+
+  font-size:clamp(24px,6vw,70px);
+  font-weight:700;
+  color:#fff;
+  line-height:1.05;
+  text-transform:lowercase;
+}
+
+/* highlight dynamique */
+.quote span{
+  font-weight:900;
+}
+
+/* SOURCE */
+.source{
+  position:absolute;
+  bottom:8%;
+  width:100%;
+  text-align:center;
+  color:#ccc;
+  font-size:clamp(12px,2vw,22px);
+}
+
+/* CONTROLS */
+.controls{
+  width:100%;
+  max-width:1080px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+textarea,input{
+  padding:10px;
+  background:#1a1a1a;
+  color:#fff;
+  border:1px solid #333;
+}
+
+button{
+  background:#F5A800;
+  border:none;
+  padding:12px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+label{
+  color:#888;
+  font-size:12px;
+}
+</style>
+ <script src="header.js"></script>
+</head>
+
+<body>
+    <div id="header-container"></div>
+<div id="capture">
+
+  <img id="bgImg">
+
+  <div class="overlay"></div>
+
+  <div class="brand">
+    <div id="brandName" class="brand-name">MVP INFO</div>
+    <div id="date"></div>
+  </div>
+
+  <div id="quote" class="quote"></div>
+
+  <div class="source" id="sourceText">MVP INFO EXCLUSIVE</div>
+
+</div>
+
+<div class="controls">
+
+<input id="brandInput" value="MVP INFO">
+
+<input type="file" id="imgInput">
+
+<textarea id="textInput">quand le pays t'appelle, tu réponds présent</textarea>
+
+<input id="highlight" value="présent">
+
+<input id="sourceInput" value="Nicolas Pepe en exclusivité">
+
+<label>Taille du texte</label>
+<input type="range" id="fontSize" min="30" max="140" value="70">
+
+<label>Couleur du texte</label>
+<input type="color" id="textColor" value="#ffffff">
+
+<label>Couleur du highlight</label>
+<input type="color" id="highlightColor" value="#ff2d55">
+
+<button id="dlBtn">Télécharger PNG</button>
+
+</div>
+
+<script>
+
+const bgImg = document.getElementById('bgImg');
+const quote = document.getElementById('quote');
+const textInput = document.getElementById('textInput');
+const highlight = document.getElementById('highlight');
+const brandInput = document.getElementById('brandInput');
+const brandName = document.getElementById('brandName');
+const dateEl = document.getElementById('date');
+const sourceInput = document.getElementById('sourceInput');
+const sourceText = document.getElementById('sourceText');
+const fontSize = document.getElementById('fontSize');
+
+const textColor = document.getElementById('textColor');
+const highlightColor = document.getElementById('highlightColor');
+
+/* DATE */
+dateEl.textContent = new Date().toLocaleDateString('fr-FR',{
+  day:'2-digit',
+  month:'short',
+  year:'numeric'
+});
+
+/* IMAGE */
+document.getElementById('imgInput').addEventListener('change',e=>{
+  const file = e.target.files[0];
+  const reader = new FileReader();
+  reader.onload = ev => bgImg.src = ev.target.result;
+  reader.readAsDataURL(file);
+});
+
+/* RENDER */
+function render(){
+
+  let text = textInput.value;
+  let h = highlight.value;
+
+  if(h){
+    let reg = new RegExp('('+h+')','gi');
+    text = text.replace(reg, `<span>$1</span>`);
+  }
+
+  quote.innerHTML = text;
+
+  /* taille manuelle */
+  quote.style.fontSize = fontSize.value + "px";
+
+  /* couleurs */
+  quote.style.color = textColor.value;
+
+  document.querySelectorAll('#quote span').forEach(el=>{
+    el.style.color = highlightColor.value;
+  });
+
+  brandName.textContent = brandInput.value.toUpperCase();
+  sourceText.textContent = sourceInput.value;
+}
+
+/* EVENTS */
+textInput.oninput = render;
+highlight.oninput = render;
+brandInput.oninput = render;
+sourceInput.oninput = render;
+fontSize.oninput = render;
+textColor.oninput = render;
+highlightColor.oninput = render;
+
+/* DOWNLOAD */
+document.getElementById('dlBtn').onclick = async ()=>{
+  const canvas = await html2canvas(document.getElementById('capture'),{
+    scale:2,
+    backgroundColor:"#000"
+  });
+
+  const a = document.createElement('a');
+  a.download="mvp_quote.png";
+  a.href=canvas.toDataURL();
+  a.click();
+};
+
+render();
+
+</script>
+
+</body>
+</html>

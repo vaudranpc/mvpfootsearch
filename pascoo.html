@@ -1,101 +1,170 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <title>sucess Story</title>
-    <!-- ✅ Bootstrap CSS CDN -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-      crossorigin="anonymous"
-    />
-    <script src="header.js"></script>
-     <link rel="stylesheet" href="x.css">
-  </head>
-  <body class="text-center p-4">
-    <div id="header-container"></div>
-    <h1>sucess story </h1>
-    <h2 class="mb-4">les page sucess story</h2>
-    <div
-      id="link-container"
-      class="d-flex flex-wrap justify-content-center gap-3"
-    ></div>
-    <div id="footer-container"></div>
-    <script>
-      const myArray = [
-        {
-          nom: "Maxenceduboeuf",
-          lien: "https://www.facebook.com/MaxenceDuboeuf1",
-        },
-        {
-          nom: "AbidjanShowbiz",
-          lien: "https://www.facebook.com/abidjanshow",
-        },
-        {
-          nom: "first magazine ",
-          lien: "https://www.facebook.com/firstmagazineoff",
-        },
-        
-      ];
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-      const colors = [
-        "#e6194b",
-        "#3cb44b",
-        "#ffe119",
-        "#4363d8",
-        "#f58231",
-        "#911eb4",
-        "#46f0f0",
-        "#f032e6",
-        "#bcf60c",
-        "#fabebe",
-        "#008080",
-        "#317713",
-        "#9a6324",
-        "#fe45f4",
-        "#800000",
-        "#8affc3",
-        "#808000",
-        "#ffd8b1",
-        "#000075",
-        "#808080",
-        "#f34fff",
-        "#a9a9a9",
-        "#000000",
-        "#a52a2a",
-        "#7fffd4",
-        "#ff69b4",
-      ];
+<title>MVP Info – Quote Generator</title>
 
-      const container = document.getElementById("link-container");
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
-      myArray.forEach(({ nom, lien }) => {
-        const firstChar = nom.trim()[0].toLowerCase();
-        const alphabetIndex = firstChar.charCodeAt(0) - 97;
-        const color =
-          alphabetIndex >= 0 && alphabetIndex < 26
-            ? colors[alphabetIndex]
-            : "#3a350d";
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-        const link = document.createElement("a");
-        link.href = lien;
-        link.textContent = nom;
-        link.target = "_blank";
+body {
+  background: #111;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 20px;
+  gap: 20px;
+  font-family: 'Barlow Condensed', sans-serif;
+}
 
-        link.className = "btn btn-primary btn-lg";
-        link.style.backgroundColor = color;
-        link.style.color = color === "#ffffff" ? "#000" : "#fff";
-        link.style.border = "none";
-        link.style.margin = "5px";
+/* HEADER */
+.header { display: flex; align-items: center; gap: 12px; }
+.badge {
+  background: #F5A800;
+  color: #000;
+  font-weight: 900;
+  padding: 4px 14px;
+}
+.header span { color: #555; font-size: 13px; }
 
-        link.addEventListener("click", function () {
-          this.style.backgroundColor = "#333";
-          this.style.color = "#fff";
-        });
+/* PREVIEW */
+#capture {
+  width: 960px;
+  height: 540px;
+  background: #000;
+  display: flex;
+  align-items: center;
+  padding: 50px 70px;
+}
 
-        container.appendChild(link);
-      });
-    </script>
-  </body>
+.preview-text {
+  font-size: 68px;
+  line-height: 1.05;
+  text-transform: uppercase;
+  color: #fff;
+  word-break: break-word;
+}
+
+/* CONTROLES */
+.controls {
+  width: 960px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+textarea, input, select {
+  width: 100%;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  color: #fff;
+  padding: 12px;
+}
+
+/* BUTTON */
+.btn {
+  align-self: flex-end;
+  background: #F5A800;
+  border: none;
+  padding: 12px 25px;
+  font-weight: 900;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  <div class="badge">MVP INFO</div>
+  <span>Quote Generator</span>
+</div>
+
+<div id="capture">
+  <div class="preview-text" id="preview"></div>
+</div>
+
+<div class="controls">
+
+  <textarea id="inputText">Guéla Doué freiné par un virus, retour attendu pour la demi-finale de Ligue Europa Conférence.</textarea>
+
+  <textarea id="inputHighlight">demi-finale de Ligue Europa Conférence</textarea>
+
+  <!-- 🎨 COULEUR LIBRE -->
+  <input type="color" id="colorPicker" value="#F5A800">
+
+  <!-- 🔠 POIDS TEXTE -->
+  <select id="fontWeight">
+    <option value="400">Normal</option>
+    <option value="700">Semi-bold</option>
+    <option value="900" selected>Bold</option>
+  </select>
+
+  <!-- 📏 TAILLE -->
+  <input type="range" id="slider" min="30" max="100" value="68">
+
+  <button class="btn" id="dlBtn">Télécharger PNG</button>
+
+</div>
+
+<script>
+const inputText = document.getElementById('inputText');
+const inputHighlight = document.getElementById('inputHighlight');
+const preview = document.getElementById('preview');
+const slider = document.getElementById('slider');
+const colorPicker = document.getElementById('colorPicker');
+const fontWeight = document.getElementById('fontWeight');
+const dlBtn = document.getElementById('dlBtn');
+
+/* SECURITE REGEX */
+function escapeRegex(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function render() {
+  let text = inputText.value;
+  let highlight = inputHighlight.value;
+  let color = colorPicker.value;
+
+  preview.style.fontSize = slider.value + "px";
+  preview.style.fontWeight = fontWeight.value;
+
+  if (highlight) {
+    let regex = new RegExp('(' + escapeRegex(highlight) + ')', 'gi');
+    text = text.replace(regex, `<span style="color:${color}">$1</span>`);
+  }
+
+  preview.innerHTML = text;
+}
+
+inputText.addEventListener('input', render);
+inputHighlight.addEventListener('input', render);
+slider.addEventListener('input', render);
+colorPicker.addEventListener('input', render);
+fontWeight.addEventListener('change', render);
+
+/* DOWNLOAD */
+dlBtn.addEventListener('click', async () => {
+  const canvas = await html2canvas(document.getElementById('capture'), {
+    scale: 2,
+    backgroundColor: '#000'
+  });
+
+  const link = document.createElement('a');
+  link.download = "mvp_quote.png";
+  link.href = canvas.toDataURL();
+  link.click();
+});
+
+render();
+</script>
+
+</body>
 </html>
