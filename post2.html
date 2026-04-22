@@ -123,7 +123,28 @@ body{
 </head>
 
 <body>
+<div id="popup" style="
+  display:none;
+  position:fixed;
+  top:0;left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.9);
+  z-index:9999;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  padding:20px;
+">
 
+  <img id="resultImg" style="max-width:100%; border-radius:10px;">
+
+  <div style="margin-top:15px; display:flex; gap:10px;">
+    <a id="downloadLink" class="btn btn-warning fw-bold">Télécharger</a>
+    <button onclick="closePopup()" class="btn btn-light">Fermer</button>
+  </div>
+
+</div>
 <div class="container py-4">
 
   <!-- CANVAS -->
@@ -183,6 +204,8 @@ body{
     </div>
 
     <div class="col-12">
+    <button id="generateBtn" class="btn btn-success w-100 fw-bold">Générer l’image</button>
+    <br><br>
       <button id="dlBtn" class="btn btn-warning w-100 fw-bold">Télécharger PNG</button>
     </div>
 
@@ -280,6 +303,39 @@ document.getElementById('dlBtn').onclick = async ()=>{
 };
 render();
 
+const generateBtn = document.getElementById('generateBtn');
+const popup = document.getElementById('popup');
+const resultImg = document.getElementById('resultImg');
+const downloadLink = document.getElementById('downloadLink');
+
+generateBtn.onclick = async ()=>{
+
+  const canvas = await html2canvas(document.getElementById('capture'),{
+    scale:3,
+    backgroundColor:"#000"
+  });
+
+  const imgData = canvas.toDataURL("image/png");
+
+  /* afficher image */
+  resultImg.src = imgData;
+
+  /* lien téléchargement */
+  downloadLink.href = imgData;
+  downloadLink.download = "mvp_quote.png";
+
+  /* afficher popup */
+  popup.style.display = "flex";
+};
+
+function closePopup(){
+  popup.style.display = "none";
+}
+popup.addEventListener('click', (e)=>{
+  if(e.target === popup){
+    popup.style.display = "none";
+  }
+});
 </script>
 
 </body>
