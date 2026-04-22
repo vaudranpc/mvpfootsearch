@@ -6,28 +6,39 @@
 
 <title>MVP Quote Pro</title>
 
+<!-- BOOTSTRAP -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
-
 body{
   background:#111;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:20px;
   font-family:'Barlow Condensed',sans-serif;
 }
 
 /* CANVAS */
 #capture{
-  width:1080px;
-  height:1350px;
+  width:100%;
+  max-width:600px; /* taille visuelle sur mobile */
+  aspect-ratio:4/5;
   position:relative;
   overflow:hidden;
   background:#000;
+  margin:auto;
+}
+
+@media(min-width:768px){
+  #capture{
+    max-width:800px;
+  }
+}
+
+@media(min-width:1200px){
+  #capture{
+    max-width:1080px;
+  }
 }
 
 #bgImg{
@@ -35,22 +46,28 @@ body{
   height:100%;
   object-fit:cover;
   position:absolute;
-  top:0;left:0;
   filter:brightness(0.55);
 }
 
+/* OVERLAY */
 .overlay{
   position:absolute;
   width:100%;
   height:100%;
-  background:linear-gradient(to top, rgba(0,0,0,0.85), transparent 60%);
+  background:linear-gradient(
+    to top,
+    rgba(0,0,0,1) 0%,
+    rgba(0,0,0,0.9) 35%,
+    rgba(0,0,0,0.6) 60%,
+    transparent 80%
+  );
 }
 
 /* BRAND */
 .brand{
   position:absolute;
-  top:30px;
-  left:30px;
+  top:3%;
+  left:3%;
   display:flex;
   gap:10px;
   align-items:center;
@@ -60,7 +77,7 @@ body{
   background:#F5A800;
   color:#000;
   font-weight:900;
-  padding:6px 14px;
+  padding:5px 12px;
 }
 
 .brand-date{
@@ -70,103 +87,106 @@ body{
 /* QUOTE */
 .quote{
   position:absolute;
-  bottom:220px;
+  bottom:15%;
   width:90%;
   left:50%;
   transform:translateX(-50%);
   text-align:center;
 
-  font-size:70px; /* sera remplacé dynamiquement */
+  font-size:clamp(22px,5vw,70px);
   font-weight:700;
   color:#fff;
   line-height:1.05;
-  text-transform:lowercase;
 }
 
 .quote span{
-  color:#ff2d55;
   font-weight:900;
 }
 
 /* SOURCE */
 .source{
   position:absolute;
-  bottom:140px;
+  bottom:8%;
   width:100%;
   text-align:center;
   color:#ccc;
-  font-size:22px;
+  font-size:clamp(12px,2vw,20px);
 }
 
-/* CONTROLS */
-.controls{
-  width:1080px;
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-}
-
-textarea,input{
-  padding:10px;
+/* INPUT STYLE */
+.form-control{
   background:#1a1a1a;
   color:#fff;
   border:1px solid #333;
 }
-
-button{
-  background:#F5A800;
-  border:none;
-  padding:12px;
-  font-weight:900;
-  cursor:pointer;
-}
-
-/* SLIDER LABEL */
-label{
-  color:#888;
-  font-size:12px;
-}
 </style>
-<script src="header.js"></script>
 </head>
 
 <body>
-    <div id="header-container"></div>
 
-<div id="capture">
+<div class="container py-4">
 
-  <img id="bgImg">
+  <!-- CANVAS -->
+  <div id="capture">
 
-  <div class="overlay"></div>
+    <img id="bgImg">
 
-  <div class="brand">
-    <div id="brandName" class="brand-name">MVP INFO</div>
-    <div id="date"></div>
+    <div class="overlay"></div>
+
+    <div class="brand">
+      <div id="brandName" class="brand-name">MVP INFO</div>
+      <div id="date"></div>
+    </div>
+
+    <div id="quote" class="quote"></div>
+
+    <div class="source" id="sourceText">MVP INFO EXCLUSIVE</div>
+
   </div>
 
-  <div id="quote" class="quote"></div>
+  <!-- CONTROLS -->
+  <div class="row g-2 mt-3">
 
-  <div class="source" id="sourceText">MVP INFO EXCLUSIVE</div>
+    <div class="col-12">
+      <input id="brandInput" class="form-control" value="MVP INFO">
+    </div>
 
-</div>
+    <div class="col-12">
+      <input type="file" id="imgInput" class="form-control">
+    </div>
 
-<div class="controls">
+    <div class="col-12">
+      <textarea id="textInput" class="form-control">quand le pays t'appelle, tu réponds présent</textarea>
+    </div>
 
-<input id="brandInput" value="MVP INFO">
+    <div class="col-md-6">
+      <input id="highlight" class="form-control" value="présent">
+    </div>
 
-<input type="file" id="imgInput">
+    <div class="col-md-6">
+      <input id="sourceInput" class="form-control" value="Nicolas Pepe en exclusivité">
+    </div>
 
-<textarea id="textInput">quand le pays t'appelle, tu réponds présent</textarea>
+    <div class="col-md-6">
+      <label class="text-secondary small">Taille texte</label>
+      <input type="range" id="fontSize" class="form-range" min="30" max="140" value="70">
+    </div>
 
-<input id="highlight" value="présent">
+    <div class="col-md-3">
+      <label class="text-secondary small">Texte</label>
+      <input type="color" id="textColor" class="form-control form-control-color" value="#ffffff">
+    </div>
 
-<input id="sourceInput" value="Nicolas Pepe en exclusivité">
+    <div class="col-md-3">
+      <label class="text-secondary small">Highlight</label>
+      <input type="color" id="highlightColor" class="form-control form-control-color" value="#ff2d55">
+    </div>
 
-<!-- 🎯 TAILLE TEXTE MANUELLE -->
-<label>Taille du texte</label>
-<input type="range" id="fontSize" min="30" max="140" value="70">
+    <div class="col-12">
+      <button id="dlBtn" class="btn btn-warning w-100 fw-bold">Télécharger PNG</button>
+    </div>
 
-<button id="dlBtn">Télécharger PNG</button>
+  </div>
 
 </div>
 
@@ -174,14 +194,22 @@ label{
 
 const bgImg = document.getElementById('bgImg');
 const quote = document.getElementById('quote');
+
 const textInput = document.getElementById('textInput');
 const highlight = document.getElementById('highlight');
+
 const brandInput = document.getElementById('brandInput');
 const brandName = document.getElementById('brandName');
-const dateEl = document.getElementById('date');
+
 const sourceInput = document.getElementById('sourceInput');
 const sourceText = document.getElementById('sourceText');
+
 const fontSize = document.getElementById('fontSize');
+
+const textColor = document.getElementById('textColor');
+const highlightColor = document.getElementById('highlightColor');
+
+const dateEl = document.getElementById('date');
 
 /* DATE */
 dateEl.textContent = new Date().toLocaleDateString('fr-FR',{
@@ -211,19 +239,20 @@ function render(){
 
   quote.innerHTML = text;
 
-  /* 🎯 TAILLE MANUELLE */
   quote.style.fontSize = fontSize.value + "px";
+  quote.style.color = textColor.value;
+
+  document.querySelectorAll('#quote span').forEach(el=>{
+    el.style.color = highlightColor.value;
+  });
 
   brandName.textContent = brandInput.value.toUpperCase();
   sourceText.textContent = sourceInput.value;
 }
 
 /* EVENTS */
-textInput.oninput = render;
-highlight.oninput = render;
-brandInput.oninput = render;
-sourceInput.oninput = render;
-fontSize.oninput = render;
+[textInput, highlight, brandInput, sourceInput, fontSize, textColor, highlightColor]
+.forEach(el => el.oninput = render);
 
 /* DOWNLOAD */
 document.getElementById('dlBtn').onclick = async ()=>{
