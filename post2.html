@@ -256,17 +256,28 @@ function render(){
 
 /* DOWNLOAD */
 document.getElementById('dlBtn').onclick = async ()=>{
+
   const canvas = await html2canvas(document.getElementById('capture'),{
-    scale:2,
+    scale:3,
     backgroundColor:"#000"
   });
 
-  const a = document.createElement('a');
-  a.download="mvp_quote.png";
-  a.href=canvas.toDataURL();
-  a.click();
-};
+  const imgData = canvas.toDataURL("image/png");
 
+  /* 📱 mobile */
+  if(/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)){
+    const newTab = window.open();
+    newTab.document.body.style.margin = "0";
+    newTab.document.body.innerHTML = `<img src="${imgData}" style="width:100%">`;
+  } 
+  /* 💻 desktop */
+  else{
+    const a = document.createElement('a');
+    a.download="mvp_quote.png";
+    a.href=imgData;
+    a.click();
+  }
+};
 render();
 
 </script>
