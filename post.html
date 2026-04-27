@@ -207,7 +207,8 @@
   }
 
   .article-img {
-    width: 100%;
+    width: 75%;
+    height: 75%;
     display: block;
     margin-bottom: 20px;
     filter: contrast(105%) brightness(97%);
@@ -363,12 +364,7 @@
       : "";
 
     document.getElementById("article").innerHTML = `
-      <div class="art-publication-line">
-        <span class="art-pub-name">MVP Foot</span>
-        <span>${dateStr}</span>
-        <span>Football Ivoirien</span>
-      </div>
-
+    
       <h1>${title || "Sans titre"}</h1>
       <hr class="art-divider">
 
