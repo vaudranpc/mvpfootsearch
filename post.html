@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MVP Info — Générateur de carte mercato</title>
-<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700;800;900&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -25,483 +25,222 @@
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
-    padding: 32px 20px 60px;
+    padding: 32px 20px 80px;
     background-image:
       radial-gradient(ellipse at 15% 50%, rgba(249,115,22,0.09) 0%, transparent 60%),
-      radial-gradient(ellipse at 85% 10%, rgba(249,115,22,0.05) 0%, transparent 50%),
-      radial-gradient(ellipse at 50% 90%, rgba(249,115,22,0.04) 0%, transparent 40%);
+      radial-gradient(ellipse at 85% 10%, rgba(249,115,22,0.05) 0%, transparent 50%);
+    max-width: 900px;
+    margin: 0 auto;
   }
 
   /* ─── HEADER ─── */
-  .app-header {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 8px;
-  }
+  .app-header { display: flex; align-items: center; gap: 14px; margin-bottom: 8px; }
   .logo-badge {
     background: linear-gradient(135deg, var(--orange), var(--orange-dark));
-    border-radius: 10px;
-    width: 44px;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-    flex-shrink: 0;
+    border-radius: 10px; width: 48px; height: 48px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; flex-shrink: 0;
     box-shadow: 0 4px 16px rgba(249,115,22,0.4);
   }
-  .app-header h1 {
-    font-family: 'Figtree', sans-serif;
-    font-weight: 800;
-    font-size: 24px;
-    letter-spacing: -0.5px;
-    color: #fff;
-    line-height: 1.1;
-  }
+  .app-header h1 { font-family: 'Figtree', sans-serif; font-weight: 800; font-size: 26px; letter-spacing: -0.5px; }
   .app-header h1 span { color: var(--orange); }
   .app-header p { font-size: 13px; color: var(--muted); margin-top: 2px; }
-
-  .divider {
-    height: 1px;
-    background: linear-gradient(to right, var(--border), transparent);
-    margin: 20px 0;
-  }
+  .divider { height: 1px; background: linear-gradient(to right, var(--border), transparent); margin: 20px 0; }
 
   /* ─── FORM ─── */
   .form-section-title {
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-    color: var(--orange);
-    margin-bottom: 12px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1.2px; color: var(--orange); margin-bottom: 12px;
+    display: flex; align-items: center; gap: 8px;
   }
-  .form-section-title::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
+  .form-section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
-  .form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 14px;
-  }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
   .form-group { display: flex; flex-direction: column; gap: 6px; }
   .form-group.full { grid-column: 1 / -1; }
 
-  label {
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    color: var(--muted);
-  }
+  label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: var(--muted); }
 
-  input[type="text"],
-  input[type="date"],
-  textarea,
-  select {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    color: #fff;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13.5px;
-    padding: 10px 13px;
-    outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    width: 100%;
-    resize: none;
+  input[type="text"], textarea {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    color: #fff; font-family: 'DM Sans', sans-serif; font-size: 14px;
+    padding: 11px 14px; outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s; width: 100%; resize: none;
   }
-  input:focus, textarea:focus, select:focus {
-    border-color: var(--orange);
-    box-shadow: 0 0 0 3px rgba(249,115,22,0.12);
-  }
+  input:focus, textarea:focus { border-color: var(--orange); box-shadow: 0 0 0 3px rgba(249,115,22,0.12); }
   input::placeholder, textarea::placeholder { color: #444; }
 
   /* ─── PHOTO UPLOAD ─── */
   .photo-upload-area {
-    border: 2px dashed var(--border);
-    border-radius: 10px;
-    min-height: 90px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    transition: border-color 0.2s, background 0.2s;
-    background: var(--surface);
+    border: 2px dashed var(--border); border-radius: 10px; min-height: 100px;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 6px; cursor: pointer;
+    position: relative; overflow: hidden;
+    transition: border-color 0.2s, background 0.2s; background: var(--surface);
   }
   .photo-upload-area:hover { border-color: var(--orange); background: #1c1c28; }
-  .photo-upload-area input[type="file"] {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    cursor: pointer;
-    width: 100%;
-    height: 100%;
-  }
-  .photo-upload-area .upload-icon { font-size: 24px; }
-  .photo-upload-area .upload-hint { font-size: 11px; color: #555; }
-  #photo-preview {
-    width: 100%;
-    height: 90px;
-    object-fit: cover;
-    display: none;
-    border-radius: 8px;
-  }
+  .photo-upload-area input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+  .photo-upload-area .upload-icon { font-size: 26px; }
+  .photo-upload-area .upload-hint { font-size: 12px; color: #555; }
+  #photo-preview { width: 100%; height: 100px; object-fit: cover; display: none; border-radius: 8px; }
 
-  /* ─── COULEUR DE FOND CARTE ─── */
-  .color-row {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-top: 4px;
-  }
+  /* ─── COLOR SWATCHES ─── */
+  .color-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
   .color-swatch {
-    width: 28px;
-    height: 28px;
-    border-radius: 6px;
-    border: 2px solid transparent;
-    cursor: pointer;
-    transition: transform 0.15s, border-color 0.15s;
+    width: 30px; height: 30px; border-radius: 6px; border: 2px solid transparent;
+    cursor: pointer; transition: transform 0.15s, border-color 0.15s;
   }
   .color-swatch:hover { transform: scale(1.15); }
   .color-swatch.active { border-color: var(--orange); transform: scale(1.15); }
 
   /* ─── BUTTONS ─── */
-  .btn-row {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 32px;
-  }
+  .btn-row { display: flex; gap: 10px; margin-bottom: 32px; }
   .btn {
-    flex: 1;
-    border: none;
-    border-radius: 10px;
-    font-family: 'Figtree', sans-serif;
-    font-weight: 700;
-    font-size: 14px;
-    letter-spacing: 0.2px;
-    cursor: pointer;
-    padding: 13px 16px;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 7px;
+    flex: 1; border: none; border-radius: 10px; font-family: 'Figtree', sans-serif;
+    font-weight: 700; font-size: 15px; cursor: pointer; padding: 14px 16px;
+    transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 7px;
   }
-  .btn-preview {
-    background: var(--surface);
-    color: #ccc;
-    border: 1px solid var(--border);
-  }
+  .btn-preview { background: var(--surface); color: #ccc; border: 1px solid var(--border); }
   .btn-preview:hover { background: #1e1e2e; color: #fff; }
   .btn-generate {
     background: linear-gradient(135deg, var(--orange), var(--orange-dark));
-    color: #fff;
-    box-shadow: 0 4px 18px rgba(249,115,22,0.4);
+    color: #fff; box-shadow: 0 4px 18px rgba(249,115,22,0.4);
   }
-  .btn-generate:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(249,115,22,0.5);
-  }
-  .btn-generate:active { transform: translateY(0); }
+  .btn-generate:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(249,115,22,0.5); }
   .btn-generate:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
-  /* ─── PREVIEW SECTION ─── */
+  /* ─── PREVIEW ─── */
   #preview-section { display: none; }
-
   .preview-label {
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-    color: var(--muted);
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1.2px; color: var(--muted); margin-bottom: 16px;
+    display: flex; align-items: center; gap: 8px;
   }
   .preview-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
-  /* CARD SHADOW WRAPPER */
   .card-shadow-wrap {
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow:
-      0 0 0 1px rgba(255,255,255,0.06),
-      0 24px 64px rgba(0,0,0,0.6),
-      0 4px 16px rgba(0,0,0,0.4);
+    border-radius: 16px; overflow: hidden;
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.06), 0 28px 70px rgba(0,0,0,0.65), 0 4px 20px rgba(0,0,0,0.4);
     margin-bottom: 16px;
   }
 
-  /* ══════════════════════════════════
-     THE CARD — ultra realistic style
-  ══════════════════════════════════ */
+  /* ══════════════════════════════════════════
+     CARTE — grande, lisible, ultra réaliste
+  ══════════════════════════════════════════ */
   #card {
     background: #ffffff;
     font-family: 'DM Sans', sans-serif;
-    padding: 22px 22px 0 22px;
-    position: relative;
     width: 100%;
+    position: relative;
+    overflow: hidden;
   }
 
-  /* Top stripe */
-  .card-top-stripe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(to right, #f97316, #ea580c, #c2410c);
-  }
+  /* Bande orange top */
+  .card-top-stripe { height: 6px; background: linear-gradient(to right, #f97316, #ea580c, #c2410c); }
 
-  /* Header row: logo left + badge right */
+  /* Header */
   .card-header-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 16px;
-    padding-top: 6px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 28px 14px;
+    border-bottom: 1px solid #f0f0f0;
   }
   .card-logo-text {
-    font-family: 'Figtree', sans-serif;
-    font-weight: 800;
-    font-size: 15px;
-    color: #111;
-    letter-spacing: -0.3px;
-    display: flex;
-    align-items: center;
-    gap: 5px;
+    font-family: 'Figtree', sans-serif; font-weight: 900;
+    font-size: 20px; color: #111; letter-spacing: -0.5px;
+    display: flex; align-items: center; gap: 7px;
   }
-  .card-logo-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: #f97316;
-    display: inline-block;
-  }
+  .card-logo-dot { width: 10px; height: 10px; border-radius: 50%; background: #f97316; display: inline-block; }
   .card-tag {
-    background: #f97316;
-    color: #fff;
-    font-family: 'Figtree', sans-serif;
-    font-weight: 700;
-    font-size: 10px;
-    letter-spacing: 1.2px;
-    text-transform: uppercase;
-    padding: 4px 10px;
-    border-radius: 4px;
+    background: #f97316; color: #fff; font-family: 'Figtree', sans-serif;
+    font-weight: 800; font-size: 12px; letter-spacing: 1.5px;
+    text-transform: uppercase; padding: 6px 16px; border-radius: 6px;
   }
 
-  /* Body: photo left + text right */
-  .card-body {
-    display: flex;
-    gap: 18px;
-    align-items: flex-start;
-    margin-bottom: 16px;
-  }
+  /* Body */
+  .card-body { display: flex; align-items: stretch; min-height: 340px; }
 
-  .card-photo-col {
-    flex-shrink: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .card-photo-wrap {
-    width: 148px;
-    height: 192px;
-    border-radius: 10px;
-    overflow: hidden;
-    background: linear-gradient(145deg, #e8e8e8, #d0d0d0);
-    position: relative;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.12);
-  }
-  .card-photo-wrap img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: top center;
-    display: block;
-  }
+  /* Photo colonne gauche */
+  .card-photo-col { flex-shrink: 0; width: 260px; display: flex; flex-direction: column; }
+  .card-photo-wrap { flex: 1; overflow: hidden; background: linear-gradient(145deg, #e0e0e0, #c8c8c8); position: relative; }
+  .card-photo-wrap img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
   .card-photo-placeholder {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: #bbb;
-    font-size: 28px;
-    gap: 6px;
+    width: 100%; height: 100%; min-height: 280px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    color: #bbb; font-size: 48px; gap: 10px;
   }
-  .card-photo-placeholder span { font-size: 11px; color: #ccc; }
+  .card-photo-placeholder span { font-size: 14px; color: #ccc; }
 
-  /* Player name tag under photo */
+  /* Name tag sous la photo */
   .card-player-tag {
-    background: #111;
-    color: #fff;
-    font-family: 'Figtree', sans-serif;
-    font-weight: 700;
-    font-size: 11px;
-    text-align: center;
-    padding: 5px 8px;
-    border-radius: 6px;
-    line-height: 1.3;
-    letter-spacing: 0.2px;
+    background: #111; color: #fff;
+    font-family: 'Figtree', sans-serif; font-weight: 800;
+    font-size: 15px; text-align: center;
+    padding: 12px 14px; line-height: 1.3;
   }
-  .card-player-tag .club-name {
-    font-size: 10px;
-    color: #f97316;
-    font-weight: 600;
-    margin-top: 1px;
+  .card-player-tag .club-name { font-size: 12px; color: #f97316; font-weight: 600; margin-top: 3px; letter-spacing: 0.3px; }
+
+  /* Colonne texte droite */
+  .card-text-block {
+    flex: 1; min-width: 0;
+    padding: 24px 28px;
+    display: flex; flex-direction: column; justify-content: flex-start;
+    border-left: 1px solid #f0f0f0;
   }
 
-  /* Text block */
-  .card-text-block { flex: 1; min-width: 0; }
-
-  .card-info-row {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-bottom: 10px;
-  }
+  .card-info-row { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
   .card-category-label {
-    font-family: 'Figtree', sans-serif;
-    font-weight: 800;
-    font-size: 16px;
-    color: #111;
-    letter-spacing: -0.3px;
-    text-transform: capitalize;
+    font-family: 'Figtree', sans-serif; font-weight: 900;
+    font-size: 22px; color: #111; letter-spacing: -0.5px; text-transform: capitalize;
   }
-  .card-date-pill {
-    font-size: 11px;
-    color: #999;
-    background: #f5f5f5;
-    padding: 2px 8px;
-    border-radius: 20px;
-    font-weight: 500;
-  }
-
-  .card-content-text {
-    font-size: 13px;
-    line-height: 1.7;
-    color: #2a2a2a;
-  }
+  .card-date-pill { font-size: 13px; color: #999; background: #f5f5f5; padding: 4px 12px; border-radius: 20px; font-weight: 500; }
+  .card-content-text { font-size: 16px; line-height: 1.75; color: #2a2a2a; flex: 1; }
 
   /* Footer */
   .card-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 0 16px;
-    border-top: 1px solid #f0f0f0;
-    margin-top: 4px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 28px 20px; border-top: 1px solid #f0f0f0; background: #fafafa;
   }
-  .card-footer-left {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .card-source-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #f97316;
-    flex-shrink: 0;
-  }
-  .card-source-text {
-    font-family: 'Figtree', sans-serif;
-    font-weight: 700;
-    font-size: 11px;
-    color: #999;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-  }
+  .card-footer-left { display: flex; align-items: center; gap: 8px; }
+  .card-source-dot { width: 8px; height: 8px; border-radius: 50%; background: #f97316; flex-shrink: 0; }
+  .card-source-text { font-family: 'Figtree', sans-serif; font-weight: 700; font-size: 13px; color: #aaa; text-transform: uppercase; letter-spacing: 1px; }
   .card-subscribe-btn {
-    background: linear-gradient(135deg, #f97316, #ea580c);
-    color: #fff;
-    font-family: 'Figtree', sans-serif;
-    font-weight: 800;
-    font-size: 11px;
-    letter-spacing: 0.8px;
-    padding: 8px 16px;
-    border-radius: 6px;
-    text-transform: uppercase;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    box-shadow: 0 2px 8px rgba(249,115,22,0.3);
+    background: linear-gradient(135deg, #f97316, #ea580c); color: #fff;
+    font-family: 'Figtree', sans-serif; font-weight: 800; font-size: 14px; letter-spacing: 1px;
+    padding: 12px 24px; border-radius: 8px; text-transform: uppercase;
+    display: flex; align-items: center; gap: 8px;
+    box-shadow: 0 4px 14px rgba(249,115,22,0.4);
   }
 
   /* ─── DOWNLOAD BTN ─── */
   .btn-download {
-    background: linear-gradient(135deg, var(--green), #15803d);
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    font-family: 'Figtree', sans-serif;
-    font-weight: 700;
-    font-size: 14px;
-    padding: 14px 24px;
-    cursor: pointer;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    letter-spacing: 0.3px;
-    box-shadow: 0 4px 18px rgba(22,163,74,0.35);
-    transition: all 0.2s;
-    margin-bottom: 10px;
+    background: linear-gradient(135deg, var(--green), #15803d); color: #fff;
+    border: none; border-radius: 10px; font-family: 'Figtree', sans-serif;
+    font-weight: 700; font-size: 15px; padding: 15px 24px;
+    cursor: pointer; width: 100%;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    box-shadow: 0 4px 18px rgba(22,163,74,0.35); transition: all 0.2s; margin-bottom: 10px;
   }
-  .btn-download:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(22,163,74,0.45);
-  }
+  .btn-download:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(22,163,74,0.45); }
   .btn-download:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
-  .tip {
-    font-size: 11px;
-    color: #444;
-    text-align: center;
-    margin-bottom: 8px;
-  }
+  .tip { font-size: 12px; color: #444; text-align: center; margin-bottom: 8px; }
 
-  /* ─── SPINNER ─── */
   @keyframes spin { to { transform: rotate(360deg); } }
-  .spinner {
-    width: 16px;
-    height: 16px;
-    border: 2px solid rgba(255,255,255,0.3);
-    border-top-color: #fff;
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-  }
+  .spinner { width: 17px; height: 17px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; }
 
-  /* ─── RESPONSIVE ─── */
-  @media (max-width: 480px) {
+  @media (max-width: 600px) {
     .form-grid { grid-template-columns: 1fr; }
     .form-group.full { grid-column: 1; }
-    .btn-row { flex-direction: column; }
-    .card-photo-wrap { width: 120px; height: 155px; }
+    .card-body { flex-direction: column; }
+    .card-photo-col { width: 100%; }
+    .card-photo-placeholder { min-height: 200px; }
   }
 </style>
 </head>
 <body>
 
-<!-- APP HEADER -->
+<!-- HEADER -->
 <div class="app-header">
   <div class="logo-badge">🗞️</div>
   <div>
@@ -512,9 +251,8 @@
 
 <div class="divider"></div>
 
-<!-- ══ FORM ══ -->
+<!-- FORM -->
 <div class="form-section-title">📝 Informations de la carte</div>
-
 <div class="form-grid">
   <div class="form-group">
     <label>Catégorie / Tag</label>
@@ -533,7 +271,7 @@
     <input type="text" id="f-club" value="Toulouse FC" placeholder="Club actuel">
   </div>
   <div class="form-group full">
-    <label>Texte de l'info (article)</label>
+    <label>Texte de l'info</label>
     <textarea id="f-text" rows="6">le club de Coventry City aurait fait de Yann Gboho l'une des priorités pour cet été. Actuellement en Championship, la formation entraînée par Frank Lampard a déjà obtenu sa promotion en Premier League et débute les recherches pour se renforcer pour la saison prochaine. Évalué à 15 millions d'euros par le site Transfermarkt.</textarea>
   </div>
   <div class="form-group">
@@ -542,7 +280,7 @@
   </div>
   <div class="form-group">
     <label>Photo du joueur</label>
-    <div class="photo-upload-area" id="upload-area">
+    <div class="photo-upload-area">
       <input type="file" id="f-photo" accept="image/*" onchange="handlePhoto(event)">
       <img id="photo-preview" alt="">
       <div id="upload-hint-block">
@@ -553,11 +291,11 @@
   </div>
 </div>
 
-<!-- Couleur de fond carte -->
-<div class="form-section-title" style="margin-top:4px;">🎨 Couleur de fond de la carte</div>
-<div class="color-row" id="color-row">
+<!-- COULEUR -->
+<div class="form-section-title" style="margin-top:8px;">🎨 Couleur de fond</div>
+<div class="color-row">
   <div class="color-swatch active" style="background:#ffffff;" data-color="#ffffff" onclick="selectColor(this)" title="Blanc"></div>
-  <div class="color-swatch" style="background:#f0f4ff;" data-color="#f0f4ff" onclick="selectColor(this)" title="Bleu clair"></div>
+  <div class="color-swatch" style="background:#f0f4ff;" data-color="#f0f4ff" onclick="selectColor(this)" title="Bleu pâle"></div>
   <div class="color-swatch" style="background:#fff7ed;" data-color="#fff7ed" onclick="selectColor(this)" title="Pêche"></div>
   <div class="color-swatch" style="background:#f0fdf4;" data-color="#f0fdf4" onclick="selectColor(this)" title="Vert pâle"></div>
   <div class="color-swatch" style="background:#fdf4ff;" data-color="#fdf4ff" onclick="selectColor(this)" title="Lavande"></div>
@@ -569,20 +307,15 @@
 
 <!-- BUTTONS -->
 <div class="btn-row">
-  <button class="btn btn-preview" onclick="generatePreview()">
-    👁 Aperçu
-  </button>
-  <button class="btn btn-generate" id="btn-main" onclick="generateAndDownload()">
-    📥 Générer & Télécharger
-  </button>
+  <button class="btn btn-preview" onclick="generatePreview()">👁 Aperçu</button>
+  <button class="btn btn-generate" id="btn-main" onclick="generateAndDownload()">📥 Générer & Télécharger</button>
 </div>
 
-<!-- ══ PREVIEW ══ -->
+<!-- PREVIEW -->
 <div id="preview-section">
-  <div class="preview-label">Aperçu en temps réel</div>
+  <div class="preview-label">Aperçu de la carte</div>
 
   <div class="card-shadow-wrap">
-    <!-- ▼▼▼ THIS IS THE CARD THAT WILL BE CAPTURED ▼▼▼ -->
     <div id="card">
       <div class="card-top-stripe"></div>
 
@@ -595,22 +328,20 @@
       </div>
 
       <div class="card-body">
-        <!-- Photo column -->
         <div class="card-photo-col">
-          <div class="card-photo-wrap" id="card-photo-wrap">
+          <div class="card-photo-wrap">
             <div class="card-photo-placeholder" id="card-placeholder">
               <span>👤</span>
               <span>Photo joueur</span>
             </div>
             <img id="card-img" src="" alt="" style="display:none">
           </div>
-          <div class="card-player-tag" id="card-player-tag">
+          <div class="card-player-tag">
             <div id="card-player-name">Yann Gboho</div>
             <div class="club-name" id="card-club-name">Toulouse FC</div>
           </div>
         </div>
 
-        <!-- Text column -->
         <div class="card-text-block">
           <div class="card-info-row">
             <div class="card-category-label" id="card-category">mercato</div>
@@ -627,27 +358,21 @@
           <div class="card-source-dot"></div>
           <div class="card-source-text" id="card-source-el">MVP Info</div>
         </div>
-        <div class="card-subscribe-btn">
-          🔔 ABONNE-TOI
-        </div>
+        <div class="card-subscribe-btn">🔔 ABONNE-TOI</div>
       </div>
     </div>
-    <!-- ▲▲▲ END CARD ▲▲▲ -->
   </div>
 
   <button class="btn-download" id="btn-download" onclick="downloadImage()">
-    <span>⬇️</span>
-    <span>Télécharger l'image PNG (HD)</span>
+    <span>⬇️</span><span>Télécharger l'image PNG (HD)</span>
   </button>
-  <p class="tip">Résolution ×3 · Fond net · Prêt pour Twitter / Facebook / Instagram</p>
+  <p class="tip">Résolution ×4 · Qualité maximale · Prêt pour Twitter / Facebook / Instagram</p>
 </div>
 
 <script>
-  /* ─── STATE ─── */
   let photoDataURL = null;
   let selectedBgColor = '#ffffff';
 
-  /* ─── PHOTO HANDLER ─── */
   function handlePhoto(e) {
     const file = e.target.files[0];
     if (!file) return;
@@ -658,19 +383,20 @@
       prev.src = photoDataURL;
       prev.style.display = 'block';
       document.getElementById('upload-hint-block').style.display = 'none';
+      // Update card live
+      const cardImg = document.getElementById('card-img');
+      cardImg.src = photoDataURL;
+      cardImg.style.display = 'block';
+      document.getElementById('card-placeholder').style.display = 'none';
     };
     reader.readAsDataURL(file);
   }
 
-  /* ─── COLOR PICKER ─── */
   function selectColor(el) {
     document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
     el.classList.add('active');
     selectedBgColor = el.dataset.color;
-    // Apply immediately if preview is visible
-    const card = document.getElementById('card');
-    if (card) card.style.background = selectedBgColor;
-    // Adapt text colors for dark bg
+    document.getElementById('card').style.background = selectedBgColor;
     adaptTextColors(selectedBgColor);
   }
 
@@ -678,44 +404,35 @@
     const r = parseInt(hex.slice(1,3),16);
     const g = parseInt(hex.slice(3,5),16);
     const b = parseInt(hex.slice(5,7),16);
-    return (r*299 + g*587 + b*114) / 1000 < 128;
+    return (r*299 + g*587 + b*114)/1000 < 128;
   }
 
   function adaptTextColors(bg) {
     const dark = isDark(bg);
     const card = document.getElementById('card');
     if (!card) return;
-    const textEls = card.querySelectorAll(
-      '.card-category-label, .card-content-text, .card-player-tag, .card-logo-text'
-    );
-    textEls.forEach(el => {
-      if (el.classList.contains('card-content-text')) {
-        el.style.color = dark ? '#e0e0e0' : '#2a2a2a';
-      } else {
-        el.style.color = dark ? '#ffffff' : '#111111';
-      }
-    });
-    const dateEl = document.getElementById('card-date');
-    if (dateEl) {
-      dateEl.style.background = dark ? 'rgba(255,255,255,0.1)' : '#f5f5f5';
-      dateEl.style.color = dark ? '#ccc' : '#999';
-    }
+    document.getElementById('card-category').style.color = dark ? '#fff' : '#111';
+    document.getElementById('card-content-text').style.color = dark ? '#ddd' : '#2a2a2a';
+    document.getElementById('card-logo-label').style.color = dark ? '#fff' : '#111';
+    const datePill = document.getElementById('card-date');
+    datePill.style.background = dark ? 'rgba(255,255,255,0.1)' : '#f5f5f5';
+    datePill.style.color = dark ? '#bbb' : '#999';
     const footer = card.querySelector('.card-footer');
-    if (footer) footer.style.borderColor = dark ? 'rgba(255,255,255,0.1)' : '#f0f0f0';
-    const sourceEl = document.getElementById('card-source-el');
-    if (sourceEl) sourceEl.style.color = dark ? '#aaa' : '#999';
+    footer.style.background = dark ? 'rgba(0,0,0,0.3)' : '#fafafa';
+    footer.style.borderColor = dark ? 'rgba(255,255,255,0.08)' : '#f0f0f0';
+    document.getElementById('card-source-el').style.color = dark ? '#888' : '#aaa';
+    card.querySelector('.card-header-row').style.borderColor = dark ? 'rgba(255,255,255,0.08)' : '#f0f0f0';
+    card.querySelector('.card-text-block').style.borderColor = dark ? 'rgba(255,255,255,0.08)' : '#f0f0f0';
   }
 
-  /* ─── BUILD CARD DATA ─── */
   function buildCard() {
     const category = document.getElementById('f-category').value.trim() || 'mercato';
-    const date = document.getElementById('f-date').value.trim() || '';
-    const player = document.getElementById('f-player').value.trim() || '';
-    const club = document.getElementById('f-club').value.trim() || '';
-    const text = document.getElementById('f-text').value.trim() || '';
-    const source = document.getElementById('f-source').value.trim() || 'MVP Info';
+    const date     = document.getElementById('f-date').value.trim() || '';
+    const player   = document.getElementById('f-player').value.trim() || '';
+    const club     = document.getElementById('f-club').value.trim() || '';
+    const text     = document.getElementById('f-text').value.trim() || '';
+    const source   = document.getElementById('f-source').value.trim() || 'MVP Info';
 
-    // Populate card
     document.getElementById('card-tag').textContent = category;
     document.getElementById('card-category').textContent = category;
     document.getElementById('card-date').textContent = date;
@@ -725,7 +442,6 @@
     document.getElementById('card-player-name').textContent = player;
     document.getElementById('card-club-name').textContent = club;
 
-    // Photo
     const cardImg = document.getElementById('card-img');
     const placeholder = document.getElementById('card-placeholder');
     if (photoDataURL) {
@@ -737,12 +453,10 @@
       placeholder.style.display = 'flex';
     }
 
-    // Background
     document.getElementById('card').style.background = selectedBgColor;
     adaptTextColors(selectedBgColor);
   }
 
-  /* ─── PREVIEW ─── */
   function generatePreview() {
     buildCard();
     const section = document.getElementById('preview-section');
@@ -750,59 +464,48 @@
     section.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  /* ─── DOWNLOAD ─── */
   async function downloadImage() {
     const btn = document.getElementById('btn-download');
     btn.innerHTML = '<div class="spinner"></div><span>Génération en cours…</span>';
     btn.disabled = true;
-
-    await new Promise(r => setTimeout(r, 80)); // let DOM settle
-
+    await new Promise(r => setTimeout(r, 100));
     try {
       const card = document.getElementById('card');
       const canvas = await html2canvas(card, {
-        scale: 3,
+        scale: 4,
         useCORS: true,
         allowTaint: true,
         backgroundColor: selectedBgColor,
         logging: false,
-        imageTimeout: 10000
+        imageTimeout: 15000
       });
-
       const link = document.createElement('a');
-      const playerName = document.getElementById('f-player').value.trim().replace(/\s+/g, '-').toLowerCase();
-      const cat = document.getElementById('f-category').value.trim().replace(/\s+/g, '-').toLowerCase();
-      link.download = `mvp-info-${cat}-${playerName || 'carte'}.png`;
+      const playerName = document.getElementById('f-player').value.trim().replace(/\s+/g,'-').toLowerCase();
+      const cat = document.getElementById('f-category').value.trim().replace(/\s+/g,'-').toLowerCase();
+      link.download = `mvp-info-${cat}-${playerName||'carte'}.png`;
       link.href = canvas.toDataURL('image/png', 1.0);
       link.click();
-    } catch (err) {
-      alert('Erreur lors de la génération de l\'image. Réessaie.');
+    } catch(err) {
+      alert("Erreur lors de la génération. Réessaie.");
       console.error(err);
     }
-
     btn.innerHTML = '<span>⬇️</span><span>Télécharger l\'image PNG (HD)</span>';
     btn.disabled = false;
   }
 
-  /* ─── GENERATE + DOWNLOAD ─── */
   async function generateAndDownload() {
     const btn = document.getElementById('btn-main');
     btn.innerHTML = '<div class="spinner"></div> Génération…';
     btn.disabled = true;
-
     buildCard();
     document.getElementById('preview-section').style.display = 'block';
-    await new Promise(r => setTimeout(r, 200));
+    await new Promise(r => setTimeout(r, 250));
     await downloadImage();
-
     btn.innerHTML = '📥 Générer & Télécharger';
     btn.disabled = false;
   }
 
-  /* ─── INIT ─── */
-  window.addEventListener('DOMContentLoaded', () => {
-    generatePreview();
-  });
+  window.addEventListener('DOMContentLoaded', () => generatePreview());
 </script>
 </body>
 </html>
