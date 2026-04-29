@@ -2,420 +2,807 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Article Presse Generator — MVP Info</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-
-<!-- Bootstrap 5 -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MVP Info — Générateur de carte mercato</title>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
-  :root {
-    --ink:        #0d0d0d;
-    --paper:      #faf8f2;
-    --paper-dark: #f0ece0;
-    --accent:     #c8102e;
-    --accent2:    #1a4fa0;
-    --muted:      #6b6b6b;
-    --rule:       #0d0d0d;
-  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  * { box-sizing: border-box; }
+  :root {
+    --orange: #f97316;
+    --orange-dark: #ea580c;
+    --bg: #0a0a0f;
+    --surface: #16161f;
+    --border: #2a2a38;
+    --text: #ffffff;
+    --muted: #888888;
+    --green: #16a34a;
+  }
 
   body {
-    background: #1a1a1a;
     font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
     min-height: 100vh;
+    padding: 32px 20px 60px;
+    background-image:
+      radial-gradient(ellipse at 15% 50%, rgba(249,115,22,0.09) 0%, transparent 60%),
+      radial-gradient(ellipse at 85% 10%, rgba(249,115,22,0.05) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 90%, rgba(249,115,22,0.04) 0%, transparent 40%);
   }
 
-  /* ── MASTHEAD ── */
-  .masthead {
-    background: var(--ink);
-    border-bottom: 4px solid var(--accent);
-    padding: 18px 0 12px;
-    text-align: center;
+  /* ─── HEADER ─── */
+  .app-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 8px;
   }
-  .masthead-title {
-    font-family: 'Playfair Display', serif;
-    font-weight: 900;
-    font-size: 2.4rem;
-    color: var(--paper);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    line-height: 1;
+  .logo-badge {
+    background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+    border-radius: 10px;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+    box-shadow: 0 4px 16px rgba(249,115,22,0.4);
   }
-  .masthead-sub {
-    font-size: 0.68rem;
-    letter-spacing: 0.25em;
-    color: #aaa;
+  .app-header h1 {
+    font-family: 'Figtree', sans-serif;
+    font-weight: 800;
+    font-size: 24px;
+    letter-spacing: -0.5px;
+    color: #fff;
+    line-height: 1.1;
+  }
+  .app-header h1 span { color: var(--orange); }
+  .app-header p { font-size: 13px; color: var(--muted); margin-top: 2px; }
+
+  .divider {
+    height: 1px;
+    background: linear-gradient(to right, var(--border), transparent);
+    margin: 20px 0;
+  }
+
+  /* ─── FORM ─── */
+  .form-section-title {
+    font-size: 10px;
+    font-weight: 700;
     text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--orange);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .form-section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-group.full { grid-column: 1 / -1; }
+
+  label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--muted);
+  }
+
+  input[type="text"],
+  input[type="date"],
+  textarea,
+  select {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13.5px;
+    padding: 10px 13px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+    resize: none;
+  }
+  input:focus, textarea:focus, select:focus {
+    border-color: var(--orange);
+    box-shadow: 0 0 0 3px rgba(249,115,22,0.12);
+  }
+  input::placeholder, textarea::placeholder { color: #444; }
+
+  /* ─── PHOTO UPLOAD ─── */
+  .photo-upload-area {
+    border: 2px dashed var(--border);
+    border-radius: 10px;
+    min-height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s, background 0.2s;
+    background: var(--surface);
+  }
+  .photo-upload-area:hover { border-color: var(--orange); background: #1c1c28; }
+  .photo-upload-area input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+  }
+  .photo-upload-area .upload-icon { font-size: 24px; }
+  .photo-upload-area .upload-hint { font-size: 11px; color: #555; }
+  #photo-preview {
+    width: 100%;
+    height: 90px;
+    object-fit: cover;
+    display: none;
+    border-radius: 8px;
+  }
+
+  /* ─── COULEUR DE FOND CARTE ─── */
+  .color-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
     margin-top: 4px;
   }
+  .color-swatch {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: transform 0.15s, border-color 0.15s;
+  }
+  .color-swatch:hover { transform: scale(1.15); }
+  .color-swatch.active { border-color: var(--orange); transform: scale(1.15); }
 
-  /* ── FORM CARD ── */
-  .form-card {
-    background: var(--paper);
-    border-top: 6px solid var(--accent);
-    border-radius: 0 !important;
+  /* ─── BUTTONS ─── */
+  .btn-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 32px;
   }
-  .form-card .card-header {
-    background: var(--ink);
-    color: var(--paper);
-    font-family: 'DM Sans', sans-serif;
+  .btn {
+    flex: 1;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Figtree', sans-serif;
     font-weight: 700;
-    font-size: 0.75rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    border-radius: 0 !important;
-    padding: 10px 20px;
+    font-size: 14px;
+    letter-spacing: 0.2px;
+    cursor: pointer;
+    padding: 13px 16px;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
   }
-  .form-card .card-body { padding: 28px 28px 20px; }
-  .form-label {
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 4px;
+  .btn-preview {
+    background: var(--surface);
+    color: #ccc;
+    border: 1px solid var(--border);
   }
-  .form-control, .form-control:focus {
-    border-radius: 0 !important;
-    border: 1.5px solid #ccc;
-    background: #fff;
-    font-family: 'Source Serif 4', serif;
-    font-size: 0.95rem;
-    box-shadow: none !important;
-    color: var(--ink);
-  }
-  .form-control:focus { border-color: var(--accent2); }
-  textarea.form-control { min-height: 140px; resize: vertical; }
-
+  .btn-preview:hover { background: #1e1e2e; color: #fff; }
   .btn-generate {
-    background: var(--accent);
+    background: linear-gradient(135deg, var(--orange), var(--orange-dark));
     color: #fff;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    font-size: 0.8rem;
-    border: none;
-    border-radius: 0;
-    padding: 12px 32px;
-    transition: background .2s;
+    box-shadow: 0 4px 18px rgba(249,115,22,0.4);
   }
-  .btn-generate:hover { background: #a0001f; color: #fff; }
+  .btn-generate:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(249,115,22,0.5);
+  }
+  .btn-generate:active { transform: translateY(0); }
+  .btn-generate:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
-  /* ── MODAL ── */
-  .modal-dialog { max-width: 860px; }
-  .modal-content { border-radius: 0 !important; border: none; background: transparent; }
-  .modal-header {
-    background: var(--ink);
-    border-radius: 0 !important;
-    padding: 10px 20px;
-    border-bottom: 3px solid var(--accent);
-  }
-  .modal-title {
-    font-size: 0.7rem;
+  /* ─── PREVIEW SECTION ─── */
+  #preview-section { display: none; }
+
+  .preview-label {
+    font-size: 10px;
     font-weight: 700;
-    letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: #aaa;
-  }
-  .modal-body { background: var(--paper); padding: 0; }
-  .modal-footer {
-    background: var(--paper-dark);
-    border-top: 1px solid #d5d0c0;
-    border-radius: 0 !important;
-    padding: 12px 20px;
-  }
-  .btn-dl {
-    background: var(--accent2);
-    color: #fff;
-    border: none;
-    border-radius: 0;
-    font-weight: 700;
-    font-size: 0.75rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    padding: 9px 22px;
-    transition: background .2s;
-  }
-  .btn-dl:hover { background: #133a7a; color: #fff; }
-  .btn-close-custom {
-    background: transparent;
+    letter-spacing: 1.2px;
     color: var(--muted);
-    border: 1.5px solid #bbb;
-    border-radius: 0;
-    font-size: 0.75rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    font-weight: 700;
-    padding: 8px 18px;
-    transition: all .2s;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
-  .btn-close-custom:hover { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .preview-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
-  /* ══════════════════════════
-     ARTICLE PREVIEW
-  ══════════════════════════ */
-  #article {
-    font-family: 'Source Serif 4', serif;
-    background: var(--paper);
-    color: var(--ink);
-    
-    background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+  /* CARD SHADOW WRAPPER */
+  .card-shadow-wrap {
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,0.06),
+      0 24px 64px rgba(0,0,0,0.6),
+      0 4px 16px rgba(0,0,0,0.4);
+    margin-bottom: 16px;
   }
 
-  /* Publication line */
-  .art-publication-line {
+  /* ══════════════════════════════════
+     THE CARD — ultra realistic style
+  ══════════════════════════════════ */
+  #card {
+    background: #ffffff;
+    font-family: 'DM Sans', sans-serif;
+    padding: 22px 22px 0 22px;
+    position: relative;
+    width: 100%;
+  }
+
+  /* Top stripe */
+  .card-top-stripe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(to right, #f97316, #ea580c, #c2410c);
+  }
+
+  /* Header row: logo left + badge right */
+  .card-header-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-top: 3px solid var(--rule);
-    border-bottom: 1px solid var(--rule);
-
-    margin-bottom: 22px;
-    font-size: 0.65rem;
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--ink);
+    margin-bottom: 16px;
+    padding-top: 6px;
   }
-  .art-pub-name { color: var(--accent); }
-
-  /* Titre */
-  #article h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.6rem;
-    font-weight: 900;
-    line-height: 1.08;
-    margin-bottom: 18px;
-    color: var(--ink);
-  }
-
-  .art-divider {
-    border: none;
-    border-top: 2px solid var(--rule);
-    margin: 0 0 22px;
-  }
-
-  /* ── LAYOUT CÔTE À CÔTE ── */
-  .art-body {
+  .card-logo-text {
+    font-family: 'Figtree', sans-serif;
+    font-weight: 800;
+    font-size: 15px;
+    color: #111;
+    letter-spacing: -0.3px;
     display: flex;
-    gap: 28px;
-    align-items: flex-start;
+    align-items: center;
+    gap: 5px;
   }
-
-  /* Image à gauche, taille fixe, max 500x500 */
-  .art-img-col {
-    flex: 0 0 auto;
-    width: 45%;
-    max-width: 500px;
-  }
-  .art-img-col img {
-    width: 100%;
-    max-height: 500px;
-    object-fit: cover;
-    display: block;
-    filter: contrast(106%) brightness(97%);
-  }
-
-  /* Texte à droite */
-  .art-text-col {
-    flex: 1 1 0;
-    min-width: 0;
-  }
-
-  /* Texte agrandi */
-  .art-text-col p {
-    font-family: 'Source Serif 4', serif;
-    font-size: 1.2rem;
-    line-height: 1.75;
-    text-align: justify;
-    color: var(--ink);
-    margin: 0;
-  }
-
-  /* Tag pill */
-  .tag-pill {
+  .card-logo-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #f97316;
     display: inline-block;
-    background: var(--accent);
+  }
+  .card-tag {
+    background: #f97316;
     color: #fff;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.62rem;
+    font-family: 'Figtree', sans-serif;
     font-weight: 700;
-    letter-spacing: 0.18em;
+    font-size: 10px;
+    letter-spacing: 1.2px;
     text-transform: uppercase;
-    padding: 3px 9px;
-    margin-right: 7px;
-    vertical-align: middle;
+    padding: 4px 10px;
+    border-radius: 4px;
+  }
+
+  /* Body: photo left + text right */
+  .card-body {
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+    margin-bottom: 16px;
+  }
+
+  .card-photo-col {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .card-photo-wrap {
+    width: 148px;
+    height: 192px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: linear-gradient(145deg, #e8e8e8, #d0d0d0);
     position: relative;
-    top: -2px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+  }
+  .card-photo-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+  }
+  .card-photo-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #bbb;
+    font-size: 28px;
+    gap: 6px;
+  }
+  .card-photo-placeholder span { font-size: 11px; color: #ccc; }
+
+  /* Player name tag under photo */
+  .card-player-tag {
+    background: #111;
+    color: #fff;
+    font-family: 'Figtree', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    text-align: center;
+    padding: 5px 8px;
+    border-radius: 6px;
+    line-height: 1.3;
+    letter-spacing: 0.2px;
+  }
+  .card-player-tag .club-name {
+    font-size: 10px;
+    color: #f97316;
+    font-weight: 600;
+    margin-top: 1px;
   }
 
-  /* Quand pas d'image : texte pleine largeur */
-  .art-body.no-image .art-text-col p {
-    font-size: 1.2rem;
+  /* Text block */
+  .card-text-block { flex: 1; min-width: 0; }
+
+  .card-info-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+  .card-category-label {
+    font-family: 'Figtree', sans-serif;
+    font-weight: 800;
+    font-size: 16px;
+    color: #111;
+    letter-spacing: -0.3px;
+    text-transform: capitalize;
+  }
+  .card-date-pill {
+    font-size: 11px;
+    color: #999;
+    background: #f5f5f5;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-weight: 500;
   }
 
-  @media (max-width: 600px) {
-    #article { padding: 24px 20px; }
-    #article h1 { font-size: 1.75rem; }
-    .art-body { flex-direction: column; gap: 16px; }
-    .art-img-col { width: 100%; max-width: 100%; }
-    .art-text-col p { font-size: 1.05rem; }
+  .card-content-text {
+    font-size: 13px;
+    line-height: 1.7;
+    color: #2a2a2a;
+  }
+
+  /* Footer */
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0 16px;
+    border-top: 1px solid #f0f0f0;
+    margin-top: 4px;
+  }
+  .card-footer-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-source-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #f97316;
+    flex-shrink: 0;
+  }
+  .card-source-text {
+    font-family: 'Figtree', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+  .card-subscribe-btn {
+    background: linear-gradient(135deg, #f97316, #ea580c);
+    color: #fff;
+    font-family: 'Figtree', sans-serif;
+    font-weight: 800;
+    font-size: 11px;
+    letter-spacing: 0.8px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    box-shadow: 0 2px 8px rgba(249,115,22,0.3);
+  }
+
+  /* ─── DOWNLOAD BTN ─── */
+  .btn-download {
+    background: linear-gradient(135deg, var(--green), #15803d);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Figtree', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 14px 24px;
+    cursor: pointer;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    letter-spacing: 0.3px;
+    box-shadow: 0 4px 18px rgba(22,163,74,0.35);
+    transition: all 0.2s;
+    margin-bottom: 10px;
+  }
+  .btn-download:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(22,163,74,0.45);
+  }
+  .btn-download:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+  .tip {
+    font-size: 11px;
+    color: #444;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+
+  /* ─── SPINNER ─── */
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 480px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .form-group.full { grid-column: 1; }
+    .btn-row { flex-direction: column; }
+    .card-photo-wrap { width: 120px; height: 155px; }
   }
 </style>
 </head>
-
 <body>
 
-<!-- MASTHEAD -->
-<div class="masthead">
-  <div class="masthead-title">MVP Info</div>
-  <div class="masthead-sub">Générateur d'article de presse</div>
+<!-- APP HEADER -->
+<div class="app-header">
+  <div class="logo-badge">🗞️</div>
+  <div>
+    <h1>MVP <span>Info</span></h1>
+    <p>Générateur de carte mercato ultra-réaliste</p>
+  </div>
 </div>
 
-<!-- FORM -->
-<div class="container py-5">
-  <div class="row justify-content-center">
-    <div class="col-lg-7 col-md-9">
+<div class="divider"></div>
 
-      <div class="card form-card shadow-lg">
-        <div class="card-header">✏️ &nbsp;Rédiger un article</div>
-        <div class="card-body">
+<!-- ══ FORM ══ -->
+<div class="form-section-title">📝 Informations de la carte</div>
 
-          <div class="mb-3">
-            <label class="form-label">Titre</label>
-            <input type="text" class="form-control" id="title" placeholder="Ex: Agbadou, le mur ivoirien">
-          </div>
+<div class="form-grid">
+  <div class="form-group">
+    <label>Catégorie / Tag</label>
+    <input type="text" id="f-category" value="mercato" placeholder="mercato, blessure, transfert…">
+  </div>
+  <div class="form-group">
+    <label>Date</label>
+    <input type="text" id="f-date" value="28 avril 2026" placeholder="28 avril 2026">
+  </div>
+  <div class="form-group">
+    <label>Nom du joueur</label>
+    <input type="text" id="f-player" value="Yann Gboho" placeholder="Prénom Nom">
+  </div>
+  <div class="form-group">
+    <label>Club du joueur</label>
+    <input type="text" id="f-club" value="Toulouse FC" placeholder="Club actuel">
+  </div>
+  <div class="form-group full">
+    <label>Texte de l'info (article)</label>
+    <textarea id="f-text" rows="6">le club de Coventry City aurait fait de Yann Gboho l'une des priorités pour cet été. Actuellement en Championship, la formation entraînée par Frank Lampard a déjà obtenu sa promotion en Premier League et débute les recherches pour se renforcer pour la saison prochaine. Évalué à 15 millions d'euros par le site Transfermarkt.</textarea>
+  </div>
+  <div class="form-group">
+    <label>Source / Compte</label>
+    <input type="text" id="f-source" value="MVP Info" placeholder="MVP Info">
+  </div>
+  <div class="form-group">
+    <label>Photo du joueur</label>
+    <div class="photo-upload-area" id="upload-area">
+      <input type="file" id="f-photo" accept="image/*" onchange="handlePhoto(event)">
+      <img id="photo-preview" alt="">
+      <div id="upload-hint-block">
+        <div class="upload-icon">📸</div>
+        <div class="upload-hint">Cliquer pour uploader</div>
+      </div>
+    </div>
+  </div>
+</div>
 
-          <div class="mb-3">
-            <label class="form-label">Contenu</label>
-            <textarea class="form-control" id="content" placeholder="Rédigez votre article ici…"></textarea>
-          </div>
+<!-- Couleur de fond carte -->
+<div class="form-section-title" style="margin-top:4px;">🎨 Couleur de fond de la carte</div>
+<div class="color-row" id="color-row">
+  <div class="color-swatch active" style="background:#ffffff;" data-color="#ffffff" onclick="selectColor(this)" title="Blanc"></div>
+  <div class="color-swatch" style="background:#f0f4ff;" data-color="#f0f4ff" onclick="selectColor(this)" title="Bleu clair"></div>
+  <div class="color-swatch" style="background:#fff7ed;" data-color="#fff7ed" onclick="selectColor(this)" title="Pêche"></div>
+  <div class="color-swatch" style="background:#f0fdf4;" data-color="#f0fdf4" onclick="selectColor(this)" title="Vert pâle"></div>
+  <div class="color-swatch" style="background:#fdf4ff;" data-color="#fdf4ff" onclick="selectColor(this)" title="Lavande"></div>
+  <div class="color-swatch" style="background:#1a1a2e;" data-color="#1a1a2e" onclick="selectColor(this)" title="Nuit"></div>
+  <div class="color-swatch" style="background:#0f172a;" data-color="#0f172a" onclick="selectColor(this)" title="Marine"></div>
+</div>
 
-          <div class="row g-3 mb-3">
-            <div class="col-sm-5">
-              <label class="form-label">Tag</label>
-              <input type="text" class="form-control" id="tag" placeholder="LIGUE 1">
+<div class="divider" style="margin-top:20px;"></div>
+
+<!-- BUTTONS -->
+<div class="btn-row">
+  <button class="btn btn-preview" onclick="generatePreview()">
+    👁 Aperçu
+  </button>
+  <button class="btn btn-generate" id="btn-main" onclick="generateAndDownload()">
+    📥 Générer & Télécharger
+  </button>
+</div>
+
+<!-- ══ PREVIEW ══ -->
+<div id="preview-section">
+  <div class="preview-label">Aperçu en temps réel</div>
+
+  <div class="card-shadow-wrap">
+    <!-- ▼▼▼ THIS IS THE CARD THAT WILL BE CAPTURED ▼▼▼ -->
+    <div id="card">
+      <div class="card-top-stripe"></div>
+
+      <div class="card-header-row">
+        <div class="card-logo-text">
+          <span class="card-logo-dot"></span>
+          <span id="card-logo-label">MVP Info</span>
+        </div>
+        <div class="card-tag" id="card-tag">mercato</div>
+      </div>
+
+      <div class="card-body">
+        <!-- Photo column -->
+        <div class="card-photo-col">
+          <div class="card-photo-wrap" id="card-photo-wrap">
+            <div class="card-photo-placeholder" id="card-placeholder">
+              <span>👤</span>
+              <span>Photo joueur</span>
             </div>
-            <div class="col-sm-7">
-              <label class="form-label">Image (optionnel)</label>
-              <input type="file" class="form-control" id="imageInput" accept="image/*">
-            </div>
+            <img id="card-img" src="" alt="" style="display:none">
           </div>
-
-          <div class="d-flex justify-content-end">
-            <button class="btn btn-generate" onclick="generate()">Générer l'article →</button>
+          <div class="card-player-tag" id="card-player-tag">
+            <div id="card-player-name">Yann Gboho</div>
+            <div class="club-name" id="card-club-name">Toulouse FC</div>
           </div>
+        </div>
 
+        <!-- Text column -->
+        <div class="card-text-block">
+          <div class="card-info-row">
+            <div class="card-category-label" id="card-category">mercato</div>
+            <div class="card-date-pill" id="card-date">28 avril 2026</div>
+          </div>
+          <div class="card-content-text" id="card-content-text">
+            le club de Coventry City aurait fait de Yann Gboho l'une des priorités pour cet été.
+          </div>
         </div>
       </div>
 
+      <div class="card-footer">
+        <div class="card-footer-left">
+          <div class="card-source-dot"></div>
+          <div class="card-source-text" id="card-source-el">MVP Info</div>
+        </div>
+        <div class="card-subscribe-btn">
+          🔔 ABONNE-TOI
+        </div>
+      </div>
     </div>
+    <!-- ▲▲▲ END CARD ▲▲▲ -->
   </div>
-</div>
 
-<!-- MODAL -->
-<div class="modal fade" id="previewModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-    <div class="modal-content">
-
-      <div class="modal-header">
-        <span class="modal-title">📰 Aperçu de l'article</span>
-        <button type="button" class="btn-close btn-close-white ms-auto" data-bs-dismiss="modal"></button>
-      </div>
-
-      <div class="modal-body">
-        <div id="article"></div>
-      </div>
-
-      <div class="modal-footer gap-2">
-        <button class="btn btn-dl" onclick="downloadPNG()">📥 Télécharger PNG</button>
-        <button class="btn btn-close-custom" data-bs-dismiss="modal">✕ Fermer</button>
-      </div>
-
-    </div>
-  </div>
+  <button class="btn-download" id="btn-download" onclick="downloadImage()">
+    <span>⬇️</span>
+    <span>Télécharger l'image PNG (HD)</span>
+  </button>
+  <p class="tip">Résolution ×3 · Fond net · Prêt pour Twitter / Facebook / Instagram</p>
 </div>
 
 <script>
-  const previewModal = new bootstrap.Modal(document.getElementById('previewModal'));
+  /* ─── STATE ─── */
+  let photoDataURL = null;
+  let selectedBgColor = '#ffffff';
 
-  document.getElementById('previewModal').addEventListener('hidden.bs.modal', () => {
-    ['title','content','tag','imageInput'].forEach(id => {
-      document.getElementById(id).value = "";
-    });
-  });
-
-  function generate() {
-    const title   = document.getElementById("title").value.trim();
-    const content = document.getElementById("content").value.trim();
-    const tag     = document.getElementById("tag").value.trim();
-    const imgFile = document.getElementById("imageInput").files[0];
-
-    if (!title && !content) {
-      alert("Veuillez saisir au moins un titre ou du contenu.");
-      return;
-    }
-
-    const now = new Date();
-    const dateStr = now.toLocaleDateString('fr-FR', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
-
-    const tagHTML = tag ? `<span class="tag-pill">${tag}</span> ` : "";
-
-    // Image column
-    let imgColHTML = "";
-    if (imgFile) {
-      const url = URL.createObjectURL(imgFile);
-      imgColHTML = `<div class="art-img-col"><img src="${url}" alt="Illustration"></div>`;
-    }
-
-    // Text column — only if there's content or tag
-    let textColHTML = "";
-    const bodyText = (tag + content).trim();
-    if (bodyText) {
-      textColHTML = `<div class="art-text-col"><p>${tagHTML}${content}</p></div>`;
-    }
-
-    // Body layout
-    let bodyHTML = "";
-    if (imgColHTML || textColHTML) {
-      const noImgClass = imgColHTML ? "" : " no-image";
-      bodyHTML = `<div class="art-body${noImgClass}">${imgColHTML}${textColHTML}</div>`;
-    }
-
-    document.getElementById("article").innerHTML = `
-      <h1>${title || "Sans titre"}</h1>
-      <hr class="art-divider">
-
-      ${bodyHTML}
-    `;
-
-    previewModal.show();
+  /* ─── PHOTO HANDLER ─── */
+  function handlePhoto(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      photoDataURL = ev.target.result;
+      const prev = document.getElementById('photo-preview');
+      prev.src = photoDataURL;
+      prev.style.display = 'block';
+      document.getElementById('upload-hint-block').style.display = 'none';
+    };
+    reader.readAsDataURL(file);
   }
 
-  function downloadPNG() {
-    const el = document.getElementById("article");
-    html2canvas(el, {
-      scale: 3,
-      backgroundColor: "#faf8f2",
-      useCORS: true,
-      allowTaint: true
-    }).then(canvas => {
-      const link = document.createElement("a");
-      link.download = "article-mvpinfo.png";
-      link.href = canvas.toDataURL("image/png");
+  /* ─── COLOR PICKER ─── */
+  function selectColor(el) {
+    document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+    el.classList.add('active');
+    selectedBgColor = el.dataset.color;
+    // Apply immediately if preview is visible
+    const card = document.getElementById('card');
+    if (card) card.style.background = selectedBgColor;
+    // Adapt text colors for dark bg
+    adaptTextColors(selectedBgColor);
+  }
+
+  function isDark(hex) {
+    const r = parseInt(hex.slice(1,3),16);
+    const g = parseInt(hex.slice(3,5),16);
+    const b = parseInt(hex.slice(5,7),16);
+    return (r*299 + g*587 + b*114) / 1000 < 128;
+  }
+
+  function adaptTextColors(bg) {
+    const dark = isDark(bg);
+    const card = document.getElementById('card');
+    if (!card) return;
+    const textEls = card.querySelectorAll(
+      '.card-category-label, .card-content-text, .card-player-tag, .card-logo-text'
+    );
+    textEls.forEach(el => {
+      if (el.classList.contains('card-content-text')) {
+        el.style.color = dark ? '#e0e0e0' : '#2a2a2a';
+      } else {
+        el.style.color = dark ? '#ffffff' : '#111111';
+      }
+    });
+    const dateEl = document.getElementById('card-date');
+    if (dateEl) {
+      dateEl.style.background = dark ? 'rgba(255,255,255,0.1)' : '#f5f5f5';
+      dateEl.style.color = dark ? '#ccc' : '#999';
+    }
+    const footer = card.querySelector('.card-footer');
+    if (footer) footer.style.borderColor = dark ? 'rgba(255,255,255,0.1)' : '#f0f0f0';
+    const sourceEl = document.getElementById('card-source-el');
+    if (sourceEl) sourceEl.style.color = dark ? '#aaa' : '#999';
+  }
+
+  /* ─── BUILD CARD DATA ─── */
+  function buildCard() {
+    const category = document.getElementById('f-category').value.trim() || 'mercato';
+    const date = document.getElementById('f-date').value.trim() || '';
+    const player = document.getElementById('f-player').value.trim() || '';
+    const club = document.getElementById('f-club').value.trim() || '';
+    const text = document.getElementById('f-text').value.trim() || '';
+    const source = document.getElementById('f-source').value.trim() || 'MVP Info';
+
+    // Populate card
+    document.getElementById('card-tag').textContent = category;
+    document.getElementById('card-category').textContent = category;
+    document.getElementById('card-date').textContent = date;
+    document.getElementById('card-content-text').textContent = text;
+    document.getElementById('card-source-el').textContent = source;
+    document.getElementById('card-logo-label').textContent = source;
+    document.getElementById('card-player-name').textContent = player;
+    document.getElementById('card-club-name').textContent = club;
+
+    // Photo
+    const cardImg = document.getElementById('card-img');
+    const placeholder = document.getElementById('card-placeholder');
+    if (photoDataURL) {
+      cardImg.src = photoDataURL;
+      cardImg.style.display = 'block';
+      placeholder.style.display = 'none';
+    } else {
+      cardImg.style.display = 'none';
+      placeholder.style.display = 'flex';
+    }
+
+    // Background
+    document.getElementById('card').style.background = selectedBgColor;
+    adaptTextColors(selectedBgColor);
+  }
+
+  /* ─── PREVIEW ─── */
+  function generatePreview() {
+    buildCard();
+    const section = document.getElementById('preview-section');
+    section.style.display = 'block';
+    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  /* ─── DOWNLOAD ─── */
+  async function downloadImage() {
+    const btn = document.getElementById('btn-download');
+    btn.innerHTML = '<div class="spinner"></div><span>Génération en cours…</span>';
+    btn.disabled = true;
+
+    await new Promise(r => setTimeout(r, 80)); // let DOM settle
+
+    try {
+      const card = document.getElementById('card');
+      const canvas = await html2canvas(card, {
+        scale: 3,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: selectedBgColor,
+        logging: false,
+        imageTimeout: 10000
+      });
+
+      const link = document.createElement('a');
+      const playerName = document.getElementById('f-player').value.trim().replace(/\s+/g, '-').toLowerCase();
+      const cat = document.getElementById('f-category').value.trim().replace(/\s+/g, '-').toLowerCase();
+      link.download = `mvp-info-${cat}-${playerName || 'carte'}.png`;
+      link.href = canvas.toDataURL('image/png', 1.0);
       link.click();
-    });
-  }
-</script>
+    } catch (err) {
+      alert('Erreur lors de la génération de l\'image. Réessaie.');
+      console.error(err);
+    }
 
+    btn.innerHTML = '<span>⬇️</span><span>Télécharger l\'image PNG (HD)</span>';
+    btn.disabled = false;
+  }
+
+  /* ─── GENERATE + DOWNLOAD ─── */
+  async function generateAndDownload() {
+    const btn = document.getElementById('btn-main');
+    btn.innerHTML = '<div class="spinner"></div> Génération…';
+    btn.disabled = true;
+
+    buildCard();
+    document.getElementById('preview-section').style.display = 'block';
+    await new Promise(r => setTimeout(r, 200));
+    await downloadImage();
+
+    btn.innerHTML = '📥 Générer & Télécharger';
+    btn.disabled = false;
+  }
+
+  /* ─── INIT ─── */
+  window.addEventListener('DOMContentLoaded', () => {
+    generatePreview();
+  });
+</script>
 </body>
 </html>
