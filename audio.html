@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VoiceOver Studio — MVP Info</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0c0f;
+    --surface: #13151a;
+    --surface2: #1c1f28;
+    --surface3: #252833;
+    --accent: #e8c94a;
+    --accent2: #f0a030;
+    --red: #e84a4a;
+    --green: #4ae87a;
+    --text: #f0ede6;
+    --muted: #888a92;
+    --border: rgba(255,255,255,0.07);
+    --radius: 12px;
+    --radius-sm: 6px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Barlow', sans-serif;
+    font-weight: 400;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 2rem 1.5rem 3rem;
+  }
+
+  /* HEADER */
+  header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+  .logo {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 3rem;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+    line-height: 1;
+    text-transform: uppercase;
+  }
+  .logo span { color: var(--text); }
+  .tagline {
+    font-size: 0.8rem;
+    letter-spacing: 0.3em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-top: 0.4rem;
+  }
+
+  /* MAIN LAYOUT */
+  .studio {
+    width: 100%;
+    max-width: 860px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  /* PANELS */
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+  }
+  .panel-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 0.72rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+
+  /* VU METER */
+  .vu-container {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    height: 56px;
+    margin-bottom: 1rem;
+  }
+  .vu-bar {
+    flex: 1;
+    border-radius: 2px;
+    background: var(--surface3);
+    transition: height 0.04s ease;
+    min-height: 3px;
+  }
+
+  /* WAVEFORM */
+  #waveform-canvas {
+    width: 100%;
+    height: 100px;
+    border-radius: var(--radius-sm);
+    background: var(--surface2);
+    display: block;
+  }
+
+  /* TIMER */
+  .timer-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1rem;
+  }
+  .timer {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 2.8rem;
+    letter-spacing: 0.05em;
+    color: var(--text);
+    line-height: 1;
+  }
+  .timer.recording { color: var(--red); }
+  .status-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--muted);
+  }
+  .status-dot.recording {
+    background: var(--red);
+    animation: blink 0.8s infinite;
+  }
+  .status-dot.ready { background: var(--green); }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.2; }
+  }
+
+  /* CONTROLS */
+  .controls {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+  .btn {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text);
+    border-radius: var(--radius-sm);
+    padding: 0.6rem 1.4rem;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .btn:hover { background: var(--surface3); border-color: rgba(255,255,255,0.15); }
+  .btn:active { transform: scale(0.97); }
+  .btn:disabled { opacity: 0.3; cursor: not-allowed; transform: none; }
+  .btn-record {
+    background: var(--red);
+    border-color: var(--red);
+    color: #fff;
+    font-size: 1rem;
+    padding: 0.7rem 2rem;
+    border-radius: 40px;
+  }
+  .btn-record:hover { background: #ff5a5a; border-color: #ff5a5a; }
+  .btn-record.recording {
+    background: var(--surface2);
+    border-color: var(--red);
+    color: var(--red);
+  }
+  .btn-record.recording:hover { background: rgba(232,74,74,0.1); }
+  .btn-play { border-color: rgba(74,232,122,0.4); color: var(--green); }
+  .btn-play:hover { background: rgba(74,232,122,0.08); }
+  .btn-accent { border-color: rgba(232,201,74,0.4); color: var(--accent); }
+  .btn-accent:hover { background: rgba(232,201,74,0.08); }
+
+  /* TAKES LIST */
+  .takes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    max-height: 280px;
+    overflow-y: auto;
+    padding-right: 2px;
+  }
+  .takes-list::-webkit-scrollbar { width: 4px; }
+  .takes-list::-webkit-scrollbar-track { background: transparent; }
+  .takes-list::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 4px; }
+  .take-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    transition: all 0.12s;
+  }
+  .take-item:hover { background: var(--surface3); border-color: rgba(255,255,255,0.12); }
+  .take-item.active { border-color: var(--accent); background: rgba(232,201,74,0.05); }
+  .take-number {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 1.2rem;
+    color: var(--accent);
+    min-width: 28px;
+  }
+  .take-info { flex: 1; }
+  .take-name { font-size: 0.85rem; font-weight: 500; color: var(--text); }
+  .take-duration { font-size: 0.72rem; color: var(--muted); margin-top: 2px; }
+  .take-waveform-mini {
+    width: 80px;
+    height: 28px;
+  }
+  .take-actions { display: flex; gap: 0.4rem; }
+  .take-btn {
+    background: none;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 4px;
+    border-radius: 4px;
+    transition: color 0.12s;
+    line-height: 1;
+  }
+  .take-btn:hover { color: var(--text); }
+  .take-btn.delete:hover { color: var(--red); }
+  .take-btn.download:hover { color: var(--accent); }
+  .take-btn.play-take:hover { color: var(--green); }
+  .empty-state {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.85rem;
+    padding: 2rem;
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-sm);
+  }
+
+  /* SETTINGS GRID */
+  .settings-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  @media (max-width: 600px) { .settings-grid { grid-template-columns: 1fr; } }
+  .setting-group label {
+    display: block;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.4rem;
+    font-weight: 500;
+  }
+  .setting-group select,
+  .setting-group input[type="range"] {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.85rem;
+    padding: 0.5rem 0.75rem;
+    cursor: pointer;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .setting-group select:hover,
+  .setting-group select:focus { border-color: rgba(255,255,255,0.2); }
+  .setting-group select option { background: #1c1f28; }
+  .slider-row { display: flex; align-items: center; gap: 0.75rem; }
+  .slider-row input[type="range"] {
+    flex: 1;
+    padding: 0;
+    height: 4px;
+    border: none;
+    background: var(--surface3);
+    accent-color: var(--accent);
+    cursor: pointer;
+  }
+  .slider-val {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--accent);
+    min-width: 36px;
+    text-align: right;
+  }
+
+  /* EXPORT ROW */
+  .export-row {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .btn-export {
+    flex: 1;
+    min-width: 140px;
+    justify-content: center;
+    font-size: 0.95rem;
+    padding: 0.75rem 1rem;
+  }
+
+  /* PLAYBACK BAR */
+  .playback-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+  }
+  .progress-track {
+    flex: 1;
+    height: 4px;
+    background: var(--surface3);
+    border-radius: 2px;
+    cursor: pointer;
+    position: relative;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px;
+    width: 0%;
+    pointer-events: none;
+  }
+  .playback-time {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 0.8rem;
+    color: var(--muted);
+    min-width: 40px;
+  }
+  .noise-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.78rem;
+    color: var(--muted);
+    cursor: pointer;
+  }
+  .noise-toggle input { accent-color: var(--accent); cursor: pointer; }
+
+  /* GAIN METER */
+  .gain-wrapper { display: flex; align-items: center; gap: 0.75rem; }
+  .gain-meter {
+    flex: 1;
+    height: 8px;
+    background: var(--surface3);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .gain-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--green) 0%, var(--accent) 60%, var(--red) 90%);
+    width: 0%;
+    transition: width 0.05s;
+  }
+
+  /* NOTIFICATION */
+  .toast {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0.6rem 1.2rem;
+    font-size: 0.82rem;
+    color: var(--text);
+    transition: transform 0.3s ease;
+    z-index: 100;
+    white-space: nowrap;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .icon { font-size: 1.1rem; }
+</style>
+ <script src="header.js"></script>
+     <link rel="stylesheet" href="x.css">
+  </head>
+  <body >
+  <div id="header-container"></div>
+<header>
+  <div class="logo">Voice<span>Over</span> Studio</div>
+  <div class="tagline">Enregistrement professionnel — MVP Info</div>
+</header>
+
+<div class="studio">
+
+  <!-- MONITOR PANEL -->
+  <div class="panel">
+    <div class="panel-label">Moniteur d'entrée</div>
+    <div class="vu-container" id="vu-container"></div>
+    <canvas id="waveform-canvas"></canvas>
+    <div class="timer-row">
+      <div class="timer" id="timer">00:00.0</div>
+      <div class="status-pill">
+        <div class="status-dot" id="status-dot"></div>
+        <span id="status-text">Prêt</span>
+      </div>
+    </div>
+    <div class="gain-wrapper" style="margin-top:0.75rem;">
+      <span style="font-size:0.72rem;color:var(--muted);letter-spacing:0.15em;text-transform:uppercase;font-weight:500;min-width:36px">Gain</span>
+      <div class="gain-meter"><div class="gain-fill" id="gain-fill"></div></div>
+      <span class="slider-val" id="gain-db" style="min-width:44px;font-size:0.78rem">— dB</span>
+    </div>
+    <div class="controls">
+      <button class="btn" id="btn-monitor" title="Activer le moniteur micro">🎙 Moniteur</button>
+      <button class="btn btn-record" id="btn-record" disabled>⏺ Enregistrer</button>
+      <button class="btn btn-play" id="btn-play" disabled>▶ Écouter</button>
+      <label class="noise-toggle"><input type="checkbox" id="noise-reduction"> Réduction bruit</label>
+    </div>
+    <div class="playback-bar" id="playback-bar" style="display:none;">
+      <span class="playback-time" id="pb-current">0:00</span>
+      <div class="progress-track" id="progress-track">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+      <span class="playback-time" id="pb-total">0:00</span>
+    </div>
+  </div>
+
+  <!-- SETTINGS PANEL -->
+  <div class="panel">
+    <div class="panel-label">Paramètres d'enregistrement</div>
+    <div class="settings-grid">
+      <div class="setting-group">
+        <label>Périphérique micro</label>
+        <select id="device-select"><option>Chargement...</option></select>
+      </div>
+      <div class="setting-group">
+        <label>Fréquence d'échantillonnage</label>
+        <select id="sample-rate">
+          <option value="44100">44 100 Hz (CD)</option>
+          <option value="48000" selected>48 000 Hz (Pro)</option>
+          <option value="96000">96 000 Hz (Studio)</option>
+        </select>
+      </div>
+      <div class="setting-group">
+        <label>Gain micro</label>
+        <div class="slider-row">
+          <input type="range" id="gain-slider" min="0" max="200" value="100" step="1">
+          <span class="slider-val" id="gain-label">100%</span>
+        </div>
+      </div>
+      <div class="setting-group">
+        <label>Délai avant enregistrement</label>
+        <select id="countdown">
+          <option value="0">Aucun</option>
+          <option value="3" selected>3 secondes</option>
+          <option value="5">5 secondes</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAKES PANEL -->
+  <div class="panel">
+    <div class="panel-label" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;">
+      <span>Prises enregistrées <span id="take-count" style="color:var(--accent);font-weight:900;"></span></span>
+      <button class="btn" id="btn-clear-all" style="font-size:0.7rem;padding:0.3rem 0.8rem;color:var(--muted);">Tout effacer</button>
+    </div>
+    <div class="takes-list" id="takes-list">
+      <div class="empty-state">Aucune prise — commencez l'enregistrement</div>
+    </div>
+  </div>
+
+  <!-- EXPORT PANEL -->
+  <div class="panel">
+    <div class="panel-label">Exporter la prise sélectionnée</div>
+    <div class="settings-grid" style="margin-bottom:1rem;">
+      <div class="setting-group">
+        <label>Format de sortie</label>
+        <select id="export-format">
+          <option value="wav">WAV (sans perte)</option>
+          <option value="mp3">MP3 (compressé)</option>
+        </select>
+      </div>
+      <div class="setting-group">
+        <label>Qualité MP3</label>
+        <select id="mp3-bitrate">
+          <option value="128">128 kbps</option>
+          <option value="192">192 kbps</option>
+          <option value="320" selected>320 kbps (max)</option>
+        </select>
+      </div>
+    </div>
+    <div class="export-row">
+      <button class="btn btn-accent btn-export" id="btn-export-wav">⬇ Télécharger WAV</button>
+      <button class="btn btn-accent btn-export" id="btn-export-mp3">⬇ Télécharger MP3</button>
+    </div>
+  </div>
+
+</div>
+<div class="toast" id="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lamejs/1.2.1/lame.min.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+
+// --- STATE ---
+let audioCtx, analyser, gainNode, sourceNode, stream;
+let mediaRecorder, recordedChunks = [];
+let isRecording = false, isMonitoring = false, isPlaying = false;
+let timerInterval, timerStart, timerMs = 0;
+let takes = [];
+let activeTakeIndex = -1;
+let currentAudio = null;
+let animFrame;
+
+// --- VU METER SETUP ---
+const vuContainer = $('vu-container');
+const VU_BARS = 48;
+const vuBars = [];
+for (let i = 0; i < VU_BARS; i++) {
+  const b = document.createElement('div');
+  b.className = 'vu-bar';
+  vuContainer.appendChild(b);
+  vuBars.push(b);
+}
+
+// --- WAVEFORM ---
+const canvas = $('waveform-canvas');
+const ctx2d = canvas.getContext('2d');
+function resizeCanvas() {
+  canvas.width = canvas.offsetWidth * window.devicePixelRatio;
+  canvas.height = canvas.offsetHeight * window.devicePixelRatio;
+  ctx2d.scale(window.devicePixelRatio, window.devicePixelRatio);
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+function drawWaveform(dataArray) {
+  const W = canvas.offsetWidth, H = canvas.offsetHeight;
+  ctx2d.clearRect(0, 0, W, H);
+  ctx2d.fillStyle = '#1c1f28';
+  ctx2d.fillRect(0, 0, W, H);
+  const step = Math.floor(dataArray.length / W);
+  ctx2d.beginPath();
+  ctx2d.strokeStyle = isRecording ? '#e84a4a' : '#e8c94a';
+  ctx2d.lineWidth = 1.5;
+  for (let i = 0; i < W; i++) {
+    const val = dataArray[i * step] / 128.0;
+    const y = (val * H) / 2;
+    if (i === 0) ctx2d.moveTo(i, H / 2 + y - H / 2);
+    else ctx2d.lineTo(i, H / 2 + y - H / 2);
+  }
+  ctx2d.stroke();
+}
+
+function drawIdleWave() {
+  const W = canvas.offsetWidth, H = canvas.offsetHeight;
+  ctx2d.clearRect(0, 0, W, H);
+  ctx2d.fillStyle = '#1c1f28';
+  ctx2d.fillRect(0, 0, W, H);
+  ctx2d.beginPath();
+  ctx2d.strokeStyle = 'rgba(136,138,146,0.3)';
+  ctx2d.lineWidth = 1.5;
+  ctx2d.moveTo(0, H / 2);
+  ctx2d.lineTo(W, H / 2);
+  ctx2d.stroke();
+}
+drawIdleWave();
+
+// --- GAIN SLIDER ---
+$('gain-slider').addEventListener('input', e => {
+  const v = e.target.value;
+  $('gain-label').textContent = v + '%';
+  if (gainNode) gainNode.gain.value = v / 100;
+});
+
+// --- ENUMERATE DEVICES ---
+async function enumerateDevices() {
+  try {
+    const devices = await navigator.mediaDevices.enumerateDevices();
+    const mics = devices.filter(d => d.kind === 'audioinput');
+    const sel = $('device-select');
+    sel.innerHTML = '';
+    mics.forEach(d => {
+      const opt = document.createElement('option');
+      opt.value = d.deviceId;
+      opt.textContent = d.label || 'Microphone ' + (sel.options.length + 1);
+      sel.appendChild(opt);
+    });
+    if (!mics.length) sel.innerHTML = '<option>Aucun micro détecté</option>';
+  } catch(e) {}
+}
+
+// --- INIT AUDIO ---
+async function initAudio() {
+  const sampleRate = parseInt($('sample-rate').value);
+  const deviceId = $('device-select').value;
+  const constraints = {
+    audio: {
+      deviceId: deviceId ? { exact: deviceId } : undefined,
+      sampleRate,
+      echoCancellation: false,
+      noiseSuppression: $('noise-reduction').checked,
+      autoGainControl: false,
+      channelCount: 1
+    }
+  };
+  stream = await navigator.mediaDevices.getUserMedia(constraints);
+  await enumerateDevices();
+  audioCtx = new AudioContext({ sampleRate });
+  sourceNode = audioCtx.createMediaStreamSource(stream);
+  gainNode = audioCtx.createGain();
+  gainNode.gain.value = parseInt($('gain-slider').value) / 100;
+  analyser = audioCtx.createAnalyser();
+  analyser.fftSize = 2048;
+  analyser.smoothingTimeConstant = 0.4;
+  sourceNode.connect(gainNode);
+  gainNode.connect(analyser);
+  return true;
+}
+
+// --- MONITOR BUTTON ---
+$('btn-monitor').addEventListener('click', async () => {
+  if (!isMonitoring) {
+    try {
+      await initAudio();
+      isMonitoring = true;
+      $('btn-monitor').innerHTML = '🔴 Arrêter';
+      $('btn-record').disabled = false;
+      setStatus('ready', 'Prêt');
+      startVisuals();
+    } catch(e) {
+      toast('Accès micro refusé : ' + e.message);
+    }
+  } else {
+    stopMonitor();
+  }
+});
+
+function stopMonitor() {
+  if (stream) stream.getTracks().forEach(t => t.stop());
+  if (audioCtx) audioCtx.close();
+  isMonitoring = false;
+  $('btn-monitor').innerHTML = '🎙 Moniteur';
+  $('btn-record').disabled = true;
+  setStatus('', 'Prêt');
+  cancelAnimationFrame(animFrame);
+  drawIdleWave();
+  vuBars.forEach(b => { b.style.height = '3px'; b.style.background = '#252833'; });
+  $('gain-fill').style.width = '0%';
+  $('gain-db').textContent = '— dB';
+}
+
+// --- VISUALS LOOP ---
+function startVisuals() {
+  const dataArray = new Uint8Array(analyser.frequencyBinCount);
+  let vuSmooth = new Array(VU_BARS).fill(0);
+  function loop() {
+    animFrame = requestAnimationFrame(loop);
+    analyser.getByteTimeDomainData(dataArray);
+    drawWaveform(dataArray);
+    // VU meter from frequency data
+    const freqData = new Uint8Array(analyser.frequencyBinCount);
+    analyser.getByteFrequencyData(freqData);
+    const binPer = Math.floor(freqData.length / VU_BARS);
+    let rmsTotal = 0;
+    for (let i = 0; i < VU_BARS; i++) {
+      let sum = 0;
+      for (let j = 0; j < binPer; j++) sum += freqData[i * binPer + j];
+      const raw = sum / binPer / 255;
+      vuSmooth[i] = Math.max(raw, vuSmooth[i] * 0.75);
+      const h = Math.max(3, vuSmooth[i] * 56);
+      vuBars[i].style.height = h + 'px';
+      const pct = vuSmooth[i];
+      const r = pct > 0.7 ? 232 : pct > 0.4 ? 232 : 74;
+      const g = pct > 0.7 ? 74 : pct > 0.4 ? 201 : 232;
+      const b = pct > 0.7 ? 74 : 74;
+      vuBars[i].style.background = `rgb(${r},${g},${b})`;
+      rmsTotal += vuSmooth[i];
+    }
+    const avgLevel = rmsTotal / VU_BARS;
+    $('gain-fill').style.width = Math.min(avgLevel * 3 * 100, 100) + '%';
+    const db = avgLevel > 0.001 ? Math.round(20 * Math.log10(avgLevel * 3)) : -Infinity;
+    $('gain-db').textContent = isFinite(db) ? db + ' dB' : '— dB';
+  }
+  loop();
+}
+
+// --- TIMER ---
+function startTimer() {
+  timerStart = Date.now() - timerMs;
+  timerInterval = setInterval(() => {
+    timerMs = Date.now() - timerStart;
+    const m = Math.floor(timerMs / 60000).toString().padStart(2, '0');
+    const s = Math.floor((timerMs % 60000) / 1000).toString().padStart(2, '0');
+    const ds = Math.floor((timerMs % 1000) / 100);
+    $('timer').textContent = `${m}:${s}.${ds}`;
+  }, 100);
+}
+function stopTimer() {
+  clearInterval(timerInterval);
+}
+function resetTimer() {
+  timerMs = 0;
+  $('timer').textContent = '00:00.0';
+}
+
+function setStatus(type, text) {
+  const dot = $('status-dot');
+  dot.className = 'status-dot' + (type ? ' ' + type : '');
+  $('status-text').textContent = text;
+}
+
+// --- RECORD ---
+$('btn-record').addEventListener('click', async () => {
+  if (isRecording) {
+    stopRecording();
+  } else {
+    const delay = parseInt($('countdown').value);
+    if (delay > 0) {
+      setStatus('', `Début dans ${delay}s...`);
+      $('btn-record').disabled = true;
+      await countdown(delay);
+      $('btn-record').disabled = false;
+    }
+    startRecording();
+  }
+});
+
+function countdown(sec) {
+  return new Promise(res => {
+    let c = sec;
+    const iv = setInterval(() => {
+      c--;
+      if (c <= 0) { clearInterval(iv); res(); }
+      else setStatus('', `Début dans ${c}s...`);
+    }, 1000);
+  });
+}
+
+function startRecording() {
+  recordedChunks = [];
+  const dest = audioCtx.createMediaStreamDestination();
+  gainNode.connect(dest);
+  mediaRecorder = new MediaRecorder(dest.stream, { mimeType: 'audio/webm;codecs=opus' });
+  mediaRecorder.ondataavailable = e => { if (e.data.size > 0) recordedChunks.push(e.data); };
+  mediaRecorder.start(100);
+  isRecording = true;
+  resetTimer();
+  startTimer();
+  setStatus('recording', 'Enregistrement');
+  $('timer').className = 'timer recording';
+  $('btn-record').innerHTML = '⏹ Stopper';
+  $('btn-record').classList.add('recording');
+  $('btn-play').disabled = true;
+}
+
+function stopRecording() {
+  mediaRecorder.stop();
+  mediaRecorder.onstop = async () => {
+    const blob = new Blob(recordedChunks, { type: 'audio/webm' });
+    const dur = timerMs;
+    stopTimer();
+    isRecording = false;
+    setStatus('ready', 'Prêt');
+    $('timer').className = 'timer';
+    $('btn-record').innerHTML = '⏺ Enregistrer';
+    $('btn-record').classList.remove('recording');
+    addTake(blob, dur);
+    $('btn-play').disabled = false;
+    toast('Prise enregistrée !');
+    gainNode.disconnect(gainNode._dest);
+  };
+  try { gainNode._dest && gainNode.disconnect(gainNode._dest); } catch(e) {}
+}
+
+// --- TAKES ---
+function addTake(blob, dur) {
+  const idx = takes.length + 1;
+  const take = { blob, dur, name: `Prise ${idx}`, url: URL.createObjectURL(blob) };
+  takes.push(take);
+  activeTakeIndex = takes.length - 1;
+  renderTakes();
+  updateTakeCount();
+}
+
+function renderTakes() {
+  const list = $('takes-list');
+  if (!takes.length) {
+    list.innerHTML = '<div class="empty-state">Aucune prise — commencez l\'enregistrement</div>';
+    return;
+  }
+  list.innerHTML = '';
+  takes.forEach((t, i) => {
+    const div = document.createElement('div');
+    div.className = 'take-item' + (i === activeTakeIndex ? ' active' : '');
+    div.innerHTML = `
+      <div class="take-number">#${i + 1}</div>
+      <div class="take-info">
+        <div class="take-name">${t.name}</div>
+        <div class="take-duration">${formatDur(t.dur)}</div>
+      </div>
+      <div class="take-actions">
+        <button class="take-btn play-take" title="Écouter" data-i="${i}">▶</button>
+        <button class="take-btn download" title="Télécharger WAV" data-i="${i}">⬇</button>
+        <button class="take-btn delete" title="Supprimer" data-i="${i}">✕</button>
+      </div>`;
+    div.addEventListener('click', e => {
+      if (!e.target.classList.contains('take-btn')) selectTake(i);
+    });
+    div.querySelector('.play-take').addEventListener('click', e => { e.stopPropagation(); playTake(i); });
+    div.querySelector('.download').addEventListener('click', e => { e.stopPropagation(); exportTake(i, 'wav'); });
+    div.querySelector('.delete').addEventListener('click', e => { e.stopPropagation(); deleteTake(i); });
+    list.appendChild(div);
+  });
+}
+
+function selectTake(i) {
+  activeTakeIndex = i;
+  renderTakes();
+  $('btn-play').disabled = false;
+}
+
+function deleteTake(i) {
+  URL.revokeObjectURL(takes[i].url);
+  takes.splice(i, 1);
+  if (activeTakeIndex >= takes.length) activeTakeIndex = takes.length - 1;
+  renderTakes();
+  updateTakeCount();
+  if (!takes.length) $('btn-play').disabled = true;
+}
+
+$('btn-clear-all').addEventListener('click', () => {
+  takes.forEach(t => URL.revokeObjectURL(t.url));
+  takes = [];
+  activeTakeIndex = -1;
+  renderTakes();
+  updateTakeCount();
+  $('btn-play').disabled = true;
+  stopPlayback();
+});
+
+function updateTakeCount() {
+  $('take-count').textContent = takes.length ? `(${takes.length})` : '';
+}
+
+function formatDur(ms) {
+  const m = Math.floor(ms / 60000);
+  const s = Math.floor((ms % 60000) / 1000);
+  const ds = Math.floor((ms % 1000) / 100);
+  return `${m}:${s.toString().padStart(2, '0')}.${ds}`;
+}
+
+// --- PLAYBACK ---
+function playTake(i) {
+  selectTake(i);
+  startPlayback();
+}
+
+$('btn-play').addEventListener('click', () => {
+  if (isPlaying) stopPlayback();
+  else startPlayback();
+});
+
+function startPlayback() {
+  if (activeTakeIndex < 0 || !takes[activeTakeIndex]) return;
+  stopPlayback();
+  const take = takes[activeTakeIndex];
+  currentAudio = new Audio(take.url);
+  currentAudio.play();
+  isPlaying = true;
+  $('btn-play').innerHTML = '⏹ Stop';
+  $('playback-bar').style.display = 'flex';
+  currentAudio.addEventListener('timeupdate', updateProgress);
+  currentAudio.addEventListener('ended', () => { isPlaying = false; $('btn-play').innerHTML = '▶ Écouter'; });
+  currentAudio.addEventListener('loadedmetadata', () => {
+    $('pb-total').textContent = fmtTime(currentAudio.duration);
+  });
+}
+
+function stopPlayback() {
+  if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+  isPlaying = false;
+  $('btn-play').innerHTML = '▶ Écouter';
+  $('progress-fill').style.width = '0%';
+  $('pb-current').textContent = '0:00';
+}
+
+function updateProgress() {
+  if (!currentAudio) return;
+  const pct = (currentAudio.currentTime / currentAudio.duration) * 100;
+  $('progress-fill').style.width = pct + '%';
+  $('pb-current').textContent = fmtTime(currentAudio.currentTime);
+}
+
+$('progress-track').addEventListener('click', e => {
+  if (!currentAudio || !currentAudio.duration) return;
+  const rect = e.currentTarget.getBoundingClientRect();
+  const pct = (e.clientX - rect.left) / rect.width;
+  currentAudio.currentTime = pct * currentAudio.duration;
+});
+
+function fmtTime(s) {
+  const m = Math.floor(s / 60);
+  const sec = Math.floor(s % 60).toString().padStart(2, '0');
+  return `${m}:${sec}`;
+}
+
+// --- EXPORT ---
+$('btn-export-wav').addEventListener('click', () => {
+  if (activeTakeIndex < 0) { toast('Sélectionnez une prise d\'abord'); return; }
+  exportTake(activeTakeIndex, 'wav');
+});
+$('btn-export-mp3').addEventListener('click', () => {
+  if (activeTakeIndex < 0) { toast('Sélectionnez une prise d\'abord'); return; }
+  exportTake(activeTakeIndex, 'mp3');
+});
+
+async function exportTake(i, format) {
+  const take = takes[i];
+  toast('Export en cours...');
+  if (format === 'wav') {
+    const ab = await take.blob.arrayBuffer();
+    const offCtx = new OfflineAudioContext(1, 1, 44100);
+    const decoded = await offCtx.decodeAudioData(ab);
+    const wav = audioBufferToWav(decoded);
+    downloadBlob(new Blob([wav], { type: 'audio/wav' }), take.name + '.wav');
+    toast('WAV téléchargé !');
+  } else {
+    try {
+      const ab = await take.blob.arrayBuffer();
+      const offCtx = new OfflineAudioContext(1, 1, 44100);
+      const decoded = await offCtx.decodeAudioData(ab);
+      const samples = decoded.getChannelData(0);
+      const bitrate = parseInt($('mp3-bitrate').value);
+      const mp3enc = new lamejs.Mp3Encoder(1, decoded.sampleRate, bitrate);
+      const sampleBlockSize = 1152;
+      const mp3Data = [];
+      const int16 = floatTo16BitPCM(samples);
+      for (let i = 0; i < int16.length; i += sampleBlockSize) {
+        const chunk = int16.subarray(i, i + sampleBlockSize);
+        const mp3buf = mp3enc.encodeBuffer(chunk);
+        if (mp3buf.length > 0) mp3Data.push(mp3buf);
+      }
+      const end = mp3enc.flush();
+      if (end.length > 0) mp3Data.push(end);
+      downloadBlob(new Blob(mp3Data, { type: 'audio/mp3' }), take.name + '.mp3');
+      toast('MP3 téléchargé !');
+    } catch(e) {
+      toast('Erreur MP3 : ' + e.message);
+    }
+  }
+}
+
+function floatTo16BitPCM(floatArr) {
+  const int16 = new Int16Array(floatArr.length);
+  for (let i = 0; i < floatArr.length; i++) {
+    const s = Math.max(-1, Math.min(1, floatArr[i]));
+    int16[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+  }
+  return int16;
+}
+
+function audioBufferToWav(buffer) {
+  const numCh = buffer.numberOfChannels;
+  const sampleRate = buffer.sampleRate;
+  const numSamples = buffer.length;
+  const bitsPerSample = 16;
+  const byteRate = sampleRate * numCh * bitsPerSample / 8;
+  const blockAlign = numCh * bitsPerSample / 8;
+  const dataSize = numSamples * numCh * bitsPerSample / 8;
+  const buf = new ArrayBuffer(44 + dataSize);
+  const view = new DataView(buf);
+  const write = (o, s) => { for (let i = 0; i < s.length; i++) view.setUint8(o + i, s.charCodeAt(i)); };
+  write(0, 'RIFF');
+  view.setUint32(4, 36 + dataSize, true);
+  write(8, 'WAVE');
+  write(12, 'fmt ');
+  view.setUint32(16, 16, true);
+  view.setUint16(20, 1, true);
+  view.setUint16(22, numCh, true);
+  view.setUint32(24, sampleRate, true);
+  view.setUint32(28, byteRate, true);
+  view.setUint16(32, blockAlign, true);
+  view.setUint16(34, bitsPerSample, true);
+  write(36, 'data');
+  view.setUint32(40, dataSize, true);
+  const samples = buffer.getChannelData(0);
+  let offset = 44;
+  for (let i = 0; i < numSamples; i++) {
+    const s = Math.max(-1, Math.min(1, samples[i]));
+    view.setInt16(offset, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
+    offset += 2;
+  }
+  return buf;
+}
+
+function downloadBlob(blob, filename) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+
+// --- TOAST ---
+let toastTimeout;
+function toast(msg) {
+  const t = $('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// --- INIT ---
+navigator.mediaDevices.getUserMedia({ audio: true }).then(() => enumerateDevices()).catch(() => {
+  $('device-select').innerHTML = '<option>Autorisez l\'accès micro</option>';
+});
+</script>
+</body>
+</html>
