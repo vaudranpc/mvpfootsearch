@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
@@ -11,9 +11,9 @@
       crossorigin="anonymous"
     />
     <script src="header.js"></script>
-     <link rel="stylesheet" href="x.css">
+    <link rel="stylesheet" href="x.css" />
   </head>
-  <body class=" text-center p-4">
+  <body class="text-center p-4">
     <div id="header-container"></div>
     <h1>Politik 225</h1>
     <h2 class="mb-4">derniere infos sur les joueurs</h2>
@@ -24,13 +24,34 @@
     <div id="footer-container"></div>
     <script>
       const myArray = [
-  "Yahia 𝗙𝗼𝗳𝗮𝗻𝗮","Mohamed 𝗞𝗼𝗻𝗲","Alban 𝗟𝗮𝗳𝗼𝗻𝘁","Emmanuel 𝗔𝗴𝗯𝗮𝗱𝗼𝘂",
-  "Guela 𝗗𝗼𝘂𝗲","Jean-Philippe 𝗚𝗯𝗮𝗺𝗶𝗻","Ghislain 𝗞𝗼𝗻𝗮𝗻","Odillon 𝗞𝗼𝘀𝘀𝗼𝘂𝗻𝗼𝘂",
-  "Evan 𝗡𝗱𝗶𝗰𝗸𝗮","Christopher 𝗢𝗽𝗲𝗿𝗶","Wilfried 𝗦𝗶𝗻𝗴𝗼","Seko 𝗙𝗼𝗳𝗮𝗻𝗮","Franck 𝗞𝗲𝘀𝘀𝗶𝗲",
-  "Ibrahim 𝗦𝗮𝗻𝗴𝗮𝗿𝗲","Pacôme 𝗭𝗼𝘂𝘇𝗼𝘂𝗮","Simon 𝗔𝗱𝗶𝗻𝗴𝗿𝗮","Oumar 𝗗𝗶𝗮𝗸𝗶𝘁𝗲","Amad 𝗗𝗶𝗮𝗹𝗹𝗼",
-  "Yvan 𝗗𝗶𝗼𝗺𝗮𝗻𝗱𝗲","Evan 𝗚𝘂𝗲𝘀𝘀𝗮𝗻𝗱","Sébastien 𝗛𝗮𝗹𝗹𝗲𝗿","Nicolas 𝗣𝗲𝗽𝗲","Bazoumana 𝗧𝗼𝘂𝗿𝗲"
-  
-];
+        "Yahia 𝗙𝗼𝗳𝗮𝗻𝗮",
+        "Mohamed 𝗞𝗼𝗻𝗲",
+        "Alban 𝗟𝗮𝗳𝗼𝗻𝘁",
+        "Emmanuel 𝗔𝗴𝗯𝗮𝗱𝗼𝘂",
+        "Guela 𝗗𝗼𝘂𝗲",
+        "Jean-Philippe 𝗚𝗯𝗮𝗺𝗶𝗻",
+        "Ghislain 𝗞𝗼𝗻𝗮𝗻",
+        "Odillon 𝗞𝗼𝘀𝘀𝗼𝘂𝗻𝗼𝘂",
+        "Evan 𝗡𝗱𝗶𝗰𝗸𝗮",
+        "Christopher 𝗢𝗽𝗲𝗿𝗶",
+        "Wilfried 𝗦𝗶𝗻𝗴𝗼",
+        "Seko 𝗙𝗼𝗳𝗮𝗻𝗮",
+        "Franck 𝗞𝗲𝘀𝘀𝗶𝗲",
+        "Ibrahim 𝗦𝗮𝗻𝗴𝗮𝗿𝗲",
+        "Pacôme 𝗭𝗼𝘂𝘇𝗼𝘂𝗮",
+        "Simon 𝗔𝗱𝗶𝗻𝗴𝗿𝗮",
+        "Oumar 𝗗𝗶𝗮𝗸𝗶𝘁𝗲",
+        "Amad 𝗗𝗶𝗮𝗹𝗹𝗼",
+        "martial godo",
+        "yan Diomandé",
+        "Ange Yohan Bonny",
+        "Yan 𝗗𝗶𝗼𝗺𝗮𝗻𝗱𝗲",
+        "Evan 𝗚𝘂𝗲𝘀𝘀𝗮𝗻𝗱",
+        "Sébastien 𝗛𝗮𝗹𝗹𝗲𝗿",
+        "Nicolas 𝗣𝗲𝗽𝗲",
+        "Bazoumana 𝗧𝗼𝘂𝗿𝗲",
+        "Elye Wahi",
+      ];
       const baseUrl = "https://www.facebook.com/search/posts?q=";
       const suite =
         "&filters=eyJyZWNlbnRfcG9zdHM6MCI6IntcIm5hbWVcIjpcInJlY2VudF9wb3N0c1wiLFwiYXJnc1wiOlwiXCJ9In0%3D";
@@ -38,11 +59,32 @@
       const container = document.getElementById("link-container");
 
       const colors = [
-        "#ea194b", "#3cb44b", "#ffe119", "#4363d8", "#58231", "#911eb4",
-        "#4ff020", "#f032e6", "#bcf60c", "#fabebe", "#008080", "#317713",
-        "#9a6324", "#5e45f4", "#800000", "#8affc3", "#808000", "#ffd8b1",
-        "#000075", "#808080", "#f34fff", "#a9a9a9", "#00ee000", "#a52a2a",
-        "#7fefd4", "#9f69b4"
+        "#ea194b",
+        "#3cb44b",
+        "#ffe119",
+        "#4363d8",
+        "#58231",
+        "#911eb4",
+        "#4ff020",
+        "#f032e6",
+        "#bcf60c",
+        "#fabebe",
+        "#008080",
+        "#317713",
+        "#9a6324",
+        "#5e45f4",
+        "#800000",
+        "#8affc3",
+        "#808000",
+        "#ffd8b1",
+        "#000075",
+        "#808080",
+        "#f34fff",
+        "#a9a9a9",
+        "#00ee000",
+        "#a52a2a",
+        "#7fefd4",
+        "#9f69b4",
       ];
 
       myArray.forEach((item) => {
@@ -73,8 +115,6 @@
 
         container.appendChild(link);
       });
-
-     
     </script>
   </body>
 </html>
