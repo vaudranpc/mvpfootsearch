@@ -1,134 +1,133 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <title>Dernières vidéos YouTube</title>
- 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f7f7f7;
-      padding: 30px;
-      text-align: center;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <title>Dernières vidéos YouTube</title>
 
-    h1 {
-      margin-bottom: 40px;
-    }
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f7f7f7;
+        padding: 30px;
+        text-align: center;
+      }
 
-    .video-row {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 40px;
-    }
+      h1 {
+        margin-bottom: 40px;
+      }
 
-    .video-box {
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-      width: 100%;
-      max-width: 600px;
-    }
+      .video-row {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 40px;
+      }
 
-    iframe {
-      width: 100%;
-      height: 340px;
-      border: none;
-      border-radius: 8px;
-    }
+      .video-box {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        width: 100%;
+        max-width: 600px;
+      }
 
-    .channel-name {
-      margin-top: 10px;
-      font-weight: bold;
-      font-size: 1.1em;
-    }
-  </style>
-  <script src="header.js"></script>
-  <link rel="stylesheet" href="x.css">
-</head>
-<body>
+      iframe {
+        width: 100%;
+        height: 340px;
+        border: none;
+        border-radius: 8px;
+      }
+
+      .channel-name {
+        margin-top: 10px;
+        font-weight: bold;
+        font-size: 1.1em;
+      }
+    </style>
+    <script src="header.js"></script>
+    <link rel="stylesheet" href="x.css" />
+  </head>
+  <body>
     <div id="header-container"></div>
-  <h1>Dernières vidéos de chaque chaîne</h1>
-  <div class="video-row" id="videos-container">
-    <!-- Les vidéos seront insérées ici -->
-  </div>
-  <div id="footer-container"></div>
-  <script>
-    const channels = [
-      {
-        id: "UCwFaqM7YqbtPGzi7vBPdIgw", // Exemple : Google Developers
-        name: "koro foot"
-      },
-      {
-        id: "UCIJZA6SJ3JjvuOZgYPYOHnA", // Exemple : Traversy Media
-        name: "wiloo"
-      },
-      {
-        id: "UCsadXomBhBQQxA1IL9zauNA", // Exemple : Traversy Media
-        name: "Les OUTSIDERZ"
-      },
-      {
-        id: "UClCtfAEOV8itLuOpUAe2K8A", // Exemple : Traversy Media
-        name: "Le monde du foot ivorien "
-      },
-      {
-        id: "UCbsU4t5qDReIe4GAHIrnCyg", // Exemple : Traversy Media
-        name: "DH sport tv 1 "
-      },
-      {
-        id: "UCsVHltSiT1p-Mezz28R3WIw", // Exemple : Traversy Media
-        name: "LEG FOot "
-      },
-      {
-        id: "UCKjLMVAp2w7rN_T_xGVEdaA", // Exemple : Traversy Media
-        name: "talk my football "
-      },
-      {
-        id: "UCxfusAsd_n5AMFheiipyaCw", // Exemple : Traversy Media
-        name: "Romain Molina"
-      }
-      ,
-      {
-        id: "UCZjxWFpGxuGK9zbEQq-b9eg", // Exemple : Traversy Media
-        name: "Real France"
-      },
-      {
-        id: "UCEWPsAL5QOfk5f-aoN2CLtA", // Exemple : Traversy Media
-        name: "Riles"
-      }
-    
-    ];
+    <h1>Dernières vidéos de chaque chaîne</h1>
+    <div class="video-row" id="videos-container">
+      <!-- Les vidéos seront insérées ici -->
+    </div>
+    <div id="footer-container"></div>
+    <script>
+      const channels = [
+        {
+          id: "UCwFaqM7YqbtPGzi7vBPdIgw", // Exemple : Google Developers
+          name: "koro foot",
+        },
+        {
+          id: "UCIJZA6SJ3JjvuOZgYPYOHnA", // Exemple : Traversy Media
+          name: "wiloo",
+        },
+        {
+          id: "UCsadXomBhBQQxA1IL9zauNA", // Exemple : Traversy Media
+          name: "Les OUTSIDERZ",
+        },
+        {
+          id: "UCloMWPH4elJOudSdoQxhXIg", // Exemple : Traversy Media
+          name: "topfoot",
+        },
+        {
+          id: "UCbsU4t5qDReIe4GAHIrnCyg", // Exemple : Traversy Media
+          name: "DH sport tv 1 ",
+        },
+        {
+          id: "UCsVHltSiT1p-Mezz28R3WIw", // Exemple : Traversy Media
+          name: "LEG FOot ",
+        },
+        {
+          id: "UCKjLMVAp2w7rN_T_xGVEdaA", // Exemple : Traversy Media
+          name: "talk my football ",
+        },
+        {
+          id: "UCxfusAsd_n5AMFheiipyaCw", // Exemple : Traversy Media
+          name: "Romain Molina",
+        },
+        {
+          id: "UCZjxWFpGxuGK9zbEQq-b9eg", // Exemple : Traversy Media
+          name: "Real France",
+        },
+        {
+          id: "UCEWPsAL5QOfk5f-aoN2CLtA", // Exemple : Traversy Media
+          name: "Riles",
+        },
+      ];
 
-    const container = document.getElementById("videos-container");
+      const container = document.getElementById("videos-container");
 
-    channels.forEach(channel => {
-      const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channel.id}`;
+      channels.forEach((channel) => {
+        const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channel.id}`;
 
-      fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`)
-        .then(response => response.json())
-        .then(data => {
-          const videoId = data.items[0].link.split('=')[1];
-          const videoBox = document.createElement("div");
-          videoBox.className = "video-box";
+        fetch(
+          `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`,
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            const videoId = data.items[0].link.split("=")[1];
+            const videoBox = document.createElement("div");
+            videoBox.className = "video-box";
 
-          videoBox.innerHTML = `
+            videoBox.innerHTML = `
             <iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe>
             <div class="channel-name">${channel.name}</div>
           `;
 
-          container.appendChild(videoBox);
-        })
-        .catch(error => {
-          const errorBox = document.createElement("div");
-          errorBox.className = "video-box";
-          errorBox.textContent = `Erreur de chargement pour ${channel.name}`;
-          container.appendChild(errorBox);
-          console.error(error);
-        });
-    });
-    
-  </script>
-</body>
+            container.appendChild(videoBox);
+          })
+          .catch((error) => {
+            const errorBox = document.createElement("div");
+            errorBox.className = "video-box";
+            errorBox.textContent = `Erreur de chargement pour ${channel.name}`;
+            container.appendChild(errorBox);
+            console.error(error);
+          });
+      });
+    </script>
+  </body>
 </html>
