@@ -1,55 +1,1068 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Mes Boutons</title>
-    
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Le Carnet</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display&display=swap"
+      rel="stylesheet"
+    />
     <style>
-        body {
-            background-color: #f8f9fa;
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      :root {
+        --bg: #0d0f14;
+        --bg2: #13161e;
+        --bg3: #1a1e2a;
+        --border: #ffffff0f;
+        --border-h: #ffffff1a;
+        --text: #f0f2f8;
+        --muted: #6b7280;
+        --muted2: #9ca3af;
+        --blue: #3b82f6;
+        --blue-dim: #1d3461;
+        --green: #10b981;
+        --purple: #8b5cf6;
+        --orange: #f59e0b;
+        --red: #ef4444;
+        --teal: #06b6d4;
+        --font: "DM Sans", sans-serif;
+        --font-d: "DM Serif Display", serif;
+        --r: 12px;
+        --rs: 8px;
+      }
+      html,
+      body {
+        height: 100%;
+        overflow: hidden;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font);
+        font-size: 14px;
+        line-height: 1.6;
+        display: flex;
+        flex-direction: column;
+      }
+      ::-webkit-scrollbar {
+        width: 4px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--border-h);
+        border-radius: 99px;
+      }
+
+      .app {
+        display: flex;
+        flex: 1;
+        overflow: hidden;
+        height: calc(100vh - 38px);
+      }
+
+      /* sidebar */
+      .sidebar {
+        width: 280px;
+        background: var(--bg2);
+        border-right: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        flex-shrink: 0;
+      }
+      .sb-top {
+        padding: 20px 16px 12px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 18px;
+      }
+      .brand-icon {
+        width: 32px;
+        height: 32px;
+        background: var(--blue);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        flex-shrink: 0;
+      }
+      .brand-name {
+        font-family: var(--font-d);
+        font-size: 18px;
+      }
+      .brand-sub {
+        font-size: 10px;
+        color: var(--muted);
+        letter-spacing: 0.5px;
+        margin-top: -2px;
+      }
+      #btnNew {
+        width: 100%;
+        padding: 9px 14px;
+        background: var(--blue);
+        color: #fff;
+        border: none;
+        border-radius: var(--rs);
+        font-family: var(--font);
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        transition: opacity 0.15s;
+      }
+      #btnNew:hover {
+        opacity: 0.88;
+      }
+      .search-box {
+        margin: 10px 16px;
+        position: relative;
+      }
+      .search-box input {
+        width: 100%;
+        background: var(--bg3);
+        border: 1px solid var(--border);
+        border-radius: var(--rs);
+        padding: 8px 12px 8px 34px;
+        color: var(--text);
+        font-family: var(--font);
+        font-size: 13px;
+        outline: none;
+        transition: border-color 0.15s;
+      }
+      .search-box input:focus {
+        border-color: var(--blue);
+      }
+      .search-box input::placeholder {
+        color: var(--muted);
+      }
+      .si {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--muted);
+        pointer-events: none;
+        font-size: 13px;
+      }
+      .filters {
+        padding: 6px 12px 10px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+      }
+      .pill {
+        padding: 4px 10px;
+        border-radius: 99px;
+        border: 1px solid var(--border);
+        background: none;
+        color: var(--muted2);
+        font-family: var(--font);
+        font-size: 11px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.15s;
+      }
+      .pill:hover,
+      .pill.on {
+        border-color: var(--blue);
+        color: var(--blue);
+        background: var(--blue-dim);
+      }
+      .notes-list {
+        flex: 1;
+        overflow-y: auto;
+        padding: 4px 8px 12px;
+      }
+      .nc {
+        padding: 11px 12px;
+        border-radius: var(--rs);
+        cursor: pointer;
+        margin-bottom: 3px;
+        border: 1px solid transparent;
+        transition:
+          background 0.15s,
+          border-color 0.15s;
+        position: relative;
+        overflow: hidden;
+      }
+      .nc:hover {
+        background: var(--bg3);
+        border-color: var(--border);
+      }
+      .nc.on {
+        background: var(--bg3);
+        border-color: var(--border-h);
+      }
+      .nc::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        opacity: 0;
+        transition: opacity 0.15s;
+        background: var(--tc, #fff);
+      }
+      .nc.on::before {
+        opacity: 1;
+      }
+      .nc-t {
+        font-size: 13px;
+        font-weight: 500;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-bottom: 3px;
+      }
+      .nc-p {
+        font-size: 11px;
+        color: var(--muted);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-bottom: 6px;
+      }
+      .nc-f {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .nc-d {
+        font-size: 10px;
+        color: var(--muted);
+      }
+      .nc-b {
+        font-size: 9px;
+        font-weight: 600;
+        padding: 2px 7px;
+        border-radius: 99px;
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+        background: var(--tb, #222);
+        color: var(--tc, #fff);
+      }
+      .empty-list {
+        text-align: center;
+        padding: 40px 16px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(5px);
         }
-        .container {
-            margin-top: 50px;
+        to {
+          opacity: 1;
+          transform: none;
         }
-        .btn-custom {
-            width: 100%;
-            margin-bottom: 15px;
-        }
+      }
+      .nc {
+        animation: fadeUp 0.18s ease both;
+      }
+
+      /* main */
+      .main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      .topbar {
+        height: 52px;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        padding: 0 24px;
+        gap: 10px;
+        flex-shrink: 0;
+        background: var(--bg);
+      }
+      .tb-title {
+        font-family: var(--font-d);
+        font-size: 16px;
+        flex: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: var(--muted);
+      }
+      .tb-btn {
+        padding: 7px 14px;
+        border-radius: var(--rs);
+        border: 1px solid var(--border);
+        background: none;
+        color: var(--muted2);
+        font-family: var(--font);
+        font-size: 12px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.15s;
+        white-space: nowrap;
+      }
+      .tb-btn:hover {
+        border-color: var(--border-h);
+        color: var(--text);
+      }
+      .tb-btn.pri {
+        background: var(--blue);
+        border-color: var(--blue);
+        color: #fff;
+      }
+      .tb-btn.pri:hover {
+        opacity: 0.88;
+      }
+      .tb-btn.danger {
+        border-color: #ef444433;
+        color: var(--red);
+      }
+      .tb-btn.danger:hover {
+        background: #ef444411;
+      }
+      .content {
+        flex: 1;
+        overflow-y: auto;
+        padding: 32px 40px;
+        background: var(--bg);
+      }
+
+      /* empty */
+      .empty-main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        gap: 12px;
+        color: var(--muted);
+      }
+      .empty-main svg {
+        opacity: 0.12;
+      }
+      .empty-main p {
+        font-size: 13px;
+      }
+
+      /* read */
+      .read-type-pill {
+        display: inline-flex;
+        padding: 4px 12px;
+        border-radius: 99px;
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 14px;
+      }
+      .read-h {
+        font-family: var(--font-d);
+        font-size: 34px;
+        line-height: 1.25;
+        margin-bottom: 16px;
+        animation: fadeUp 0.25s ease both;
+      }
+      .meta-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        padding: 14px 0;
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 24px;
+      }
+      .meta-it {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+      .meta-l {
+        font-size: 10px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      .meta-v {
+        font-size: 13px;
+        color: var(--muted2);
+      }
+      .read-body {
+        font-size: 15px;
+        line-height: 1.85;
+        color: #c8cdd8;
+        white-space: pre-wrap;
+        animation: fadeUp 0.3s ease both;
+      }
+      .kw-row {
+        margin-top: 24px;
+        padding-top: 16px;
+        border-top: 1px solid var(--border);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .kw-chip {
+        padding: 4px 10px;
+        background: var(--bg3);
+        border: 1px solid var(--border);
+        border-radius: 99px;
+        font-size: 11px;
+        color: var(--muted2);
+      }
+
+      /* edit */
+      .field {
+        margin-bottom: 18px;
+      }
+      .fl {
+        font-size: 10px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        margin-bottom: 6px;
+      }
+      #fTitle {
+        width: 100%;
+        background: none;
+        border: none;
+        border-bottom: 1px solid var(--border);
+        padding: 6px 0;
+        font-family: var(--font-d);
+        font-size: 28px;
+        color: var(--text);
+        outline: none;
+        transition: border-color 0.15s;
+      }
+      #fTitle:focus {
+        border-bottom-color: var(--blue);
+      }
+      #fTitle::placeholder {
+        color: var(--bg3);
+      }
+      .grid3 {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 14px;
+        margin-bottom: 18px;
+      }
+      .inp {
+        width: 100%;
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: var(--rs);
+        padding: 9px 12px;
+        color: var(--text);
+        font-family: var(--font);
+        font-size: 13px;
+        outline: none;
+        transition: border-color 0.15s;
+        appearance: none;
+      }
+      .inp:focus {
+        border-color: var(--blue);
+      }
+      .inp::placeholder {
+        color: var(--muted);
+      }
+      option {
+        background: var(--bg2);
+      }
+      #fContent {
+        width: 100%;
+        min-height: 320px;
+        resize: vertical;
+        line-height: 1.75;
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: var(--rs);
+        padding: 12px 14px;
+        color: var(--text);
+        font-family: var(--font);
+        font-size: 14px;
+        outline: none;
+        transition: border-color 0.15s;
+      }
+      #fContent:focus {
+        border-color: var(--blue);
+      }
+
+      /* statusbar */
+      .sbar {
+        height: 38px;
+        background: var(--bg2);
+        border-top: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        padding: 0 20px;
+        gap: 20px;
+        font-size: 11px;
+        color: var(--muted);
+        flex-shrink: 0;
+      }
+      .sbar b {
+        color: var(--muted2);
+        font-weight: 500;
+      }
+      .sep {
+        opacity: 0.3;
+      }
+      .sbar-r {
+        margin-left: auto;
+        display: flex;
+        gap: 8px;
+      }
+      .sba {
+        background: none;
+        border: 1px solid var(--border);
+        color: var(--muted);
+        padding: 3px 10px;
+        border-radius: 5px;
+        font-family: var(--font);
+        font-size: 10px;
+        cursor: pointer;
+        transition: all 0.15s;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+      }
+      .sba:hover {
+        border-color: var(--border-h);
+        color: var(--text);
+      }
+
+      /* toast */
+      #toast {
+        position: fixed;
+        bottom: 52px;
+        left: 50%;
+        transform: translateX(-50%) translateY(8px);
+        background: var(--bg3);
+        border: 1px solid var(--border-h);
+        color: var(--text);
+        padding: 8px 18px;
+        border-radius: var(--rs);
+        font-size: 12px;
+        opacity: 0;
+        transition:
+          opacity 0.2s,
+          transform 0.2s;
+        pointer-events: none;
+        z-index: 999;
+        white-space: nowrap;
+      }
+      #toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
     </style>
-<script src="header.js"></script>
-     <link rel="stylesheet" href="x.css">
+    <script src="header.js"></script>
   </head>
   <body>
-
-     <div id="header-container"></div>
-<div class="container text-center">
-    <h1 class="mb-4">Mes Liens</h1>
-
-    <div class="row">
-        <div class="col-md-4">
-            <a href="https://datamvpgroup.onrender.com" target="_blank" class="btn btn-primary btn-custom">données statistique</a>
-            <a href="https://pascoufoot.onrender.com" class="btn btn-secondary btn-custom" target="_blank" >Mvp Foot</a>
-            <a href="https://blogmvpfoot.onrender.com" class="btn btn-success btn-custom" target="_blank" >Real Madrid</a>
-            <a href="https://faturepascou.onrender.com" class="btn btn-danger btn-custom" target="_blank" >Facture</a>
-            <a href="https://votemvpfoot.html" class="btn btn-success btn-custom" target="_blank" >voter</a>
+    <div id="header-container"></div>
+    <div class="app">
+      <div class="sidebar">
+        <div class="sb-top">
+          <div class="brand">
+            <div class="brand-icon">✍</div>
+            <div>
+              <div class="brand-name">Le Carnet</div>
+              <div class="brand-sub">Notes journalistiques</div>
+            </div>
+          </div>
+          <button id="btnNew">
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 16 16"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+            >
+              <line x1="8" y1="2" x2="8" y2="14" />
+              <line x1="2" y1="8" x2="14" y2="8" />
+            </svg>
+            Nouvelle note
+          </button>
         </div>
-
-        <div class="col-md-4">
-            <a href="mvpfootpost.netlify.app" class="btn btn-warning btn-custom" target="_blank" >Post foot</a>
-            <a href="politik225.netlify.app" class="btn btn-info btn-custom" target="_blank" >politik 225</a>
-            <a href="mvpfootsearch.netlify.app" class="btn btn-dark btn-custom" target="_blank" >mvp foot search</a>
+        <div class="search-box">
+          <span class="si">⌕</span>
+          <input id="searchInput" type="text" placeholder="Rechercher…" />
         </div>
-
-        <div class="col-md-4">
-            <a href="mvpinfo.netlify.app" class="btn btn-primary btn-custom" target="_blank" >mvp info post</a>
-            <a href="mvpniouz.netlify.app" class="btn btn-secondary btn-custom" target="_blank" >mvp niouz post</a>
-            <a href="page10.html" class="btn btn-success btn-custom" target="_blank" >Bouton 10</a>
+        <div class="filters">
+          <button class="pill on" data-f="tout">Tout</button>
+          <button class="pill" data-f="breve">Brève</button>
+          <button class="pill" data-f="enquete">Enquête</button>
+          <button class="pill" data-f="reportage">Reportage</button>
+          <button class="pill" data-f="interview">Interview</button>
+          <button class="pill" data-f="note">Note</button>
         </div>
+        <div class="notes-list" id="notesList"></div>
+      </div>
+
+      <div class="main">
+        <div class="topbar" id="topbar">
+          <span class="tb-title">Le Carnet</span>
+        </div>
+        <div class="content" id="content">
+          <div class="empty-main" id="emptyMain">
+            <svg
+              width="56"
+              height="56"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1"
+            >
+              <path
+                d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+              />
+              <polyline points="14,2 14,8 20,8" />
+              <line x1="16" y1="13" x2="8" y2="13" />
+              <line x1="16" y1="17" x2="8" y2="17" />
+            </svg>
+            <p>Sélectionnez une note ou créez-en une nouvelle</p>
+          </div>
+        </div>
+      </div>
     </div>
-</div>
 
-</body>
+    <div class="sbar">
+      <span><b id="sbCount">0</b> note(s)</span>
+      <span class="sep">|</span>
+      <span id="sbDate"></span>
+      <span class="sep">|</span>
+      <span id="sbWords"></span>
+      <div class="sbar-r">
+        <button class="sba" id="btnExTxt">↓ Export .txt</button>
+        <button class="sba" id="btnExJson">↓ Sauvegarde</button>
+        <button class="sba" id="btnImport">↑ Importer</button>
+        <input type="file" id="fileIn" accept=".json" style="display: none" />
+      </div>
+    </div>
+    <div id="toast"></div>
+
+    <script>
+      const KEY = "carnet_v2";
+      const TC = {
+        breve: "#3B82F6",
+        enquete: "#8B5CF6",
+        reportage: "#10B981",
+        interview: "#F59E0B",
+        note: "#06B6D4",
+      };
+      const TB = {
+        breve: "#1D3461",
+        enquete: "#2D1B69",
+        reportage: "#064E3B",
+        interview: "#78350F",
+        note: "#164E63",
+      };
+
+      let notes = [],
+        activeId = null,
+        editMode = false,
+        filter = "tout";
+
+      /* utils */
+      const uid = () =>
+        "n" + Date.now() + Math.random().toString(36).slice(2, 6);
+      const now = () => new Date().toISOString();
+      const fmt = (iso) =>
+        new Date(iso).toLocaleDateString("fr-FR", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+      const fmtS = (iso) =>
+        new Date(iso).toLocaleDateString("fr-FR", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+        });
+      const esc = (s) => {
+        const d = document.createElement("div");
+        d.appendChild(document.createTextNode(s));
+        return d.innerHTML;
+      };
+      const eattr = (s) => (s || "").replace(/"/g, "&quot;");
+      const $ = (id) => document.getElementById(id);
+
+      function load() {
+        try {
+          notes = JSON.parse(localStorage.getItem(KEY) || "[]");
+        } catch {
+          notes = [];
+        }
+      }
+      function persist() {
+        localStorage.setItem(KEY, JSON.stringify(notes));
+        updateSbar();
+      }
+
+      function toast(msg) {
+        const el = $("toast");
+        el.textContent = msg;
+        el.classList.add("show");
+        clearTimeout(el._t);
+        el._t = setTimeout(() => el.classList.remove("show"), 2600);
+      }
+
+      function updateSbar() {
+        $("sbCount").textContent = notes.length;
+        $("sbDate").textContent = new Date().toLocaleDateString("fr-FR", {
+          weekday: "short",
+          day: "2-digit",
+          month: "long",
+          year: "numeric",
+        });
+      }
+
+      function setWords(txt) {
+        const w = (txt || "").trim().split(/\s+/).filter(Boolean).length;
+        $("sbWords").textContent = w ? w + " mot" + (w > 1 ? "s" : "") : "";
+      }
+
+      /* list */
+      function renderList() {
+        const q = $("searchInput").value.toLowerCase();
+        const list = notes
+          .filter((n) => {
+            const fOk = filter === "tout" || n.type === filter;
+            const qOk =
+              !q ||
+              n.title.toLowerCase().includes(q) ||
+              n.content.toLowerCase().includes(q) ||
+              (n.keywords || "").toLowerCase().includes(q);
+            return fOk && qOk;
+          })
+          .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
+
+        const el = $("notesList");
+        if (!list.length) {
+          el.innerHTML = '<div class="empty-list">Aucune note</div>';
+          return;
+        }
+
+        el.innerHTML = "";
+        list.forEach((n, i) => {
+          const div = document.createElement("div");
+          div.className = "nc" + (n.id === activeId ? " on" : "");
+          div.style.cssText = `--tc:${TC[n.type] || "#fff"};--tb:${TB[n.type] || "#222"};animation-delay:${i * 25}ms`;
+          div.dataset.id = n.id;
+          div.innerHTML = `<div class="nc-t">${esc(n.title || "Sans titre")}</div>
+      <div class="nc-p">${esc((n.content || "").slice(0, 65))}</div>
+      <div class="nc-f"><span class="nc-d">${fmtS(n.updatedAt)}</span>
+      <span class="nc-b">${n.type}</span></div>`;
+          div.addEventListener("click", () => selectNote(n.id));
+          el.appendChild(div);
+        });
+      }
+
+      /* select */
+      function selectNote(id) {
+        activeId = id;
+        editMode = false;
+        renderList();
+        const n = notes.find((x) => x.id === id);
+        if (n) showRead(n);
+      }
+
+      /* read */
+      function showRead(n) {
+        const c = TC[n.type] || "#fff",
+          bg = TB[n.type] || "#222";
+        setTopbar("read", n.title || "Sans titre");
+        const kw = (n.keywords || "")
+          .split(",")
+          .map((k) => k.trim())
+          .filter(Boolean);
+        $("content").innerHTML = `
+    <div style="margin-bottom:24px">
+      <span class="read-type-pill" style="background:${bg};color:${c}">${n.type}</span>
+      <div class="read-h">${esc(n.title || "Sans titre")}</div>
+    </div>
+    <div class="meta-row">
+      <div class="meta-it"><div class="meta-l">Créé</div><div class="meta-v">${fmt(n.createdAt)}</div></div>
+      <div class="meta-it"><div class="meta-l">Modifié</div><div class="meta-v">${fmt(n.updatedAt)}</div></div>
+      ${n.source ? `<div class="meta-it"><div class="meta-l">Source</div><div class="meta-v">${esc(n.source)}</div></div>` : ""}
+    </div>
+    <div class="read-body">${esc(n.content || "")}</div>
+    ${kw.length ? `<div class="kw-row">${kw.map((k) => `<span class="kw-chip">${esc(k)}</span>`).join("")}</div>` : ""}`;
+        setWords(n.content);
+      }
+
+      /* edit */
+      function showEdit(n) {
+        setTopbar("edit");
+        $("content").innerHTML = `
+    <div class="field">
+      <div class="fl">Titre</div>
+      <input id="fTitle" class="f-edit-title" type="text" placeholder="Titre de l'article…"/>
+    </div>
+    <div class="grid3">
+      <div><div class="fl">Type</div>
+        <select id="fType" class="inp">
+          ${["breve", "enquete", "reportage", "interview", "note"].map((t) => `<option value="${t}">${t.charAt(0).toUpperCase() + t.slice(1)}</option>`).join("")}
+        </select>
+      </div>
+      <div><div class="fl">Source</div><input id="fSource" class="inp" type="text" placeholder="Nom, agence, terrain…"/></div>
+      <div><div class="fl">Mots-clés</div><input id="fKw" class="inp" type="text" placeholder="politique, sport…"/></div>
+    </div>
+    <div class="field">
+      <div class="fl">Contenu</div>
+      <textarea id="fContent"></textarea>
+    </div>`;
+
+        /* apply style to title input */
+        const ti = $("fTitle");
+        ti.style.cssText =
+          "width:100%;background:none;border:none;border-bottom:1px solid var(--border);padding:6px 0;font-family:var(--font-d);font-size:28px;color:var(--text);outline:none";
+        ti.value = eattr(n.title || "").replace(/&quot;/g, '"');
+
+        $("fType").value = n.type || "note";
+        $("fSource").value = n.source || "";
+        $("fKw").value = n.keywords || "";
+        $("fContent").value = n.content || "";
+        $("fContent").addEventListener("input", function () {
+          setWords(this.value);
+        });
+        ti.focus();
+        setWords(n.content);
+      }
+
+      /* topbar */
+      function setTopbar(mode, title) {
+        const tb = $("topbar");
+        tb.innerHTML = "";
+        const t = document.createElement("span");
+        t.className = "tb-title";
+        t.textContent = mode === "edit" ? "Édition" : title || "Sans titre";
+        tb.appendChild(t);
+
+        if (mode === "read") {
+          const bEdit = mkBtn("Modifier", "");
+          const bDel = mkBtn("Supprimer", "danger");
+          bEdit.addEventListener("click", () => {
+            editMode = true;
+            const n = notes.find((x) => x.id === activeId);
+            if (n) showEdit(n);
+          });
+          bDel.addEventListener("click", deleteNote);
+          tb.appendChild(bEdit);
+          tb.appendChild(bDel);
+        } else {
+          const bCancel = mkBtn("Annuler", "");
+          const bSave = mkBtn("Enregistrer", "pri");
+          bCancel.addEventListener("click", () => {
+            editMode = false;
+            const n = notes.find((x) => x.id === activeId);
+            if (n) showRead(n);
+            else showEmpty();
+          });
+          bSave.addEventListener("click", saveNote);
+          tb.appendChild(bCancel);
+          tb.appendChild(bSave);
+        }
+      }
+
+      function mkBtn(label, cls) {
+        const b = document.createElement("button");
+        b.className = "tb-btn" + (cls ? " " + cls : "");
+        b.textContent = label;
+        return b;
+      }
+
+      function showEmpty() {
+        $("topbar").innerHTML = '<span class="tb-title">Le Carnet</span>';
+        $("content").innerHTML =
+          `<div class="empty-main"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg><p>Sélectionnez une note ou créez-en une nouvelle</p></div>`;
+        $("sbWords").textContent = "";
+      }
+
+      /* CRUD */
+      function newNote() {
+        const n = {
+          id: uid(),
+          title: "",
+          content: "",
+          type: "note",
+          source: "",
+          keywords: "",
+          createdAt: now(),
+          updatedAt: now(),
+        };
+        notes.unshift(n);
+        persist();
+        activeId = n.id;
+        editMode = true;
+        renderList();
+        showEdit(n);
+      }
+
+      function saveNote() {
+        const n = notes.find((x) => x.id === activeId);
+        if (!n) return;
+        n.title = ($("fTitle")?.value || "").trim() || "Sans titre";
+        n.type = $("fType")?.value || "note";
+        n.source = ($("fSource")?.value || "").trim();
+        n.keywords = ($("fKw")?.value || "").trim();
+        n.content = ($("fContent")?.value || "").trim();
+        n.updatedAt = now();
+        persist();
+        renderList();
+        editMode = false;
+        showRead(n);
+        toast("Note enregistrée");
+      }
+
+      function deleteNote() {
+        if (!activeId || !confirm("Supprimer cette note ?")) return;
+        notes = notes.filter((x) => x.id !== activeId);
+        persist();
+        activeId = null;
+        editMode = false;
+        renderList();
+        showEmpty();
+        toast("Note supprimée");
+      }
+
+      /* export / import */
+      function exportTxt() {
+        if (!notes.length) {
+          toast("Aucune note à exporter");
+          return;
+        }
+        const body = notes
+          .slice()
+          .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))
+          .map((n) =>
+            [
+              "═".repeat(60),
+              `TITRE     : ${n.title || "Sans titre"}`,
+              `TYPE      : ${n.type}`,
+              `SOURCE    : ${n.source || "—"}`,
+              `MOTS-CLÉS : ${n.keywords || "—"}`,
+              `CRÉÉ      : ${fmt(n.createdAt)}`,
+              `MODIFIÉ   : ${fmt(n.updatedAt)}`,
+              "─".repeat(60),
+              n.content || "",
+              "",
+            ].join("\n"),
+          )
+          .join("\n");
+        dl(
+          `LE CARNET — EXPORT ${fmt(now())}\n${"═".repeat(60)}\n${notes.length} note(s)\n\n` +
+            body,
+          `carnet_${new Date().toISOString().slice(0, 10)}.txt`,
+          "text/plain",
+        );
+        toast("Export .txt téléchargé");
+      }
+
+      function exportJson() {
+        if (!notes.length) {
+          toast("Aucune note");
+          return;
+        }
+        dl(
+          JSON.stringify(notes, null, 2),
+          `carnet_${new Date().toISOString().slice(0, 10)}.json`,
+          "application/json",
+        );
+        toast("Sauvegarde .json téléchargée");
+      }
+
+      function importJson(file) {
+        const r = new FileReader();
+        r.onload = (e) => {
+          try {
+            const data = JSON.parse(e.target.result);
+            if (!Array.isArray(data)) throw 0;
+            const map = new Map();
+            [...notes, ...data].forEach((n) => {
+              if (!map.has(n.id) || n.updatedAt > map.get(n.id).updatedAt)
+                map.set(n.id, n);
+            });
+            notes = [...map.values()];
+            persist();
+            renderList();
+            toast(data.length + " note(s) importée(s)");
+          } catch {
+            toast("Fichier invalide");
+          }
+        };
+        r.readAsText(file);
+      }
+
+      function dl(content, name, type) {
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(new Blob([content], { type }));
+        a.download = name;
+        a.click();
+        URL.revokeObjectURL(a.href);
+      }
+
+      /* events */
+      $("btnNew").addEventListener("click", newNote);
+      $("searchInput").addEventListener("input", renderList);
+      $("btnExTxt").addEventListener("click", exportTxt);
+      $("btnExJson").addEventListener("click", exportJson);
+      $("btnImport").addEventListener("click", () => $("fileIn").click());
+      $("fileIn").addEventListener("change", function () {
+        if (this.files[0]) {
+          importJson(this.files[0]);
+          this.value = "";
+        }
+      });
+
+      document.querySelectorAll(".pill").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          filter = btn.dataset.f;
+          document
+            .querySelectorAll(".pill")
+            .forEach((b) => b.classList.remove("on"));
+          btn.classList.add("on");
+          renderList();
+        });
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === "s") {
+          e.preventDefault();
+          if (activeId && editMode) saveNote();
+        }
+        if ((e.ctrlKey || e.metaKey) && e.key === "n") {
+          e.preventDefault();
+          newNote();
+        }
+        if (e.key === "Escape" && editMode) {
+          editMode = false;
+          const n = notes.find((x) => x.id === activeId);
+          if (n) showRead(n);
+          else showEmpty();
+        }
+      });
+
+      /* init */
+      load();
+      renderList();
+      updateSbar();
+    </script>
+  </body>
 </html>

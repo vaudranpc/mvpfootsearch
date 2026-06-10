@@ -1,309 +1,373 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MVP Info – Quote Generator</title>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@900&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MVP Info – Quote Generator</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@900&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-  body {
-    background: #111;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 30px 20px;
-    gap: 20px;
-    font-family: 'Barlow Condensed', sans-serif;
-  }
+      body {
+        background: #111;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 30px 20px;
+        gap: 20px;
+        font-family: "Barlow Condensed", sans-serif;
+      }
 
-  .header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .badge {
-    background: #F5A800;
-    color: #000;
-    font-weight: 900;
-    font-size: 16px;
-    padding: 4px 14px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-  }
-  .header span {
-    color: #555;
-    font-size: 13px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-  }
+      .header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .badge {
+        background: #f5a800;
+        color: #000;
+        font-weight: 900;
+        font-size: 16px;
+        padding: 4px 14px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+      }
+      .header span {
+        color: #555;
+        font-size: 13px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+      }
 
-  .preview-wrap {
-    width: 100%;
-    max-width: 960px;
-  }
+      .preview-wrap {
+        width: 100%;
+        max-width: 960px;
+      }
 
-  #capture {
-    width: 960px;
-    height: 540px;
-    background: #000;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 50px 70px;
-    overflow: hidden;
-  }
+      #capture {
+        width: 960px;
+        height: 540px;
+        background: #000;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 50px 70px;
+        overflow: hidden;
+      }
 
-  .preview-text {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 900;
-    font-size: 68px;
-    line-height: 1.05;
-    text-transform: uppercase;
-    color: #fff;
-    letter-spacing: -0.5px;
-    word-break: break-word;
-  }
+      .preview-text {
+        font-family: "Barlow Condensed", sans-serif;
+        font-weight: 900;
+        font-size: 68px;
+        line-height: 1.05;
+        text-transform: uppercase;
+        color: #fff;
+        letter-spacing: -0.5px;
+        word-break: break-word;
+      }
 
-  .controls {
-    width: 100%;
-    max-width: 960px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
+      .controls {
+        width: 100%;
+        max-width: 960px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
 
-  .input-label {
-    color: #888;
-    font-size: 11px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin-bottom: 4px;
-    display: block;
-  }
+      .input-label {
+        color: #888;
+        font-size: 11px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-bottom: 4px;
+        display: block;
+      }
 
-  .input-group {
-    display: flex;
-    flex-direction: column;
-  }
+      .input-group {
+        display: flex;
+        flex-direction: column;
+      }
 
-  textarea {
-    width: 100%;
-    background: #1a1a1a;
-    border: 1px solid #333;
-    border-radius: 4px;
-    color: #fff;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 800;
-    font-size: 18px;
-    padding: 14px 18px;
-    resize: vertical;
-    outline: none;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    line-height: 1.4;
-  }
-  textarea::placeholder { color: #444; }
-  textarea:focus { border-color: #F5A800; }
+      textarea {
+        width: 100%;
+        background: #1a1a1a;
+        border: 1px solid #333;
+        border-radius: 4px;
+        color: #fff;
+        font-family: "Barlow Condensed", sans-serif;
+        font-weight: 800;
+        font-size: 18px;
+        padding: 14px 18px;
+        resize: vertical;
+        outline: none;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        line-height: 1.4;
+      }
+      textarea::placeholder {
+        color: #444;
+      }
+      textarea:focus {
+        border-color: #f5a800;
+      }
 
-  .hint {
-    color: #555;
-    font-size: 11px;
-    letter-spacing: 1px;
-    margin-top: 5px;
-    font-style: italic;
-  }
+      .hint {
+        color: #555;
+        font-size: 11px;
+        letter-spacing: 1px;
+        margin-top: 5px;
+        font-style: italic;
+      }
 
-  .swatch-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-  .swatch-label {
-    color: #888;
-    font-size: 11px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    white-space: nowrap;
-  }
-  .swatch {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    cursor: pointer;
-    border: 2px solid transparent;
-    transition: transform 0.1s;
-    flex-shrink: 0;
-  }
-  .swatch:hover { transform: scale(1.18); }
-  .swatch.active { border-color: #fff; box-shadow: 0 0 0 2px #F5A800; }
+      .swatch-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .swatch-label {
+        color: #888;
+        font-size: 11px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+      .swatch {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        cursor: pointer;
+        border: 2px solid transparent;
+        transition: transform 0.1s;
+        flex-shrink: 0;
+      }
+      .swatch:hover {
+        transform: scale(1.18);
+      }
+      .swatch.active {
+        border-color: #fff;
+        box-shadow: 0 0 0 2px #f5a800;
+      }
 
-  .slider-row {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-  .slider-label {
-    color: #888;
-    font-size: 11px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    white-space: nowrap;
-  }
-  input[type=range] {
-    flex: 1;
-    accent-color: #F5A800;
-    cursor: pointer;
-  }
-  .slider-val {
-    color: #F5A800;
-    font-weight: 900;
-    font-size: 22px;
-    min-width: 30px;
-    text-align: center;
-  }
+      .slider-row {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .slider-label {
+        color: #888;
+        font-size: 11px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+      input[type="range"] {
+        flex: 1;
+        accent-color: #f5a800;
+        cursor: pointer;
+      }
+      .slider-val {
+        color: #f5a800;
+        font-weight: 900;
+        font-size: 22px;
+        min-width: 30px;
+        text-align: center;
+      }
 
-  .btn {
-    align-self: flex-end;
-    background: #F5A800;
-    color: #000;
-    border: none;
-    border-radius: 4px;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 900;
-    font-size: 15px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    padding: 13px 30px;
-    cursor: pointer;
-    transition: opacity 0.15s;
-  }
-  .btn:hover { opacity: 0.85; }
-  .btn:disabled { opacity: 0.5; cursor: wait; }
-</style>
-<script src="header.js"></script>
-</head>
+      .btn {
+        align-self: flex-end;
+        background: #f5a800;
+        color: #000;
+        border: none;
+        border-radius: 4px;
+        font-family: "Barlow Condensed", sans-serif;
+        font-weight: 900;
+        font-size: 15px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        padding: 13px 30px;
+        cursor: pointer;
+        transition: opacity 0.15s;
+      }
+      .btn:hover {
+        opacity: 0.85;
+      }
+      .btn:disabled {
+        opacity: 0.5;
+        cursor: wait;
+      }
+    </style>
+    <script src="header.js"></script>
+  </head>
 
-<body>
+  <body>
     <div id="header-container"></div>
 
-<div class="header">
-  <div class="badge">MVP INFO</div>
-  <span>Quote Generator</span>
-</div>
+    <div class="header">
+      <div class="badge">MVP INFO</div>
+      <span>Quote Generator</span>
+    </div>
 
-<div class="preview-wrap">
-  <div id="capture">
-    <div class="preview-text" id="preview"></div>
-  </div>
-</div>
+    <div class="preview-wrap">
+      <div id="capture">
+        <div class="preview-text" id="preview"></div>
+      </div>
+    </div>
 
-<div class="controls">
+    <div class="controls">
+      <div class="input-group">
+        <span class="input-label">Quote complète</span>
+        <textarea
+          id="inputText"
+          rows="3"
+          placeholder="ÉCRIS TOUTE TA QUOTE ICI..."
+        >
+Guéla Doué freiné par un virus, retour attendu pour la demi-finale de Ligue Europa Conférence.</textarea
+        >
+      </div>
 
-  <div class="input-group">
-    <span class="input-label">Quote complète</span>
-    <textarea id="inputText" rows="3" placeholder="ÉCRIS TOUTE TA QUOTE ICI...">Guéla Doué freiné par un virus, retour attendu pour la demi-finale de Ligue Europa Conférence.</textarea>
-  </div>
+      <div class="input-group">
+        <span class="input-label"
+          >Portion à colorier (copie un bout de la quote)</span
+        >
+        <textarea
+          id="inputHighlight"
+          rows="2"
+          placeholder="COPIE LA PORTION À COLORIER..."
+        >
+demi-finale de Ligue Europa Conférence</textarea
+        >
+        <span class="hint"
+          >La portion copiée sera mise en couleur dans la quote ci-dessus.</span
+        >
+      </div>
 
-  <div class="input-group">
-    <span class="input-label">Portion à colorier (copie un bout de la quote)</span>
-    <textarea id="inputHighlight" rows="2" placeholder="COPIE LA PORTION À COLORIER...">demi-finale de Ligue Europa Conférence</textarea>
-    <span class="hint">La portion copiée sera mise en couleur dans la quote ci-dessus.</span>
-  </div>
+      <div class="swatch-row">
+        <span class="swatch-label">Couleur :</span>
+        <div
+          id="swatches"
+          style="display: flex; gap: 10px; flex-wrap: wrap"
+        ></div>
+      </div>
 
-  <div class="swatch-row">
-    <span class="swatch-label">Couleur :</span>
-    <div id="swatches" style="display:flex;gap:10px;flex-wrap:wrap;"></div>
-  </div>
+      <div class="slider-row">
+        <span class="slider-label">Taille :</span>
+        <input
+          type="range"
+          id="slider"
+          min="20"
+          max="100"
+          value="68"
+          step="1"
+        />
+        <span class="slider-val" id="sliderVal">68</span>
+      </div>
 
-  <div class="slider-row">
-    <span class="slider-label">Taille :</span>
-    <input type="range" id="slider" min="20" max="100" value="68" step="1">
-    <span class="slider-val" id="sliderVal">68</span>
-  </div>
+      <button class="btn" id="dlBtn">↓ Télécharger PNG</button>
+    </div>
 
-  <button class="btn" id="dlBtn">↓ Télécharger PNG</button>
-</div>
+    <script>
+      const COLORS = [
+        "#F5A800",
+        "#FF4444",
+        "#00E676",
+        "#29B6F6",
+        "#CE93D8",
+        "#FF7043",
+        "#F48FB1",
+        "#80CBC4",
+        "#FFFFFF",
+      ];
+      let activeColor = "#F5A800";
 
-<script>
-  const COLORS = [
-    '#F5A800', '#FF4444', '#00E676', '#29B6F6',
-    '#CE93D8', '#FF7043', '#F48FB1', '#80CBC4', '#FFFFFF'
-  ];
-  let activeColor = '#F5A800';
+      const swatchContainer = document.getElementById("swatches");
+      COLORS.forEach((hex) => {
+        const s = document.createElement("div");
+        s.className = "swatch" + (hex === activeColor ? " active" : "");
+        s.style.background = hex;
+        if (hex === "#FFFFFF") s.style.border = "2px solid #555";
+        s.onclick = () => {
+          document
+            .querySelectorAll(".swatch")
+            .forEach((x) => x.classList.remove("active"));
+          s.classList.add("active");
+          activeColor = hex;
+          render();
+        };
+        swatchContainer.appendChild(s);
+      });
 
-  const swatchContainer = document.getElementById('swatches');
-  COLORS.forEach(hex => {
-    const s = document.createElement('div');
-    s.className = 'swatch' + (hex === activeColor ? ' active' : '');
-    s.style.background = hex;
-    if (hex === '#FFFFFF') s.style.border = '2px solid #555';
-    s.onclick = () => {
-      document.querySelectorAll('.swatch').forEach(x => x.classList.remove('active'));
-      s.classList.add('active');
-      activeColor = hex;
+      const inputText = document.getElementById("inputText");
+      const inputHighlight = document.getElementById("inputHighlight");
+      const slider = document.getElementById("slider");
+      const sliderVal = document.getElementById("sliderVal");
+      const preview = document.getElementById("preview");
+      const dlBtn = document.getElementById("dlBtn");
+
+      function escapeRegex(str) {
+        return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      }
+
+      function render() {
+        const full = inputText.value.trim();
+        const highlight = inputHighlight.value.trim();
+        const sz = parseInt(slider.value);
+
+        sliderVal.textContent = sz;
+        preview.style.fontSize = sz + "px";
+
+        if (!full) {
+          preview.innerHTML = "";
+          return;
+        }
+        if (!highlight) {
+          preview.innerHTML = full;
+          return;
+        }
+
+        const regex = new RegExp("(" + escapeRegex(highlight) + ")", "gi");
+        preview.innerHTML = full.replace(
+          regex,
+          `<span style="color:${activeColor}">$1</span>`,
+        );
+      }
+
+      async function telechargerPNG() {
+        dlBtn.disabled = true;
+        dlBtn.textContent = "Export en cours...";
+        const capture = document.getElementById("capture");
+        const canvas = await html2canvas(capture, {
+          scale: 2,
+          useCORS: true,
+          backgroundColor: "#000",
+          logging: false,
+        });
+        canvas.toBlob((blob) => {
+          const a = document.createElement("a");
+          a.href = URL.createObjectURL(blob);
+          a.download = "mvp_info_quote.png";
+          a.click();
+          dlBtn.disabled = false;
+          dlBtn.textContent = "↓ Télécharger PNG";
+        }, "image/png");
+      }
+
+      dlBtn.addEventListener("click", telechargerPNG);
+      inputText.addEventListener("input", render);
+      inputHighlight.addEventListener("input", render);
+      slider.addEventListener("input", render);
+
       render();
-    };
-    swatchContainer.appendChild(s);
-  });
-
-  const inputText      = document.getElementById('inputText');
-  const inputHighlight = document.getElementById('inputHighlight');
-  const slider         = document.getElementById('slider');
-  const sliderVal      = document.getElementById('sliderVal');
-  const preview        = document.getElementById('preview');
-  const dlBtn          = document.getElementById('dlBtn');
-
-  function escapeRegex(str) {
-    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  }
-
-  function render() {
-    const full      = inputText.value.trim();
-    const highlight = inputHighlight.value.trim();
-    const sz        = parseInt(slider.value);
-
-    sliderVal.textContent  = sz;
-    preview.style.fontSize = sz + 'px';
-
-    if (!full) { preview.innerHTML = ''; return; }
-    if (!highlight) { preview.innerHTML = full; return; }
-
-    const regex = new RegExp('(' + escapeRegex(highlight) + ')', 'gi');
-    preview.innerHTML = full.replace(regex, `<span style="color:${activeColor}">$1</span>`);
-  }
-
-  async function telechargerPNG() {
-    dlBtn.disabled = true;
-    dlBtn.textContent = 'Export en cours...';
-    const capture = document.getElementById('capture');
-    const canvas  = await html2canvas(capture, {
-      scale: 2,
-      useCORS: true,
-      backgroundColor: '#000',
-      logging: false,
-    });
-    canvas.toBlob(blob => {
-      const a = document.createElement('a');
-      a.href     = URL.createObjectURL(blob);
-      a.download = 'mvp_info_quote.png';
-      a.click();
-      dlBtn.disabled    = false;
-      dlBtn.textContent = '↓ Télécharger PNG';
-    }, 'image/png');
-  }
-
-  dlBtn.addEventListener('click', telechargerPNG);
-  inputText.addEventListener('input', render);
-  inputHighlight.addEventListener('input', render);
-  slider.addEventListener('input', render);
-
-  render();
-</script>
-</body>
+    </script>
+  </body>
 </html>
