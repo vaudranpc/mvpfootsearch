@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Thumbnail Generator</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anton&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background: #111;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 18px;
+        padding: 24px;
+        font-family: "Anton", Impact, sans-serif;
+      }
+      h1 {
+        color: #fff;
+        font-size: 14px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        font-family: sans-serif;
+        opacity: 0.6;
+      }
+      canvas {
+        display: block;
+        max-width: 100%;
+        border: 1px solid #333;
+      }
+      .panel {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: center;
+        max-width: 960px;
+      }
+      .group {
+        background: #1c1c1c;
+        border: 1px solid #2a2a2a;
+        border-radius: 8px;
+        padding: 12px 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+        min-width: 160px;
+      }
+      .group span {
+        color: #555;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-family: sans-serif;
+      }
+      input[type="file"],
+      input[type="text"],
+      input[type="number"] {
+        background: #111;
+        border: 1px solid #333;
+        color: #ddd;
+        padding: 5px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        width: 100%;
+        font-family: sans-serif;
+      }
+      .row {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+      }
+      .score-inputs {
+        display: flex;
+        gap: 8px;
+      }
+      .score-inputs input {
+        width: 50px;
+        text-align: center;
+        font-size: 18px;
+        font-family: "Anton", Impact;
+      }
+      button {
+        background: #e8c420;
+        color: #000;
+        border: none;
+        border-radius: 6px;
+        padding: 12px 36px;
+        font-size: 14px;
+        cursor: pointer;
+        font-weight: 900;
+        letter-spacing: 2px;
+        font-family: sans-serif;
+        text-transform: uppercase;
+      }
+      button:hover {
+        background: #ffd930;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Thumbnail Generator – Match</h1>
+    <canvas id="c" width="1280" height="720"></canvas>
+
+    <div class="panel">
+      <div class="group">
+        <span>Photo joueur (PNG)</span>
+        <input type="file" id="playerPhoto" accept="image/*" />
+        <span>Position X</span>
+        <input type="number" id="pX" value="760" />
+        <span>Position Y (bas)</span>
+        <input type="number" id="pY" value="720" />
+        <span>Largeur</span>
+        <input type="number" id="pW" value="700" />
+      </div>
+      <div class="group">
+        <span>Logo équipe A</span>
+        <input type="file" id="logoA" accept="image/*" />
+        <span>Logo équipe B</span>
+        <input type="file" id="logoB" accept="image/*" />
+        <span>Scores A — B</span>
+        <div class="score-inputs">
+          <input type="text" id="scoreA" value="2" />
+          <input type="text" id="scoreB" value="0" />
+        </div>
+      </div>
+      <div class="group">
+        <span>Texte haut (optionnel)</span>
+        <input type="text" id="label" value="WORLD CUP 2026" />
+        <span>Couleur accent</span>
+        <input type="color" id="accent" value="#ffffff" />
+        <span>Photo fond (optionnel)</span>
+        <input type="file" id="bgPhoto" accept="image/*" />
+      </div>
+    </div>
+
+    <button onclick="dl()">⬇ Télécharger PNG 1280×720</button>
+
+    <script>
+      const canvas = document.getElementById("c");
+      const ctx = canvas.getContext("2d");
+      const W = 1280,
+        H = 720;
+
+      let imgs = { player: null, logoA: null, logoB: null, bg: null };
+
+      function fi(id, key) {
+        document.getElementById(id).addEventListener("change", function () {
+          if (!this.files[0]) return;
+          const r = new FileReader();
+          r.onload = (e) => {
+            const im = new Image();
+            im.onload = () => {
+              imgs[key] = im;
+              draw();
+            };
+            im.src = e.target.result;
+          };
+          r.readAsDataURL(this.files[0]);
+        });
+      }
+      fi("playerPhoto", "player");
+      fi("logoA", "logoA");
+      fi("logoB", "logoB");
+      fi("bgPhoto", "bg");
+
+      ["pX", "pY", "pW", "scoreA", "scoreB", "label", "accent"].forEach((id) =>
+        document.getElementById(id).addEventListener("input", draw),
+      );
+
+      function val(id) {
+        return document.getElementById(id).value;
+      }
+
+      function draw() {
+        const pX = +val("pX"),
+          pY = +val("pY"),
+          pW = +val("pW");
+        const sA = val("scoreA"),
+          sB = val("scoreB");
+        const labelTxt = val("label");
+        const accent = val("accent");
+
+        ctx.clearRect(0, 0, W, H);
+
+        /* ── FOND ── */
+        if (imgs.bg) {
+          // Couvrir tout le canvas en gardant ratio
+          const bw = imgs.bg.width,
+            bh = imgs.bg.height;
+          const scale = Math.max(W / bw, H / bh);
+          const dw = bw * scale,
+            dh = bh * scale;
+          ctx.drawImage(imgs.bg, (W - dw) / 2, (H - dh) / 2, dw, dh);
+        } else {
+          // Fond dégradé sombre par défaut
+          const g = ctx.createLinearGradient(0, 0, W, H);
+          g.addColorStop(0, "#050d05");
+          g.addColorStop(0.5, "#0a1e0c");
+          g.addColorStop(1, "#040a04");
+          ctx.fillStyle = g;
+          ctx.fillRect(0, 0, W, H);
+        }
+
+        /* Overlay sombre gauche fort */
+        const ol = ctx.createLinearGradient(0, 0, W * 0.55, 0);
+        ol.addColorStop(0, "rgba(0,0,0,0.92)");
+        ol.addColorStop(0.7, "rgba(0,0,0,0.55)");
+        ol.addColorStop(1, "rgba(0,0,0,0)");
+        ctx.fillStyle = ol;
+        ctx.fillRect(0, 0, W, H);
+
+        /* Overlay sombre bas */
+        const ob = ctx.createLinearGradient(0, H * 0.6, 0, H);
+        ob.addColorStop(0, "rgba(0,0,0,0)");
+        ob.addColorStop(1, "rgba(0,0,0,0.7)");
+        ctx.fillStyle = ob;
+        ctx.fillRect(0, 0, W, H);
+
+        /* ── PHOTO JOUEUR ── */
+        if (imgs.player) {
+          const asp = imgs.player.width / imgs.player.height;
+          const ph = pW / asp;
+          ctx.drawImage(imgs.player, pX - pW / 2, pY - ph, pW, ph);
+        } else {
+          ctx.save();
+          ctx.strokeStyle = "rgba(255,255,255,0.12)";
+          ctx.lineWidth = 2;
+          ctx.setLineDash([10, 8]);
+          ctx.strokeRect(pX - pW / 2, pY - pW * 1.4, pW, pW * 1.4);
+          ctx.font = "18px sans-serif";
+          ctx.fillStyle = "rgba(255,255,255,0.2)";
+          ctx.textAlign = "center";
+          ctx.fillText("Photo joueur", pX, pY - pW * 0.7);
+          ctx.restore();
+        }
+
+        /* ── LOGOS équipes (cercles avec ombre) ── */
+        const LS = 160; // taille logo
+
+        function drawLogo(img, cx, cy) {
+          ctx.save();
+          // Ombre
+          ctx.shadowColor = "rgba(0,0,0,0.8)";
+          ctx.shadowBlur = 30;
+          ctx.shadowOffsetX = 4;
+          ctx.shadowOffsetY = 6;
+          // Fond blanc circulaire
+          ctx.beginPath();
+          ctx.arc(cx, cy, LS / 2 + 5, 0, Math.PI * 2);
+          ctx.fillStyle = "rgba(255,255,255,0.95)";
+          ctx.fill();
+          ctx.restore();
+
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(cx, cy, LS / 2, 0, Math.PI * 2);
+          ctx.clip();
+          if (img) {
+            ctx.drawImage(img, cx - LS / 2, cy - LS / 2, LS, LS);
+          } else {
+            ctx.fillStyle = "#ccc";
+            ctx.fillRect(cx - LS / 2, cy - LS / 2, LS, LS);
+            ctx.fillStyle = "#888";
+            ctx.font = "bold 13px sans-serif";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText("LOGO", cx, cy);
+          }
+          ctx.restore();
+        }
+
+        // Logo A – haut gauche
+        drawLogo(imgs.logoA, 90, 90);
+        // Logo B – bas gauche
+        drawLogo(imgs.logoB, 90, H - 110);
+
+        /* ── TRAIT SÉPARATEUR VERTICAL SCORES ── */
+        ctx.save();
+        ctx.strokeStyle = "rgba(255,255,255,0.2)";
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(160, 160);
+        ctx.lineTo(160, H - 180);
+        ctx.stroke();
+        ctx.restore();
+
+        /* ── TIRET "–" entre les scores ── */
+        ctx.save();
+        ctx.fillStyle = "rgba(255,255,255,0.35)";
+        ctx.font = `bold 48px Anton, Impact, sans-serif`;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText("–", 90, H / 2);
+        ctx.restore();
+
+        /* ── SCORES ── */
+        ctx.save();
+        ctx.font = `bold 220px Anton, Impact, sans-serif`;
+        ctx.textAlign = "left";
+        ctx.textBaseline = "top";
+
+        // Score A
+        ctx.shadowColor = "rgba(0,0,0,0.95)";
+        ctx.shadowBlur = 24;
+        ctx.shadowOffsetX = 5;
+        ctx.shadowOffsetY = 5;
+        ctx.fillStyle = "#ffffff";
+        ctx.fillText(sA, 175, 10);
+
+        // Score B
+        ctx.fillText(sB, 175, H - 260);
+        ctx.restore();
+
+        /* ── LABEL COMPÉTITION (centre haut) ── */
+        if (labelTxt) {
+          ctx.save();
+          ctx.font = `bold 28px Anton, Impact, sans-serif`;
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          // Fond pill
+          const lw = ctx.measureText(labelTxt).width + 40;
+          const lx = W / 2,
+            ly = 38;
+          ctx.fillStyle = "rgba(0,0,0,0.6)";
+          roundRect(lx - lw / 2, ly - 18, lw, 36, 8);
+          ctx.fill();
+          // Trait accent gauche
+          ctx.fillStyle = accent;
+          ctx.fillRect(lx - lw / 2, ly - 18, 5, 36);
+          // Texte
+          ctx.fillStyle = "#ffffff";
+          ctx.fillText(labelTxt, lx + 4, ly);
+          ctx.restore();
+        }
+
+        /* ── "VS" au centre ── */
+        ctx.save();
+        ctx.font = `bold 52px Anton, Impact, sans-serif`;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillStyle = accent;
+        ctx.shadowColor = "rgba(0,0,0,0.9)";
+        ctx.shadowBlur = 14;
+        ctx.fillText("VS", 90, H / 2);
+        ctx.restore();
+      }
+
+      function roundRect(x, y, w, h, r) {
+        ctx.beginPath();
+        ctx.moveTo(x + r, y);
+        ctx.lineTo(x + w - r, y);
+        ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+        ctx.lineTo(x + w, y + h - r);
+        ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+        ctx.lineTo(x + r, y + h);
+        ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+        ctx.lineTo(x, y + r);
+        ctx.quadraticCurveTo(x, y, x + r, y);
+        ctx.closePath();
+      }
+
+      function dl() {
+        draw();
+        const a = document.createElement("a");
+        a.download = "thumbnail.png";
+        a.href = canvas.toDataURL("image/png");
+        a.click();
+      }
+
+      draw();
+    </script>
+  </body>
+</html>
