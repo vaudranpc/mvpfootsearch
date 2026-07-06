@@ -3,8 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Générateur de visuels — MVP Studio</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Archivo+Black&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg:#0f1115;
@@ -19,7 +17,7 @@
   *{box-sizing:border-box;}
   body{
     margin:0;
-    font-family:'Inter',sans-serif;
+    font-family:-apple-system,'Segoe UI','Helvetica Neue',Arial,sans-serif;
     background:var(--bg);
     color:var(--text);
     display:flex;
@@ -97,7 +95,7 @@
     color:var(--text);
     padding:9px 11px;
     border-radius:8px;
-    font-family:'Inter',sans-serif;
+    font-family:-apple-system,'Segoe UI','Helvetica Neue',Arial,sans-serif;
     font-size:13.5px;
     resize:vertical;
   }
@@ -174,18 +172,18 @@
   }
   .swatch.sel{border-color:#fff;}
 </style>
-    <script src="header.js"></script>
 </head>
 <body>
-
+<script src="header.js"></script>
 <aside>
-   <div id="header-container"></div>
+   
+    <div id="header-container"></div>
   <h1>Générateur de visuels</h1>
   <div class="sub">Style capture vidéo (bandeau lieu/date + légende) ou style article site officiel. Réglages à gauche, aperçu à droite, export PNG en un clic.</div>
 
   <div class="tabs">
     <div class="tab active" data-tpl="video">Style Vidéo</div>
-    <div class="tab" data-tpl="article">Stylae Article</div>
+    <div class="tab" data-tpl="article">Style Article</div>
   </div>
 
   <!-- VIDEO TEMPLATE CONTROLS -->
@@ -233,10 +231,14 @@
     <label>Photo</label>
     <div class="filebtn" id="btn-article-img">📷 Choisir une image</div>
     <input type="file" id="file-article-img" accept="image/*">
+    <label>Zoom</label>
+    <input type="range" id="a-zoom" min="100" max="400" value="100">
+    <div class="hint">Glisse l'image directement dans l'aperçu pour la repositionner ↔</div>
+    <button class="filebtn" id="a-reset-pos" style="margin-top:8px;border-style:solid;cursor:pointer;">↺ Réinitialiser position/zoom</button>
 
     <div class="section-title">Pied de page</div>
     <label>Étiquette</label>
-    <input type="text" id="a-label" value="INFORMATION">
+    <input type="text" id="a-label" value="MVP FOOT  100% Football Ivoirien">
     <label>Date</label>
     <input type="text" id="a-date" value="06/07/2026">
 
@@ -279,6 +281,14 @@ let vOffX = 0;         // décalage en pixels canvas
 let vOffY = 0;
 let vDragging = false;
 let vLastX = 0, vLastY = 0;
+
+// transformation (zoom / position) de l'image du style article
+let aZoom = 1;
+let aOffX = 0;
+let aOffY = 0;
+let aDragging = false;
+let aLastX = 0, aLastY = 0;
+let aImgBox = null; // {x,y,w,h} zone occupée par l'image dans le canvas (mis à jour au render)
 
 // ---------- helpers ----------
 function roundRectPath(c, x, y, w, h, r){
@@ -330,6 +340,21 @@ function wrapLines(c, text, maxWidth){
   }
   if (line) lines.push(line);
   return lines;
+}
+
+// ---------- transformation générique (zoom/pan) réutilisable ----------
+function computeCoverTransform(img, zoom, boxW, boxH){
+  const baseScale = Math.max(boxW / img.width, boxH / img.height);
+  const scale = baseScale * zoom;
+  return { drawW: img.width * scale, drawH: img.height * scale };
+}
+function clampOffset(drawW, drawH, boxW, boxH, offX, offY){
+  const maxOffX = Math.max(0, (drawW - boxW) / 2);
+  const maxOffY = Math.max(0, (drawH - boxH) / 2);
+  return {
+    x: Math.min(maxOffX, Math.max(-maxOffX, offX)),
+    y: Math.min(maxOffY, Math.max(-maxOffY, offY))
+  };
 }
 
 // dessine l'image de fond du style vidéo avec zoom + décalage utilisateur
@@ -395,7 +420,7 @@ function renderVideo(){
     ctx.fillStyle = g;
     ctx.fillRect(0,0,W,H);
     ctx.fillStyle = 'rgba(255,255,255,.35)';
-    ctx.font = '600 22px Inter';
+    ctx.font = '600 22px -apple-system, Arial, sans-serif';
     ctx.fillText('Ajoutez une photo de fond →', 40, H/2);
   }
 
@@ -412,19 +437,19 @@ function renderVideo(){
 
   // location text
   ctx.fillStyle = '#ffffff';
-  ctx.font = '800 40px Inter';
+  ctx.font = '800 40px -apple-system, Arial, sans-serif';
   ctx.textBaseline = 'alphabetic';
   ctx.shadowColor = 'rgba(0,0,0,.5)';
   ctx.shadowBlur = 6;
   ctx.fillText(lieu, 40, 62);
 
   // date text
-  ctx.font = '600 27px Inter';
+  ctx.font = '600 27px -apple-system, Arial, sans-serif';
   ctx.fillText(date, 40, 100);
   ctx.shadowBlur = 0;
 
   // bottom caption box
-  ctx.font = '800 32px Inter';
+  ctx.font = '800 32px -apple-system, Arial, sans-serif';
   const maxTextWidth = W - 100;
   const lines = wrapLines(ctx, legende, maxTextWidth);
   const lineHeight = 42;
@@ -439,7 +464,7 @@ function renderVideo(){
   ctx.fill();
 
   ctx.fillStyle = '#0d0d0d';
-  ctx.font = '800 32px Inter';
+  ctx.font = '800 32px -apple-system, Arial, sans-serif';
   let ty = boxY + padV + 28;
   for (const l of lines){
     ctx.fillText(l, boxX + padH, ty);
@@ -472,12 +497,12 @@ function renderArticle(){
   const contentW = W - padX*2;
 
   // --- measure title ---
-  ctx.font = '800 33px Inter';
+  ctx.font = '800 33px -apple-system, Arial, sans-serif';
   const titleLines = wrapLines(ctx, titre, contentW);
   const titleLH = 42;
 
   // --- measure quote ---
-  ctx.font = '400 19px Inter';
+  ctx.font = '400 19px -apple-system, Arial, sans-serif';
   const quoteLines = wrapLines(ctx, citation, contentW);
   const quoteLH = 28;
 
@@ -505,7 +530,7 @@ function renderArticle(){
 
   // title
   ctx.fillStyle = titleColor;
-  ctx.font = '800 33px Inter';
+  ctx.font = '800 33px -apple-system, Arial, sans-serif';
   ctx.textBaseline = 'alphabetic';
   let ty = titleY0;
   for (const l of titleLines){
@@ -515,7 +540,7 @@ function renderArticle(){
 
   // quote
   ctx.fillStyle = '#3a4152';
-  ctx.font = '400 19px Inter';
+  ctx.font = '400 19px -apple-system, Arial, sans-serif';
   let qy = quoteY0;
   for (const l of quoteLines){
     ctx.fillText(l, padX, qy);
@@ -527,23 +552,29 @@ function renderArticle(){
   ctx.save();
   ctx.clip();
   if (articleImg){
-    drawImageCover(ctx, articleImg, padX, imgY, contentW, imgH);
+    const { drawW, drawH } = computeCoverTransform(articleImg, aZoom, contentW, imgH);
+    const clamped = clampOffset(drawW, drawH, contentW, imgH, aOffX, aOffY);
+    aOffX = clamped.x; aOffY = clamped.y;
+    const ix = padX + (contentW - drawW) / 2 + aOffX;
+    const iy = imgY + (imgH - drawH) / 2 + aOffY;
+    ctx.drawImage(articleImg, ix, iy, drawW, drawH);
   } else {
     ctx.fillStyle = '#e7e9ee';
     ctx.fillRect(padX, imgY, contentW, imgH);
     ctx.fillStyle = '#9aa3b2';
-    ctx.font = '600 18px Inter';
+    ctx.font = '600 18px -apple-system, Arial, sans-serif';
     ctx.fillText('Ajoutez une photo →', padX + 24, imgY + imgH/2);
   }
   ctx.restore();
+  aImgBox = { x: padX, y: imgY, w: contentW, h: imgH };
 
   // footer: label + date
   const footY = imgY + imgH + 38;
   ctx.fillStyle = '#6b7280';
-  ctx.font = '700 13px Inter';
+  ctx.font = '700 13px -apple-system, Arial, sans-serif';
   ctx.fillText(label.toUpperCase() + '.', padX, footY);
   const labelW = ctx.measureText(label.toUpperCase() + '.').width;
-  ctx.font = '400 13px Inter';
+  ctx.font = '400 13px -apple-system, Arial, sans-serif';
   ctx.fillText('   ' + dateStr, padX + labelW, footY);
 
   ctx.restore();
@@ -660,8 +691,93 @@ canvas.addEventListener('touchend', ()=>{ vDragging = false; });
 
 document.getElementById('btn-article-img').addEventListener('click', ()=>document.getElementById('file-article-img').click());
 document.getElementById('file-article-img').addEventListener('change', e=>{
-  if (e.target.files[0]) loadImageFile(e.target.files[0], img => { articleImg = img; render(); });
+  if (e.target.files[0]) loadImageFile(e.target.files[0], img => {
+    articleImg = img;
+    aZoom = 1; aOffX = 0; aOffY = 0;
+    document.getElementById('a-zoom').value = 100;
+    render();
+  });
 });
+
+// ---------- zoom / drag sur l'aperçu (style article) ----------
+const aZoomSlider = document.getElementById('a-zoom');
+aZoomSlider.addEventListener('input', ()=>{
+  aZoom = parseInt(aZoomSlider.value,10) / 100;
+  render();
+});
+document.getElementById('a-reset-pos').addEventListener('click', ()=>{
+  aZoom = 1; aOffX = 0; aOffY = 0;
+  aZoomSlider.value = 100;
+  render();
+});
+
+function pointInArticleImg(clientX, clientY){
+  if (!aImgBox) return false;
+  const rect = canvas.getBoundingClientRect();
+  const f = canvasScaleFactor();
+  const cx = (clientX - rect.left) * f;
+  const cy = (clientY - rect.top) * f;
+  return cx >= aImgBox.x && cx <= aImgBox.x + aImgBox.w && cy >= aImgBox.y && cy <= aImgBox.y + aImgBox.h;
+}
+
+canvas.addEventListener('mousedown', e=>{
+  if (currentTpl === 'article' && articleImg && pointInArticleImg(e.clientX, e.clientY)){
+    aDragging = true;
+    aLastX = e.clientX;
+    aLastY = e.clientY;
+    canvas.style.cursor = 'grabbing';
+  }
+});
+window.addEventListener('mousemove', e=>{
+  if (aDragging){
+    const f = canvasScaleFactor();
+    aOffX += (e.clientX - aLastX) * f;
+    aOffY += (e.clientY - aLastY) * f;
+    aLastX = e.clientX;
+    aLastY = e.clientY;
+    render();
+    return;
+  }
+  if (currentTpl === 'article' && articleImg){
+    canvas.style.cursor = pointInArticleImg(e.clientX, e.clientY) ? 'grab' : 'default';
+  }
+});
+window.addEventListener('mouseup', ()=>{
+  if (aDragging){
+    aDragging = false;
+    canvas.style.cursor = 'grab';
+  }
+});
+
+canvas.addEventListener('wheel', e=>{
+  if (currentTpl !== 'article' || !articleImg || !pointInArticleImg(e.clientX, e.clientY)) return;
+  e.preventDefault();
+  const delta = e.deltaY < 0 ? 8 : -8;
+  let pct = parseInt(aZoomSlider.value,10) + delta;
+  pct = Math.min(400, Math.max(100, pct));
+  aZoomSlider.value = pct;
+  aZoom = pct / 100;
+  render();
+}, { passive:false });
+
+// touch (mobile)
+canvas.addEventListener('touchstart', e=>{
+  if (currentTpl === 'article' && articleImg && e.touches.length === 1 && pointInArticleImg(e.touches[0].clientX, e.touches[0].clientY)){
+    aDragging = true;
+    aLastX = e.touches[0].clientX;
+    aLastY = e.touches[0].clientY;
+  }
+}, { passive:true });
+canvas.addEventListener('touchmove', e=>{
+  if (!aDragging || e.touches.length !== 1) return;
+  const f = canvasScaleFactor();
+  aOffX += (e.touches[0].clientX - aLastX) * f;
+  aOffY += (e.touches[0].clientY - aLastY) * f;
+  aLastX = e.touches[0].clientX;
+  aLastY = e.touches[0].clientY;
+  render();
+}, { passive:true });
+canvas.addEventListener('touchend', ()=>{ aDragging = false; });
 
 document.querySelectorAll('#ctrl-video input, #ctrl-video textarea').forEach(el=>{
   el.addEventListener('input', render);
@@ -679,10 +795,28 @@ document.querySelectorAll('.swatch').forEach(sw=>{
 });
 
 document.getElementById('download').addEventListener('click', ()=>{
-  const link = document.createElement('a');
-  link.download = (currentTpl === 'video' ? 'visuel-video' : 'visuel-article') + '-' + Date.now() + '.png';
-  link.href = canvas.toDataURL('image/png');
-  link.click();
+  const filename = (currentTpl === 'video' ? 'visuel-video' : 'visuel-article') + '-' + Date.now() + '.png';
+
+  canvas.toBlob(blob => {
+    if (!blob){
+      alert("Échec de la génération de l'image. Réessaie, ou fais un clic droit sur l'aperçu → Enregistrer l'image sous.");
+      return;
+    }
+    try {
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      setTimeout(()=>URL.revokeObjectURL(url), 4000);
+    } catch (err){
+      // fallback : ouvrir l'image dans un nouvel onglet pour un enregistrement manuel
+      const url = URL.createObjectURL(blob);
+      window.open(url, '_blank');
+    }
+  }, 'image/png');
 });
 
 // ---------- auto date du jour ----------
@@ -704,12 +838,8 @@ function setTodayDates(){
 }
 setTodayDates();
 
-// wait for fonts then first render
-document.fonts.load('800 33px Inter').then(()=>{
-  document.fonts.load('400 19px Inter').then(render);
-});
+// premier rendu (polices système, aucun chargement réseau nécessaire)
 render();
-setTimeout(render, 300); // safety re-render once fonts fully ready
 </script>
 </body>
 </html>
