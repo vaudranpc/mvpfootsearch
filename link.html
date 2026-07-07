@@ -172,18 +172,19 @@
   }
   .swatch.sel{border-color:#fff;}
 </style>
+  <script src="header.js"></script>
 </head>
 <body>
-<script src="header.js"></script>
+
 <aside>
-   
-    <div id="header-container"></div>
+  <div id="header-container"></div>
   <h1>Générateur de visuels</h1>
   <div class="sub">Style capture vidéo (bandeau lieu/date + légende) ou style article site officiel. Réglages à gauche, aperçu à droite, export PNG en un clic.</div>
 
   <div class="tabs">
     <div class="tab active" data-tpl="video">Style Vidéo</div>
     <div class="tab" data-tpl="article">Style Article</div>
+    <div class="tab" data-tpl="card">Style Carte Sport</div>
   </div>
 
   <!-- VIDEO TEMPLATE CONTROLS -->
@@ -238,7 +239,7 @@
 
     <div class="section-title">Pied de page</div>
     <label>Étiquette</label>
-    <input type="text" id="a-label" value="MVP FOOT  100% Football Ivoirien">
+    <input type="text" id="a-label" value="Avec MVP Foot c'est 100% foot Ivoirien ">
     <label>Date</label>
     <input type="text" id="a-date" value="06/07/2026">
 
@@ -252,6 +253,32 @@
     </div>
     <label>Arrondi des coins</label>
     <input type="range" id="a-radius" min="0" max="40" value="20">
+  </div>
+
+  <!-- CARD (SPORT) TEMPLATE CONTROLS -->
+  <div id="ctrl-card" style="display:none;">
+    <div class="section-title">Photo</div>
+    <label>Photo (haut de la carte)</label>
+    <div class="filebtn" id="btn-card-img">📷 Choisir une image</div>
+    <input type="file" id="file-card-img" accept="image/*">
+    <label>Zoom</label>
+    <input type="range" id="c-zoom" min="100" max="400" value="100">
+    <div class="hint">Glisse l'image directement dans l'aperçu pour la repositionner ↔</div>
+    <button class="filebtn" id="c-reset-pos" style="margin-top:8px;border-style:solid;cursor:pointer;">↺ Réinitialiser position/zoom</button>
+
+    <div class="section-title">Titre</div>
+    <label>Titre (gras)</label>
+    <textarea id="c-titre">PSG - Arsenal (1-1, 4-3 t.a.b) : Les notes des Parisiens, auteurs du back to back en Ligue des Champions</textarea>
+
+    <div class="section-title">Auteur / Date</div>
+    <label>Auteur</label>
+    <input type="text" id="c-auteur" value="Ilies Peeters">
+    <label>Date</label>
+    <input type="text" id="c-date" value="">
+
+    <div class="section-title">Style</div>
+    <label>Arrondi des coins</label>
+    <input type="range" id="c-radius" min="0" max="36" value="14">
   </div>
 
 </aside>
@@ -289,6 +316,15 @@ let aOffY = 0;
 let aDragging = false;
 let aLastX = 0, aLastY = 0;
 let aImgBox = null; // {x,y,w,h} zone occupée par l'image dans le canvas (mis à jour au render)
+
+// transformation (zoom / position) de l'image du style carte sport
+let cImg = null;
+let cZoom = 1;
+let cOffX = 0;
+let cOffY = 0;
+let cDragging = false;
+let cLastX = 0, cLastY = 0;
+let cImgBox = null;
 
 // ---------- helpers ----------
 function roundRectPath(c, x, y, w, h, r){
@@ -590,7 +626,101 @@ function renderArticle(){
 
 function render(){
   if (currentTpl === 'video') renderVideo();
-  else renderArticle();
+  else if (currentTpl === 'article') renderArticle();
+  else renderCard();
+}
+
+// ---------- CARD (SPORT) TEMPLATE ----------
+function renderCard(){
+  const W = 720;
+  const padX = 32;
+  const contentW = W - padX*2;
+  const imgH = 400;
+
+  const radius = parseInt(document.getElementById('c-radius').value, 10);
+  const titre = document.getElementById('c-titre').value;
+  const auteur = document.getElementById('c-auteur').value;
+  const dateStr = document.getElementById('c-date').value;
+
+  ctx.font = '800 31px -apple-system, Arial, sans-serif';
+  const titleLines = wrapLines(ctx, titre, contentW);
+  const titleLH = 40;
+
+  const textTop = imgH + 32;
+  const titleY0 = textTop + 30;
+  const afterTitle = titleY0 + titleLines.length * titleLH;
+  const footerY = afterTitle + 34;
+  const H = footerY + 30;
+
+  dimsLabel.textContent = W + ' × ' + Math.round(H) + ' px (carte)';
+
+  canvas.width = W;
+  canvas.height = H;
+  ctx.clearRect(0,0,W,H);
+
+  ctx.save();
+  roundRectPath(ctx, 0, 0, W, H, radius);
+  ctx.clip();
+
+  // fond blanc
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0,0,W,H);
+
+  // image du haut
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(0,0,W,imgH);
+  ctx.clip();
+  if (cImg){
+    const { drawW, drawH } = computeCoverTransform(cImg, cZoom, W, imgH);
+    const clamped = clampOffset(drawW, drawH, W, imgH, cOffX, cOffY);
+    cOffX = clamped.x; cOffY = clamped.y;
+    const ix = (W - drawW)/2 + cOffX;
+    const iy = (imgH - drawH)/2 + cOffY;
+    ctx.drawImage(cImg, ix, iy, drawW, drawH);
+  } else {
+    ctx.fillStyle = '#e7e9ee';
+    ctx.fillRect(0,0,W,imgH);
+    ctx.fillStyle = '#9aa3b2';
+    ctx.font = '600 18px -apple-system, Arial, sans-serif';
+    ctx.fillText('Ajoutez une photo →', 24, imgH/2);
+  }
+  ctx.restore();
+  cImgBox = { x:0, y:0, w:W, h:imgH };
+
+  // séparation fine
+  ctx.strokeStyle = 'rgba(0,0,0,.06)';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(0, imgH);
+  ctx.lineTo(W, imgH);
+  ctx.stroke();
+
+  // titre
+  ctx.fillStyle = '#111318';
+  ctx.font = '800 31px -apple-system, Arial, sans-serif';
+  ctx.textBaseline = 'alphabetic';
+  let ty = titleY0;
+  for (const l of titleLines){
+    ctx.fillText(l, padX, ty);
+    ty += titleLH;
+  }
+
+  // auteur | date
+  ctx.fillStyle = '#8a93a3';
+  ctx.font = '500 18px -apple-system, Arial, sans-serif';
+  const footerText = dateStr ? (auteur + '  |  ' + dateStr) : auteur;
+  ctx.fillText(footerText, padX, footerY);
+
+  ctx.restore();
+
+  // bordure fine autour de la carte
+  ctx.save();
+  roundRectPath(ctx, 1, 1, W-2, H-2, radius);
+  ctx.strokeStyle = 'rgba(0,0,0,.08)';
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+  ctx.restore();
 }
 
 // ---------- events ----------
@@ -601,6 +731,7 @@ document.querySelectorAll('.tab').forEach(tab => {
     currentTpl = tab.dataset.tpl;
     document.getElementById('ctrl-video').style.display = currentTpl === 'video' ? 'block' : 'none';
     document.getElementById('ctrl-article').style.display = currentTpl === 'article' ? 'block' : 'none';
+    document.getElementById('ctrl-card').style.display = currentTpl === 'card' ? 'block' : 'none';
     canvas.style.cursor = (currentTpl === 'video' && videoImg) ? 'grab' : 'default';
     render();
   });
@@ -779,10 +910,102 @@ canvas.addEventListener('touchmove', e=>{
 }, { passive:true });
 canvas.addEventListener('touchend', ()=>{ aDragging = false; });
 
+// ---------- style carte sport : upload, zoom, drag ----------
+document.getElementById('btn-card-img').addEventListener('click', ()=>document.getElementById('file-card-img').click());
+document.getElementById('file-card-img').addEventListener('change', e=>{
+  if (e.target.files[0]) loadImageFile(e.target.files[0], img => {
+    cImg = img;
+    cZoom = 1; cOffX = 0; cOffY = 0;
+    document.getElementById('c-zoom').value = 100;
+    render();
+  });
+});
+
+const cZoomSlider = document.getElementById('c-zoom');
+cZoomSlider.addEventListener('input', ()=>{
+  cZoom = parseInt(cZoomSlider.value,10) / 100;
+  render();
+});
+document.getElementById('c-reset-pos').addEventListener('click', ()=>{
+  cZoom = 1; cOffX = 0; cOffY = 0;
+  cZoomSlider.value = 100;
+  render();
+});
+
+function pointInCardImg(clientX, clientY){
+  if (!cImgBox) return false;
+  const rect = canvas.getBoundingClientRect();
+  const f = canvasScaleFactor();
+  const cx = (clientX - rect.left) * f;
+  const cy = (clientY - rect.top) * f;
+  return cx >= cImgBox.x && cx <= cImgBox.x + cImgBox.w && cy >= cImgBox.y && cy <= cImgBox.y + cImgBox.h;
+}
+
+canvas.addEventListener('mousedown', e=>{
+  if (currentTpl === 'card' && cImg && pointInCardImg(e.clientX, e.clientY)){
+    cDragging = true;
+    cLastX = e.clientX;
+    cLastY = e.clientY;
+    canvas.style.cursor = 'grabbing';
+  }
+});
+window.addEventListener('mousemove', e=>{
+  if (cDragging){
+    const f = canvasScaleFactor();
+    cOffX += (e.clientX - cLastX) * f;
+    cOffY += (e.clientY - cLastY) * f;
+    cLastX = e.clientX;
+    cLastY = e.clientY;
+    render();
+    return;
+  }
+  if (currentTpl === 'card' && cImg){
+    canvas.style.cursor = pointInCardImg(e.clientX, e.clientY) ? 'grab' : 'default';
+  }
+});
+window.addEventListener('mouseup', ()=>{
+  if (cDragging){
+    cDragging = false;
+    canvas.style.cursor = 'grab';
+  }
+});
+
+canvas.addEventListener('wheel', e=>{
+  if (currentTpl !== 'card' || !cImg || !pointInCardImg(e.clientX, e.clientY)) return;
+  e.preventDefault();
+  const delta = e.deltaY < 0 ? 8 : -8;
+  let pct = parseInt(cZoomSlider.value,10) + delta;
+  pct = Math.min(400, Math.max(100, pct));
+  cZoomSlider.value = pct;
+  cZoom = pct / 100;
+  render();
+}, { passive:false });
+
+canvas.addEventListener('touchstart', e=>{
+  if (currentTpl === 'card' && cImg && e.touches.length === 1 && pointInCardImg(e.touches[0].clientX, e.touches[0].clientY)){
+    cDragging = true;
+    cLastX = e.touches[0].clientX;
+    cLastY = e.touches[0].clientY;
+  }
+}, { passive:true });
+canvas.addEventListener('touchmove', e=>{
+  if (!cDragging || e.touches.length !== 1) return;
+  const f = canvasScaleFactor();
+  cOffX += (e.touches[0].clientX - cLastX) * f;
+  cOffY += (e.touches[0].clientY - cLastY) * f;
+  cLastX = e.touches[0].clientX;
+  cLastY = e.touches[0].clientY;
+  render();
+}, { passive:true });
+canvas.addEventListener('touchend', ()=>{ cDragging = false; });
+
 document.querySelectorAll('#ctrl-video input, #ctrl-video textarea').forEach(el=>{
   el.addEventListener('input', render);
 });
 document.querySelectorAll('#ctrl-article input, #ctrl-article textarea').forEach(el=>{
+  el.addEventListener('input', render);
+});
+document.querySelectorAll('#ctrl-card input, #ctrl-card textarea').forEach(el=>{
   el.addEventListener('input', render);
 });
 document.querySelectorAll('.swatch').forEach(sw=>{
@@ -795,7 +1018,8 @@ document.querySelectorAll('.swatch').forEach(sw=>{
 });
 
 document.getElementById('download').addEventListener('click', ()=>{
-  const filename = (currentTpl === 'video' ? 'visuel-video' : 'visuel-article') + '-' + Date.now() + '.png';
+  const names = { video:'visuel-video', article:'visuel-article', card:'visuel-carte-sport' };
+  const filename = (names[currentTpl] || 'visuel') + '-' + Date.now() + '.png';
 
   canvas.toBlob(blob => {
     if (!blob){
@@ -835,6 +1059,10 @@ function setTodayDates(){
   const dd = String(jour).padStart(2,'0');
   const mm = String(now.getMonth()+1).padStart(2,'0');
   document.getElementById('a-date').value = `${dd}/${mm}/${annee}`;
+
+  // format "May 30, 2026" pour la carte sport (style anglo courant sur ce type de site)
+  const MOIS_EN = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  document.getElementById('c-date').value = `${MOIS_EN[now.getMonth()]} ${jour}, ${annee}`;
 }
 setTodayDates();
 
