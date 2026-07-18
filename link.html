@@ -1,1073 +1,1361 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
-<head>
-<meta charset="UTF-8">
-<title>Générateur de visuels — MVP Studio</title>
-<style>
-  :root{
-    --bg:#0f1115;
-    --panel:#171a21;
-    --panel-2:#1e222b;
-    --line:#2a2f3a;
-    --text:#eef0f4;
-    --muted:#9aa3b2;
-    --accent:#e0392b;
-    --accent-2:#2b5be0;
-  }
-  *{box-sizing:border-box;}
-  body{
-    margin:0;
-    font-family:-apple-system,'Segoe UI','Helvetica Neue',Arial,sans-serif;
-    background:var(--bg);
-    color:var(--text);
-    display:flex;
-    min-height:100vh;
-  }
-  aside{
-    width:360px;
-    min-width:360px;
-    background:var(--panel);
-    border-right:1px solid var(--line);
-    padding:20px;
-    overflow-y:auto;
-    max-height:100vh;
-  }
-  main{
-    flex:1;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:flex-start;
-    padding:30px;
-    gap:16px;
-  }
-  h1{
-    font-size:17px;
-    font-weight:800;
-    margin:0 0 4px 0;
-    letter-spacing:.2px;
-  }
-  .sub{
-    color:var(--muted);
-    font-size:12.5px;
-    margin-bottom:18px;
-    line-height:1.4;
-  }
-  .tabs{
-    display:flex;
-    gap:8px;
-    margin-bottom:18px;
-    background:var(--panel-2);
-    padding:4px;
-    border-radius:10px;
-    border:1px solid var(--line);
-  }
-  .tab{
-    flex:1;
-    text-align:center;
-    padding:9px 6px;
-    border-radius:7px;
-    font-size:12.5px;
-    font-weight:700;
-    cursor:pointer;
-    color:var(--muted);
-    transition:.15s;
-    user-select:none;
-  }
-  .tab.active{
-    background:var(--accent);
-    color:#fff;
-  }
-  label{
-    display:block;
-    font-size:11.5px;
-    font-weight:700;
-    text-transform:uppercase;
-    letter-spacing:.5px;
-    color:var(--muted);
-    margin:16px 0 6px 0;
-  }
-  label:first-of-type{margin-top:0;}
-  input[type=text], textarea, input[type=date]{
-    width:100%;
-    background:var(--panel-2);
-    border:1px solid var(--line);
-    color:var(--text);
-    padding:9px 11px;
-    border-radius:8px;
-    font-family:-apple-system,'Segoe UI','Helvetica Neue',Arial,sans-serif;
-    font-size:13.5px;
-    resize:vertical;
-  }
-  textarea{min-height:64px; line-height:1.4;}
-  input[type=color]{
-    width:44px; height:30px; border:none; background:none; padding:0; cursor:pointer;
-  }
-  .row{display:flex; gap:10px; align-items:center;}
-  .row > div{flex:1;}
-  .filebtn{
-    display:block;
-    width:100%;
-    padding:10px;
-    background:var(--panel-2);
-    border:1px dashed var(--line);
-    border-radius:8px;
-    text-align:center;
-    font-size:12.5px;
-    font-weight:600;
-    color:var(--muted);
-    cursor:pointer;
-  }
-  .filebtn:hover{border-color:var(--accent);color:var(--text);}
-  input[type=file]{display:none;}
-  input[type=range]{width:100%;}
-  .hint{font-size:11px;color:var(--muted);margin-top:4px;}
-  .section-title{
-    font-size:12px;
-    font-weight:800;
-    color:var(--text);
-    margin:22px 0 4px 0;
-    padding-top:14px;
-    border-top:1px solid var(--line);
-    text-transform:uppercase;
-    letter-spacing:.5px;
-  }
-  .section-title:first-child{border-top:none;padding-top:0;margin-top:0;}
-  canvas{
-    background:#000;
-    max-width:100%;
-    box-shadow:0 20px 60px rgba(0,0,0,.5);
-    border-radius:4px;
-  }
-  #stage-wrap{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    width:100%;
-  }
-  .toolbar{
-    display:flex;
-    gap:10px;
-    align-items:center;
-  }
-  button.dl{
-    background:var(--accent);
-    color:#fff;
-    border:none;
-    padding:12px 22px;
-    border-radius:9px;
-    font-weight:800;
-    font-size:13.5px;
-    cursor:pointer;
-    letter-spacing:.2px;
-  }
-  button.dl:hover{filter:brightness(1.08);}
-  .dims{
-    font-size:12px;
-    color:var(--muted);
-  }
-  .swatches{display:flex; gap:6px; margin-top:6px;}
-  .swatch{
-    width:22px;height:22px;border-radius:6px;cursor:pointer;border:2px solid transparent;
-  }
-  .swatch.sel{border-color:#fff;}
-</style>
-  <script src="header.js"></script>
-</head>
-<body>
-
-<aside>
-  <div id="header-container"></div>
-  <h1>Générateur de visuels</h1>
-  <div class="sub">Style capture vidéo (bandeau lieu/date + légende) ou style article site officiel. Réglages à gauche, aperçu à droite, export PNG en un clic.</div>
-
-  <div class="tabs">
-    <div class="tab active" data-tpl="video">Style Vidéo</div>
-    <div class="tab" data-tpl="article">Style Article</div>
-    <div class="tab" data-tpl="card">Style Carte Sport</div>
-  </div>
-
-  <!-- VIDEO TEMPLATE CONTROLS -->
-  <div id="ctrl-video">
-    <div class="section-title">Image</div>
-    <label>Photo de fond</label>
-    <div class="filebtn" id="btn-video-img">📷 Choisir une image</div>
-    <input type="file" id="file-video-img" accept="image/*">
-    <label>Zoom</label>
-    <input type="range" id="v-zoom" min="100" max="400" value="100">
-    <div class="hint">Glisse l'image directement dans l'aperçu pour la repositionner ↔</div>
-    <button class="filebtn" id="v-reset-pos" style="margin-top:8px;border-style:solid;cursor:pointer;">↺ Réinitialiser position/zoom</button>
-
-    <div class="section-title">Bandeau haut</div>
-    <label>Lieu</label>
-    <input type="text" id="v-lieu" value="Casablanca (Maroc)">
-    <label>Date</label>
-    <input type="text" id="v-date" value="4 juillet 2026">
-
-    <div class="section-title">Légende (bas)</div>
-    <label>Texte de la légende</label>
-    <textarea id="v-legende">Les supporteurs du Maroc ont célébré la victoire de leur équipe en Coupe du monde.</textarea>
-
-    <div class="section-title">Style</div>
-    <label>Couleur accent (drapeau / détails)</label>
-    <div class="row">
-      <input type="color" id="v-accent" value="#e0392b">
-      <div class="hint">Utilisée pour le petit repère latéral</div>
-    </div>
-    <label>Arrondi des coins</label>
-    <input type="range" id="v-radius" min="0" max="48" value="18">
-  </div>
-
-  <!-- ARTICLE TEMPLATE CONTROLS -->
-  <div id="ctrl-article" style="display:none;">
-    <div class="section-title">Titre</div>
-    <label>Titre (gras)</label>
-    <textarea id="a-titre">Pedro Martínez : « C'est un immense défi et mon objectif est d'aider le club à obtenir le plus grand succès possible »</textarea>
-
-    <div class="section-title">Citation</div>
-    <label>Texte de citation</label>
-    <textarea id="a-citation">« C'est un honneur et une fierté de faire partie de cette entité, je connais l'héritage et je vais donner le meilleur de moi-même pour être à la hauteur », a-t-il déclaré sur Realmadrid TV.</textarea>
-
-    <div class="section-title">Image</div>
-    <label>Photo</label>
-    <div class="filebtn" id="btn-article-img">📷 Choisir une image</div>
-    <input type="file" id="file-article-img" accept="image/*">
-    <label>Zoom</label>
-    <input type="range" id="a-zoom" min="100" max="400" value="100">
-    <div class="hint">Glisse l'image directement dans l'aperçu pour la repositionner ↔</div>
-    <button class="filebtn" id="a-reset-pos" style="margin-top:8px;border-style:solid;cursor:pointer;">↺ Réinitialiser position/zoom</button>
-
-    <div class="section-title">Pied de page</div>
-    <label>Étiquette</label>
-    <input type="text" id="a-label" value="Avec MVP Foot c'est 100% foot Ivoirien ">
-    <label>Date</label>
-    <input type="text" id="a-date" value="06/07/2026">
-
-    <div class="section-title">Style</div>
-    <label>Couleur du titre</label>
-    <div class="swatches">
-      <div class="swatch sel" data-c="#0b1f3a" style="background:#0b1f3a"></div>
-      <div class="swatch" data-c="#1a1a1a" style="background:#1a1a1a"></div>
-      <div class="swatch" data-c="#7a1f1f" style="background:#7a1f1f"></div>
-      <div class="swatch" data-c="#0d3b25" style="background:#0d3b25"></div>
-    </div>
-    <label>Arrondi des coins</label>
-    <input type="range" id="a-radius" min="0" max="40" value="20">
-  </div>
-
-  <!-- CARD (SPORT) TEMPLATE CONTROLS -->
-  <div id="ctrl-card" style="display:none;">
-    <div class="section-title">Photo</div>
-    <label>Photo (haut de la carte)</label>
-    <div class="filebtn" id="btn-card-img">📷 Choisir une image</div>
-    <input type="file" id="file-card-img" accept="image/*">
-    <label>Zoom</label>
-    <input type="range" id="c-zoom" min="100" max="400" value="100">
-    <div class="hint">Glisse l'image directement dans l'aperçu pour la repositionner ↔</div>
-    <button class="filebtn" id="c-reset-pos" style="margin-top:8px;border-style:solid;cursor:pointer;">↺ Réinitialiser position/zoom</button>
-
-    <div class="section-title">Titre</div>
-    <label>Titre (gras)</label>
-    <textarea id="c-titre">PSG - Arsenal (1-1, 4-3 t.a.b) : Les notes des Parisiens, auteurs du back to back en Ligue des Champions</textarea>
-
-    <div class="section-title">Auteur / Date</div>
-    <label>Auteur</label>
-    <input type="text" id="c-auteur" value="Ilies Peeters">
-    <label>Date</label>
-    <input type="text" id="c-date" value="">
-
-    <div class="section-title">Style</div>
-    <label>Arrondi des coins</label>
-    <input type="range" id="c-radius" min="0" max="36" value="14">
-  </div>
-
-</aside>
-
-<main>
-  <div class="toolbar">
-    <span class="dims" id="dims-label">1280 × 720 px</span>
-  </div>
-  <div id="stage-wrap">
-    <canvas id="stage" width="1280" height="720"></canvas>
-  </div>
-  <button class="dl" id="download">⬇ Télécharger en PNG</button>
-</main>
-
-<script>
-const canvas = document.getElementById('stage');
-const ctx = canvas.getContext('2d');
-const dimsLabel = document.getElementById('dims-label');
-let currentTpl = 'video';
-let videoImg = null;
-let articleImg = null;
-let titleColor = '#0b1f3a';
-
-// transformation (zoom / position) de l'image de fond du style vidéo
-let vZoom = 1;        // multiplicateur au-dessus du "cover fit" (1 = ajusté, pas de vide)
-let vOffX = 0;         // décalage en pixels canvas
-let vOffY = 0;
-let vDragging = false;
-let vLastX = 0, vLastY = 0;
-
-// transformation (zoom / position) de l'image du style article
-let aZoom = 1;
-let aOffX = 0;
-let aOffY = 0;
-let aDragging = false;
-let aLastX = 0, aLastY = 0;
-let aImgBox = null; // {x,y,w,h} zone occupée par l'image dans le canvas (mis à jour au render)
-
-// transformation (zoom / position) de l'image du style carte sport
-let cImg = null;
-let cZoom = 1;
-let cOffX = 0;
-let cOffY = 0;
-let cDragging = false;
-let cLastX = 0, cLastY = 0;
-let cImgBox = null;
-
-// ---------- helpers ----------
-function roundRectPath(c, x, y, w, h, r){
-  if (typeof r === 'number') r = {tl:r,tr:r,br:r,bl:r};
-  c.beginPath();
-  c.moveTo(x+r.tl, y);
-  c.lineTo(x+w-r.tr, y);
-  c.arcTo(x+w, y, x+w, y+r.tr, r.tr);
-  c.lineTo(x+w, y+h-r.br);
-  c.arcTo(x+w, y+h, x+w-r.br, y+h, r.br);
-  c.lineTo(x+r.bl, y+h);
-  c.arcTo(x, y+h, x, y+h-r.bl, r.bl);
-  c.lineTo(x, y+r.tl);
-  c.arcTo(x, y, x+r.tl, y, r.tl);
-  c.closePath();
-}
-
-function drawImageCover(c, img, x, y, w, h){
-  const ir = img.width / img.height;
-  const r = w / h;
-  let sx, sy, sw, sh;
-  if (ir > r){
-    sh = img.height;
-    sw = sh * r;
-    sx = (img.width - sw) / 2;
-    sy = 0;
-  } else {
-    sw = img.width;
-    sh = sw / r;
-    sx = 0;
-    sy = (img.height - sh) / 2;
-  }
-  c.drawImage(img, sx, sy, sw, sh, x, y, w, h);
-}
-
-// word-wrap, returns array of lines
-function wrapLines(c, text, maxWidth){
-  const words = text.split(/\s+/);
-  const lines = [];
-  let line = '';
-  for (let w of words){
-    const test = line ? line + ' ' + w : w;
-    if (c.measureText(test).width > maxWidth && line){
-      lines.push(line);
-      line = w;
-    } else {
-      line = test;
-    }
-  }
-  if (line) lines.push(line);
-  return lines;
-}
-
-// ---------- transformation générique (zoom/pan) réutilisable ----------
-function computeCoverTransform(img, zoom, boxW, boxH){
-  const baseScale = Math.max(boxW / img.width, boxH / img.height);
-  const scale = baseScale * zoom;
-  return { drawW: img.width * scale, drawH: img.height * scale };
-}
-function clampOffset(drawW, drawH, boxW, boxH, offX, offY){
-  const maxOffX = Math.max(0, (drawW - boxW) / 2);
-  const maxOffY = Math.max(0, (drawH - boxH) / 2);
-  return {
-    x: Math.min(maxOffX, Math.max(-maxOffX, offX)),
-    y: Math.min(maxOffY, Math.max(-maxOffY, offY))
-  };
-}
-
-// dessine l'image de fond du style vidéo avec zoom + décalage utilisateur
-function getVideoImgBox(W, H){
-  const baseScale = Math.max(W / videoImg.width, H / videoImg.height);
-  const scale = baseScale * vZoom;
-  const drawW = videoImg.width * scale;
-  const drawH = videoImg.height * scale;
-  return { drawW, drawH, baseX: (W - drawW) / 2, baseY: (H - drawH) / 2 };
-}
-
-function clampVideoOffsets(W, H){
-  if (!videoImg) return;
-  const { drawW, drawH } = getVideoImgBox(W, H);
-  const maxOffX = Math.max(0, (drawW - W) / 2);
-  const maxOffY = Math.max(0, (drawH - H) / 2);
-  vOffX = Math.min(maxOffX, Math.max(-maxOffX, vOffX));
-  vOffY = Math.min(maxOffY, Math.max(-maxOffY, vOffY));
-}
-
-function drawVideoBackground(c, W, H){
-  const { drawW, drawH, baseX, baseY } = getVideoImgBox(W, H);
-  const x = baseX + vOffX;
-  const y = baseY + vOffY;
-  c.drawImage(videoImg, x, y, drawW, drawH);
-}
-
-function loadImageFile(file, cb){
-  const reader = new FileReader();
-  reader.onload = e => {
-    const img = new Image();
-    img.onload = () => cb(img);
-    img.src = e.target.result;
-  };
-  reader.readAsDataURL(file);
-}
-
-// ---------- VIDEO TEMPLATE ----------
-function renderVideo(){
-  const W = 1280, H = 720;
-  canvas.width = W; canvas.height = H;
-  dimsLabel.textContent = W + ' × ' + H + ' px';
-
-  const radius = parseInt(document.getElementById('v-radius').value, 10);
-  const accent = document.getElementById('v-accent').value;
-  const lieu = document.getElementById('v-lieu').value;
-  const date = document.getElementById('v-date').value;
-  const legende = document.getElementById('v-legende').value;
-
-  ctx.clearRect(0,0,W,H);
-  ctx.save();
-  roundRectPath(ctx, 0, 0, W, H, radius);
-  ctx.clip();
-
-  // background
-  if (videoImg){
-    clampVideoOffsets(W, H);
-    drawVideoBackground(ctx, W, H);
-  } else {
-    const g = ctx.createLinearGradient(0,0,W,H);
-    g.addColorStop(0,'#2b2f3a');
-    g.addColorStop(1,'#12141a');
-    ctx.fillStyle = g;
-    ctx.fillRect(0,0,W,H);
-    ctx.fillStyle = 'rgba(255,255,255,.35)';
-    ctx.font = '600 22px -apple-system, Arial, sans-serif';
-    ctx.fillText('Ajoutez une photo de fond →', 40, H/2);
-  }
-
-  // top gradient for legibility
-  const topGrad = ctx.createLinearGradient(0,0,0,220);
-  topGrad.addColorStop(0,'rgba(0,0,0,.55)');
-  topGrad.addColorStop(1,'rgba(0,0,0,0)');
-  ctx.fillStyle = topGrad;
-  ctx.fillRect(0,0,W,220);
-
-  // accent bar left
-  ctx.fillStyle = accent;
-  ctx.fillRect(0, 0, 6, 120);
-
-  // location text
-  ctx.fillStyle = '#ffffff';
-  ctx.font = '800 40px -apple-system, Arial, sans-serif';
-  ctx.textBaseline = 'alphabetic';
-  ctx.shadowColor = 'rgba(0,0,0,.5)';
-  ctx.shadowBlur = 6;
-  ctx.fillText(lieu, 40, 62);
-
-  // date text
-  ctx.font = '600 27px -apple-system, Arial, sans-serif';
-  ctx.fillText(date, 40, 100);
-  ctx.shadowBlur = 0;
-
-  // bottom caption box
-  ctx.font = '800 32px -apple-system, Arial, sans-serif';
-  const maxTextWidth = W - 100;
-  const lines = wrapLines(ctx, legende, maxTextWidth);
-  const lineHeight = 42;
-  const padV = 26, padH = 34;
-  const boxH = lines.length * lineHeight + padV*2 - 8;
-  const boxY = H - boxH - 44;
-  const boxW = W - 80;
-  const boxX = 40;
-
-  ctx.fillStyle = '#ffffff';
-  roundRectPath(ctx, boxX, boxY, boxW, boxH, 10);
-  ctx.fill();
-
-  ctx.fillStyle = '#0d0d0d';
-  ctx.font = '800 32px -apple-system, Arial, sans-serif';
-  let ty = boxY + padV + 28;
-  for (const l of lines){
-    ctx.fillText(l, boxX + padH, ty);
-    ty += lineHeight;
-  }
-
-  ctx.restore();
-
-  // outer border for crispness
-  ctx.save();
-  roundRectPath(ctx, 1, 1, W-2, H-2, radius);
-  ctx.strokeStyle = 'rgba(255,255,255,.08)';
-  ctx.lineWidth = 2;
-  ctx.stroke();
-  ctx.restore();
-}
-
-// ---------- ARTICLE TEMPLATE ----------
-function renderArticle(){
-  const W = 900;
-  dimsLabel.textContent = 'auto (largeur 900 px)';
-
-  const radius = parseInt(document.getElementById('a-radius').value, 10);
-  const titre = document.getElementById('a-titre').value;
-  const citation = document.getElementById('a-citation').value;
-  const label = document.getElementById('a-label').value;
-  const dateStr = document.getElementById('a-date').value;
-
-  const padX = 48;
-  const contentW = W - padX*2;
-
-  // --- measure title ---
-  ctx.font = '800 33px -apple-system, Arial, sans-serif';
-  const titleLines = wrapLines(ctx, titre, contentW);
-  const titleLH = 42;
-
-  // --- measure quote ---
-  ctx.font = '400 19px -apple-system, Arial, sans-serif';
-  const quoteLines = wrapLines(ctx, citation, contentW);
-  const quoteLH = 28;
-
-  const topPad = 44;
-  const titleY0 = topPad + 30;
-  const afterTitle = titleY0 + titleLines.length * titleLH + 18;
-  const quoteY0 = afterTitle + 20;
-  const afterQuote = quoteY0 + quoteLines.length * quoteLH + 30;
-
-  const imgH = 460;
-  const imgY = afterQuote;
-  const footerH = 60;
-  const H = imgY + imgH + footerH;
-
-  canvas.width = W;
-  canvas.height = H;
-
-  // background
-  ctx.clearRect(0,0,W,H);
-  ctx.save();
-  roundRectPath(ctx, 0, 0, W, H, radius);
-  ctx.clip();
-  ctx.fillStyle = '#ffffff';
-  ctx.fillRect(0,0,W,H);
-
-  // title
-  ctx.fillStyle = titleColor;
-  ctx.font = '800 33px -apple-system, Arial, sans-serif';
-  ctx.textBaseline = 'alphabetic';
-  let ty = titleY0;
-  for (const l of titleLines){
-    ctx.fillText(l, padX, ty);
-    ty += titleLH;
-  }
-
-  // quote
-  ctx.fillStyle = '#3a4152';
-  ctx.font = '400 19px -apple-system, Arial, sans-serif';
-  let qy = quoteY0;
-  for (const l of quoteLines){
-    ctx.fillText(l, padX, qy);
-    qy += quoteLH;
-  }
-
-  // image
-  roundRectPath(ctx, padX, imgY, contentW, imgH, 14);
-  ctx.save();
-  ctx.clip();
-  if (articleImg){
-    const { drawW, drawH } = computeCoverTransform(articleImg, aZoom, contentW, imgH);
-    const clamped = clampOffset(drawW, drawH, contentW, imgH, aOffX, aOffY);
-    aOffX = clamped.x; aOffY = clamped.y;
-    const ix = padX + (contentW - drawW) / 2 + aOffX;
-    const iy = imgY + (imgH - drawH) / 2 + aOffY;
-    ctx.drawImage(articleImg, ix, iy, drawW, drawH);
-  } else {
-    ctx.fillStyle = '#e7e9ee';
-    ctx.fillRect(padX, imgY, contentW, imgH);
-    ctx.fillStyle = '#9aa3b2';
-    ctx.font = '600 18px -apple-system, Arial, sans-serif';
-    ctx.fillText('Ajoutez une photo →', padX + 24, imgY + imgH/2);
-  }
-  ctx.restore();
-  aImgBox = { x: padX, y: imgY, w: contentW, h: imgH };
-
-  // footer: label + date
-  const footY = imgY + imgH + 38;
-  ctx.fillStyle = '#6b7280';
-  ctx.font = '700 13px -apple-system, Arial, sans-serif';
-  ctx.fillText(label.toUpperCase() + '.', padX, footY);
-  const labelW = ctx.measureText(label.toUpperCase() + '.').width;
-  ctx.font = '400 13px -apple-system, Arial, sans-serif';
-  ctx.fillText('   ' + dateStr, padX + labelW, footY);
-
-  ctx.restore();
-
-  // subtle border
-  ctx.save();
-  roundRectPath(ctx, 1, 1, W-2, H-2, radius);
-  ctx.strokeStyle = 'rgba(0,0,0,.06)';
-  ctx.lineWidth = 2;
-  ctx.stroke();
-  ctx.restore();
-}
-
-function render(){
-  if (currentTpl === 'video') renderVideo();
-  else if (currentTpl === 'article') renderArticle();
-  else renderCard();
-}
-
-// ---------- CARD (SPORT) TEMPLATE ----------
-function renderCard(){
-  const W = 720;
-  const padX = 32;
-  const contentW = W - padX*2;
-  const imgH = 400;
-
-  const radius = parseInt(document.getElementById('c-radius').value, 10);
-  const titre = document.getElementById('c-titre').value;
-  const auteur = document.getElementById('c-auteur').value;
-  const dateStr = document.getElementById('c-date').value;
-
-  ctx.font = '800 31px -apple-system, Arial, sans-serif';
-  const titleLines = wrapLines(ctx, titre, contentW);
-  const titleLH = 40;
-
-  const textTop = imgH + 32;
-  const titleY0 = textTop + 30;
-  const afterTitle = titleY0 + titleLines.length * titleLH;
-  const footerY = afterTitle + 34;
-  const H = footerY + 30;
-
-  dimsLabel.textContent = W + ' × ' + Math.round(H) + ' px (carte)';
-
-  canvas.width = W;
-  canvas.height = H;
-  ctx.clearRect(0,0,W,H);
-
-  ctx.save();
-  roundRectPath(ctx, 0, 0, W, H, radius);
-  ctx.clip();
-
-  // fond blanc
-  ctx.fillStyle = '#ffffff';
-  ctx.fillRect(0,0,W,H);
-
-  // image du haut
-  ctx.save();
-  ctx.beginPath();
-  ctx.rect(0,0,W,imgH);
-  ctx.clip();
-  if (cImg){
-    const { drawW, drawH } = computeCoverTransform(cImg, cZoom, W, imgH);
-    const clamped = clampOffset(drawW, drawH, W, imgH, cOffX, cOffY);
-    cOffX = clamped.x; cOffY = clamped.y;
-    const ix = (W - drawW)/2 + cOffX;
-    const iy = (imgH - drawH)/2 + cOffY;
-    ctx.drawImage(cImg, ix, iy, drawW, drawH);
-  } else {
-    ctx.fillStyle = '#e7e9ee';
-    ctx.fillRect(0,0,W,imgH);
-    ctx.fillStyle = '#9aa3b2';
-    ctx.font = '600 18px -apple-system, Arial, sans-serif';
-    ctx.fillText('Ajoutez une photo →', 24, imgH/2);
-  }
-  ctx.restore();
-  cImgBox = { x:0, y:0, w:W, h:imgH };
-
-  // séparation fine
-  ctx.strokeStyle = 'rgba(0,0,0,.06)';
-  ctx.lineWidth = 1;
-  ctx.beginPath();
-  ctx.moveTo(0, imgH);
-  ctx.lineTo(W, imgH);
-  ctx.stroke();
-
-  // titre
-  ctx.fillStyle = '#111318';
-  ctx.font = '800 31px -apple-system, Arial, sans-serif';
-  ctx.textBaseline = 'alphabetic';
-  let ty = titleY0;
-  for (const l of titleLines){
-    ctx.fillText(l, padX, ty);
-    ty += titleLH;
-  }
-
-  // auteur | date
-  ctx.fillStyle = '#8a93a3';
-  ctx.font = '500 18px -apple-system, Arial, sans-serif';
-  const footerText = dateStr ? (auteur + '  |  ' + dateStr) : auteur;
-  ctx.fillText(footerText, padX, footerY);
-
-  ctx.restore();
-
-  // bordure fine autour de la carte
-  ctx.save();
-  roundRectPath(ctx, 1, 1, W-2, H-2, radius);
-  ctx.strokeStyle = 'rgba(0,0,0,.08)';
-  ctx.lineWidth = 1.5;
-  ctx.stroke();
-  ctx.restore();
-}
-
-// ---------- events ----------
-document.querySelectorAll('.tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-    tab.classList.add('active');
-    currentTpl = tab.dataset.tpl;
-    document.getElementById('ctrl-video').style.display = currentTpl === 'video' ? 'block' : 'none';
-    document.getElementById('ctrl-article').style.display = currentTpl === 'article' ? 'block' : 'none';
-    document.getElementById('ctrl-card').style.display = currentTpl === 'card' ? 'block' : 'none';
-    canvas.style.cursor = (currentTpl === 'video' && videoImg) ? 'grab' : 'default';
-    render();
-  });
-});
-
-document.getElementById('btn-video-img').addEventListener('click', ()=>document.getElementById('file-video-img').click());
-document.getElementById('file-video-img').addEventListener('change', e=>{
-  if (e.target.files[0]) loadImageFile(e.target.files[0], img => {
-    videoImg = img;
-    vZoom = 1; vOffX = 0; vOffY = 0;
-    document.getElementById('v-zoom').value = 100;
-    canvas.style.cursor = 'grab';
-    render();
-  });
-});
-
-// ---------- zoom / drag sur l'aperçu (style vidéo) ----------
-const zoomSlider = document.getElementById('v-zoom');
-zoomSlider.addEventListener('input', ()=>{
-  vZoom = parseInt(zoomSlider.value,10) / 100;
-  clampVideoOffsets(canvas.width, canvas.height);
-  render();
-});
-
-document.getElementById('v-reset-pos').addEventListener('click', ()=>{
-  vZoom = 1; vOffX = 0; vOffY = 0;
-  zoomSlider.value = 100;
-  render();
-});
-
-function canvasScaleFactor(){
-  const rect = canvas.getBoundingClientRect();
-  return canvas.width / rect.width;
-}
-
-canvas.addEventListener('mousedown', e=>{
-  if (currentTpl !== 'video' || !videoImg) return;
-  vDragging = true;
-  vLastX = e.clientX;
-  vLastY = e.clientY;
-  canvas.style.cursor = 'grabbing';
-});
-window.addEventListener('mousemove', e=>{
-  if (!vDragging) return;
-  const f = canvasScaleFactor();
-  vOffX += (e.clientX - vLastX) * f;
-  vOffY += (e.clientY - vLastY) * f;
-  vLastX = e.clientX;
-  vLastY = e.clientY;
-  clampVideoOffsets(canvas.width, canvas.height);
-  render();
-});
-window.addEventListener('mouseup', ()=>{
-  vDragging = false;
-  if (currentTpl === 'video' && videoImg) canvas.style.cursor = 'grab';
-});
-
-canvas.addEventListener('wheel', e=>{
-  if (currentTpl !== 'video' || !videoImg) return;
-  e.preventDefault();
-  const delta = e.deltaY < 0 ? 8 : -8;
-  let pct = parseInt(zoomSlider.value,10) + delta;
-  pct = Math.min(400, Math.max(100, pct));
-  zoomSlider.value = pct;
-  vZoom = pct / 100;
-  clampVideoOffsets(canvas.width, canvas.height);
-  render();
-}, { passive:false });
-
-// touch (mobile)
-canvas.addEventListener('touchstart', e=>{
-  if (currentTpl !== 'video' || !videoImg || e.touches.length !== 1) return;
-  vDragging = true;
-  vLastX = e.touches[0].clientX;
-  vLastY = e.touches[0].clientY;
-}, { passive:true });
-canvas.addEventListener('touchmove', e=>{
-  if (!vDragging || e.touches.length !== 1) return;
-  const f = canvasScaleFactor();
-  vOffX += (e.touches[0].clientX - vLastX) * f;
-  vOffY += (e.touches[0].clientY - vLastY) * f;
-  vLastX = e.touches[0].clientX;
-  vLastY = e.touches[0].clientY;
-  clampVideoOffsets(canvas.width, canvas.height);
-  render();
-}, { passive:true });
-canvas.addEventListener('touchend', ()=>{ vDragging = false; });
-
-document.getElementById('btn-article-img').addEventListener('click', ()=>document.getElementById('file-article-img').click());
-document.getElementById('file-article-img').addEventListener('change', e=>{
-  if (e.target.files[0]) loadImageFile(e.target.files[0], img => {
-    articleImg = img;
-    aZoom = 1; aOffX = 0; aOffY = 0;
-    document.getElementById('a-zoom').value = 100;
-    render();
-  });
-});
-
-// ---------- zoom / drag sur l'aperçu (style article) ----------
-const aZoomSlider = document.getElementById('a-zoom');
-aZoomSlider.addEventListener('input', ()=>{
-  aZoom = parseInt(aZoomSlider.value,10) / 100;
-  render();
-});
-document.getElementById('a-reset-pos').addEventListener('click', ()=>{
-  aZoom = 1; aOffX = 0; aOffY = 0;
-  aZoomSlider.value = 100;
-  render();
-});
-
-function pointInArticleImg(clientX, clientY){
-  if (!aImgBox) return false;
-  const rect = canvas.getBoundingClientRect();
-  const f = canvasScaleFactor();
-  const cx = (clientX - rect.left) * f;
-  const cy = (clientY - rect.top) * f;
-  return cx >= aImgBox.x && cx <= aImgBox.x + aImgBox.w && cy >= aImgBox.y && cy <= aImgBox.y + aImgBox.h;
-}
-
-canvas.addEventListener('mousedown', e=>{
-  if (currentTpl === 'article' && articleImg && pointInArticleImg(e.clientX, e.clientY)){
-    aDragging = true;
-    aLastX = e.clientX;
-    aLastY = e.clientY;
-    canvas.style.cursor = 'grabbing';
-  }
-});
-window.addEventListener('mousemove', e=>{
-  if (aDragging){
-    const f = canvasScaleFactor();
-    aOffX += (e.clientX - aLastX) * f;
-    aOffY += (e.clientY - aLastY) * f;
-    aLastX = e.clientX;
-    aLastY = e.clientY;
-    render();
-    return;
-  }
-  if (currentTpl === 'article' && articleImg){
-    canvas.style.cursor = pointInArticleImg(e.clientX, e.clientY) ? 'grab' : 'default';
-  }
-});
-window.addEventListener('mouseup', ()=>{
-  if (aDragging){
-    aDragging = false;
-    canvas.style.cursor = 'grab';
-  }
-});
-
-canvas.addEventListener('wheel', e=>{
-  if (currentTpl !== 'article' || !articleImg || !pointInArticleImg(e.clientX, e.clientY)) return;
-  e.preventDefault();
-  const delta = e.deltaY < 0 ? 8 : -8;
-  let pct = parseInt(aZoomSlider.value,10) + delta;
-  pct = Math.min(400, Math.max(100, pct));
-  aZoomSlider.value = pct;
-  aZoom = pct / 100;
-  render();
-}, { passive:false });
-
-// touch (mobile)
-canvas.addEventListener('touchstart', e=>{
-  if (currentTpl === 'article' && articleImg && e.touches.length === 1 && pointInArticleImg(e.touches[0].clientX, e.touches[0].clientY)){
-    aDragging = true;
-    aLastX = e.touches[0].clientX;
-    aLastY = e.touches[0].clientY;
-  }
-}, { passive:true });
-canvas.addEventListener('touchmove', e=>{
-  if (!aDragging || e.touches.length !== 1) return;
-  const f = canvasScaleFactor();
-  aOffX += (e.touches[0].clientX - aLastX) * f;
-  aOffY += (e.touches[0].clientY - aLastY) * f;
-  aLastX = e.touches[0].clientX;
-  aLastY = e.touches[0].clientY;
-  render();
-}, { passive:true });
-canvas.addEventListener('touchend', ()=>{ aDragging = false; });
-
-// ---------- style carte sport : upload, zoom, drag ----------
-document.getElementById('btn-card-img').addEventListener('click', ()=>document.getElementById('file-card-img').click());
-document.getElementById('file-card-img').addEventListener('change', e=>{
-  if (e.target.files[0]) loadImageFile(e.target.files[0], img => {
-    cImg = img;
-    cZoom = 1; cOffX = 0; cOffY = 0;
-    document.getElementById('c-zoom').value = 100;
-    render();
-  });
-});
-
-const cZoomSlider = document.getElementById('c-zoom');
-cZoomSlider.addEventListener('input', ()=>{
-  cZoom = parseInt(cZoomSlider.value,10) / 100;
-  render();
-});
-document.getElementById('c-reset-pos').addEventListener('click', ()=>{
-  cZoom = 1; cOffX = 0; cOffY = 0;
-  cZoomSlider.value = 100;
-  render();
-});
-
-function pointInCardImg(clientX, clientY){
-  if (!cImgBox) return false;
-  const rect = canvas.getBoundingClientRect();
-  const f = canvasScaleFactor();
-  const cx = (clientX - rect.left) * f;
-  const cy = (clientY - rect.top) * f;
-  return cx >= cImgBox.x && cx <= cImgBox.x + cImgBox.w && cy >= cImgBox.y && cy <= cImgBox.y + cImgBox.h;
-}
-
-canvas.addEventListener('mousedown', e=>{
-  if (currentTpl === 'card' && cImg && pointInCardImg(e.clientX, e.clientY)){
-    cDragging = true;
-    cLastX = e.clientX;
-    cLastY = e.clientY;
-    canvas.style.cursor = 'grabbing';
-  }
-});
-window.addEventListener('mousemove', e=>{
-  if (cDragging){
-    const f = canvasScaleFactor();
-    cOffX += (e.clientX - cLastX) * f;
-    cOffY += (e.clientY - cLastY) * f;
-    cLastX = e.clientX;
-    cLastY = e.clientY;
-    render();
-    return;
-  }
-  if (currentTpl === 'card' && cImg){
-    canvas.style.cursor = pointInCardImg(e.clientX, e.clientY) ? 'grab' : 'default';
-  }
-});
-window.addEventListener('mouseup', ()=>{
-  if (cDragging){
-    cDragging = false;
-    canvas.style.cursor = 'grab';
-  }
-});
-
-canvas.addEventListener('wheel', e=>{
-  if (currentTpl !== 'card' || !cImg || !pointInCardImg(e.clientX, e.clientY)) return;
-  e.preventDefault();
-  const delta = e.deltaY < 0 ? 8 : -8;
-  let pct = parseInt(cZoomSlider.value,10) + delta;
-  pct = Math.min(400, Math.max(100, pct));
-  cZoomSlider.value = pct;
-  cZoom = pct / 100;
-  render();
-}, { passive:false });
-
-canvas.addEventListener('touchstart', e=>{
-  if (currentTpl === 'card' && cImg && e.touches.length === 1 && pointInCardImg(e.touches[0].clientX, e.touches[0].clientY)){
-    cDragging = true;
-    cLastX = e.touches[0].clientX;
-    cLastY = e.touches[0].clientY;
-  }
-}, { passive:true });
-canvas.addEventListener('touchmove', e=>{
-  if (!cDragging || e.touches.length !== 1) return;
-  const f = canvasScaleFactor();
-  cOffX += (e.touches[0].clientX - cLastX) * f;
-  cOffY += (e.touches[0].clientY - cLastY) * f;
-  cLastX = e.touches[0].clientX;
-  cLastY = e.touches[0].clientY;
-  render();
-}, { passive:true });
-canvas.addEventListener('touchend', ()=>{ cDragging = false; });
-
-document.querySelectorAll('#ctrl-video input, #ctrl-video textarea').forEach(el=>{
-  el.addEventListener('input', render);
-});
-document.querySelectorAll('#ctrl-article input, #ctrl-article textarea').forEach(el=>{
-  el.addEventListener('input', render);
-});
-document.querySelectorAll('#ctrl-card input, #ctrl-card textarea').forEach(el=>{
-  el.addEventListener('input', render);
-});
-document.querySelectorAll('.swatch').forEach(sw=>{
-  sw.addEventListener('click', ()=>{
-    document.querySelectorAll('.swatch').forEach(s=>s.classList.remove('sel'));
-    sw.classList.add('sel');
-    titleColor = sw.dataset.c;
-    render();
-  });
-});
-
-document.getElementById('download').addEventListener('click', ()=>{
-  const names = { video:'visuel-video', article:'visuel-article', card:'visuel-carte-sport' };
-  const filename = (names[currentTpl] || 'visuel') + '-' + Date.now() + '.png';
-
-  canvas.toBlob(blob => {
-    if (!blob){
-      alert("Échec de la génération de l'image. Réessaie, ou fais un clic droit sur l'aperçu → Enregistrer l'image sous.");
-      return;
-    }
-    try {
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = filename;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      setTimeout(()=>URL.revokeObjectURL(url), 4000);
-    } catch (err){
-      // fallback : ouvrir l'image dans un nouvel onglet pour un enregistrement manuel
-      const url = URL.createObjectURL(blob);
-      window.open(url, '_blank');
-    }
-  }, 'image/png');
-});
-
-// ---------- auto date du jour ----------
-const MOIS_FR = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
-
-function setTodayDates(){
-  const now = new Date();
-  const jour = now.getDate();
-  const mois = MOIS_FR[now.getMonth()];
-  const annee = now.getFullYear();
-
-  // format "4 juillet 2026" pour le style vidéo
-  document.getElementById('v-date').value = `${jour} ${mois} ${annee}`;
-
-  // format "06/07/2026" pour le style article
-  const dd = String(jour).padStart(2,'0');
-  const mm = String(now.getMonth()+1).padStart(2,'0');
-  document.getElementById('a-date').value = `${dd}/${mm}/${annee}`;
-
-  // format "May 30, 2026" pour la carte sport (style anglo courant sur ce type de site)
-  const MOIS_EN = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-  document.getElementById('c-date').value = `${MOIS_EN[now.getMonth()]} ${jour}, ${annee}`;
-}
-setTodayDates();
-
-// premier rendu (polices système, aucun chargement réseau nécessaire)
-render();
-</script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Générateur de visuels — MVP Studio</title>
+    <style>
+      :root {
+        --bg: #0f1115;
+        --panel: #171a21;
+        --panel-2: #1e222b;
+        --line: #2a2f3a;
+        --text: #eef0f4;
+        --muted: #9aa3b2;
+        --accent: #e0392b;
+        --accent-2: #2b5be0;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family:
+          -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        display: flex;
+        min-height: 100vh;
+      }
+      aside {
+        width: 360px;
+        min-width: 360px;
+        background: var(--panel);
+        border-right: 1px solid var(--line);
+        padding: 20px;
+        overflow-y: auto;
+        max-height: 100vh;
+      }
+      main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 30px;
+        gap: 16px;
+      }
+      h1 {
+        font-size: 17px;
+        font-weight: 800;
+        margin: 0 0 4px 0;
+        letter-spacing: 0.2px;
+      }
+      .sub {
+        color: var(--muted);
+        font-size: 12.5px;
+        margin-bottom: 18px;
+        line-height: 1.4;
+      }
+      .tabs {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 18px;
+        background: var(--panel-2);
+        padding: 4px;
+        border-radius: 10px;
+        border: 1px solid var(--line);
+      }
+      .tab {
+        flex: 1;
+        text-align: center;
+        padding: 9px 6px;
+        border-radius: 7px;
+        font-size: 12.5px;
+        font-weight: 700;
+        cursor: pointer;
+        color: var(--muted);
+        transition: 0.15s;
+        user-select: none;
+      }
+      .tab.active {
+        background: var(--accent);
+        color: #fff;
+      }
+      label {
+        display: block;
+        font-size: 11.5px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: var(--muted);
+        margin: 16px 0 6px 0;
+      }
+      label:first-of-type {
+        margin-top: 0;
+      }
+      input[type="text"],
+      textarea,
+      input[type="date"] {
+        width: 100%;
+        background: var(--panel-2);
+        border: 1px solid var(--line);
+        color: var(--text);
+        padding: 9px 11px;
+        border-radius: 8px;
+        font-family:
+          -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+        font-size: 13.5px;
+        resize: vertical;
+      }
+      textarea {
+        min-height: 64px;
+        line-height: 1.4;
+      }
+      input[type="color"] {
+        width: 44px;
+        height: 30px;
+        border: none;
+        background: none;
+        padding: 0;
+        cursor: pointer;
+      }
+      .row {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      .row > div {
+        flex: 1;
+      }
+      .filebtn {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        background: var(--panel-2);
+        border: 1px dashed var(--line);
+        border-radius: 8px;
+        text-align: center;
+        font-size: 12.5px;
+        font-weight: 600;
+        color: var(--muted);
+        cursor: pointer;
+      }
+      .filebtn:hover {
+        border-color: var(--accent);
+        color: var(--text);
+      }
+      input[type="file"] {
+        display: none;
+      }
+      input[type="range"] {
+        width: 100%;
+      }
+      .hint {
+        font-size: 11px;
+        color: var(--muted);
+        margin-top: 4px;
+      }
+      .section-title {
+        font-size: 12px;
+        font-weight: 800;
+        color: var(--text);
+        margin: 22px 0 4px 0;
+        padding-top: 14px;
+        border-top: 1px solid var(--line);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      .section-title:first-child {
+        border-top: none;
+        padding-top: 0;
+        margin-top: 0;
+      }
+      canvas {
+        background: #000;
+        max-width: 100%;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        border-radius: 4px;
+      }
+      #stage-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+      }
+      .toolbar {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      button.dl {
+        background: var(--accent);
+        color: #fff;
+        border: none;
+        padding: 12px 22px;
+        border-radius: 9px;
+        font-weight: 800;
+        font-size: 13.5px;
+        cursor: pointer;
+        letter-spacing: 0.2px;
+      }
+      button.dl:hover {
+        filter: brightness(1.08);
+      }
+      .dims {
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .swatches {
+        display: flex;
+        gap: 6px;
+        margin-top: 6px;
+      }
+      .swatch {
+        width: 22px;
+        height: 22px;
+        border-radius: 6px;
+        cursor: pointer;
+        border: 2px solid transparent;
+      }
+      .swatch.sel {
+        border-color: #fff;
+      }
+    </style>
+    <script src="header.js"></script>
+  </head>
+  <body>
+    <aside>
+      <div id="header-container"></div>
+      <h1>Générateur de visuels</h1>
+      <div class="sub">
+        Style capture vidéo (bandeau lieu/date + légende) ou style article site
+        officiel. Réglages à gauche, aperçu à droite, export PNG en un clic.
+      </div>
+
+      <div class="tabs">
+        <div class="tab active" data-tpl="video">Style Vidéo</div>
+        <div class="tab" data-tpl="article">Style Article</div>
+        <div class="tab" data-tpl="card">Style Carte Sport</div>
+      </div>
+
+      <!-- VIDEO TEMPLATE CONTROLS -->
+      <div id="ctrl-video">
+        <div class="section-title">Image</div>
+        <label>Photo de fond</label>
+        <div class="filebtn" id="btn-video-img">📷 Choisir une image</div>
+        <input type="file" id="file-video-img" accept="image/*" />
+        <label>Zoom</label>
+        <input type="range" id="v-zoom" min="100" max="400" value="100" />
+        <div class="hint">
+          Glisse l'image directement dans l'aperçu pour la repositionner ↔
+        </div>
+        <button
+          class="filebtn"
+          id="v-reset-pos"
+          style="margin-top: 8px; border-style: solid; cursor: pointer"
+        >
+          ↺ Réinitialiser position/zoom
+        </button>
+
+        <div class="section-title">Bandeau haut</div>
+        <label>Lieu</label>
+        <input type="text" id="v-lieu" value="Casablanca (Maroc)" />
+        <label>Date</label>
+        <input type="text" id="v-date" value="4 juillet 2026" />
+
+        <div class="section-title">Légende (bas)</div>
+        <label>Texte de la légende</label>
+        <textarea id="v-legende">
+Les supporteurs du Maroc ont célébré la victoire de leur équipe en Coupe du monde.</textarea
+        >
+
+        <div class="section-title">Style</div>
+        <label>Couleur accent (drapeau / détails)</label>
+        <div class="row">
+          <input type="color" id="v-accent" value="#e0392b" />
+          <div class="hint">Utilisée pour le petit repère latéral</div>
+        </div>
+        <label>Arrondi des coins</label>
+        <input type="range" id="v-radius" min="0" max="48" value="18" />
+      </div>
+
+      <!-- ARTICLE TEMPLATE CONTROLS -->
+      <div id="ctrl-article" style="display: none">
+        <div class="section-title">Titre</div>
+        <label>Titre (gras)</label>
+        <textarea id="a-titre">
+Pedro Martínez : « C'est un immense défi et mon objectif est d'aider le club à obtenir le plus grand succès possible »</textarea
+        >
+
+        <div class="section-title">Citation</div>
+        <label>Texte de citation</label>
+        <textarea id="a-citation">
+« C'est un honneur et une fierté de faire partie de cette entité, je connais l'héritage et je vais donner le meilleur de moi-même pour être à la hauteur », a-t-il déclaré sur Realmadrid TV.</textarea
+        >
+
+        <div class="section-title">Image</div>
+        <label>Photo</label>
+        <div class="filebtn" id="btn-article-img">📷 Choisir une image</div>
+        <input type="file" id="file-article-img" accept="image/*" />
+        <label>Zoom</label>
+        <input type="range" id="a-zoom" min="100" max="400" value="100" />
+        <div class="hint">
+          Glisse l'image directement dans l'aperçu pour la repositionner ↔
+        </div>
+        <button
+          class="filebtn"
+          id="a-reset-pos"
+          style="margin-top: 8px; border-style: solid; cursor: pointer"
+        >
+          ↺ Réinitialiser position/zoom
+        </button>
+
+        <div class="section-title">Pied de page</div>
+        <label>Étiquette</label>
+        <input
+          type="text"
+          id="a-label"
+          value="Avec MVP Foot c'est 100% foot Ivoirien "
+        />
+        <label>Date</label>
+        <input type="text" id="a-date" value="06/07/2026" />
+
+        <div class="section-title">Style</div>
+        <label>Couleur du titre</label>
+        <div class="swatches">
+          <div
+            class="swatch sel"
+            data-c="#0b1f3a"
+            style="background: #0b1f3a"
+          ></div>
+          <div
+            class="swatch"
+            data-c="#1a1a1a"
+            style="background: #1a1a1a"
+          ></div>
+          <div
+            class="swatch"
+            data-c="#7a1f1f"
+            style="background: #7a1f1f"
+          ></div>
+          <div
+            class="swatch"
+            data-c="#0d3b25"
+            style="background: #0d3b25"
+          ></div>
+        </div>
+        <label>Arrondi des coins</label>
+        <input type="range" id="a-radius" min="0" max="40" value="20" />
+      </div>
+
+      <!-- CARD (SPORT) TEMPLATE CONTROLS -->
+      <div id="ctrl-card" style="display: none">
+        <div class="section-title">Photo</div>
+        <label>Photo (haut de la carte)</label>
+        <div class="filebtn" id="btn-card-img">📷 Choisir une image</div>
+        <input type="file" id="file-card-img" accept="image/*" />
+        <label>Zoom</label>
+        <input type="range" id="c-zoom" min="100" max="400" value="100" />
+        <div class="hint">
+          Glisse l'image directement dans l'aperçu pour la repositionner ↔
+        </div>
+        <button
+          class="filebtn"
+          id="c-reset-pos"
+          style="margin-top: 8px; border-style: solid; cursor: pointer"
+        >
+          ↺ Réinitialiser position/zoom
+        </button>
+
+        <div class="section-title">Titre</div>
+        <label>Titre (gras)</label>
+        <textarea id="c-titre">
+PSG - Arsenal (1-1, 4-3 t.a.b) : Les notes des Parisiens, auteurs du back to back en Ligue des Champions</textarea
+        >
+
+        <div class="section-title">Auteur / Date</div>
+        <label>Auteur</label>
+        <input type="text" id="c-auteur" value="Ilies Peeters" />
+        <label>Date</label>
+        <input type="text" id="c-date" value="" />
+
+        <div class="section-title">Style</div>
+        <label>Arrondi des coins</label>
+        <input type="range" id="c-radius" min="0" max="36" value="14" />
+      </div>
+    </aside>
+
+    <main>
+      <div class="toolbar">
+        <span class="dims" id="dims-label">1280 × 720 px</span>
+      </div>
+      <div id="stage-wrap">
+        <canvas id="stage" width="1280" height="720"></canvas>
+      </div>
+      <button class="dl" id="download">⬇ Télécharger en PNG</button>
+    </main>
+
+    <script>
+      const canvas = document.getElementById("stage");
+      const ctx = canvas.getContext("2d");
+      const dimsLabel = document.getElementById("dims-label");
+      let currentTpl = "video";
+      let videoImg = null;
+      let articleImg = null;
+      let titleColor = "#0b1f3a";
+
+      // transformation (zoom / position) de l'image de fond du style vidéo
+      let vZoom = 1; // multiplicateur au-dessus du "cover fit" (1 = ajusté, pas de vide)
+      let vOffX = 0; // décalage en pixels canvas
+      let vOffY = 0;
+      let vDragging = false;
+      let vLastX = 0,
+        vLastY = 0;
+
+      // transformation (zoom / position) de l'image du style article
+      let aZoom = 1;
+      let aOffX = 0;
+      let aOffY = 0;
+      let aDragging = false;
+      let aLastX = 0,
+        aLastY = 0;
+      let aImgBox = null; // {x,y,w,h} zone occupée par l'image dans le canvas (mis à jour au render)
+
+      // transformation (zoom / position) de l'image du style carte sport
+      let cImg = null;
+      let cZoom = 1;
+      let cOffX = 0;
+      let cOffY = 0;
+      let cDragging = false;
+      let cLastX = 0,
+        cLastY = 0;
+      let cImgBox = null;
+
+      // ---------- helpers ----------
+      function roundRectPath(c, x, y, w, h, r) {
+        if (typeof r === "number") r = { tl: r, tr: r, br: r, bl: r };
+        c.beginPath();
+        c.moveTo(x + r.tl, y);
+        c.lineTo(x + w - r.tr, y);
+        c.arcTo(x + w, y, x + w, y + r.tr, r.tr);
+        c.lineTo(x + w, y + h - r.br);
+        c.arcTo(x + w, y + h, x + w - r.br, y + h, r.br);
+        c.lineTo(x + r.bl, y + h);
+        c.arcTo(x, y + h, x, y + h - r.bl, r.bl);
+        c.lineTo(x, y + r.tl);
+        c.arcTo(x, y, x + r.tl, y, r.tl);
+        c.closePath();
+      }
+
+      function drawImageCover(c, img, x, y, w, h) {
+        const ir = img.width / img.height;
+        const r = w / h;
+        let sx, sy, sw, sh;
+        if (ir > r) {
+          sh = img.height;
+          sw = sh * r;
+          sx = (img.width - sw) / 2;
+          sy = 0;
+        } else {
+          sw = img.width;
+          sh = sw / r;
+          sx = 0;
+          sy = (img.height - sh) / 2;
+        }
+        c.drawImage(img, sx, sy, sw, sh, x, y, w, h);
+      }
+
+      // word-wrap, returns array of lines
+      function wrapLines(c, text, maxWidth) {
+        const words = text.split(/\s+/);
+        const lines = [];
+        let line = "";
+        for (let w of words) {
+          const test = line ? line + " " + w : w;
+          if (c.measureText(test).width > maxWidth && line) {
+            lines.push(line);
+            line = w;
+          } else {
+            line = test;
+          }
+        }
+        if (line) lines.push(line);
+        return lines;
+      }
+
+      // ---------- transformation générique (zoom/pan) réutilisable ----------
+      function computeCoverTransform(img, zoom, boxW, boxH) {
+        const baseScale = Math.max(boxW / img.width, boxH / img.height);
+        const scale = baseScale * zoom;
+        return { drawW: img.width * scale, drawH: img.height * scale };
+      }
+      function clampOffset(drawW, drawH, boxW, boxH, offX, offY) {
+        const maxOffX = Math.max(0, (drawW - boxW) / 2);
+        const maxOffY = Math.max(0, (drawH - boxH) / 2);
+        return {
+          x: Math.min(maxOffX, Math.max(-maxOffX, offX)),
+          y: Math.min(maxOffY, Math.max(-maxOffY, offY)),
+        };
+      }
+
+      // dessine l'image de fond du style vidéo avec zoom + décalage utilisateur
+      function getVideoImgBox(W, H) {
+        const baseScale = Math.max(W / videoImg.width, H / videoImg.height);
+        const scale = baseScale * vZoom;
+        const drawW = videoImg.width * scale;
+        const drawH = videoImg.height * scale;
+        return { drawW, drawH, baseX: (W - drawW) / 2, baseY: (H - drawH) / 2 };
+      }
+
+      function clampVideoOffsets(W, H) {
+        if (!videoImg) return;
+        const { drawW, drawH } = getVideoImgBox(W, H);
+        const maxOffX = Math.max(0, (drawW - W) / 2);
+        const maxOffY = Math.max(0, (drawH - H) / 2);
+        vOffX = Math.min(maxOffX, Math.max(-maxOffX, vOffX));
+        vOffY = Math.min(maxOffY, Math.max(-maxOffY, vOffY));
+      }
+
+      function drawVideoBackground(c, W, H) {
+        const { drawW, drawH, baseX, baseY } = getVideoImgBox(W, H);
+        const x = baseX + vOffX;
+        const y = baseY + vOffY;
+        c.drawImage(videoImg, x, y, drawW, drawH);
+      }
+
+      function loadImageFile(file, cb) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => cb(img);
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+
+      // ---------- VIDEO TEMPLATE ----------
+      function renderVideo() {
+        const W = 1280,
+          H = 720;
+        canvas.width = W;
+        canvas.height = H;
+        dimsLabel.textContent = W + " × " + H + " px";
+
+        const radius = parseInt(document.getElementById("v-radius").value, 10);
+        const accent = document.getElementById("v-accent").value;
+        const lieu = document.getElementById("v-lieu").value;
+        const date = document.getElementById("v-date").value;
+        const legende = document.getElementById("v-legende").value;
+
+        ctx.clearRect(0, 0, W, H);
+        ctx.save();
+        roundRectPath(ctx, 0, 0, W, H, radius);
+        ctx.clip();
+
+        // background
+        if (videoImg) {
+          clampVideoOffsets(W, H);
+          drawVideoBackground(ctx, W, H);
+        } else {
+          const g = ctx.createLinearGradient(0, 0, W, H);
+          g.addColorStop(0, "#2b2f3a");
+          g.addColorStop(1, "#12141a");
+          ctx.fillStyle = g;
+          ctx.fillRect(0, 0, W, H);
+          ctx.fillStyle = "rgba(255,255,255,.35)";
+          ctx.font = "600 22px -apple-system, Arial, sans-serif";
+          ctx.fillText("Ajoutez une photo de fond →", 40, H / 2);
+        }
+
+        // top gradient for legibility
+        const topGrad = ctx.createLinearGradient(0, 0, 0, 220);
+        topGrad.addColorStop(0, "rgba(0,0,0,.55)");
+        topGrad.addColorStop(1, "rgba(0,0,0,0)");
+        ctx.fillStyle = topGrad;
+        ctx.fillRect(0, 0, W, 220);
+
+        // accent bar left
+        ctx.fillStyle = accent;
+        ctx.fillRect(0, 0, 6, 120);
+
+        // location text
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "800 40px -apple-system, Arial, sans-serif";
+        ctx.textBaseline = "alphabetic";
+        ctx.shadowColor = "rgba(0,0,0,.5)";
+        ctx.shadowBlur = 6;
+        ctx.fillText(lieu, 40, 62);
+
+        // date text
+        ctx.font = "600 27px -apple-system, Arial, sans-serif";
+        ctx.fillText(date, 40, 100);
+        ctx.shadowBlur = 0;
+
+        // bottom caption box
+        ctx.font = "800 32px -apple-system, Arial, sans-serif";
+        const maxTextWidth = W - 100;
+        const lines = wrapLines(ctx, legende, maxTextWidth);
+        const lineHeight = 42;
+        const padV = 26,
+          padH = 34;
+        const boxH = lines.length * lineHeight + padV * 2 - 8;
+        const boxY = H - boxH - 44;
+        const boxW = W - 80;
+        const boxX = 40;
+
+        ctx.fillStyle = "#ffffff";
+        roundRectPath(ctx, boxX, boxY, boxW, boxH, 10);
+        ctx.fill();
+
+        ctx.fillStyle = "#0d0d0d";
+        ctx.font = "800 32px -apple-system, Arial, sans-serif";
+        let ty = boxY + padV + 28;
+        for (const l of lines) {
+          ctx.fillText(l, boxX + padH, ty);
+          ty += lineHeight;
+        }
+
+        ctx.restore();
+
+        // outer border for crispness
+        ctx.save();
+        roundRectPath(ctx, 1, 1, W - 2, H - 2, radius);
+        ctx.strokeStyle = "rgba(255,255,255,.08)";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      // ---------- ARTICLE TEMPLATE ----------
+      function renderArticle() {
+        const W = 900;
+        dimsLabel.textContent = "auto (largeur 900 px)";
+
+        const radius = parseInt(document.getElementById("a-radius").value, 10);
+        const titre = document.getElementById("a-titre").value;
+        const citation = document.getElementById("a-citation").value;
+        const label = document.getElementById("a-label").value;
+        const dateStr = document.getElementById("a-date").value;
+
+        const padX = 48;
+        const contentW = W - padX * 2;
+
+        // --- measure title ---
+        ctx.font = "800 33px -apple-system, Arial, sans-serif";
+        const titleLines = wrapLines(ctx, titre, contentW);
+        const titleLH = 42;
+
+        // --- measure quote ---
+        ctx.font = "400 19px -apple-system, Arial, sans-serif";
+        const quoteLines = wrapLines(ctx, citation, contentW);
+        const quoteLH = 28;
+
+        const topPad = 44;
+        const titleY0 = topPad + 30;
+        const afterTitle = titleY0 + titleLines.length * titleLH + 18;
+        const quoteY0 = afterTitle + 20;
+        const afterQuote = quoteY0 + quoteLines.length * quoteLH + 30;
+
+        const imgH = 460;
+        const imgY = afterQuote;
+        const footerH = 60;
+        const H = imgY + imgH + footerH;
+
+        canvas.width = W;
+        canvas.height = H;
+
+        // background
+        ctx.clearRect(0, 0, W, H);
+        ctx.save();
+        roundRectPath(ctx, 0, 0, W, H, radius);
+        ctx.clip();
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, W, H);
+
+        // title
+        ctx.fillStyle = titleColor;
+        ctx.font = "800 33px -apple-system, Arial, sans-serif";
+        ctx.textBaseline = "alphabetic";
+        let ty = titleY0;
+        for (const l of titleLines) {
+          ctx.fillText(l, padX, ty);
+          ty += titleLH;
+        }
+
+        // quote
+        ctx.fillStyle = "#3a4152";
+        ctx.font = "400 19px -apple-system, Arial, sans-serif";
+        let qy = quoteY0;
+        for (const l of quoteLines) {
+          ctx.fillText(l, padX, qy);
+          qy += quoteLH;
+        }
+
+        // image
+        roundRectPath(ctx, padX, imgY, contentW, imgH, 14);
+        ctx.save();
+        ctx.clip();
+        if (articleImg) {
+          const { drawW, drawH } = computeCoverTransform(
+            articleImg,
+            aZoom,
+            contentW,
+            imgH,
+          );
+          const clamped = clampOffset(
+            drawW,
+            drawH,
+            contentW,
+            imgH,
+            aOffX,
+            aOffY,
+          );
+          aOffX = clamped.x;
+          aOffY = clamped.y;
+          const ix = padX + (contentW - drawW) / 2 + aOffX;
+          const iy = imgY + (imgH - drawH) / 2 + aOffY;
+          ctx.drawImage(articleImg, ix, iy, drawW, drawH);
+        } else {
+          ctx.fillStyle = "#e7e9ee";
+          ctx.fillRect(padX, imgY, contentW, imgH);
+          ctx.fillStyle = "#9aa3b2";
+          ctx.font = "600 18px -apple-system, Arial, sans-serif";
+          ctx.fillText("Ajoutez une photo →", padX + 24, imgY + imgH / 2);
+        }
+        ctx.restore();
+        aImgBox = { x: padX, y: imgY, w: contentW, h: imgH };
+
+        // footer: label + date
+        const footY = imgY + imgH + 38;
+        ctx.fillStyle = "#6b7280";
+        ctx.font = "700 13px -apple-system, Arial, sans-serif";
+        ctx.fillText(label.toUpperCase() + ".", padX, footY);
+        const labelW = ctx.measureText(label.toUpperCase() + ".").width;
+        ctx.font = "400 13px -apple-system, Arial, sans-serif";
+        ctx.fillText("   " + dateStr, padX + labelW, footY);
+
+        ctx.restore();
+
+        // subtle border
+        ctx.save();
+        roundRectPath(ctx, 1, 1, W - 2, H - 2, radius);
+        ctx.strokeStyle = "rgba(0,0,0,.06)";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      function render() {
+        if (currentTpl === "video") renderVideo();
+        else if (currentTpl === "article") renderArticle();
+        else renderCard();
+      }
+
+      // ---------- CARD (SPORT) TEMPLATE ----------
+      function renderCard() {
+        const W = 720;
+        const padX = 32;
+        const contentW = W - padX * 2;
+        const imgH = 400;
+
+        const radius = parseInt(document.getElementById("c-radius").value, 10);
+        const titre = document.getElementById("c-titre").value;
+        const auteur = document.getElementById("c-auteur").value;
+        const dateStr = document.getElementById("c-date").value;
+
+        ctx.font = "800 31px -apple-system, Arial, sans-serif";
+        const titleLines = wrapLines(ctx, titre, contentW);
+        const titleLH = 40;
+
+        const textTop = imgH + 32;
+        const titleY0 = textTop + 30;
+        const afterTitle = titleY0 + titleLines.length * titleLH;
+        const footerY = afterTitle + 34;
+        const H = footerY + 30;
+
+        dimsLabel.textContent = W + " × " + Math.round(H) + " px (carte)";
+
+        canvas.width = W;
+        canvas.height = H;
+        ctx.clearRect(0, 0, W, H);
+
+        ctx.save();
+        roundRectPath(ctx, 0, 0, W, H, radius);
+        ctx.clip();
+
+        // fond blanc
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, W, H);
+
+        // image du haut
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(0, 0, W, imgH);
+        ctx.clip();
+        if (cImg) {
+          const { drawW, drawH } = computeCoverTransform(cImg, cZoom, W, imgH);
+          const clamped = clampOffset(drawW, drawH, W, imgH, cOffX, cOffY);
+          cOffX = clamped.x;
+          cOffY = clamped.y;
+          const ix = (W - drawW) / 2 + cOffX;
+          const iy = (imgH - drawH) / 2 + cOffY;
+          ctx.drawImage(cImg, ix, iy, drawW, drawH);
+        } else {
+          ctx.fillStyle = "#e7e9ee";
+          ctx.fillRect(0, 0, W, imgH);
+          ctx.fillStyle = "#9aa3b2";
+          ctx.font = "600 18px -apple-system, Arial, sans-serif";
+          ctx.fillText("Ajoutez une photo →", 24, imgH / 2);
+        }
+        ctx.restore();
+        cImgBox = { x: 0, y: 0, w: W, h: imgH };
+
+        // séparation fine
+        ctx.strokeStyle = "rgba(0,0,0,.06)";
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(0, imgH);
+        ctx.lineTo(W, imgH);
+        ctx.stroke();
+
+        // titre
+        ctx.fillStyle = "#111318";
+        ctx.font = "800 31px -apple-system, Arial, sans-serif";
+        ctx.textBaseline = "alphabetic";
+        let ty = titleY0;
+        for (const l of titleLines) {
+          ctx.fillText(l, padX, ty);
+          ty += titleLH;
+        }
+
+        // auteur | date
+        ctx.fillStyle = "#8a93a3";
+        ctx.font = "500 18px -apple-system, Arial, sans-serif";
+        const footerText = dateStr ? auteur + "  |  " + dateStr : auteur;
+        ctx.fillText(footerText, padX, footerY);
+
+        ctx.restore();
+
+        // bordure fine autour de la carte
+        ctx.save();
+        roundRectPath(ctx, 1, 1, W - 2, H - 2, radius);
+        ctx.strokeStyle = "rgba(0,0,0,.08)";
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      // ---------- events ----------
+      document.querySelectorAll(".tab").forEach((tab) => {
+        tab.addEventListener("click", () => {
+          document
+            .querySelectorAll(".tab")
+            .forEach((t) => t.classList.remove("active"));
+          tab.classList.add("active");
+          currentTpl = tab.dataset.tpl;
+          document.getElementById("ctrl-video").style.display =
+            currentTpl === "video" ? "block" : "none";
+          document.getElementById("ctrl-article").style.display =
+            currentTpl === "article" ? "block" : "none";
+          document.getElementById("ctrl-card").style.display =
+            currentTpl === "card" ? "block" : "none";
+          canvas.style.cursor =
+            currentTpl === "video" && videoImg ? "grab" : "default";
+          render();
+        });
+      });
+
+      document
+        .getElementById("btn-video-img")
+        .addEventListener("click", () =>
+          document.getElementById("file-video-img").click(),
+        );
+      document
+        .getElementById("file-video-img")
+        .addEventListener("change", (e) => {
+          if (e.target.files[0])
+            loadImageFile(e.target.files[0], (img) => {
+              videoImg = img;
+              vZoom = 1;
+              vOffX = 0;
+              vOffY = 0;
+              document.getElementById("v-zoom").value = 100;
+              canvas.style.cursor = "grab";
+              render();
+            });
+        });
+
+      // ---------- zoom / drag sur l'aperçu (style vidéo) ----------
+      const zoomSlider = document.getElementById("v-zoom");
+      zoomSlider.addEventListener("input", () => {
+        vZoom = parseInt(zoomSlider.value, 10) / 100;
+        clampVideoOffsets(canvas.width, canvas.height);
+        render();
+      });
+
+      document.getElementById("v-reset-pos").addEventListener("click", () => {
+        vZoom = 1;
+        vOffX = 0;
+        vOffY = 0;
+        zoomSlider.value = 100;
+        render();
+      });
+
+      function canvasScaleFactor() {
+        const rect = canvas.getBoundingClientRect();
+        return canvas.width / rect.width;
+      }
+
+      canvas.addEventListener("mousedown", (e) => {
+        if (currentTpl !== "video" || !videoImg) return;
+        vDragging = true;
+        vLastX = e.clientX;
+        vLastY = e.clientY;
+        canvas.style.cursor = "grabbing";
+      });
+      window.addEventListener("mousemove", (e) => {
+        if (!vDragging) return;
+        const f = canvasScaleFactor();
+        vOffX += (e.clientX - vLastX) * f;
+        vOffY += (e.clientY - vLastY) * f;
+        vLastX = e.clientX;
+        vLastY = e.clientY;
+        clampVideoOffsets(canvas.width, canvas.height);
+        render();
+      });
+      window.addEventListener("mouseup", () => {
+        vDragging = false;
+        if (currentTpl === "video" && videoImg) canvas.style.cursor = "grab";
+      });
+
+      canvas.addEventListener(
+        "wheel",
+        (e) => {
+          if (currentTpl !== "video" || !videoImg) return;
+          e.preventDefault();
+          const delta = e.deltaY < 0 ? 8 : -8;
+          let pct = parseInt(zoomSlider.value, 10) + delta;
+          pct = Math.min(400, Math.max(100, pct));
+          zoomSlider.value = pct;
+          vZoom = pct / 100;
+          clampVideoOffsets(canvas.width, canvas.height);
+          render();
+        },
+        { passive: false },
+      );
+
+      // touch (mobile)
+      canvas.addEventListener(
+        "touchstart",
+        (e) => {
+          if (currentTpl !== "video" || !videoImg || e.touches.length !== 1)
+            return;
+          vDragging = true;
+          vLastX = e.touches[0].clientX;
+          vLastY = e.touches[0].clientY;
+        },
+        { passive: true },
+      );
+      canvas.addEventListener(
+        "touchmove",
+        (e) => {
+          if (!vDragging || e.touches.length !== 1) return;
+          const f = canvasScaleFactor();
+          vOffX += (e.touches[0].clientX - vLastX) * f;
+          vOffY += (e.touches[0].clientY - vLastY) * f;
+          vLastX = e.touches[0].clientX;
+          vLastY = e.touches[0].clientY;
+          clampVideoOffsets(canvas.width, canvas.height);
+          render();
+        },
+        { passive: true },
+      );
+      canvas.addEventListener("touchend", () => {
+        vDragging = false;
+      });
+
+      document
+        .getElementById("btn-article-img")
+        .addEventListener("click", () =>
+          document.getElementById("file-article-img").click(),
+        );
+      document
+        .getElementById("file-article-img")
+        .addEventListener("change", (e) => {
+          if (e.target.files[0])
+            loadImageFile(e.target.files[0], (img) => {
+              articleImg = img;
+              aZoom = 1;
+              aOffX = 0;
+              aOffY = 0;
+              document.getElementById("a-zoom").value = 100;
+              render();
+            });
+        });
+
+      // ---------- zoom / drag sur l'aperçu (style article) ----------
+      const aZoomSlider = document.getElementById("a-zoom");
+      aZoomSlider.addEventListener("input", () => {
+        aZoom = parseInt(aZoomSlider.value, 10) / 100;
+        render();
+      });
+      document.getElementById("a-reset-pos").addEventListener("click", () => {
+        aZoom = 1;
+        aOffX = 0;
+        aOffY = 0;
+        aZoomSlider.value = 100;
+        render();
+      });
+
+      function pointInArticleImg(clientX, clientY) {
+        if (!aImgBox) return false;
+        const rect = canvas.getBoundingClientRect();
+        const f = canvasScaleFactor();
+        const cx = (clientX - rect.left) * f;
+        const cy = (clientY - rect.top) * f;
+        return (
+          cx >= aImgBox.x &&
+          cx <= aImgBox.x + aImgBox.w &&
+          cy >= aImgBox.y &&
+          cy <= aImgBox.y + aImgBox.h
+        );
+      }
+
+      canvas.addEventListener("mousedown", (e) => {
+        if (
+          currentTpl === "article" &&
+          articleImg &&
+          pointInArticleImg(e.clientX, e.clientY)
+        ) {
+          aDragging = true;
+          aLastX = e.clientX;
+          aLastY = e.clientY;
+          canvas.style.cursor = "grabbing";
+        }
+      });
+      window.addEventListener("mousemove", (e) => {
+        if (aDragging) {
+          const f = canvasScaleFactor();
+          aOffX += (e.clientX - aLastX) * f;
+          aOffY += (e.clientY - aLastY) * f;
+          aLastX = e.clientX;
+          aLastY = e.clientY;
+          render();
+          return;
+        }
+        if (currentTpl === "article" && articleImg) {
+          canvas.style.cursor = pointInArticleImg(e.clientX, e.clientY)
+            ? "grab"
+            : "default";
+        }
+      });
+      window.addEventListener("mouseup", () => {
+        if (aDragging) {
+          aDragging = false;
+          canvas.style.cursor = "grab";
+        }
+      });
+
+      canvas.addEventListener(
+        "wheel",
+        (e) => {
+          if (
+            currentTpl !== "article" ||
+            !articleImg ||
+            !pointInArticleImg(e.clientX, e.clientY)
+          )
+            return;
+          e.preventDefault();
+          const delta = e.deltaY < 0 ? 8 : -8;
+          let pct = parseInt(aZoomSlider.value, 10) + delta;
+          pct = Math.min(400, Math.max(100, pct));
+          aZoomSlider.value = pct;
+          aZoom = pct / 100;
+          render();
+        },
+        { passive: false },
+      );
+
+      // touch (mobile)
+      canvas.addEventListener(
+        "touchstart",
+        (e) => {
+          if (
+            currentTpl === "article" &&
+            articleImg &&
+            e.touches.length === 1 &&
+            pointInArticleImg(e.touches[0].clientX, e.touches[0].clientY)
+          ) {
+            aDragging = true;
+            aLastX = e.touches[0].clientX;
+            aLastY = e.touches[0].clientY;
+          }
+        },
+        { passive: true },
+      );
+      canvas.addEventListener(
+        "touchmove",
+        (e) => {
+          if (!aDragging || e.touches.length !== 1) return;
+          const f = canvasScaleFactor();
+          aOffX += (e.touches[0].clientX - aLastX) * f;
+          aOffY += (e.touches[0].clientY - aLastY) * f;
+          aLastX = e.touches[0].clientX;
+          aLastY = e.touches[0].clientY;
+          render();
+        },
+        { passive: true },
+      );
+      canvas.addEventListener("touchend", () => {
+        aDragging = false;
+      });
+
+      // ---------- style carte sport : upload, zoom, drag ----------
+      document
+        .getElementById("btn-card-img")
+        .addEventListener("click", () =>
+          document.getElementById("file-card-img").click(),
+        );
+      document
+        .getElementById("file-card-img")
+        .addEventListener("change", (e) => {
+          if (e.target.files[0])
+            loadImageFile(e.target.files[0], (img) => {
+              cImg = img;
+              cZoom = 1;
+              cOffX = 0;
+              cOffY = 0;
+              document.getElementById("c-zoom").value = 100;
+              render();
+            });
+        });
+
+      const cZoomSlider = document.getElementById("c-zoom");
+      cZoomSlider.addEventListener("input", () => {
+        cZoom = parseInt(cZoomSlider.value, 10) / 100;
+        render();
+      });
+      document.getElementById("c-reset-pos").addEventListener("click", () => {
+        cZoom = 1;
+        cOffX = 0;
+        cOffY = 0;
+        cZoomSlider.value = 100;
+        render();
+      });
+
+      function pointInCardImg(clientX, clientY) {
+        if (!cImgBox) return false;
+        const rect = canvas.getBoundingClientRect();
+        const f = canvasScaleFactor();
+        const cx = (clientX - rect.left) * f;
+        const cy = (clientY - rect.top) * f;
+        return (
+          cx >= cImgBox.x &&
+          cx <= cImgBox.x + cImgBox.w &&
+          cy >= cImgBox.y &&
+          cy <= cImgBox.y + cImgBox.h
+        );
+      }
+
+      canvas.addEventListener("mousedown", (e) => {
+        if (
+          currentTpl === "card" &&
+          cImg &&
+          pointInCardImg(e.clientX, e.clientY)
+        ) {
+          cDragging = true;
+          cLastX = e.clientX;
+          cLastY = e.clientY;
+          canvas.style.cursor = "grabbing";
+        }
+      });
+      window.addEventListener("mousemove", (e) => {
+        if (cDragging) {
+          const f = canvasScaleFactor();
+          cOffX += (e.clientX - cLastX) * f;
+          cOffY += (e.clientY - cLastY) * f;
+          cLastX = e.clientX;
+          cLastY = e.clientY;
+          render();
+          return;
+        }
+        if (currentTpl === "card" && cImg) {
+          canvas.style.cursor = pointInCardImg(e.clientX, e.clientY)
+            ? "grab"
+            : "default";
+        }
+      });
+      window.addEventListener("mouseup", () => {
+        if (cDragging) {
+          cDragging = false;
+          canvas.style.cursor = "grab";
+        }
+      });
+
+      canvas.addEventListener(
+        "wheel",
+        (e) => {
+          if (
+            currentTpl !== "card" ||
+            !cImg ||
+            !pointInCardImg(e.clientX, e.clientY)
+          )
+            return;
+          e.preventDefault();
+          const delta = e.deltaY < 0 ? 8 : -8;
+          let pct = parseInt(cZoomSlider.value, 10) + delta;
+          pct = Math.min(400, Math.max(100, pct));
+          cZoomSlider.value = pct;
+          cZoom = pct / 100;
+          render();
+        },
+        { passive: false },
+      );
+
+      canvas.addEventListener(
+        "touchstart",
+        (e) => {
+          if (
+            currentTpl === "card" &&
+            cImg &&
+            e.touches.length === 1 &&
+            pointInCardImg(e.touches[0].clientX, e.touches[0].clientY)
+          ) {
+            cDragging = true;
+            cLastX = e.touches[0].clientX;
+            cLastY = e.touches[0].clientY;
+          }
+        },
+        { passive: true },
+      );
+      canvas.addEventListener(
+        "touchmove",
+        (e) => {
+          if (!cDragging || e.touches.length !== 1) return;
+          const f = canvasScaleFactor();
+          cOffX += (e.touches[0].clientX - cLastX) * f;
+          cOffY += (e.touches[0].clientY - cLastY) * f;
+          cLastX = e.touches[0].clientX;
+          cLastY = e.touches[0].clientY;
+          render();
+        },
+        { passive: true },
+      );
+      canvas.addEventListener("touchend", () => {
+        cDragging = false;
+      });
+
+      document
+        .querySelectorAll("#ctrl-video input, #ctrl-video textarea")
+        .forEach((el) => {
+          el.addEventListener("input", render);
+        });
+      document
+        .querySelectorAll("#ctrl-article input, #ctrl-article textarea")
+        .forEach((el) => {
+          el.addEventListener("input", render);
+        });
+      document
+        .querySelectorAll("#ctrl-card input, #ctrl-card textarea")
+        .forEach((el) => {
+          el.addEventListener("input", render);
+        });
+      document.querySelectorAll(".swatch").forEach((sw) => {
+        sw.addEventListener("click", () => {
+          document
+            .querySelectorAll(".swatch")
+            .forEach((s) => s.classList.remove("sel"));
+          sw.classList.add("sel");
+          titleColor = sw.dataset.c;
+          render();
+        });
+      });
+
+      document.getElementById("download").addEventListener("click", () => {
+        const names = {
+          video: "visuel-video",
+          article: "visuel-article",
+          card: "visuel-carte-sport",
+        };
+        const filename =
+          (names[currentTpl] || "visuel") + "-" + Date.now() + ".png";
+
+        canvas.toBlob((blob) => {
+          if (!blob) {
+            alert(
+              "Échec de la génération de l'image. Réessaie, ou fais un clic droit sur l'aperçu → Enregistrer l'image sous.",
+            );
+            return;
+          }
+          try {
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            setTimeout(() => URL.revokeObjectURL(url), 4000);
+          } catch (err) {
+            // fallback : ouvrir l'image dans un nouvel onglet pour un enregistrement manuel
+            const url = URL.createObjectURL(blob);
+            window.open(url, "_blank");
+          }
+        }, "image/png");
+      });
+
+      // ---------- auto date du jour ----------
+      const MOIS_FR = [
+        "janvier",
+        "février",
+        "mars",
+        "avril",
+        "mai",
+        "juin",
+        "juillet",
+        "août",
+        "septembre",
+        "octobre",
+        "novembre",
+        "décembre",
+      ];
+
+      function setTodayDates() {
+        const now = new Date();
+        const jour = now.getDate();
+        const mois = MOIS_FR[now.getMonth()];
+        const annee = now.getFullYear();
+
+        // format "4 juillet 2026" pour le style vidéo
+        document.getElementById("v-date").value = `${jour} ${mois} ${annee}`;
+
+        // format "06/07/2026" pour le style article
+        const dd = String(jour).padStart(2, "0");
+        const mm = String(now.getMonth() + 1).padStart(2, "0");
+        document.getElementById("a-date").value = `${dd}/${mm}/${annee}`;
+
+        // format "May 30, 2026" pour la carte sport (style anglo courant sur ce type de site)
+        const MOIS_EN = [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December",
+        ];
+        document.getElementById("c-date").value =
+          `${MOIS_EN[now.getMonth()]} ${jour}, ${annee}`;
+      }
+      setTodayDates();
+
+      // premier rendu (polices système, aucun chargement réseau nécessaire)
+      render();
+    </script>
+  </body>
 </html>

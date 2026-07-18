@@ -1,923 +1,1113 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Top Gbairai — Générateur de Visuels</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --navy:#30336b;
-    --navy-deep:#1e1f3d;
-    --offwhite:#f5f6fa;
-    --red:#e84118;
-    --gold:#fbc531;
-    --green-key:#00ff00;
-    --line:rgba(245,246,250,0.12);
-    --muted:#a7abd6;
-  }
-  *{box-sizing:border-box;}
-  body{
-    margin:0;
-    font-family:'Inter',sans-serif;
-    background:var(--navy-deep);
-    color:var(--offwhite);
-    min-height:100vh;
-  }
-  .app{
-    display:grid;
-    grid-template-columns:380px 1fr;
-    min-height:100vh;
-  }
-  @media (max-width:900px){
-    .app{grid-template-columns:1fr;}
-  }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MVP Foot — Générateur de visuels</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Oswald:wght@400;500;600;700&family=Archivo+Black&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg-app: #0b0e14;
+        --panel: #12161f;
+        --panel-2: #171c27;
+        --line: #232938;
+        --text: #e9edf5;
+        --text-dim: #8a93a6;
+        --accent: #2b6bff;
+        --accent-2: #ff2b3d;
+        --ok: #2bdc8b;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        background: var(--bg-app);
+        color: var(--text);
+        font-family: "Oswald", sans-serif;
+        font-weight: 400;
+        display: flex;
+        min-height: 100vh;
+      }
+      .app {
+        display: flex;
+        width: 100%;
+      }
+      /* SIDEBAR */
+      .sidebar {
+        width: 380px;
+        min-width: 380px;
+        background: var(--panel);
+        border-right: 1px solid var(--line);
+        padding: 22px 20px 40px;
+        overflow-y: auto;
+        max-height: 100vh;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 22px;
+      }
+      .brand .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--accent-2);
+        box-shadow: 0 0 12px var(--accent-2);
+      }
+      .brand h1 {
+        font-family: "Archivo Black", sans-serif;
+        font-size: 15px;
+        letter-spacing: 0.5px;
+        margin: 0;
+        text-transform: uppercase;
+      }
+      .brand span {
+        color: var(--text-dim);
+        font-size: 11px;
+        display: block;
+        margin-top: 2px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
 
-  /* SIDEBAR */
-  .sidebar{
-    background:var(--navy);
-    padding:28px 24px 60px;
-    overflow-y:auto;
-    max-height:100vh;
-    border-right:1px solid var(--line);
-  }
-  .field{margin-bottom:20px;}
-  .field label{
-    display:block;
-    font-size:11px;
-    font-weight:700;
-    letter-spacing:0.08em;
-    text-transform:uppercase;
-    color:var(--muted);
-    margin-bottom:8px;
-  }
-  textarea, input[type="text"], select{
-    width:100%;
-    background:rgba(245,246,250,0.06);
-    border:1px solid var(--line);
-    color:var(--offwhite);
-    border-radius:8px;
-    padding:10px 12px;
-    font-family:'Inter',sans-serif;
-    font-size:14px;
-    resize:vertical;
-    outline:none;
-    transition:border-color 0.15s ease;
-  }
-  textarea:focus, input[type="text"]:focus, select:focus{
-    border-color:var(--red);
-  }
-  select{appearance:none; cursor:pointer;}
-  .hint{font-size:11px;color:var(--muted);margin-top:6px;line-height:1.4;}
+      .tabs {
+        display: flex;
+        gap: 6px;
+        margin-bottom: 20px;
+        background: var(--panel-2);
+        padding: 4px;
+        border-radius: 10px;
+      }
+      .tab-btn {
+        flex: 1;
+        background: transparent;
+        border: none;
+        color: var(--text-dim);
+        padding: 10px 6px;
+        font-family: "Oswald", sans-serif;
+        font-weight: 600;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border-radius: 7px;
+        cursor: pointer;
+        transition: all 0.15s ease;
+      }
+      .tab-btn.active {
+        background: var(--accent);
+        color: #fff;
+      }
 
-  .seg{
-    display:flex;
-    background:rgba(245,246,250,0.06);
-    border:1px solid var(--line);
-    border-radius:8px;
-    padding:3px;
-    gap:3px;
-  }
-  .seg button{
-    flex:1;
-    background:transparent;
-    border:none;
-    color:var(--muted);
-    font-family:'Inter',sans-serif;
-    font-size:12.5px;
-    font-weight:600;
-    padding:9px 6px;
-    border-radius:6px;
-    cursor:pointer;
-    transition:all 0.15s ease;
-  }
-  .seg button.active{
-    background:var(--red);
-    color:#fff;
-  }
+      .group {
+        margin-bottom: 22px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid var(--line);
+      }
+      .group:last-child {
+        border-bottom: none;
+      }
+      .group-title {
+        font-family: "Oswald", sans-serif;
+        font-weight: 600;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 1.2px;
+        color: var(--text-dim);
+        margin: 0 0 12px 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .group-title::before {
+        content: "";
+        width: 3px;
+        height: 12px;
+        background: var(--accent);
+        display: inline-block;
+        border-radius: 2px;
+      }
 
-  .toggle-row{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    background:rgba(245,246,250,0.06);
-    border:1px solid var(--line);
-    border-radius:8px;
-    padding:11px 14px;
-  }
-  .toggle-row span{font-size:13px;font-weight:500;}
-  .switch{
-    position:relative;
-    width:40px;height:22px;
-    flex-shrink:0;
-  }
-  .switch input{opacity:0;width:0;height:0;}
-  .slider{
-    position:absolute;inset:0;
-    background:rgba(245,246,250,0.2);
-    border-radius:20px;
-    cursor:pointer;
-    transition:0.2s;
-  }
-  .slider::before{
-    content:"";
-    position:absolute;
-    width:16px;height:16px;
-    left:3px;top:3px;
-    background:#fff;
-    border-radius:50%;
-    transition:0.2s;
-  }
-  .switch input:checked + .slider{background:var(--red);}
-  .switch input:checked + .slider::before{transform:translateX(18px);}
+      label {
+        display: block;
+        font-size: 11px;
+        color: var(--text-dim);
+        margin: 12px 0 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      label:first-child {
+        margin-top: 0;
+      }
 
-  .upload-box{
-    border:1.5px dashed var(--line);
-    border-radius:10px;
-    padding:18px 14px;
-    text-align:center;
-    cursor:pointer;
-    transition:border-color 0.15s ease, background 0.15s ease;
-  }
-  .upload-box:hover{border-color:var(--red); background:rgba(232,65,24,0.06);}
-  .upload-box p{margin:6px 0 0; font-size:12.5px; color:var(--muted);}
-  .upload-box .icon{font-size:20px;}
-  .upload-box input{display:none;}
-  .file-name{font-size:11px; color:var(--gold); margin-top:6px; word-break:break-all;}
+      input[type="text"],
+      textarea,
+      select {
+        width: 100%;
+        background: var(--panel-2);
+        border: 1px solid var(--line);
+        color: var(--text);
+        padding: 10px 12px;
+        border-radius: 8px;
+        font-family: "Oswald", sans-serif;
+        font-size: 13px;
+        resize: vertical;
+      }
+      textarea {
+        min-height: 64px;
+        line-height: 1.4;
+      }
+      input[type="text"]:focus,
+      textarea:focus,
+      select:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
 
-  .slider-field{margin-bottom:16px;}
-  .slider-field .row{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:8px;
-  }
-  .slider-field label{
-    font-size:11px;
-    font-weight:700;
-    letter-spacing:0.08em;
-    text-transform:uppercase;
-    color:var(--muted);
-    margin:0;
-  }
-  .slider-field .val{
-    font-size:12px;
-    font-weight:700;
-    color:var(--gold);
-    font-family:'Oswald',sans-serif;
-    min-width:34px;
-    text-align:right;
-  }
-  input[type="range"]{
-    -webkit-appearance:none;
-    width:100%;
-    height:4px;
-    border-radius:4px;
-    background:rgba(245,246,250,0.18);
-    outline:none;
-  }
-  input[type="range"]::-webkit-slider-thumb{
-    -webkit-appearance:none;
-    width:16px;height:16px;
-    border-radius:50%;
-    background:var(--red);
-    cursor:pointer;
-    border:2px solid var(--offwhite);
-  }
-  input[type="range"]::-moz-range-thumb{
-    width:16px;height:16px;
-    border-radius:50%;
-    background:var(--red);
-    cursor:pointer;
-    border:2px solid var(--offwhite);
-  }
-  .reset-btn{
-    width:100%;
-    background:transparent;
-    border:1px solid var(--line);
-    color:var(--muted);
-    font-family:'Inter',sans-serif;
-    font-size:12.5px;
-    font-weight:600;
-    padding:10px;
-    border-radius:8px;
-    cursor:pointer;
-    margin-top:4px;
-  }
-  .reset-btn:hover{border-color:var(--red); color:var(--offwhite);}
+      .row {
+        display: flex;
+        gap: 10px;
+      }
+      .row > * {
+        flex: 1;
+      }
 
-  hr.divider{
-    border:none;
-    border-top:1px solid var(--line);
-    margin:26px 0;
-  }
-  .section-label{
-    font-family:'Oswald',sans-serif;
-    font-size:11px;
-    letter-spacing:0.12em;
-    text-transform:uppercase;
-    color:var(--red);
-    font-weight:600;
-    margin-bottom:14px;
-  }
+      .file-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        background: var(--panel-2);
+        border: 1px dashed var(--line);
+        color: var(--text-dim);
+        padding: 12px;
+        border-radius: 8px;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        cursor: pointer;
+        transition: 0.15s;
+      }
+      .file-btn:hover {
+        border-color: var(--accent);
+        color: var(--text);
+      }
+      .file-btn.has-file {
+        border-style: solid;
+        border-color: var(--ok);
+        color: var(--ok);
+      }
+      input[type="file"] {
+        display: none;
+      }
 
-  /* MAIN / PREVIEW */
-  main{
-    background:var(--offwhite);
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:flex-start;
-    padding:40px 24px 60px;
-    color:var(--navy-deep);
-  }
-  .preview-header{
-    width:100%;
-    max-width:640px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:20px;
-  }
-  .preview-header h2{
-    font-family:'Oswald',sans-serif;
-    font-size:14px;
-    letter-spacing:0.06em;
-    text-transform:uppercase;
-    margin:0;
-    color:var(--navy);
-  }
-  .canvas-shell{
-    position:sticky;
-    top:24px;
-    background:#000;
-    border-radius:14px;
-    overflow:hidden;
-    box-shadow:0 20px 50px rgba(30,31,61,0.25);
-    max-width:640px;
-    width:100%;
-    line-height:0;
-  }
-  canvas{
-    width:100%;
-    height:auto;
-    display:block;
-  }
-  .download-btn{
-    margin-top:22px;
-    background:var(--red);
-    color:#fff;
-    border:none;
-    font-family:'Oswald',sans-serif;
-    font-weight:600;
-    font-size:14px;
-    letter-spacing:0.04em;
-    text-transform:uppercase;
-    padding:14px 32px;
-    border-radius:8px;
-    cursor:pointer;
-    box-shadow:0 8px 20px rgba(232,65,24,0.35);
-    transition:transform 0.12s ease, box-shadow 0.12s ease;
-  }
-  .download-btn:hover{transform:translateY(-1px); box-shadow:0 10px 24px rgba(232,65,24,0.45);}
-  .download-btn:active{transform:translateY(0);}
-  .format-note{
-    font-size:12px;
-    color:var(--navy);
-    opacity:0.6;
-    margin-top:10px;
-    text-align:center;
-  }
-</style>
- <script src="header.js"></script>
-</head>
-<body>
-<div class="app">
-  
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <div id="header-container"></div>
-    <div class="section-label" style="margin-top:6px;">Format</div>
-    <div class="field">
-      <div class="seg" id="formatSeg">
-        <button data-format="square" class="active">Carré 1:1</button>
-        <button data-format="story">Story 9:16</button>
-        <button data-format="thumb">Miniature 16:9</button>
-      </div>
-      <p class="hint">Carré → posts Instagram/Facebook. Story → TikTok/Reels/Stories. Miniature → couverture YouTube.</p>
+      .color-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      input[type="color"] {
+        -webkit-appearance: none;
+        width: 38px;
+        height: 38px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: none;
+        padding: 0;
+        cursor: pointer;
+        flex: none;
+      }
+      input[type="color"]::-webkit-color-swatch {
+        border-radius: 6px;
+        border: none;
+      }
+      .color-label {
+        font-size: 12px;
+        color: var(--text);
+        flex: 1;
+      }
+
+      input[type="range"] {
+        width: 100%;
+        accent-color: var(--accent);
+      }
+      .range-val {
+        font-size: 11px;
+        color: var(--text-dim);
+        text-align: right;
+        margin-top: 2px;
+      }
+
+      .swap-btn {
+        width: 100%;
+        margin-top: 14px;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        background: var(--panel-2);
+        color: var(--text-dim);
+        font-family: "Oswald", sans-serif;
+        font-weight: 600;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        cursor: pointer;
+        border: 1px solid var(--line);
+      }
+      .swap-btn:hover {
+        color: var(--text);
+        border-color: var(--accent);
+      }
+
+      /* MAIN */
+      .main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 34px 24px;
+        gap: 20px;
+        overflow-y: auto;
+      }
+      .canvas-wrap {
+        background: #000;
+        border-radius: 6px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        overflow: hidden;
+        line-height: 0;
+      }
+      canvas {
+        display: block;
+        max-width: min(92vw, 460px);
+        height: auto;
+      }
+
+      .actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .btn {
+        font-family: "Oswald", sans-serif;
+        font-weight: 600;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        padding: 14px 26px;
+        border-radius: 9px;
+        border: none;
+        cursor: pointer;
+        transition: 0.15s;
+      }
+      .btn-primary {
+        background: var(--accent-2);
+        color: #fff;
+      }
+      .btn-primary:hover {
+        filter: brightness(1.1);
+      }
+      .btn-secondary {
+        background: var(--panel-2);
+        color: var(--text);
+        border: 1px solid var(--line);
+      }
+      .btn-secondary:hover {
+        border-color: var(--accent);
+      }
+
+      .size-select {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        font-size: 12px;
+        color: var(--text-dim);
+      }
+      .size-select select {
+        width: auto;
+      }
+
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--line);
+        border-radius: 4px;
+      }
+
+      @media (max-width: 860px) {
+        .app {
+          flex-direction: column;
+        }
+        .sidebar {
+          width: 100%;
+          min-width: 0;
+          max-height: none;
+          border-right: none;
+          border-bottom: 1px solid var(--line);
+        }
+        .main {
+          padding: 20px 14px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="dot"></div>
+          <div>
+            <h1>Générateur de visuels</h1>
+            <span>MVP Foot / Top Gbairai Tools</span>
+          </div>
+        </div>
+
+        <div class="tabs">
+          <button class="tab-btn active" data-template="A">Titre choc</button>
+          <button class="tab-btn" data-template="B">Citation</button>
+        </div>
+
+        <!-- FORMAT -->
+        <div class="group">
+          <p class="group-title">Format</p>
+          <select id="canvasSize">
+            <option value="1080x1350">Portrait 4:5 (1080×1350)</option>
+            <option value="1080x1080">Carré (1080×1080)</option>
+            <option value="1080x1920">Story 9:16 (1080×1920)</option>
+          </select>
+        </div>
+
+        <!-- IMAGES -->
+        <div class="group" id="imagesGroup">
+          <p class="group-title">Images</p>
+          <label>Photo principale</label>
+          <button class="file-btn" id="mainImgBtn">Choisir une image</button>
+          <input type="file" id="mainImgInput" accept="image/*" />
+
+          <div id="secondaryImgWrap">
+            <label id="secondaryLabel">Logo / badge (coin haut-gauche)</label>
+            <button class="file-btn" id="secondaryImgBtn">
+              Choisir une image
+            </button>
+            <input type="file" id="secondaryImgInput" accept="image/*" />
+          </div>
+        </div>
+
+        <!-- TEXTES -->
+        <div class="group">
+          <p class="group-title">Textes</p>
+
+          <div id="fieldEyebrow">
+            <label>Petit texte (coin, optionnel)</label>
+            <input type="text" id="eyebrowText" value="COUPE DU MONDE" />
+          </div>
+
+          <label id="headlineLabel">Titre principal</label>
+          <textarea id="headlineText">
+L'ARGENTINE COMMENCE À SÉRIEUSEMENT DOUTER DE LIONEL SCALONI</textarea
+          >
+
+          <div id="fieldHighlight">
+            <label
+              >Mot(s) à surligner dans le titre (laisser vide = aucun)</label
+            >
+            <input type="text" id="highlightWord" value="" />
+          </div>
+
+          <div id="fieldAttribution">
+            <label>Attribution / légende (sous le titre)</label>
+            <input
+              type="text"
+              id="attributionText"
+              value="— MURAT YAKIN, SÉLECTIONNEUR DE LA SUISSE"
+            />
+          </div>
+
+          <div id="fieldTag">
+            <label>Texte du bandeau bas</label>
+            <input type="text" id="tagText" value="COUPE DU MONDE" />
+          </div>
+        </div>
+
+        <!-- STYLE -->
+        <div class="group">
+          <p class="group-title">Style</p>
+
+          <label>Police du titre</label>
+          <select id="fontFamily">
+            <option value="'Anton', sans-serif">Anton</option>
+            <option value="'Bebas Neue', sans-serif">Bebas Neue</option>
+            <option value="'Archivo Black', sans-serif">Archivo Black</option>
+            <option value="'Oswald', sans-serif">Oswald</option>
+          </select>
+
+          <label>Taille du titre</label>
+          <input type="range" id="fontSize" min="36" max="100" value="64" />
+          <div class="range-val" id="fontSizeVal">64px</div>
+
+          <div class="row">
+            <div>
+              <label>Couleur du texte</label>
+              <div class="color-row">
+                <input type="color" id="textColor" value="#ffffff" />
+                <span class="color-label">Titre</span>
+              </div>
+            </div>
+            <div>
+              <label>Couleur d'accent</label>
+              <div class="color-row">
+                <input type="color" id="accentColor" value="#2b6bff" />
+                <span class="color-label">Bleu / Rouge...</span>
+              </div>
+            </div>
+          </div>
+
+          <label>Couleur surlignage</label>
+          <div class="color-row">
+            <input type="color" id="highlightColor" value="#ffe600" />
+            <span class="color-label">Mot(s) surligné(s)</span>
+          </div>
+
+          <label>Assombrissement du fond</label>
+          <input type="range" id="darkness" min="0" max="90" value="55" />
+          <div class="range-val" id="darknessVal">55%</div>
+        </div>
+
+        <button class="swap-btn" id="resetBtn">
+          Réinitialiser les réglages
+        </button>
+      </aside>
+
+      <main class="main">
+        <div class="canvas-wrap">
+          <canvas id="canvas" width="1080" height="1350"></canvas>
+        </div>
+        <div class="actions">
+          <button class="btn btn-secondary" id="randomBtn">
+            Aperçu aléatoire
+          </button>
+          <button class="btn btn-primary" id="downloadBtn">
+            Télécharger le PNG
+          </button>
+        </div>
+      </main>
     </div>
 
-    <hr class="divider">
-
-    <div class="section-label">Contenu</div>
-    <div class="field">
-      <label for="category">Catégorie</label>
-      <select id="category">
-        <option value="BREAKING" style="color:#e84118">🔴 BREAKING</option>
-        <option value="TRANSFERT">💰 TRANSFERT</option>
-        <option value="ANALYSE">🧠 ANALYSE</option>
-        <option value="MATCH">⚽ MATCH</option>
-        <option value="COACHING">📋 COACHING</option>
-        <option value="INFO">ℹ️ INFO</option>
-      </select>
-    </div>
-    <div class="field">
-      <label for="headline" id="headlineLabel">Titre principal</label>
-      <textarea id="headline" rows="3" maxlength="140" placeholder="Ex : YAN DIOMANDÉ, LA PÉPITE QUI FAIT TREMBLER LA CAF">DIOMANDÉ, LE FUTUR DES ÉLÉPHANTS EST DÉJÀ LÀ</textarea>
-    </div>
-    <div class="field">
-      <label for="subtitle" id="subtitleLabel">Sous-titre / paragraphe</label>
-      <textarea id="subtitle" rows="2" maxlength="220" placeholder="Ex : Après son doublé face à la Norvège, l'attaquant confirme son statut de future star des Éléphants.">Analyse — Coupe du Monde 2026</textarea>
-    </div>
-    <div class="field" id="presseFields">
-      <label for="website">Site web / chaîne</label>
-      <input type="text" id="website" maxlength="40" value="topgbairai.com" style="margin-bottom:14px;">
-      <label for="dateTime">Date &amp; heure</label>
-      <input type="text" id="dateTime" maxlength="40" value="">
-    </div>
-
-    <hr class="divider">
-
-    <div class="section-label">Fond de la card</div>
-    <div class="field">
-      <div class="seg" id="bgSeg">
-        <button data-bg="photo" class="active">Avec image</button>
-        <button data-bg="solid">Citation</button>
-        <button data-bg="green">Fond vert</button>
-      </div>
-      <p class="hint" id="bgHint">Importe une photo qui servira de fond à ta card.</p>
-    </div>
-
-    <div class="field" id="uploadWrap">
-      <label class="upload-box" id="uploadBox">
-        <span class="icon">📷</span>
-        <p>Clique pour importer une image (JPG/PNG)</p>
-        <input type="file" id="imageInput" accept="image/*">
-      </label>
-      <div class="file-name" id="fileName"></div>
-    </div>
-
-    <hr class="divider">
-
-    <div class="section-label">Position &amp; taille du texte</div>
-    <div class="field">
-      <label>Alignement</label>
-      <div class="seg" id="alignSeg" style="margin-top:8px;">
-        <button data-align="left" class="active">Gauche</button>
-        <button data-align="center">Centre</button>
-        <button data-align="right">Droite</button>
-      </div>
-    </div>
-
-    <div class="slider-field">
-      <div class="row"><label>Taille du titre</label><span class="val" id="headlineSizeVal">100%</span></div>
-      <input type="range" id="headlineSize" min="50" max="180" value="100">
-    </div>
-    <div class="slider-field">
-      <div class="row"><label>Position verticale — titre</label><span class="val" id="headlineOffsetVal">0</span></div>
-      <input type="range" id="headlineOffset" min="-30" max="30" value="0">
-    </div>
-    <div class="slider-field">
-      <div class="row"><label>Taille du sous-titre</label><span class="val" id="subtitleSizeVal">100%</span></div>
-      <input type="range" id="subtitleSize" min="50" max="180" value="100">
-    </div>
-    <div class="slider-field">
-      <div class="row"><label>Position verticale — sous-titre</label><span class="val" id="subtitleOffsetVal">0</span></div>
-      <input type="range" id="subtitleOffset" min="-30" max="30" value="0">
-    </div>
-    <button class="reset-btn" id="resetTextBtn">↺ Réinitialiser le texte</button>
-
-    <hr class="divider">
-
-    <div class="section-label">Habillage</div>
-    <div class="field">
-      <div class="toggle-row" style="margin-bottom:10px;">
-        <span>Bandeau TOP GBAIRAI</span>
-        <label class="switch">
-          <input type="checkbox" id="showTicker" checked>
-          <span class="slider"></span>
-        </label>
-      </div>
-      <div class="toggle-row">
-        <span>Éléphant 🐘 en filigrane</span>
-        <label class="switch">
-          <input type="checkbox" id="showElephant" checked>
-          <span class="slider"></span>
-        </label>
-      </div>
-    </div>
-  </aside>
-
-  <!-- MAIN -->
-  <main>
-    <div class="preview-header">
-      <h2>Aperçu en direct</h2>
-    </div>
-    <div class="canvas-shell">
-      <canvas id="cardCanvas"></canvas>
-    </div>
-    <button class="download-btn" id="downloadBtn">⬇ Télécharger en PNG</button>
-    <p class="format-note" id="formatNote"></p>
-  </main>
-
-</div>
-
-<script>
-const canvas = document.getElementById('cardCanvas');
-const ctx = canvas.getContext('2d');
-
-const FORMATS = {
-  square: {w:1080, h:1080, label:"1080 × 1080 px"},
-  story:  {w:1080, h:1920, label:"1080 × 1920 px"},
-  thumb:  {w:1280, h:720,  label:"1280 × 720 px"}
-};
-
-const CATEGORY_COLORS = {
-  BREAKING:  {bg:'#e84118', fg:'#ffffff'},
-  TRANSFERT: {bg:'#fbc531', fg:'#1e1f3d'},
-  ANALYSE:   {bg:'#487eb0', fg:'#ffffff'},
-  MATCH:     {bg:'#27ae60', fg:'#ffffff'},
-  COACHING:  {bg:'#9b59b6', fg:'#ffffff'},
-  INFO:      {bg:'#7f8fa6', fg:'#ffffff'}
-};
-
-let state = {
-  format: 'square',
-  bgMode: 'photo',
-  category: 'BREAKING',
-  headline: document.getElementById('headline').value,
-  subtitle: document.getElementById('subtitle').value,
-  website: 'topgbairai.com',
-  dateTime: '',
-  showTicker: true,
-  showElephant: true,
-  image: null,
-  align: 'left',
-  headlineSizeMult: 100,
-  headlineOffset: 0,
-  subtitleSizeMult: 100,
-  subtitleOffset: 0
-};
-
-// ---------- helpers ----------
-
-function wrapLines(text, maxWidth, font){
-  ctx.font = font;
-  const words = text.trim().split(/\s+/);
-  const lines = [];
-  let line = '';
-  for(const word of words){
-    const test = line ? line + ' ' + word : word;
-    if(ctx.measureText(test).width > maxWidth && line){
-      lines.push(line);
-      line = word;
-    } else {
-      line = test;
-    }
-  }
-  if(line) lines.push(line);
-  return lines;
-}
-
-function drawImageCover(img, x, y, w, h){
-  const imgRatio = img.width / img.height;
-  const boxRatio = w / h;
-  let sx, sy, sw, sh;
-  if(imgRatio > boxRatio){
-    sh = img.height;
-    sw = sh * boxRatio;
-    sx = (img.width - sw) / 2;
-    sy = 0;
-  } else {
-    sw = img.width;
-    sh = sw / boxRatio;
-    sx = 0;
-    sy = (img.height - sh) / 2;
-  }
-  ctx.drawImage(img, sx, sy, sw, sh, x, y, w, h);
-}
-
-function drawStampRibbon(x, y, text, colors){
-  ctx.font = `600 ${Math.round(canvas.width*0.028)}px 'Oswald'`;
-  const padX = canvas.width * 0.022;
-  const padY = canvas.height * 0.014;
-  const textW = ctx.measureText(text).width;
-  const boxW = textW + padX*2;
-  const boxH = canvas.width * 0.028 + padY*2;
-
-  ctx.save();
-  ctx.translate(x, y);
-  ctx.rotate(-4 * Math.PI/180);
-  ctx.fillStyle = colors.bg;
-  ctx.beginPath();
-  ctx.moveTo(0,0);
-  ctx.lineTo(boxW, 0);
-  ctx.lineTo(boxW - boxH*0.25, boxH);
-  ctx.lineTo(0, boxH);
-  ctx.closePath();
-  ctx.fill();
-
-  ctx.fillStyle = colors.fg;
-  ctx.textBaseline = 'middle';
-  ctx.fillText(text, padX, boxH/2 + 2);
-  ctx.restore();
-}
-
-function drawElephantWatermark(w, h){
-  ctx.save();
-  ctx.globalAlpha = 0.10;
-  ctx.font = `${Math.round(w*0.42)}px sans-serif`;
-  ctx.textBaseline = 'middle';
-  ctx.textAlign = 'center';
-  ctx.translate(w*0.82, h*0.28);
-  ctx.rotate(6*Math.PI/180);
-  ctx.fillText('🐘', 0, 0);
-  ctx.restore();
-}
-
-function draw(){
-  const fmt = FORMATS[state.format];
-  canvas.width = fmt.w;
-  canvas.height = fmt.h;
-  const w = fmt.w, h = fmt.h;
-
-  ctx.clearRect(0,0,w,h);
-  drawPresse(w,h);
-}
-
-function drawTrianglePattern(w, y, stripH){
-  const triW = stripH * 1.15;
-  ctx.save();
-  ctx.beginPath();
-  ctx.rect(0, y, w, stripH);
-  ctx.clip();
-  ctx.fillStyle = 'rgba(48,51,107,0.13)';
-  let flip = false;
-  for(let x = -triW; x < w + triW; x += triW){
-    ctx.beginPath();
-    if(flip){
-      ctx.moveTo(x, y);
-      ctx.lineTo(x+triW, y + stripH/2);
-      ctx.lineTo(x, y+stripH);
-    } else {
-      ctx.moveTo(x+triW, y);
-      ctx.lineTo(x, y + stripH/2);
-      ctx.lineTo(x+triW, y+stripH);
-    }
-    ctx.closePath();
-    ctx.fill();
-    flip = !flip;
-  }
-  ctx.restore();
-}
-
-function drawFooter(w, h, padX, footerH, dark){
-  const footerY = h - footerH;
-  ctx.strokeStyle = dark ? 'rgba(245,246,250,0.25)' : 'rgba(48,51,107,0.15)';
-  ctx.lineWidth = Math.max(1, w*0.0015);
-  ctx.beginPath();
-  ctx.moveTo(padX, footerY);
-  ctx.lineTo(w - padX, footerY);
-  ctx.stroke();
-
-  const footerTextY1 = footerY + footerH*0.42;
-  const footerTextY2 = footerY + footerH*0.74;
-  const footerSize = w * 0.019;
-
-  // left: website + date
-  ctx.textAlign = 'left';
-  ctx.font = `700 ${footerSize}px 'Inter'`;
-  ctx.fillStyle = dark ? '#ffffff' : '#1e1f3d';
-  ctx.fillText(state.website || 'topgbairai.com', padX, footerTextY1);
-  ctx.font = `700 ${footerSize*0.92}px 'Oswald'`;
-  ctx.fillStyle = '#e84118';
-  ctx.fillText((state.dateTime || '').toUpperCase(), padX, footerTextY2);
-
-  // right: category + clock/date
-  const cat = CATEGORY_COLORS[state.category];
-  ctx.textAlign = 'right';
-  ctx.font = `700 ${footerSize}px 'Oswald'`;
-  ctx.fillStyle = cat.bg;
-  ctx.fillText(state.category, w - padX - footerSize*0.9, footerTextY1);
-  ctx.fillRect(w - padX - footerSize*0.55, footerTextY1 - footerSize*0.55, footerSize*0.42, footerSize*0.42);
-
-  ctx.font = `500 ${footerSize*0.85}px 'Inter'`;
-  ctx.fillStyle = dark ? 'rgba(245,246,250,0.65)' : '#7f8fa6';
-  ctx.fillText('🕐 ' + (state.dateTime || ''), w - padX, footerTextY2);
-}
-
-function textAnchor(w, padX, align){
-  if(align === 'center') return {x: w*0.5, ctxAlign: 'center'};
-  if(align === 'right') return {x: w - padX, ctxAlign: 'right'};
-  return {x: padX, ctxAlign: 'left'};
-}
-
-function drawBlurredMesh(w, h){
-  // base sombre
-  ctx.fillStyle = '#1e1f3d';
-  ctx.fillRect(0,0,w,h);
-
-  const blobs = [
-    {x:w*0.12, y:h*0.10, r:w*0.42, color:'#30336b'},
-    {x:w*0.90, y:h*0.22, r:w*0.38, color:'#e84118'},
-    {x:w*0.20, y:h*0.92, r:w*0.46, color:'#fbc531'},
-    {x:w*0.82, y:h*0.88, r:w*0.40, color:'#487eb0'}
-  ];
-
-  ctx.save();
-  ctx.filter = `blur(${Math.round(w*0.11)}px)`;
-  ctx.globalAlpha = 0.6;
-  for(const b of blobs){
-    ctx.beginPath();
-    ctx.fillStyle = b.color;
-    ctx.arc(b.x, b.y, b.r, 0, Math.PI*2);
-    ctx.fill();
-  }
-  ctx.restore();
-
-  // voile sombre pour garder le texte lisible
-  ctx.fillStyle = 'rgba(30,31,61,0.5)';
-  ctx.fillRect(0,0,w,h);
-}
-
-function drawQuoteCard(w, h){
-  drawBlurredMesh(w, h);
-
-  if(state.showElephant){
-    drawElephantWatermark(w,h);
-  }
-
-  const padX = w * 0.09;
-  const footerH = h * 0.115;
-
-  drawStampRibbon(w*0.045, h*0.035, state.category, CATEGORY_COLORS[state.category]);
-
-  const anchor = textAnchor(w, padX, state.align);
-  const availTop = h*0.22;
-  const availBottom = h - footerH - h*0.05;
-  const availH = availBottom - availTop;
-
-  // big quote mark
-  const quoteMarkSize = w*0.16;
-  ctx.textAlign = anchor.ctxAlign;
-  ctx.textBaseline = 'alphabetic';
-  ctx.font = `900 ${quoteMarkSize}px 'Archivo Black'`;
-  ctx.fillStyle = '#fbc531';
-  ctx.fillText('“', anchor.x, availTop + quoteMarkSize*0.62);
-
-  // quote text
-  const maxTextWidth = w - padX*2;
-  const size = (w * 0.05) * (state.headlineSizeMult / 100);
-  const lines = wrapLines(state.headline || ' ', maxTextWidth, `700 ${size}px 'Archivo Black'`);
-  const lineHeight = size * 1.22;
-  const blockHeight = lines.length * lineHeight;
-  const headlineOffsetPx = h * (state.headlineOffset / 100);
-
-  let cursorY = availTop + quoteMarkSize*0.85 + Math.max(0, (availH - quoteMarkSize*0.85 - blockHeight)/2) + headlineOffsetPx;
-
-  ctx.font = `700 ${size}px 'Archivo Black'`;
-  ctx.fillStyle = '#ffffff';
-  for(const line of lines){
-    cursorY += lineHeight;
-    ctx.fillText(line, anchor.x, cursorY);
-  }
-
-  // attribution
-  const subSize = (w * 0.023) * (state.subtitleSizeMult / 100);
-  const subtitleOffsetPx = h * (state.subtitleOffset / 100);
-  ctx.font = `600 ${subSize}px 'Oswald'`;
-  ctx.fillStyle = '#e84118';
-  ctx.fillText('— ' + (state.subtitle || '').toUpperCase(), anchor.x, cursorY + subSize*2 + subtitleOffsetPx);
-
-  drawFooter(w, h, padX, footerH, true);
-}
-
-function drawPresse(w, h){
-  if(state.bgMode === 'solid'){
-    drawQuoteCard(w,h);
-    return;
-  }
-
-  // ---- white base ----
-  ctx.fillStyle = '#ffffff';
-  ctx.fillRect(0,0,w,h);
-
-  const imgH = h * 0.46;
-  const stripH = h * 0.032;
-
-  // ---- top image / bg area ----
-  if(state.bgMode === 'photo' && state.image){
-    drawImageCover(state.image, 0, 0, w, imgH);
-  } else {
-    ctx.fillStyle = '#00ff00';
-    ctx.fillRect(0, 0, w, imgH);
-  }
-
-  // ---- triangle divider strip ----
-  drawTrianglePattern(w, imgH, stripH);
-
-  // ---- category ribbon (top-left over image) ----
-  if(state.bgMode !== 'green'){
-    drawStampRibbon(w*0.045, h*0.035, state.category, CATEGORY_COLORS[state.category]);
-  }
-
-  // ---- body content ----
-  const padX = w * 0.07;
-  const bodyTop = imgH + stripH;
-  const footerH = h * 0.115;
-  const anchor = textAnchor(w, padX, state.align);
-
-  const maxTextWidth = w - padX*2;
-  const size = (w * 0.062) * (state.headlineSizeMult / 100);
-  const headlineLines = wrapLines(state.headline || ' ', maxTextWidth, `900 ${size}px 'Archivo Black'`);
-  const lineHeight = size * 1.14;
-  const headlineOffsetPx = h * (state.headlineOffset / 100);
-
-  let cursorY = bodyTop + h*0.075 + size + headlineOffsetPx;
-  ctx.textAlign = anchor.ctxAlign;
-  ctx.textBaseline = 'alphabetic';
-  ctx.font = `900 ${size}px 'Archivo Black'`;
-  for(const line of headlineLines){
-    const grad = ctx.createLinearGradient(padX, 0, padX + maxTextWidth*0.8, 0);
-    grad.addColorStop(0, '#30336b');
-    grad.addColorStop(1, '#e84118');
-    ctx.fillStyle = grad;
-    ctx.fillText(line, anchor.x, cursorY);
-    cursorY += lineHeight;
-  }
-
-  // subtitle paragraph
-  const subSize = (w * 0.026) * (state.subtitleSizeMult / 100);
-  const subtitleOffsetPx = h * (state.subtitleOffset / 100);
-  const subLines = wrapLines(state.subtitle || '', maxTextWidth, `400 ${subSize}px 'Inter'`);
-  ctx.font = `400 ${subSize}px 'Inter'`;
-  ctx.fillStyle = '#57606f';
-  let subY = cursorY + subSize*0.7 + subtitleOffsetPx;
-  for(const line of subLines.slice(0,3)){
-    subY += subSize*1.45;
-    ctx.fillText(line, anchor.x, subY);
-  }
-
-  drawFooter(w, h, padX, footerH, false);
-}
-
-// ---------- UI wiring ----------
-
-function setActiveSeg(container, btn){
-  container.querySelectorAll('button').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-}
-
-document.getElementById('formatSeg').addEventListener('click', e=>{
-  const btn = e.target.closest('button');
-  if(!btn) return;
-  setActiveSeg(e.currentTarget, btn);
-  state.format = btn.dataset.format;
-  document.getElementById('formatNote').textContent = FORMATS[state.format].label;
-  draw();
-});
-
-document.getElementById('website').addEventListener('input', e=>{
-  state.website = e.target.value;
-  draw();
-});
-document.getElementById('dateTime').addEventListener('input', e=>{
-  state.dateTime = e.target.value;
-  draw();
-});
-
-const bgHints = {
-  photo: "Importe une photo qui servira de fond à ta card.",
-  solid: "Mode citation : grande citation sur fond navy, sans image.",
-  green: "Fond vert uni (chroma key) pour incruster ta propre vidéo/image au montage."
-};
-
-const headlineLabels = {photo: 'Titre principal', green: 'Titre principal', solid: 'Citation (texte)'};
-const subtitleLabels = {photo: 'Sous-titre / paragraphe', green: 'Sous-titre / paragraphe', solid: 'Attribution (auteur, source...)'};
-
-document.getElementById('bgSeg').addEventListener('click', e=>{
-  const btn = e.target.closest('button');
-  if(!btn) return;
-  setActiveSeg(e.currentTarget, btn);
-  state.bgMode = btn.dataset.bg;
-  document.getElementById('bgHint').textContent = bgHints[state.bgMode];
-  document.getElementById('uploadWrap').style.display = state.bgMode === 'photo' ? 'block' : 'none';
-  document.getElementById('headlineLabel').textContent = headlineLabels[state.bgMode];
-  document.getElementById('subtitleLabel').textContent = subtitleLabels[state.bgMode];
-  draw();
-});
-
-document.getElementById('category').addEventListener('change', e=>{
-  state.category = e.target.value;
-  draw();
-});
-
-document.getElementById('headline').addEventListener('input', e=>{
-  state.headline = e.target.value;
-  draw();
-});
-
-document.getElementById('subtitle').addEventListener('input', e=>{
-  state.subtitle = e.target.value;
-  draw();
-});
-
-document.getElementById('showTicker').addEventListener('change', e=>{
-  state.showTicker = e.target.checked;
-  draw();
-});
-
-document.getElementById('showElephant').addEventListener('change', e=>{
-  state.showElephant = e.target.checked;
-  draw();
-});
-
-document.getElementById('alignSeg').addEventListener('click', e=>{
-  const btn = e.target.closest('button');
-  if(!btn) return;
-  setActiveSeg(e.currentTarget, btn);
-  state.align = btn.dataset.align;
-  draw();
-});
-
-function bindSlider(id, valId, stateKey, suffix){
-  const input = document.getElementById(id);
-  const val = document.getElementById(valId);
-  input.addEventListener('input', e=>{
-    state[stateKey] = Number(e.target.value);
-    val.textContent = (suffix === '%') ? `${e.target.value}%` : e.target.value;
-    draw();
-  });
-}
-bindSlider('headlineSize', 'headlineSizeVal', 'headlineSizeMult', '%');
-bindSlider('headlineOffset', 'headlineOffsetVal', 'headlineOffset', '');
-bindSlider('subtitleSize', 'subtitleSizeVal', 'subtitleSizeMult', '%');
-bindSlider('subtitleOffset', 'subtitleOffsetVal', 'subtitleOffset', '');
-
-document.getElementById('resetTextBtn').addEventListener('click', ()=>{
-  state.align = 'left';
-  state.headlineSizeMult = 100;
-  state.headlineOffset = 0;
-  state.subtitleSizeMult = 100;
-  state.subtitleOffset = 0;
-
-  document.getElementById('headlineSize').value = 100;
-  document.getElementById('headlineSizeVal').textContent = '100%';
-  document.getElementById('headlineOffset').value = 0;
-  document.getElementById('headlineOffsetVal').textContent = '0';
-  document.getElementById('subtitleSize').value = 100;
-  document.getElementById('subtitleSizeVal').textContent = '100%';
-  document.getElementById('subtitleOffset').value = 0;
-  document.getElementById('subtitleOffsetVal').textContent = '0';
-
-  const alignSeg = document.getElementById('alignSeg');
-  alignSeg.querySelectorAll('button').forEach(b=>b.classList.remove('active'));
-  alignSeg.querySelector('[data-align="left"]').classList.add('active');
-
-  draw();
-});
-
-document.getElementById('imageInput').addEventListener('change', e=>{
-  const file = e.target.files[0];
-  if(!file) return;
-  document.getElementById('fileName').textContent = file.name;
-  const reader = new FileReader();
-  reader.onload = ev => {
-    const img = new Image();
-    img.onload = () => { state.image = img; draw(); };
-    img.src = ev.target.result;
-  };
-  reader.readAsDataURL(file);
-});
-
-document.getElementById('downloadBtn').addEventListener('click', ()=>{
-  const link = document.createElement('a');
-  const slug = (state.headline || 'card').toLowerCase()
-    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
-    .replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'').slice(0,40);
-  link.download = `top-gbairai-${state.category.toLowerCase()}-${slug || 'visuel'}.png`;
-  link.href = canvas.toDataURL('image/png');
-  link.click();
-});
-
-// init
-document.getElementById('formatNote').textContent = FORMATS[state.format].label;
-document.getElementById('uploadWrap').style.display = state.bgMode === 'photo' ? 'block' : 'none';
-
-const JOURS_FR = ['DIMANCHE','LUNDI','MARDI','MERCREDI','JEUDI','VENDREDI','SAMEDI'];
-const MOIS_FR = ['JAN','FÉV','MARS','AVR','MAI','JUIN','JUIL','AOÛT','SEPT','OCT','NOV','DÉC'];
-function formatDateFR(d){
-  const h = String(d.getHours()).padStart(2,'0');
-  const m = String(d.getMinutes()).padStart(2,'0');
-  return `${h}H${m} · ${JOURS_FR[d.getDay()]} ${d.getDate()} ${MOIS_FR[d.getMonth()]}`;
-}
-state.dateTime = formatDateFR(new Date());
-document.getElementById('dateTime').value = state.dateTime;
-
-// wait for fonts before first draw for crisp text
-document.fonts.ready.then(draw);
-window.addEventListener('load', draw);
-</script>
-</body>
+    <script>
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+
+      let state = {
+        template: "A",
+        size: [1080, 1350],
+        mainImg: null,
+        secondaryImg: null,
+        eyebrow: "COUPE DU MONDE",
+        headline:
+          "L'ARGENTINE COMMENCE À SÉRIEUSEMENT DOUTER DE LIONEL SCALONI",
+        highlightWord: "",
+        attribution: "— MURAT YAKIN, SÉLECTIONNEUR DE LA SUISSE",
+        tag: "COUPE DU MONDE",
+        font: "'Anton', sans-serif",
+        fontSize: 64,
+        textColor: "#ffffff",
+        accentColor: "#2b6bff",
+        highlightColor: "#ffe600",
+        darkness: 55,
+      };
+
+      // Each template keeps its own text content + font size so switching
+      // templates doesn't leave you with a headline sized/written for the other one.
+      const templateDefaults = {
+        A: {
+          eyebrow: "COUPE DU MONDE",
+          headline:
+            "L'ARGENTINE COMMENCE À SÉRIEUSEMENT DOUTER DE LIONEL SCALONI",
+          highlightWord: "",
+          tag: "COUPE DU MONDE",
+          fontSize: 64,
+        },
+        B: {
+          headline:
+            "LA DÉCISION DE LA VAR ET DE L'ARBITRE ÉTAIT TOUT SIMPLEMENT SCANDALEUSE.",
+          highlightWord: "SCANDALEUSE.",
+          attribution: "— MURAT YAKIN, SÉLECTIONNEUR DE LA SUISSE",
+          fontSize: 52,
+        },
+      };
+
+      const savedState = {
+        A: { ...templateDefaults.A },
+        B: { ...templateDefaults.B },
+      };
+
+      function applyTemplateFields(t) {
+        const d = savedState[t];
+        if (t === "A") {
+          document.getElementById("eyebrowText").value = d.eyebrow;
+          document.getElementById("tagText").value = d.tag;
+          state.eyebrow = d.eyebrow;
+          state.tag = d.tag;
+        } else {
+          document.getElementById("attributionText").value = d.attribution;
+          state.attribution = d.attribution;
+        }
+        document.getElementById("headlineText").value = d.headline;
+        document.getElementById("highlightWord").value = d.highlightWord;
+        document.getElementById("fontSize").value = d.fontSize;
+        document.getElementById("fontSizeVal").textContent = d.fontSize + "px";
+        state.headline = d.headline;
+        state.highlightWord = d.highlightWord;
+        state.fontSize = d.fontSize;
+      }
+
+      function saveTemplateFields(t) {
+        const d = savedState[t];
+        d.headline = state.headline;
+        d.highlightWord = state.highlightWord;
+        d.fontSize = state.fontSize;
+        if (t === "A") {
+          d.eyebrow = state.eyebrow;
+          d.tag = state.tag;
+        } else {
+          d.attribution = state.attribution;
+        }
+      }
+
+      function loadImageFromFile(file, cb) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => cb(img);
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+
+      function wrapText(text, maxWidth, font) {
+        ctx.font = font;
+        const words = text.split(/\s+/);
+        const lines = [];
+        let current = "";
+        for (let w of words) {
+          const test = current ? current + " " + w : w;
+          if (ctx.measureText(test).width > maxWidth && current) {
+            lines.push(current);
+            current = w;
+          } else {
+            current = test;
+          }
+        }
+        if (current) lines.push(current);
+        return lines;
+      }
+
+      function drawCover(img, x, y, w, h) {
+        const imgRatio = img.width / img.height;
+        const boxRatio = w / h;
+        let sx, sy, sw, sh;
+        if (imgRatio > boxRatio) {
+          sh = img.height;
+          sw = sh * boxRatio;
+          sx = (img.width - sw) / 2;
+          sy = 0;
+        } else {
+          sw = img.width;
+          sh = sw / boxRatio;
+          sx = 0;
+          sy = (img.height - sh) / 2;
+        }
+        ctx.drawImage(img, sx, sy, sw, sh, x, y, w, h);
+      }
+
+      function roundRect(x, y, w, h, r) {
+        ctx.beginPath();
+        ctx.moveTo(x + r, y);
+        ctx.arcTo(x + w, y, x + w, y + h, r);
+        ctx.arcTo(x + w, y + h, x, y + h, r);
+        ctx.arcTo(x, y + h, x, y, r);
+        ctx.arcTo(x, y, x + w, y, r);
+        ctx.closePath();
+      }
+
+      function drawPlaceholder(x, y, w, h, label) {
+        ctx.save();
+        ctx.fillStyle = "#1a1f2b";
+        ctx.fillRect(x, y, w, h);
+        ctx.strokeStyle = "#333a4a";
+        ctx.lineWidth = 3;
+        ctx.setLineDash([14, 10]);
+        ctx.strokeRect(x + 4, y + 4, w - 8, h - 8);
+        ctx.setLineDash([]);
+        ctx.fillStyle = "#5a6377";
+        ctx.font = "500 30px 'Oswald', sans-serif";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(label, x + w / 2, y + h / 2);
+        ctx.restore();
+      }
+
+      function render() {
+        const [W, H] = state.size;
+        canvas.width = W;
+        canvas.height = H;
+        ctx.clearRect(0, 0, W, H);
+
+        if (state.template === "A") {
+          renderTemplateA(W, H);
+        } else {
+          renderTemplateB(W, H);
+        }
+      }
+
+      function renderTemplateA(W, H) {
+        // background image
+        if (state.mainImg) {
+          drawCover(state.mainImg, 0, 0, W, H);
+        } else {
+          drawPlaceholder(
+            0,
+            0,
+            W,
+            H,
+            "Cliquez pour ajouter la photo principale",
+          );
+        }
+
+        // dark gradient bottom for legibility
+        const grad = ctx.createLinearGradient(0, H * 0.35, 0, H);
+        grad.addColorStop(0, "rgba(0,0,0,0)");
+        grad.addColorStop(
+          1,
+          `rgba(0,0,0,${((state.darkness / 100) * 0.95 + 0.05).toFixed(2)})`,
+        );
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, W, H);
+
+        // overall darkness overlay top too, subtle
+        ctx.fillStyle = `rgba(0,0,0,${((state.darkness / 100) * 0.25).toFixed(2)})`;
+        ctx.fillRect(0, 0, W, H * 0.4);
+
+        const accent = state.accentColor;
+
+        // diagonal corner shapes (top-left)
+        ctx.save();
+        ctx.fillStyle = accent;
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(W * 0.34, 0);
+        ctx.lineTo(0, H * 0.16);
+        ctx.closePath();
+        ctx.fill();
+        ctx.fillStyle = "rgba(255,255,255,0.9)";
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(W * 0.24, 0);
+        ctx.lineTo(0, H * 0.1);
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
+
+        // diagonal corner shapes (bottom-right)
+        ctx.save();
+        ctx.fillStyle = accent;
+        ctx.beginPath();
+        ctx.moveTo(W, H);
+        ctx.lineTo(W - W * 0.36, H);
+        ctx.lineTo(W, H - H * 0.14);
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
+
+        // top-left badge / logo
+        const badgeSize = W * 0.09;
+        const badgeX = W * 0.045,
+          badgeY = H * 0.03;
+        if (state.secondaryImg) {
+          ctx.save();
+          ctx.beginPath();
+          roundRect(badgeX, badgeY, badgeSize, badgeSize * 1.15, 10);
+          ctx.clip();
+          ctx.fillStyle = "#fff";
+          ctx.fillRect(badgeX, badgeY, badgeSize, badgeSize * 1.15);
+          const pad = badgeSize * 0.08;
+          drawCover(
+            state.secondaryImg,
+            badgeX + pad,
+            badgeY + pad,
+            badgeSize - pad * 2,
+            badgeSize * 1.15 - pad * 2,
+          );
+          ctx.restore();
+        }
+
+        // top-right small watermark (eyebrow initial or star)
+        if (state.eyebrow) {
+          ctx.save();
+          ctx.font = `600 ${W * 0.024}px 'Oswald', sans-serif`;
+          ctx.fillStyle = "rgba(255,255,255,0.85)";
+          ctx.textAlign = "right";
+          ctx.textBaseline = "top";
+          ctx.fillText("★ MVP", W * 0.955, H * 0.035);
+          ctx.restore();
+        }
+
+        // headline text
+        const maxWidth = W * 0.9;
+        const fontPx = state.fontSize * (W / 1080);
+        const lineHeight = fontPx * 1.08;
+        const font = `${fontPx}px ${state.font}`;
+        const lines = wrapText(state.headline.toUpperCase(), maxWidth, font);
+
+        const tagBoxH = state.tag ? H * 0.052 : 0;
+        const tagMarginTop = state.tag ? H * 0.03 : 0;
+        const blockHeight = lines.length * lineHeight;
+        let startY = H - H * 0.09 - tagBoxH - tagMarginTop - blockHeight;
+
+        ctx.font = font;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "alphabetic";
+
+        const hw = state.highlightWord.trim().toUpperCase();
+
+        lines.forEach((line, i) => {
+          const y = startY + (i + 1) * lineHeight - (lineHeight - fontPx) * 0.3;
+          if (hw && line.includes(hw)) {
+            // draw with highlight
+            const parts = line.split(hw);
+            const totalWidth = ctx.measureText(line).width;
+            let x = W / 2 - totalWidth / 2;
+            ctx.textAlign = "left";
+            for (let p = 0; p < parts.length; p++) {
+              ctx.fillStyle = state.textColor;
+              ctx.fillText(parts[p], x, y);
+              x += ctx.measureText(parts[p]).width;
+              if (p < parts.length - 1) {
+                ctx.fillStyle = state.highlightColor;
+                ctx.fillText(hw, x, y);
+                x += ctx.measureText(hw).width;
+              }
+            }
+            ctx.textAlign = "center";
+          } else {
+            ctx.fillStyle = state.textColor;
+            ctx.fillText(line, W / 2, y);
+          }
+        });
+
+        // tag box
+        if (state.tag) {
+          const tagY = H - H * 0.075 - tagBoxH;
+          ctx.font = `600 ${W * 0.028}px 'Oswald', sans-serif`;
+          const textW = ctx.measureText(state.tag.toUpperCase()).width;
+          const boxW = textW + W * 0.07;
+          const boxX = W / 2 - boxW / 2;
+
+          ctx.save();
+          ctx.strokeStyle = accent;
+          ctx.lineWidth = 4;
+          roundRect(boxX, tagY, boxW, tagBoxH, 6);
+          ctx.stroke();
+          ctx.fillStyle = "rgba(10,14,20,0.35)";
+          roundRect(boxX, tagY, boxW, tagBoxH, 6);
+          ctx.fill();
+          ctx.fillStyle = "#ffffff";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillText(state.tag.toUpperCase(), W / 2, tagY + tagBoxH / 2 + 2);
+          ctx.restore();
+        }
+      }
+
+      function renderTemplateB(W, H) {
+        // background image full bleed
+        if (state.mainImg) {
+          drawCover(state.mainImg, 0, 0, W, H * 0.78);
+        } else {
+          drawPlaceholder(
+            0,
+            0,
+            W,
+            H * 0.78,
+            "Cliquez pour ajouter la photo principale",
+          );
+        }
+
+        // bottom panel background
+        ctx.fillStyle = "#000000";
+        ctx.fillRect(0, H * 0.72, W, H * 0.28);
+
+        // gradient fade at seam
+        const seamGrad = ctx.createLinearGradient(0, H * 0.6, 0, H * 0.78);
+        seamGrad.addColorStop(0, "rgba(0,0,0,0)");
+        seamGrad.addColorStop(1, "rgba(0,0,0,1)");
+        ctx.fillStyle = seamGrad;
+        ctx.fillRect(0, H * 0.6, W, H * 0.18);
+
+        // top darkness overlay for legibility of any top text
+        ctx.fillStyle = `rgba(0,0,0,${((state.darkness / 100) * 0.3).toFixed(2)})`;
+        ctx.fillRect(0, 0, W, H * 0.3);
+
+        // circular inset image top-right
+        if (state.secondaryImg) {
+          const r = W * 0.18;
+          const cx = W * 0.82,
+            cy = H * 0.235;
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(cx, cy, r, 0, Math.PI * 2);
+          ctx.closePath();
+          ctx.lineWidth = W * 0.012;
+          ctx.strokeStyle = "#ffffff";
+          ctx.stroke();
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(cx, cy, r - W * 0.006, 0, Math.PI * 2);
+          ctx.clip();
+          drawCover(state.secondaryImg, cx - r, cy - r, r * 2, r * 2);
+          ctx.restore();
+          ctx.restore();
+        }
+
+        const accent = state.accentColor;
+        const padX = W * 0.07;
+
+        // divider line
+        ctx.save();
+        ctx.strokeStyle = "rgba(255,255,255,0.9)";
+        ctx.lineWidth = W * 0.006;
+        ctx.setLineDash([W * 0.028, W * 0.012]);
+        ctx.beginPath();
+        ctx.moveTo(padX, H * 0.775);
+        ctx.lineTo(W - padX, H * 0.775);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.restore();
+
+        // headline / quote text — auto-shrink to fit the available panel height
+        const maxWidth = W - padX * 2;
+        const panelTop = H * 0.8; // just below the dashed divider
+        const attributionH = state.attribution ? H * 0.05 : 0;
+        const availableH = H * 0.985 - panelTop - attributionH;
+
+        let fontPx = state.fontSize * (W / 1080);
+        const minFontPx = 20 * (W / 1080);
+        let lineHeight, font, lines;
+
+        while (true) {
+          lineHeight = fontPx * 1.1;
+          font = `${fontPx}px ${state.font}`;
+          lines = wrapText(state.headline.toUpperCase(), maxWidth, font);
+          const blockHeight = lines.length * lineHeight;
+          if (blockHeight <= availableH || fontPx <= minFontPx) break;
+          fontPx -= 2;
+        }
+
+        ctx.font = font;
+        ctx.textAlign = "left";
+        ctx.textBaseline = "alphabetic";
+
+        let y = panelTop + fontPx;
+        const hw = state.highlightWord.trim().toUpperCase();
+
+        lines.forEach((line) => {
+          if (hw && line.includes(hw)) {
+            const parts = line.split(hw);
+            let x = padX;
+            for (let p = 0; p < parts.length; p++) {
+              ctx.fillStyle = state.textColor;
+              ctx.fillText(parts[p], x, y);
+              x += ctx.measureText(parts[p]).width;
+              if (p < parts.length - 1) {
+                ctx.fillStyle = state.highlightColor;
+                ctx.fillText(hw, x, y);
+                x += ctx.measureText(hw).width;
+              }
+            }
+          } else {
+            ctx.fillStyle = state.textColor;
+            ctx.fillText(line, padX, y);
+          }
+          y += lineHeight;
+        });
+
+        // attribution
+        if (state.attribution) {
+          ctx.font = `500 ${W * 0.026}px 'Oswald', sans-serif`;
+          ctx.fillStyle = accent;
+          ctx.textAlign = "left";
+          ctx.fillText(
+            state.attribution.toUpperCase(),
+            padX,
+            y + fontPx * 0.28,
+          );
+        }
+      }
+
+      // ---------- UI BINDINGS ----------
+
+      document.querySelectorAll(".tab-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const newTemplate = btn.dataset.template;
+          if (newTemplate === state.template) return;
+          document
+            .querySelectorAll(".tab-btn")
+            .forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          saveTemplateFields(state.template);
+          state.template = newTemplate;
+          applyTemplateFields(newTemplate);
+          updateFieldVisibility();
+          render();
+        });
+      });
+
+      function updateFieldVisibility() {
+        const isA = state.template === "A";
+        document.getElementById("fieldEyebrow").style.display = isA
+          ? "block"
+          : "none";
+        document.getElementById("fieldTag").style.display = isA
+          ? "block"
+          : "none";
+        document.getElementById("fieldAttribution").style.display = isA
+          ? "none"
+          : "block";
+        document.getElementById("secondaryLabel").textContent = isA
+          ? "Logo / badge (coin haut-gauche)"
+          : "Photo secondaire (médaillon)";
+        document.getElementById("headlineLabel").textContent = isA
+          ? "Titre principal"
+          : "Citation / titre";
+      }
+
+      document.getElementById("canvasSize").addEventListener("change", (e) => {
+        const [w, h] = e.target.value.split("x").map(Number);
+        state.size = [w, h];
+        render();
+      });
+
+      document
+        .getElementById("mainImgBtn")
+        .addEventListener("click", () =>
+          document.getElementById("mainImgInput").click(),
+        );
+      document
+        .getElementById("mainImgInput")
+        .addEventListener("change", (e) => {
+          const file = e.target.files[0];
+          if (!file) return;
+          loadImageFromFile(file, (img) => {
+            state.mainImg = img;
+            document.getElementById("mainImgBtn").classList.add("has-file");
+            document.getElementById("mainImgBtn").textContent =
+              "✓ " + file.name;
+            render();
+          });
+        });
+
+      document
+        .getElementById("secondaryImgBtn")
+        .addEventListener("click", () =>
+          document.getElementById("secondaryImgInput").click(),
+        );
+      document
+        .getElementById("secondaryImgInput")
+        .addEventListener("change", (e) => {
+          const file = e.target.files[0];
+          if (!file) return;
+          loadImageFromFile(file, (img) => {
+            state.secondaryImg = img;
+            document
+              .getElementById("secondaryImgBtn")
+              .classList.add("has-file");
+            document.getElementById("secondaryImgBtn").textContent =
+              "✓ " + file.name;
+            render();
+          });
+        });
+
+      function bindText(id, key, transform) {
+        document.getElementById(id).addEventListener("input", (e) => {
+          state[key] = transform ? transform(e.target.value) : e.target.value;
+          render();
+        });
+      }
+      bindText("eyebrowText", "eyebrow");
+      bindText("headlineText", "headline");
+      bindText("highlightWord", "highlightWord");
+      bindText("attributionText", "attribution");
+      bindText("tagText", "tag");
+
+      document.getElementById("fontFamily").addEventListener("change", (e) => {
+        state.font = e.target.value;
+        render();
+      });
+
+      document.getElementById("fontSize").addEventListener("input", (e) => {
+        state.fontSize = Number(e.target.value);
+        document.getElementById("fontSizeVal").textContent =
+          state.fontSize + "px";
+        render();
+      });
+
+      document.getElementById("textColor").addEventListener("input", (e) => {
+        state.textColor = e.target.value;
+        render();
+      });
+      document.getElementById("accentColor").addEventListener("input", (e) => {
+        state.accentColor = e.target.value;
+        render();
+      });
+      document
+        .getElementById("highlightColor")
+        .addEventListener("input", (e) => {
+          state.highlightColor = e.target.value;
+          render();
+        });
+      document.getElementById("darkness").addEventListener("input", (e) => {
+        state.darkness = Number(e.target.value);
+        document.getElementById("darknessVal").textContent =
+          state.darkness + "%";
+        render();
+      });
+
+      document.getElementById("downloadBtn").addEventListener("click", () => {
+        const link = document.createElement("a");
+        link.download = "mvp-foot-visuel.png";
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+      });
+
+      document.getElementById("resetBtn").addEventListener("click", () => {
+        location.reload();
+      });
+
+      document.getElementById("randomBtn").addEventListener("click", () => {
+        const accents = ["#2b6bff", "#ff2b3d", "#ffb703", "#00c2a8", "#ff8c00"];
+        state.accentColor = accents[Math.floor(Math.random() * accents.length)];
+        document.getElementById("accentColor").value = state.accentColor;
+        render();
+      });
+
+      // initial
+      applyTemplateFields("A");
+      updateFieldVisibility();
+
+      // wait for fonts then render
+      document.fonts.ready.then(render);
+      setTimeout(render, 300);
+    </script>
+  </body>
 </html>
