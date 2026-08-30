@@ -147,6 +147,17 @@
         font-size: 14px;
         cursor: pointer;
       }
+      #resetPosBtn {
+        margin-top: 10px;
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #34343f;
+        border-radius: 9px;
+        background: transparent;
+        color: #c7c7d0;
+        font-size: 13px;
+        cursor: pointer;
+      }
       #downloadBtn:hover {
         background: #1e42ad;
       }
@@ -173,15 +184,17 @@
         position: relative;
         overflow: hidden;
         flex-shrink: 0;
-        max-width: none;
       }
       #bgImage {
         position: absolute;
-        inset: 0;
+        top: 0;
+        left: 0;
         width: 100%;
         height: 100%;
-        object-fit: cover;
-        object-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: 50% 50%;
+        cursor: move;
       }
       #placeholder {
         position: absolute;
@@ -193,6 +206,7 @@
         font-size: 22px;
         text-align: center;
         padding: 40px;
+        pointer-events: none;
       }
       #fadeOverlay {
         position: absolute;
@@ -204,6 +218,7 @@
           var(--fade) 78%,
           var(--fade) 100%
         );
+        pointer-events: none;
       }
       #badge {
         position: absolute;
@@ -218,13 +233,17 @@
         border-radius: 10px;
         letter-spacing: 0.02em;
         transform: rotate(-2deg);
+        cursor: move;
+        user-select: none;
+        white-space: nowrap;
       }
       #captionWrap {
         position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        padding: 0 46px 60px;
+        left: 46px;
+        top: 850px;
+        width: 988px;
+        cursor: move;
+        user-select: none;
       }
       #captionText {
         font-family: "Barlow Condensed", sans-serif;
@@ -251,7 +270,9 @@
       <p class="sub">Photo de fond, badge en haut, texte en bas.</p>
       <p class="hint">
         Entoure un mot ou groupe de mots avec <code>==...==</code> pour lui
-        donner un fond en surbrillance.
+        donner un fond en surbrillance. Tu peux
+        <strong>glisser-déposer</strong> l'image, le badge et le texte
+        directement dans l'aperçu pour les repositionner.
       </p>
 
       <label for="imageInput">Image de fond</label>
@@ -267,8 +288,7 @@ Ce militaire a désobéi aux ordres et a foncé 5 fois dans une zone d'embuscade
 
       <label for="formatSelect">Format</label>
       <select id="formatSelect">
-        <option value="auto" selected>Adapté à l'image (auto)</option>
-        <option value="1080x1350">Portrait — 1080×1350</option>
+        <option value="1080x1350" selected>Portrait — 1080×1350</option>
         <option value="1080x1080">Carré — 1080×1080</option>
         <option value="1080x1920">Story — 1080×1920</option>
         <option value="1200x675">Paysage — 1200×675</option>
@@ -328,14 +348,15 @@ Ce militaire a désobéi aux ordres et a foncé 5 fois dans une zone d'embuscade
 
       <hr />
       <button id="downloadBtn">Télécharger en PNG</button>
+      <button id="resetPosBtn">Réinitialiser les positions</button>
     </div>
 
     <div id="stage-wrap">
       <div id="canvas">
+        <div id="bgImage"></div>
         <div id="placeholder">
           Choisis une image de fond dans le panneau à gauche
         </div>
-        <img id="bgImage" style="display: none" />
         <div id="fadeOverlay"></div>
         <div id="badge">MVP INFO</div>
         <div id="captionWrap">
@@ -346,6 +367,7 @@ Ce militaire a désobéi aux ordres et a foncé 5 fois dans une zone d'embuscade
 
     <script>
       const $ = (id) => document.getElementById(id);
+      let currentScale = 1;
 
       function escapeHtml(str) {
         return str
@@ -375,16 +397,8 @@ Ce militaire a désobéi aux ordres et a foncé 5 fois dans une zone d'embuscade
         if (!file) return;
         const reader = new FileReader();
         reader.onload = (ev) => {
-          $("bgImage").onload = () => {
-            if ($("formatSelect").value === "auto") {
-              setCanvasSizeFromImage(
-                $("bgImage").naturalWidth,
-                $("bgImage").naturalHeight,
-              );
-            }
-          };
-          $("bgImage").src = ev.target.result;
-          $("bgImage").style.display = "block";
+          $("bgImage").style.backgroundImage = `url(${ev.target.result})`;
+          $("bgImage").style.backgroundPosition = "50% 50%";
           $("placeholder").style.display = "none";
         };
         reader.readAsDataURL(file);
@@ -424,40 +438,15 @@ Ce militaire a désobéi aux ordres et a foncé 5 fois dans une zone d'embuscade
         document.documentElement.style.setProperty("--fade", e.target.value);
       });
 
-      function setCanvasSize(w, h) {
+      function applyFormat() {
+        const [w, h] = $("formatSelect").value.split("x").map(Number);
         const canvas = $("canvas");
         canvas.style.width = w + "px";
         canvas.style.height = h + "px";
         canvas.dataset.w = w;
         canvas.dataset.h = h;
+        resetPositions();
         fitCanvas();
-      }
-
-      function setCanvasSizeFromImage(naturalW, naturalH) {
-        const MAX_DIM = 2000;
-        let w = naturalW,
-          h = naturalH;
-        if (w > MAX_DIM || h > MAX_DIM) {
-          const ratio = Math.min(MAX_DIM / w, MAX_DIM / h);
-          w = Math.round(w * ratio);
-          h = Math.round(h * ratio);
-        }
-        setCanvasSize(w, h);
-      }
-
-      function applyFormat() {
-        const val = $("formatSelect").value;
-        if (val === "auto") {
-          const img = $("bgImage");
-          if (img.naturalWidth) {
-            setCanvasSizeFromImage(img.naturalWidth, img.naturalHeight);
-          } else {
-            setCanvasSize(1080, 1350);
-          }
-          return;
-        }
-        const [w, h] = val.split("x").map(Number);
-        setCanvasSize(w, h);
       }
       $("formatSelect").addEventListener("change", applyFormat);
 
@@ -466,14 +455,90 @@ Ce militaire a désobéi aux ordres et a foncé 5 fois dans une zone d'embuscade
         const canvas = document.getElementById("canvas");
         const w = Number(canvas.dataset.w || 1080);
         const h = Number(canvas.dataset.h || 1350);
-        const scale = Math.min(
+        currentScale = Math.min(
           (wrap.clientWidth - 40) / w,
           (wrap.clientHeight - 40) / h,
         );
-        canvas.style.transform = `scale(${scale})`;
+        canvas.style.transform = `scale(${currentScale})`;
       }
       window.addEventListener("resize", fitCanvas);
+
+      /* ---------- POSITIONS PAR DÉFAUT ---------- */
+      function resetPositions() {
+        const canvas = $("canvas");
+        const w = Number(canvas.dataset.w || 1080);
+        const h = Number(canvas.dataset.h || 1350);
+
+        $("badge").style.left = Math.round(w * 0.033) + "px";
+        $("badge").style.top = Math.round(h * 0.027) + "px";
+
+        $("captionWrap").style.left = Math.round(w * 0.043) + "px";
+        $("captionWrap").style.width = Math.round(w * 0.914) + "px";
+        $("captionWrap").style.top = Math.round(h * 0.63) + "px";
+
+        $("bgImage").style.backgroundPosition = "50% 50%";
+      }
+      resetPositions();
       applyFormat();
+      $("resetPosBtn").addEventListener("click", resetPositions);
+
+      /* ---------- GLISSER-DÉPOSER (image, badge, texte) ---------- */
+      function makeDraggable(el, isBackground) {
+        el.addEventListener("mousedown", startDrag);
+        el.addEventListener("touchstart", startDrag, { passive: false });
+
+        function startDrag(e) {
+          e.preventDefault();
+          const point = e.touches ? e.touches[0] : e;
+          const startX = point.clientX;
+          const startY = point.clientY;
+
+          let startLeft, startTop, startPosX, startPosY;
+          const canvasRect = $("canvas").getBoundingClientRect();
+
+          if (isBackground) {
+            const posStr = getComputedStyle(el).backgroundPosition.split(" ");
+            startPosX = parseFloat(posStr[0]);
+            startPosY = parseFloat(posStr[1]);
+          } else {
+            startLeft = parseFloat(getComputedStyle(el).left);
+            startTop = parseFloat(getComputedStyle(el).top);
+          }
+
+          function onMove(e) {
+            const p = e.touches ? e.touches[0] : e;
+            const dx = (p.clientX - startX) / currentScale;
+            const dy = (p.clientY - startY) / currentScale;
+
+            if (isBackground) {
+              const w = Number($("canvas").dataset.w || 1080);
+              const h = Number($("canvas").dataset.h || 1350);
+              const newX = startPosX - (dx / w) * 100;
+              const newY = startPosY - (dy / h) * 100;
+              const clampedX = Math.max(0, Math.min(100, newX));
+              const clampedY = Math.max(0, Math.min(100, newY));
+              el.style.backgroundPosition = `${clampedX}% ${clampedY}%`;
+            } else {
+              el.style.left = startLeft + dx + "px";
+              el.style.top = startTop + dy + "px";
+            }
+          }
+          function onUp() {
+            document.removeEventListener("mousemove", onMove);
+            document.removeEventListener("mouseup", onUp);
+            document.removeEventListener("touchmove", onMove);
+            document.removeEventListener("touchend", onUp);
+          }
+          document.addEventListener("mousemove", onMove);
+          document.addEventListener("mouseup", onUp);
+          document.addEventListener("touchmove", onMove, { passive: false });
+          document.addEventListener("touchend", onUp);
+        }
+      }
+
+      makeDraggable($("bgImage"), true);
+      makeDraggable($("badge"), false);
+      makeDraggable($("captionWrap"), false);
 
       document.getElementById("downloadBtn").addEventListener("click", () => {
         const canvas = document.getElementById("canvas");
