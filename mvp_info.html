@@ -211,13 +211,6 @@
       #fadeOverlay {
         position: absolute;
         inset: 0;
-        background: linear-gradient(
-          to bottom,
-          rgba(0, 0, 0, 0) 0%,
-          rgba(0, 0, 0, 0) 48%,
-          var(--fade) 78%,
-          var(--fade) 100%
-        );
         pointer-events: none;
       }
       #badge {
@@ -346,6 +339,18 @@ Ce militaire a désobéi aux ordres et a foncé 5 fois dans une zone d'embuscade
         <input type="color" id="colFade" value="#2b56d6" />
       </div>
 
+      <label for="fadeHeight">Hauteur du fondu</label>
+      <div class="range-row">
+        <input type="range" id="fadeHeight" min="10" max="100" value="52" />
+        <span id="fadeHeightValue">52%</span>
+      </div>
+
+      <label for="fadeIntensity">Intensité du fondu</label>
+      <div class="range-row">
+        <input type="range" id="fadeIntensity" min="0" max="100" value="100" />
+        <span id="fadeIntensityValue">100%</span>
+      </div>
+
       <hr />
       <button id="downloadBtn">Télécharger en PNG</button>
       <button id="resetPosBtn">Réinitialiser les positions</button>
@@ -436,6 +441,36 @@ Ce militaire a désobéi aux ordres et a foncé 5 fois dans une zone d'embuscade
       });
       $("colFade").addEventListener("input", (e) => {
         document.documentElement.style.setProperty("--fade", e.target.value);
+        updateFade();
+      });
+
+      function hexToRgb(hex) {
+        const clean = hex.replace("#", "");
+        const num = parseInt(clean, 16);
+        return {
+          r: (num >> 16) & 255,
+          g: (num >> 8) & 255,
+          b: num & 255,
+        };
+      }
+
+      function updateFade() {
+        const hex = $("colFade").value;
+        const { r, g, b } = hexToRgb(hex);
+        const heightPct = Number($("fadeHeight").value);
+        const alpha = Number($("fadeIntensity").value) / 100;
+        const start = 100 - heightPct;
+        $("fadeOverlay").style.background =
+          `linear-gradient(to bottom, rgba(${r},${g},${b},0) 0%, rgba(${r},${g},${b},0) ${start}%, rgba(${r},${g},${b},${alpha}) 100%)`;
+      }
+
+      $("fadeHeight").addEventListener("input", () => {
+        $("fadeHeightValue").textContent = $("fadeHeight").value + "%";
+        updateFade();
+      });
+      $("fadeIntensity").addEventListener("input", () => {
+        $("fadeIntensityValue").textContent = $("fadeIntensity").value + "%";
+        updateFade();
       });
 
       function applyFormat() {
@@ -480,6 +515,7 @@ Ce militaire a désobéi aux ordres et a foncé 5 fois dans une zone d'embuscade
       }
       resetPositions();
       applyFormat();
+      updateFade();
       $("resetPosBtn").addEventListener("click", resetPositions);
 
       /* ---------- GLISSER-DÉPOSER (image, badge, texte) ---------- */
