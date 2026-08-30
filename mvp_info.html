@@ -173,6 +173,7 @@
         position: relative;
         overflow: hidden;
         flex-shrink: 0;
+        max-width: none;
       }
       #bgImage {
         position: absolute;
@@ -266,7 +267,8 @@ Ce militaire a désobéi aux ordres et a foncé 5 fois dans une zone d'embuscade
 
       <label for="formatSelect">Format</label>
       <select id="formatSelect">
-        <option value="1080x1350" selected>Portrait — 1080×1350</option>
+        <option value="auto" selected>Adapté à l'image (auto)</option>
+        <option value="1080x1350">Portrait — 1080×1350</option>
         <option value="1080x1080">Carré — 1080×1080</option>
         <option value="1080x1920">Story — 1080×1920</option>
         <option value="1200x675">Paysage — 1200×675</option>
@@ -373,6 +375,14 @@ Ce militaire a désobéi aux ordres et a foncé 5 fois dans une zone d'embuscade
         if (!file) return;
         const reader = new FileReader();
         reader.onload = (ev) => {
+          $("bgImage").onload = () => {
+            if ($("formatSelect").value === "auto") {
+              setCanvasSizeFromImage(
+                $("bgImage").naturalWidth,
+                $("bgImage").naturalHeight,
+              );
+            }
+          };
           $("bgImage").src = ev.target.result;
           $("bgImage").style.display = "block";
           $("placeholder").style.display = "none";
@@ -414,14 +424,40 @@ Ce militaire a désobéi aux ordres et a foncé 5 fois dans une zone d'embuscade
         document.documentElement.style.setProperty("--fade", e.target.value);
       });
 
-      function applyFormat() {
-        const [w, h] = $("formatSelect").value.split("x").map(Number);
+      function setCanvasSize(w, h) {
         const canvas = $("canvas");
         canvas.style.width = w + "px";
         canvas.style.height = h + "px";
         canvas.dataset.w = w;
         canvas.dataset.h = h;
         fitCanvas();
+      }
+
+      function setCanvasSizeFromImage(naturalW, naturalH) {
+        const MAX_DIM = 2000;
+        let w = naturalW,
+          h = naturalH;
+        if (w > MAX_DIM || h > MAX_DIM) {
+          const ratio = Math.min(MAX_DIM / w, MAX_DIM / h);
+          w = Math.round(w * ratio);
+          h = Math.round(h * ratio);
+        }
+        setCanvasSize(w, h);
+      }
+
+      function applyFormat() {
+        const val = $("formatSelect").value;
+        if (val === "auto") {
+          const img = $("bgImage");
+          if (img.naturalWidth) {
+            setCanvasSizeFromImage(img.naturalWidth, img.naturalHeight);
+          } else {
+            setCanvasSize(1080, 1350);
+          }
+          return;
+        }
+        const [w, h] = val.split("x").map(Number);
+        setCanvasSize(w, h);
       }
       $("formatSelect").addEventListener("change", applyFormat);
 
