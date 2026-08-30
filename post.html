@@ -2,594 +2,379 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MVP Info — Générateur de carte mercato</title>
-<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700;800;900&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<title>Générateur d'overlay</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Bebas+Neue&family=Caveat:wght@700&family=DM+Serif+Display:ital@0;1&family=Fredoka:wght@500;700&family=Permanent+Marker&family=Playfair+Display:ital,wght@1,800&family=Poppins:ital,wght@0,700;1,800&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --orange: #f97316;
-    --orange-dark: #ea580c;
-    --bg: #0a0a0f;
-    --surface: #16161f;
-    --border: #2a2a38;
-    --text: #ffffff;
-    --muted: #888888;
-    --green: #16a34a;
+  :root{
+    --green:#6fd54a;
+    --blue:#2b56d6;
+    --pink-red:#f0567a;
+    --paper:#f4f1ea;
+    --ink:#14140f;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Segoe UI', Arial, sans-serif;
+    background:#e9e9ef;
+    display:flex;
+    min-height:100vh;
   }
 
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    padding: 32px 20px 80px;
-    background-image:
-      radial-gradient(ellipse at 15% 50%, rgba(249,115,22,0.09) 0%, transparent 60%),
-      radial-gradient(ellipse at 85% 10%, rgba(249,115,22,0.05) 0%, transparent 50%);
-    max-width: 900px;
-    margin: 0 auto;
+  /* ---------- PANNEAU DE CONTRÔLE ---------- */
+  #panel{
+    width:340px;
+    flex-shrink:0;
+    background:#1b1b22;
+    color:#eee;
+    padding:24px 20px;
+    overflow-y:auto;
+    height:100vh;
+    position:sticky;
+    top:0;
+  }
+  #panel h1{
+    font-size:18px;
+    margin:0 0 4px;
+  }
+  #panel p.sub{
+    font-size:12px;
+    color:#9a9aa5;
+    margin:0 0 20px;
+  }
+  #panel label{
+    display:block;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:.04em;
+    color:#9a9aa5;
+    margin:16px 0 6px;
+  }
+  #panel input[type=text], #panel textarea{
+    width:100%;
+    padding:9px 10px;
+    border-radius:8px;
+    border:1px solid #34343f;
+    background:#111117;
+    color:#fff;
+    font-size:14px;
+    font-family:inherit;
+    resize:vertical;
+  }
+  #panel textarea{min-height:70px;}
+  #panel input[type=color]{
+    width:44px;height:28px;border:none;border-radius:6px;background:none;padding:0;cursor:pointer;
+    vertical-align:middle;
+  }
+  .color-row{display:flex;align-items:center;gap:10px;}
+  .color-row span{font-size:12px;color:#c7c7d0;}
+  #panel select{
+    width:100%;
+    padding:9px 10px;
+    border-radius:8px;
+    border:1px solid #34343f;
+    background:#111117;
+    color:#fff;
+    font-size:14px;
+    font-family:inherit;
+  }
+  .range-row{display:flex;align-items:center;gap:10px;}
+  .range-row input[type=range]{flex:1;}
+  .range-row span{font-size:12px;color:#c7c7d0;min-width:38px;text-align:right;}
+  #noteTextInput{min-height:110px;}
+  #downloadBtn{
+    margin-top:26px;
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:9px;
+    background:var(--blue);
+    color:#fff;
+    font-weight:700;
+    font-size:14px;
+    cursor:pointer;
+  }
+  #downloadBtn:hover{background:#1e42ad;}
+  hr{border:none;border-top:1px solid #2c2c36;margin:22px 0;}
+
+  /* ---------- ZONE DE PREVIEW ---------- */
+  #stage-wrap{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:30px;
+    overflow:auto;
   }
 
-  /* ─── HEADER ─── */
-  .app-header { display: flex; align-items: center; gap: 14px; margin-bottom: 8px; }
-  .logo-badge {
-    background: linear-gradient(135deg, var(--orange), var(--orange-dark));
-    border-radius: 10px; width: 48px; height: 48px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 24px; flex-shrink: 0;
-    box-shadow: 0 4px 16px rgba(249,115,22,0.4);
-  }
-  .app-header h1 { font-family: 'Figtree', sans-serif; font-weight: 800; font-size: 26px; letter-spacing: -0.5px; }
-  .app-header h1 span { color: var(--orange); }
-  .app-header p { font-size: 13px; color: var(--muted); margin-top: 2px; }
-  .divider { height: 1px; background: linear-gradient(to right, var(--border), transparent); margin: 20px 0; }
-
-  /* ─── FORM ─── */
-  .form-section-title {
-    font-size: 10px; font-weight: 700; text-transform: uppercase;
-    letter-spacing: 1.2px; color: var(--orange); margin-bottom: 12px;
-    display: flex; align-items: center; gap: 8px;
-  }
-  .form-section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-
-  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
-  .form-group { display: flex; flex-direction: column; gap: 6px; }
-  .form-group.full { grid-column: 1 / -1; }
-
-  label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: var(--muted); }
-
-  input[type="text"], input[type="date"], textarea {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
-    color: #fff; font-family: 'DM Sans', sans-serif; font-size: 14px;
-    padding: 11px 14px; outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s; width: 100%; resize: none;
-  }
-  input[type="date"] { color-scheme: dark; cursor: pointer; }
-  input:focus, textarea:focus { border-color: var(--orange); box-shadow: 0 0 0 3px rgba(249,115,22,0.12); }
-  input::placeholder, textarea::placeholder { color: #444; }
-
-  /* ─── PHOTO UPLOAD ─── */
-  .photo-upload-area {
-    border: 2px dashed var(--border); border-radius: 10px; min-height: 100px;
-    display: flex; align-items: center; justify-content: center;
-    flex-direction: column; gap: 6px; cursor: pointer;
-    position: relative; overflow: hidden;
-    transition: border-color 0.2s, background 0.2s; background: var(--surface);
-  }
-  .photo-upload-area:hover { border-color: var(--orange); background: #1c1c28; }
-  .photo-upload-area input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
-  .photo-upload-area .upload-icon { font-size: 26px; }
-  .photo-upload-area .upload-hint { font-size: 12px; color: #555; }
-  #photo-preview { width: 100%; height: 100px; object-fit: cover; display: none; border-radius: 8px; }
-
-  /* ─── COLOR SWATCHES ─── */
-  .color-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
-  .color-swatch {
-    width: 30px; height: 30px; border-radius: 6px; border: 2px solid transparent;
-    cursor: pointer; transition: transform 0.15s, border-color 0.15s;
-  }
-  .color-swatch:hover { transform: scale(1.15); }
-  .color-swatch.active { border-color: var(--orange); transform: scale(1.15); }
-
-  /* Accent swatches */
-  .accent-swatch {
-    width: 30px; height: 30px; border-radius: 6px; border: 2px solid transparent;
-    cursor: pointer; transition: transform 0.15s, border-color 0.15s;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .accent-swatch:hover { transform: scale(1.15); }
-  .accent-swatch.active { border-color: #fff; transform: scale(1.15); box-shadow: 0 0 0 1px #666; }
-  .custom-color-wrap { position: relative; display: flex; cursor: pointer; }
-  .custom-color-wrap input[type="color"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; border: none; padding: 0; }
-  .custom-swatch { font-size: 11px; }
-
-  /* ─── BUTTONS ─── */
-  .btn-row { display: flex; gap: 10px; margin-bottom: 32px; }
-  .btn {
-    flex: 1; border: none; border-radius: 10px; font-family: 'Figtree', sans-serif;
-    font-weight: 700; font-size: 15px; cursor: pointer; padding: 14px 16px;
-    transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 7px;
-  }
-  .btn-preview { background: var(--surface); color: #ccc; border: 1px solid var(--border); }
-  .btn-preview:hover { background: #1e1e2e; color: #fff; }
-  .btn-generate {
-    background: linear-gradient(135deg, var(--orange), var(--orange-dark));
-    color: #fff; box-shadow: 0 4px 18px rgba(249,115,22,0.4);
-  }
-  .btn-generate:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(249,115,22,0.5); }
-  .btn-generate:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-
-  /* ─── PREVIEW ─── */
-  #preview-section { display: none; }
-  .preview-label {
-    font-size: 10px; font-weight: 700; text-transform: uppercase;
-    letter-spacing: 1.2px; color: var(--muted); margin-bottom: 16px;
-    display: flex; align-items: center; gap: 8px;
-  }
-  .preview-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-
-  .card-shadow-wrap {
-    border-radius: 16px; overflow: hidden;
-    box-shadow: 0 0 0 1px rgba(255,255,255,0.06), 0 28px 70px rgba(0,0,0,0.65), 0 4px 20px rgba(0,0,0,0.4);
-    margin-bottom: 16px;
+  #canvas{
+    width:1920px;
+    height:1080px;
+    transform-origin:center center;
+    position:relative;
+    background:var(--paper);
+    overflow:hidden;
+    font-family:'Segoe UI', Arial, sans-serif;
+    flex-shrink:0;
   }
 
-  /* ══════════════════════════════════════════
-     CARTE — grande, lisible, ultra réaliste
-  ══════════════════════════════════════════ */
-  #card {
-    background: #ffffff;
-    font-family: 'DM Sans', sans-serif;
-    width: 100%;
-    position: relative;
-    overflow: hidden;
+  /* confettis de fond (formes simples en CSS) */
+  .confetti{
+    position:absolute;
+    opacity:.9;
   }
 
-  /* Bande orange top */
-  .card-top-stripe { height: 6px; background: linear-gradient(to right, #f97316, #ea580c, #c2410c); }
-
-  /* Header */
-  .card-header-row {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 18px 28px 14px;
-    border-bottom: 1px solid #f0f0f0;
+  /* --------- panneau vert gauche (rec) --------- */
+  #greenPanel{
+    position:absolute;
+    left:60px; top:80px;
+    width:1260px; height:920px;
+    background:var(--green);
+    border:6px solid var(--blue);
+    border-radius:14px;
   }
-  .card-logo-text {
-    font-family: 'Figtree', sans-serif; font-weight: 900;
-    font-size: 20px; color: #111; letter-spacing: -0.5px;
-    display: flex; align-items: center; gap: 7px;
+  #recTag{
+    position:absolute;
+    left:32px; top:24px;
+    background:#fce9e6;
+    color:#e2536a;
+    font-weight:800;
+    font-size:26px;
+    padding:8px 18px 8px 14px;
+    border-radius:6px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    letter-spacing:.03em;
   }
-  .card-logo-dot { width: 10px; height: 10px; border-radius: 50%; background: #f97316; display: inline-block; }
-  .card-tag {
-    background: #f97316; color: #fff; font-family: 'Figtree', sans-serif;
-    font-weight: 800; font-size: 12px; letter-spacing: 1.5px;
-    text-transform: uppercase; padding: 6px 16px; border-radius: 6px;
+  #recTag .dot{
+    width:14px;height:14px;border-radius:50%;background:#e2536a;
   }
-
-  /* Body */
-  .card-body { display: flex; align-items: stretch; min-height: 340px; }
-
-  /* Photo colonne gauche */
-  .card-photo-col { flex-shrink: 0; width: 260px; display: flex; flex-direction: column; }
-  .card-photo-wrap { flex: 1; overflow: hidden; background: linear-gradient(145deg, #e0e0e0, #c8c8c8); position: relative; }
-  .card-photo-wrap img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
-  .card-photo-placeholder {
-    width: 100%; height: 100%; min-height: 280px;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    color: #bbb; font-size: 48px; gap: 10px;
-  }
-  .card-photo-placeholder span { font-size: 14px; color: #ccc; }
-
-  /* Name tag sous la photo */
-  .card-player-tag {
-    background: #111; color: #fff;
-    font-family: 'Figtree', sans-serif; font-weight: 800;
-    font-size: 15px; text-align: center;
-    padding: 12px 14px; line-height: 1.3;
-  }
-  .card-player-tag .club-name { font-size: 12px; color: #f97316; font-weight: 600; margin-top: 3px; letter-spacing: 0.3px; }
-
-  /* Colonne texte droite */
-  .card-text-block {
-    flex: 1; min-width: 0;
-    padding: 24px 28px;
-    display: flex; flex-direction: column; justify-content: flex-start;
-    border-left: 1px solid #f0f0f0;
+  #closeX{
+    position:absolute;
+    right:34px; top:24px;
+    font-size:34px;
+    font-weight:800;
+    color:var(--blue);
   }
 
-  .card-info-row { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
-  .card-category-label {
-    font-family: 'Figtree', sans-serif; font-weight: 900;
-    font-size: 22px; color: #111; letter-spacing: -0.5px; text-transform: capitalize;
+  /* --------- carte de droite (feuille quadrillée) --------- */
+  #noteCard{
+    position:absolute;
+    right:60px; top:78px;
+    width:500px; height:735px;
+    background:
+      linear-gradient(to right, #dfe3ea 1px, transparent 1px),
+      linear-gradient(to bottom, #dfe3ea 1px, transparent 1px),
+      #fff;
+    background-size:26px 26px;
+    border:6px solid var(--blue);
+    border-radius:10px;
+    padding:30px 34px;
   }
-  .card-date-pill { font-size: 13px; color: #999; background: #f5f5f5; padding: 4px 12px; border-radius: 20px; font-weight: 500; }
-  .card-content-text { font-size: 16px; line-height: 1.75; color: #2a2a2a; flex: 1; }
-
-  /* Footer */
-  .card-footer {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 16px 28px 20px; border-top: 1px solid #f0f0f0; background: #fafafa;
+  #sujetTag{
+    display:inline-block;
+    background:#fff;
+    border:3px solid var(--blue);
+    color:var(--blue);
+    font-weight:800;
+    font-size:22px;
+    padding:6px 18px;
+    border-radius:8px;
+    margin-bottom:26px;
+    letter-spacing:.03em;
   }
-  .card-footer-left { display: flex; align-items: center; gap: 8px; }
-  .card-source-dot { width: 8px; height: 8px; border-radius: 50%; background: #f97316; flex-shrink: 0; }
-  .card-source-text { font-family: 'Figtree', sans-serif; font-weight: 700; font-size: 13px; color: #aaa; text-transform: uppercase; letter-spacing: 1px; }
-  .card-subscribe-btn {
-    background: linear-gradient(135deg, #f97316, #ea580c); color: #fff;
-    font-family: 'Figtree', sans-serif; font-weight: 800; font-size: 14px; letter-spacing: 1px;
-    padding: 12px 24px; border-radius: 8px; text-transform: uppercase;
-    display: flex; align-items: center; gap: 8px;
-    box-shadow: 0 4px 14px rgba(249,115,22,0.4);
+  #noteText{
+    font-family:'Poppins', sans-serif;
+    font-size:34px;
+    font-weight:800;
+    font-style:italic;
+    line-height:1.22;
+    color:#111;
+    white-space:pre-wrap;
+    word-wrap:break-word;
+    text-align:left;
   }
 
-  /* ─── DOWNLOAD BTN ─── */
-  .btn-download {
-    background: linear-gradient(135deg, var(--green), #15803d); color: #fff;
-    border: none; border-radius: 10px; font-family: 'Figtree', sans-serif;
-    font-weight: 700; font-size: 15px; padding: 15px 24px;
-    cursor: pointer; width: 100%;
-    display: flex; align-items: center; justify-content: center; gap: 8px;
-    box-shadow: 0 4px 18px rgba(22,163,74,0.35); transition: all 0.2s; margin-bottom: 10px;
-  }
-  .btn-download:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(22,163,74,0.45); }
-  .btn-download:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-
-  .tip { font-size: 12px; color: #444; text-align: center; margin-bottom: 8px; }
-
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .spinner { width: 17px; height: 17px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; }
-
-  @media (max-width: 600px) {
-    .form-grid { grid-template-columns: 1fr; }
-    .form-group.full { grid-column: 1; }
-    .card-body { flex-direction: column; }
-    .card-photo-col { width: 100%; }
-    .card-photo-placeholder { min-height: 200px; }
+  /* --------- badge du bas (compte) --------- */
+  #handleBadge{
+    position:absolute;
+    right:60px; bottom:40px;
+    background:#fff;
+    border:5px solid var(--blue);
+    border-radius:40px;
+    padding:20px 46px 20px 60px;
+    font-weight:800;
+    font-size:34px;
+    color:#e2536a;
+    letter-spacing:.02em;
   }
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
-<div class="app-header">
-  <div class="logo-badge">🗞️</div>
-  <div>
-    <h1>MVP <span>Info</span></h1>
-    <p>Générateur de carte mercato ultra-réaliste</p>
+<div id="panel">
+  <h1>Générateur d'overlay</h1>
+  <p class="sub">Modifie les champs, l'aperçu se met à jour en direct.</p>
+
+  <label for="recLabel">Étiquette (haut gauche)</label>
+  <input type="text" id="recLabel" value="REC">
+
+  <label for="sujetLabel">Étiquette "sujet"</label>
+  <input type="text" id="sujetLabel" value="SUJET">
+
+  <label for="noteTextInput">Texte du bloc (une seule zone)</label>
+  <textarea id="noteTextInput">Top 10 recettes
+Comment cuisiner un homard ?
+
+TOUTES NOS ASTUCES POUR CUISINER FACILEMENT !</textarea>
+
+  <label for="fontSelect">Police</label>
+  <select id="fontSelect">
+    <option value="'Poppins', sans-serif" selected>Poppins — moderne, arrondie</option>
+    <option value="'Fredoka', sans-serif">Fredoka — ronde et fun</option>
+    <option value="'Anton', sans-serif">Anton — impact, très épaisse</option>
+    <option value="'Archivo Black', sans-serif">Archivo Black — carrée, punchy</option>
+    <option value="'Bebas Neue', sans-serif">Bebas Neue — condensée, affiche</option>
+    <option value="'Space Grotesk', sans-serif">Space Grotesk — geek chic</option>
+    <option value="'Playfair Display', serif">Playfair Display — élégante</option>
+    <option value="'DM Serif Display', serif">DM Serif Display — éditorial</option>
+    <option value="'Caveat', cursive">Caveat — manuscrite</option>
+    <option value="'Permanent Marker', cursive">Permanent Marker — feutre</option>
+  </select>
+
+  <label for="fontSize">Taille du texte</label>
+  <div class="range-row">
+    <input type="range" id="fontSize" min="14" max="80" value="34">
+    <span id="fontSizeValue">34px</span>
   </div>
+
+  <label for="handle">Nom du compte (bas droite)</label>
+  <input type="text" id="handle" value="@canvasupersite">
+
+  <hr>
+
+  <div class="color-row">
+    <span>Couleur fond gauche</span>
+    <input type="color" id="colGreen" value="#6fd54a">
+  </div>
+  <div class="color-row" style="margin-top:10px;">
+    <span>Couleur des bordures</span>
+    <input type="color" id="colBlue" value="#2b56d6">
+  </div>
+  <div class="color-row" style="margin-top:10px;">
+    <span>Couleur des accents (REC / pseudo)</span>
+    <input type="color" id="colAccent" value="#e2536a">
+  </div>
+
+  <hr>
+  <button id="downloadBtn">Télécharger en PNG</button>
 </div>
 
-<div class="divider"></div>
+<div id="stage-wrap">
+  <div id="canvas">
 
-<!-- FORM -->
-<div class="form-section-title">📝 Informations de la carte</div>
-<div class="form-grid">
-  <div class="form-group">
-    <label>Catégorie / Tag</label>
-    <input type="text" id="f-category" value="mercato" placeholder="mercato, blessure, transfert…">
-  </div>
-  <div class="form-group">
-    <label>Date</label>
-    <input type="date" id="f-date">
-  </div>
-  <div class="form-group">
-    <label>Nom du joueur</label>
-    <input type="text" id="f-player" value="Yann Gboho" placeholder="Prénom Nom">
-  </div>
-  <div class="form-group">
-    <label>Club du joueur</label>
-    <input type="text" id="f-club" value="Toulouse FC" placeholder="Club actuel">
-  </div>
-  <div class="form-group full">
-    <label>Texte de l'info</label>
-    <textarea id="f-text" rows="6">le club de Coventry City aurait fait de Yann Gboho l'une des priorités pour cet été. Actuellement en Championship, la formation entraînée par Frank Lampard a déjà obtenu sa promotion en Premier League et débute les recherches pour se renforcer pour la saison prochaine. Évalué à 15 millions d'euros par le site Transfermarkt.</textarea>
-  </div>
-  <div class="form-group">
-    <label>Source / Compte</label>
-    <input type="text" id="f-source" value="MVP Info" placeholder="MVP Info">
-  </div>
-  <div class="form-group">
-    <label>Photo du joueur</label>
-    <div class="photo-upload-area">
-      <input type="file" id="f-photo" accept="image/*" onchange="handlePhoto(event)">
-      <img id="photo-preview" alt="">
-      <div id="upload-hint-block">
-        <div class="upload-icon">📸</div>
-        <div class="upload-hint">Cliquer pour uploader</div>
-      </div>
+    <!-- confettis décoratifs -->
+    <svg class="confetti" style="left:20px;top:60px;" width="70" height="70"><rect x="10" y="10" width="45" height="45" fill="#2b56d6" transform="rotate(20 32 32)"/></svg>
+    <svg class="confetti" style="left:520px;top:10px;" width="60" height="60"><rect x="10" y="10" width="35" height="35" fill="#f0567a" transform="rotate(-15 27 27)"/></svg>
+    <svg class="confetti" style="left:900px;top:20px;" width="60" height="60"><polygon points="30,5 55,50 5,50" fill="#f2c94c"/></svg>
+    <svg class="confetti" style="left:1280px;top:0;" width="60" height="60"><rect x="10" y="10" width="35" height="35" fill="#f2c94c" transform="rotate(30 27 27)"/></svg>
+    <svg class="confetti" style="left:0;top:400px;" width="60" height="60"><polygon points="30,5 55,50 5,50" fill="#f0567a"/></svg>
+    <svg class="confetti" style="left:0;top:900px;" width="70" height="70"><rect x="10" y="10" width="40" height="40" fill="#2b56d6" transform="rotate(45 30 30)"/></svg>
+    <svg class="confetti" style="left:60px;top:1000px;" width="60" height="60"><ellipse cx="30" cy="30" rx="26" ry="18" fill="#f2c94c" transform="rotate(-10 30 30)"/></svg>
+    <svg class="confetti" style="left:1850px;top:350px;" width="50" height="120"><rect x="10" y="0" width="20" height="120" fill="#e8703a" transform="rotate(15 20 60)"/></svg>
+    <svg class="confetti" style="left:1830px;top:700px;" width="70" height="70"><rect x="10" y="10" width="40" height="40" fill="#2b56d6" transform="rotate(20 30 30)"/></svg>
+
+    <div id="greenPanel">
+      <div id="recTag"><span class="dot"></span><span id="recTagText">REC</span></div>
+      <div id="closeX">×</div>
     </div>
-  </div>
-</div>
 
-<!-- COULEUR FOND -->
-<div class="form-section-title" style="margin-top:8px;">🎨 Couleur de fond de la carte</div>
-<div class="color-row">
-  <div class="color-swatch active" style="background:#ffffff;" data-color="#ffffff" onclick="selectBg(this)" title="Blanc"></div>
-  <div class="color-swatch" style="background:#f0f4ff;" data-color="#f0f4ff" onclick="selectBg(this)" title="Bleu pâle"></div>
-  <div class="color-swatch" style="background:#fff7ed;" data-color="#fff7ed" onclick="selectBg(this)" title="Pêche"></div>
-  <div class="color-swatch" style="background:#f0fdf4;" data-color="#f0fdf4" onclick="selectBg(this)" title="Vert pâle"></div>
-  <div class="color-swatch" style="background:#fdf4ff;" data-color="#fdf4ff" onclick="selectBg(this)" title="Lavande"></div>
-  <div class="color-swatch" style="background:#1a1a2e;" data-color="#1a1a2e" onclick="selectBg(this)" title="Nuit"></div>
-  <div class="color-swatch" style="background:#0f172a;" data-color="#0f172a" onclick="selectBg(this)" title="Marine"></div>
-</div>
+    <div id="noteCard">
+      <div id="sujetTag">SUJET</div>
+      <div id="noteText">Top 10 recettes
+Comment cuisiner un homard ?
 
-<!-- COULEUR ACCENT -->
-<div class="form-section-title" style="margin-top:18px;">🖌️ Couleur accent (boutons, bande, tag…)</div>
-<div class="color-row" id="accent-row">
-  <div class="accent-swatch active" style="background:#f97316;" data-main="#f97316" data-dark="#ea580c" onclick="selectAccent(this)" title="Orange (défaut)"></div>
-  <div class="accent-swatch" style="background:#ef4444;" data-main="#ef4444" data-dark="#dc2626" onclick="selectAccent(this)" title="Rouge"></div>
-  <div class="accent-swatch" style="background:#8b5cf6;" data-main="#8b5cf6" data-dark="#7c3aed" onclick="selectAccent(this)" title="Violet"></div>
-  <div class="accent-swatch" style="background:#3b82f6;" data-main="#3b82f6" data-dark="#2563eb" onclick="selectAccent(this)" title="Bleu"></div>
-  <div class="accent-swatch" style="background:#10b981;" data-main="#10b981" data-dark="#059669" onclick="selectAccent(this)" title="Vert"></div>
-  <div class="accent-swatch" style="background:#f59e0b;" data-main="#f59e0b" data-dark="#d97706" onclick="selectAccent(this)" title="Jaune"></div>
-  <div class="accent-swatch" style="background:#ec4899;" data-main="#ec4899" data-dark="#db2777" onclick="selectAccent(this)" title="Rose"></div>
-  <div class="accent-swatch" style="background:#14b8a6;" data-main="#14b8a6" data-dark="#0d9488" onclick="selectAccent(this)" title="Turquoise"></div>
-  <div class="accent-swatch" style="background:#111827;" data-main="#111827" data-dark="#000000" onclick="selectAccent(this)" title="Noir"></div>
-  <!-- Couleur personnalisée -->
-  <label class="custom-color-wrap" title="Couleur personnalisée">
-    <input type="color" id="custom-accent" value="#f97316" oninput="applyCustomAccent(this.value)">
-    <div class="accent-swatch custom-swatch" style="background: conic-gradient(red, yellow, lime, cyan, blue, magenta, red);">✏️</div>
-  </label>
-</div>
-
-<div class="divider" style="margin-top:20px;"></div>
-
-<!-- BUTTONS -->
-<div class="btn-row">
-  <button class="btn btn-preview" onclick="generatePreview()">👁 Aperçu</button>
-  <button class="btn btn-generate" id="btn-main" onclick="generateAndDownload()">📥 Générer & Télécharger</button>
-</div>
-
-<!-- PREVIEW -->
-<div id="preview-section">
-  <div class="preview-label">Aperçu de la carte</div>
-
-  <div class="card-shadow-wrap">
-    <div id="card">
-      <div class="card-top-stripe"></div>
-
-      <div class="card-header-row">
-        <div class="card-logo-text">
-          <span class="card-logo-dot"></span>
-          <span id="card-logo-label">MVP Info</span>
-        </div>
-        <div class="card-tag" id="card-tag">mercato</div>
-      </div>
-
-      <div class="card-body">
-        <div class="card-photo-col">
-          <div class="card-photo-wrap">
-            <div class="card-photo-placeholder" id="card-placeholder">
-              <span>👤</span>
-              <span>Photo joueur</span>
-            </div>
-            <img id="card-img" src="" alt="" style="display:none">
-          </div>
-          <div class="card-player-tag">
-            <div id="card-player-name">Yann Gboho</div>
-            <div class="club-name" id="card-club-name">Toulouse FC</div>
-          </div>
-        </div>
-
-        <div class="card-text-block">
-          <div class="card-info-row">
-            <div class="card-category-label" id="card-category">mercato</div>
-            <div class="card-date-pill" id="card-date">28 avril 2026</div>
-          </div>
-          <div class="card-content-text" id="card-content-text">
-            le club de Coventry City aurait fait de Yann Gboho l'une des priorités pour cet été.
-          </div>
-        </div>
-      </div>
-
-      <div class="card-footer">
-        <div class="card-footer-left">
-          <div class="card-source-dot"></div>
-          <div class="card-source-text" id="card-source-el">MVP Info</div>
-        </div>
-        <div class="card-subscribe-btn">🔔 ABONNE-TOI</div>
-      </div>
+TOUTES NOS ASTUCES POUR CUISINER FACILEMENT !</div>
     </div>
-  </div>
 
-  <button class="btn-download" id="btn-download" onclick="downloadImage()">
-    <span>⬇️</span><span>Télécharger l'image PNG (HD)</span>
-  </button>
-  <p class="tip">Résolution ×4 · Qualité maximale · Prêt pour Twitter / Facebook / Instagram</p>
+    <div id="handleBadge">@canvasupersite</div>
+
+  </div>
 </div>
 
 <script>
-  let photoDataURL = null;
-  let selectedBgColor = '#ffffff';
-  let accentMain = '#f97316';
-  let accentDark = '#ea580c';
+  const $ = id => document.getElementById(id);
 
-  /* ── Init : date du jour ── */
-  (function setTodayDate() {
-    const today = new Date();
-    const yyyy = today.getFullYear();
-    const mm = String(today.getMonth() + 1).padStart(2, '0');
-    const dd = String(today.getDate()).padStart(2, '0');
-    document.getElementById('f-date').value = `${yyyy}-${mm}-${dd}`;
-  })();
-
-  /* ── Formater la date ISO → "28 avril 2026" ── */
-  function formatDateFR(isoStr) {
-    if (!isoStr) return '';
-    const [yyyy, mm, dd] = isoStr.split('-');
-    const mois = ['janvier','février','mars','avril','mai','juin',
-                  'juillet','août','septembre','octobre','novembre','décembre'];
-    return `${parseInt(dd, 10)} ${mois[parseInt(mm, 10) - 1]} ${yyyy}`;
+  function bindText(inputId, targetId){
+    $(inputId).addEventListener('input', () => {
+      $(targetId).textContent = $(inputId).value;
+    });
   }
 
-  function handlePhoto(e) {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = ev => {
-      photoDataURL = ev.target.result;
-      const prev = document.getElementById('photo-preview');
-      prev.src = photoDataURL;
-      prev.style.display = 'block';
-      document.getElementById('upload-hint-block').style.display = 'none';
-      const cardImg = document.getElementById('card-img');
-      cardImg.src = photoDataURL;
-      cardImg.style.display = 'block';
-      document.getElementById('card-placeholder').style.display = 'none';
-    };
-    reader.readAsDataURL(file);
+  bindText('recLabel', 'recTagText');
+  bindText('sujetLabel', 'sujetTag');
+  bindText('handle', 'handleBadge');
+
+  $('noteTextInput').addEventListener('input', () => {
+    $('noteText').textContent = $('noteTextInput').value;
+  });
+
+  $('fontSelect').addEventListener('change', () => {
+    $('noteText').style.fontFamily = $('fontSelect').value;
+  });
+
+  $('fontSize').addEventListener('input', () => {
+    $('noteText').style.fontSize = $('fontSize').value + 'px';
+    $('fontSizeValue').textContent = $('fontSize').value + 'px';
+  });
+
+  $('colGreen').addEventListener('input', e=>{
+    document.documentElement.style.setProperty('--green', e.target.value);
+  });
+  $('colBlue').addEventListener('input', e=>{
+    document.documentElement.style.setProperty('--blue', e.target.value);
+  });
+  $('colAccent').addEventListener('input', e=>{
+    const c = e.target.value;
+    $('recTagText').parentElement.style.color = c;
+    $('recTagText').parentElement.querySelector('.dot').style.background = c;
+    $('handleBadge').style.color = c;
+  });
+
+  // Mise à l'échelle de l'aperçu pour tenir dans la fenêtre
+  function fitCanvas(){
+    const wrap = document.getElementById('stage-wrap');
+    const canvas = document.getElementById('canvas');
+    const scale = Math.min(
+      (wrap.clientWidth - 40) / 1920,
+      (wrap.clientHeight - 40) / 1080
+    );
+    canvas.style.transform = `scale(${scale})`;
+    wrap.style.height = (1080*scale) + 'px';
   }
+  window.addEventListener('resize', fitCanvas);
+  fitCanvas();
 
-  /* ── BG color ── */
-  function selectBg(el) {
-    document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
-    el.classList.add('active');
-    selectedBgColor = el.dataset.color;
-    document.getElementById('card').style.background = selectedBgColor;
-    adaptTextColors(selectedBgColor);
-  }
-
-  /* ── Accent color ── */
-  function selectAccent(el) {
-    document.querySelectorAll('.accent-swatch').forEach(s => s.classList.remove('active'));
-    el.classList.add('active');
-    accentMain = el.dataset.main;
-    accentDark = el.dataset.dark;
-    applyAccent(accentMain, accentDark);
-  }
-
-  function applyCustomAccent(val) {
-    document.querySelectorAll('.accent-swatch').forEach(s => s.classList.remove('active'));
-    document.querySelector('.custom-swatch').classList.add('active');
-    accentMain = val;
-    accentDark = val;
-    applyAccent(val, val);
-  }
-
-  function applyAccent(main, dark) {
-    const card = document.getElementById('card');
-    if (!card) return;
-    card.querySelector('.card-top-stripe').style.background = `linear-gradient(to right, ${main}, ${dark}, ${dark})`;
-    card.querySelector('.card-tag').style.background = main;
-    card.querySelector('.card-logo-dot').style.background = main;
-    document.getElementById('card-club-name').style.color = main;
-    card.querySelector('.card-source-dot').style.background = main;
-    const subBtn = card.querySelector('.card-subscribe-btn');
-    subBtn.style.background = `linear-gradient(135deg, ${main}, ${dark})`;
-    subBtn.style.boxShadow = `0 4px 14px ${main}55`;
-  }
-
-  function isDark(hex) {
-    const r = parseInt(hex.slice(1,3),16);
-    const g = parseInt(hex.slice(3,5),16);
-    const b = parseInt(hex.slice(5,7),16);
-    return (r*299 + g*587 + b*114)/1000 < 128;
-  }
-
-  function adaptTextColors(bg) {
-    const dark = isDark(bg);
-    const card = document.getElementById('card');
-    if (!card) return;
-    document.getElementById('card-category').style.color = dark ? '#fff' : '#111';
-    document.getElementById('card-content-text').style.color = dark ? '#ddd' : '#2a2a2a';
-    document.getElementById('card-logo-label').style.color = dark ? '#fff' : '#111';
-    const datePill = document.getElementById('card-date');
-    datePill.style.background = dark ? 'rgba(255,255,255,0.1)' : '#f5f5f5';
-    datePill.style.color = dark ? '#bbb' : '#999';
-    const footer = card.querySelector('.card-footer');
-    footer.style.background = dark ? 'rgba(0,0,0,0.3)' : '#fafafa';
-    footer.style.borderColor = dark ? 'rgba(255,255,255,0.08)' : '#f0f0f0';
-    document.getElementById('card-source-el').style.color = dark ? '#888' : '#aaa';
-    card.querySelector('.card-header-row').style.borderColor = dark ? 'rgba(255,255,255,0.08)' : '#f0f0f0';
-    card.querySelector('.card-text-block').style.borderColor = dark ? 'rgba(255,255,255,0.08)' : '#f0f0f0';
-  }
-
-  function buildCard() {
-    const category = document.getElementById('f-category').value.trim() || 'mercato';
-    const dateISO  = document.getElementById('f-date').value;
-    const dateFR   = formatDateFR(dateISO);
-    const player   = document.getElementById('f-player').value.trim() || '';
-    const club     = document.getElementById('f-club').value.trim() || '';
-    const text     = document.getElementById('f-text').value.trim() || '';
-    const source   = document.getElementById('f-source').value.trim() || 'MVP Info';
-
-    document.getElementById('card-tag').textContent = category;
-    document.getElementById('card-category').textContent = category;
-    document.getElementById('card-date').textContent = dateFR;
-    document.getElementById('card-content-text').textContent = text;
-    document.getElementById('card-source-el').textContent = source;
-    document.getElementById('card-logo-label').textContent = source;
-    document.getElementById('card-player-name').textContent = player;
-    document.getElementById('card-club-name').textContent = club;
-
-    const cardImg = document.getElementById('card-img');
-    const placeholder = document.getElementById('card-placeholder');
-    if (photoDataURL) {
-      cardImg.src = photoDataURL;
-      cardImg.style.display = 'block';
-      placeholder.style.display = 'none';
-    } else {
-      cardImg.style.display = 'none';
-      placeholder.style.display = 'flex';
-    }
-
-    document.getElementById('card').style.background = selectedBgColor;
-    adaptTextColors(selectedBgColor);
-    applyAccent(accentMain, accentDark);
-  }
-
-  function generatePreview() {
-    buildCard();
-    const section = document.getElementById('preview-section');
-    section.style.display = 'block';
-    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-
-  async function downloadImage() {
-    const btn = document.getElementById('btn-download');
-    btn.innerHTML = '<div class="spinner"></div><span>Génération en cours…</span>';
-    btn.disabled = true;
-    await new Promise(r => setTimeout(r, 100));
-    try {
-      const card = document.getElementById('card');
-      const canvas = await html2canvas(card, {
-        scale: 4,
-        useCORS: true,
-        allowTaint: true,
-        backgroundColor: selectedBgColor,
-        logging: false,
-        imageTimeout: 15000
+  // Export PNG en pleine résolution (1920x1080), sans le scale appliqué à l'écran
+  document.getElementById('downloadBtn').addEventListener('click', () => {
+    const canvas = document.getElementById('canvas');
+    const originalTransform = canvas.style.transform;
+    canvas.style.transform = 'none';
+    document.fonts.ready.then(() => {
+      html2canvas(canvas, {width:1920, height:1080, scale:1}).then(rendered => {
+        canvas.style.transform = originalTransform;
+        const link = document.createElement('a');
+        link.download = 'overlay.png';
+        link.href = rendered.toDataURL('image/png');
+        link.click();
       });
-      const link = document.createElement('a');
-      const playerName = document.getElementById('f-player').value.trim().replace(/\s+/g,'-').toLowerCase();
-      const cat = document.getElementById('f-category').value.trim().replace(/\s+/g,'-').toLowerCase();
-      link.download = `mvp-info-${cat}-${playerName||'carte'}.png`;
-      link.href = canvas.toDataURL('image/png', 1.0);
-      link.click();
-    } catch(err) {
-      alert("Erreur lors de la génération. Réessaie.");
-      console.error(err);
-    }
-    btn.innerHTML = '<span>⬇️</span><span>Télécharger l\'image PNG (HD)</span>';
-    btn.disabled = false;
-  }
-
-  async function generateAndDownload() {
-    const btn = document.getElementById('btn-main');
-    btn.innerHTML = '<div class="spinner"></div> Génération…';
-    btn.disabled = true;
-    buildCard();
-    document.getElementById('preview-section').style.display = 'block';
-    await new Promise(r => setTimeout(r, 250));
-    await downloadImage();
-    btn.innerHTML = '📥 Générer & Télécharger';
-    btn.disabled = false;
-  }
-
-  window.addEventListener('DOMContentLoaded', () => generatePreview());
+    });
+  });
 </script>
+
 </body>
 </html>
