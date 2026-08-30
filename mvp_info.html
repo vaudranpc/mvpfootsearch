@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Générateur image + logo + citation</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Bebas+Neue&family=Fredoka:wght@600;700&family=Inter:wght@700;800;900&family=Montserrat:wght@700;800;900&family=Poppins:wght@700;800;900&family=Space+Grotesk:wght@700&family=Barlow+Condensed:wght@700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --text: #ffffff;
+        --hl-bg: #ffffff;
+        --hl-text: #000000;
+        --badge-bg: #ffffff;
+        --badge-text: #000000;
+        --fade: #2b56d6;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: #e9e9ef;
+        display: flex;
+        min-height: 100vh;
+      }
+
+      /* ---------- PANNEAU DE CONTRÔLE ---------- */
+      #panel {
+        width: 360px;
+        flex-shrink: 0;
+        background: #1b1b22;
+        color: #eee;
+        padding: 24px 20px;
+        overflow-y: auto;
+        height: 100vh;
+        position: sticky;
+        top: 0;
+      }
+      #panel h1 {
+        font-size: 18px;
+        margin: 0 0 4px;
+      }
+      #panel p.sub {
+        font-size: 12px;
+        color: #9a9aa5;
+        margin: 0 0 6px;
+      }
+      #panel p.hint {
+        font-size: 11.5px;
+        color: #7d7d89;
+        margin: 0 0 18px;
+        line-height: 1.5;
+      }
+      #panel p.hint code {
+        background: #111117;
+        padding: 1px 5px;
+        border-radius: 4px;
+        color: #8fd3ff;
+      }
+      #panel label {
+        display: block;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: #9a9aa5;
+        margin: 16px 0 6px;
+      }
+      #panel textarea,
+      #panel input[type="text"] {
+        width: 100%;
+        padding: 9px 10px;
+        border-radius: 8px;
+        border: 1px solid #34343f;
+        background: #111117;
+        color: #fff;
+        font-size: 14px;
+        font-family: inherit;
+        resize: vertical;
+      }
+      #panel textarea {
+        min-height: 130px;
+      }
+      #panel select {
+        width: 100%;
+        padding: 9px 10px;
+        border-radius: 8px;
+        border: 1px solid #34343f;
+        background: #111117;
+        color: #fff;
+        font-size: 14px;
+        font-family: inherit;
+      }
+      #panel input[type="file"] {
+        width: 100%;
+        font-size: 12.5px;
+        color: #c7c7d0;
+      }
+      #panel input[type="color"] {
+        width: 44px;
+        height: 28px;
+        border: none;
+        border-radius: 6px;
+        background: none;
+        padding: 0;
+        cursor: pointer;
+        vertical-align: middle;
+      }
+      .color-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 12px;
+      }
+      .color-row span {
+        font-size: 12px;
+        color: #c7c7d0;
+      }
+      .range-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .range-row input[type="range"] {
+        flex: 1;
+      }
+      .range-row span {
+        font-size: 12px;
+        color: #c7c7d0;
+        min-width: 44px;
+        text-align: right;
+      }
+      #downloadBtn {
+        margin-top: 26px;
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 9px;
+        background: #2b56d6;
+        color: #fff;
+        font-weight: 700;
+        font-size: 14px;
+        cursor: pointer;
+      }
+      #downloadBtn:hover {
+        background: #1e42ad;
+      }
+      hr {
+        border: none;
+        border-top: 1px solid #2c2c36;
+        margin: 22px 0;
+      }
+
+      /* ---------- ZONE DE PREVIEW ---------- */
+      #stage-wrap {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 30px;
+        overflow: auto;
+      }
+      #canvas {
+        width: 1080px;
+        height: 1350px;
+        transform-origin: center center;
+        background: #000;
+        position: relative;
+        overflow: hidden;
+        flex-shrink: 0;
+      }
+      #bgImage {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+      }
+      #placeholder {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #555;
+        font-size: 22px;
+        text-align: center;
+        padding: 40px;
+      }
+      #fadeOverlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0) 0%,
+          rgba(0, 0, 0, 0) 48%,
+          var(--fade) 78%,
+          var(--fade) 100%
+        );
+      }
+      #badge {
+        position: absolute;
+        left: 36px;
+        top: 36px;
+        background: var(--badge-bg);
+        color: var(--badge-text);
+        font-family: "Archivo Black", sans-serif;
+        font-weight: 900;
+        font-size: 30px;
+        padding: 10px 22px;
+        border-radius: 10px;
+        letter-spacing: 0.02em;
+        transform: rotate(-2deg);
+      }
+      #captionWrap {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        padding: 0 46px 60px;
+      }
+      #captionText {
+        font-family: "Barlow Condensed", sans-serif;
+        font-weight: 800;
+        font-size: 52px;
+        line-height: 1.32;
+        color: var(--text);
+        text-align: center;
+        width: 100%;
+      }
+      #captionText .hl {
+        background: var(--hl-bg);
+        color: var(--hl-text);
+        padding: 0 12px;
+        border-radius: 6px;
+        box-decoration-break: clone;
+        -webkit-box-decoration-break: clone;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="panel">
+      <h1>Image + logo + citation</h1>
+      <p class="sub">Photo de fond, badge en haut, texte en bas.</p>
+      <p class="hint">
+        Entoure un mot ou groupe de mots avec <code>==...==</code> pour lui
+        donner un fond en surbrillance.
+      </p>
+
+      <label for="imageInput">Image de fond</label>
+      <input type="file" id="imageInput" accept="image/*" />
+
+      <label for="badgeInput">Texte du badge (logo)</label>
+      <input type="text" id="badgeInput" value="MVP INFO" />
+
+      <label for="captionInput">Texte de la citation</label>
+      <textarea id="captionInput">
+Ce militaire a désobéi aux ordres et a foncé 5 fois dans une zone d'embuscade ==pour sauver 36 soldats américains et afghans, récupérer 4 corps et t*er au moins 8 rebels.==</textarea
+      >
+
+      <label for="formatSelect">Format</label>
+      <select id="formatSelect">
+        <option value="1080x1350" selected>Portrait — 1080×1350</option>
+        <option value="1080x1080">Carré — 1080×1080</option>
+        <option value="1080x1920">Story — 1080×1920</option>
+        <option value="1200x675">Paysage — 1200×675</option>
+      </select>
+
+      <label for="fontSelect">Police du texte</label>
+      <select id="fontSelect">
+        <option value="'Barlow Condensed', sans-serif" selected>
+          Barlow Condensed — presse
+        </option>
+        <option value="'Montserrat', sans-serif">Montserrat — claire</option>
+        <option value="'Inter', sans-serif">Inter — neutre</option>
+        <option value="'Poppins', sans-serif">Poppins — ronde</option>
+        <option value="'Archivo Black', sans-serif">
+          Archivo Black — épaisse
+        </option>
+        <option value="'Anton', sans-serif">Anton — impact affiche</option>
+        <option value="'Bebas Neue', sans-serif">Bebas Neue — condensée</option>
+        <option value="'Space Grotesk', sans-serif">
+          Space Grotesk — geek chic
+        </option>
+        <option value="'Fredoka', sans-serif">Fredoka — fun</option>
+      </select>
+
+      <label for="fontSize">Taille du texte</label>
+      <div class="range-row">
+        <input type="range" id="fontSize" min="20" max="90" value="52" />
+        <span id="fontSizeValue">52px</span>
+      </div>
+
+      <hr />
+
+      <div class="color-row">
+        <span>Texte</span>
+        <input type="color" id="colText" value="#ffffff" />
+      </div>
+      <div class="color-row">
+        <span>Fond surbrillance</span>
+        <input type="color" id="colHlBg" value="#ffffff" />
+      </div>
+      <div class="color-row">
+        <span>Texte surbrillance</span>
+        <input type="color" id="colHlText" value="#000000" />
+      </div>
+      <div class="color-row">
+        <span>Fond badge</span>
+        <input type="color" id="colBadgeBg" value="#ffffff" />
+      </div>
+      <div class="color-row">
+        <span>Texte badge</span>
+        <input type="color" id="colBadgeText" value="#000000" />
+      </div>
+      <div class="color-row">
+        <span>Couleur du fondu</span>
+        <input type="color" id="colFade" value="#2b56d6" />
+      </div>
+
+      <hr />
+      <button id="downloadBtn">Télécharger en PNG</button>
+    </div>
+
+    <div id="stage-wrap">
+      <div id="canvas">
+        <div id="placeholder">
+          Choisis une image de fond dans le panneau à gauche
+        </div>
+        <img id="bgImage" style="display: none" />
+        <div id="fadeOverlay"></div>
+        <div id="badge">MVP INFO</div>
+        <div id="captionWrap">
+          <div id="captionText"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const $ = (id) => document.getElementById(id);
+
+      function escapeHtml(str) {
+        return str
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+      }
+
+      function renderCaption() {
+        const raw = $("captionInput").value;
+        const escaped = escapeHtml(raw);
+        const withHighlights = escaped.replace(
+          /==(.+?)==/gs,
+          '<span class="hl">$1</span>',
+        );
+        $("captionText").innerHTML = withHighlights.replace(/\n/g, "<br>");
+      }
+      $("captionInput").addEventListener("input", renderCaption);
+      renderCaption();
+
+      $("badgeInput").addEventListener("input", () => {
+        $("badge").textContent = $("badgeInput").value;
+      });
+
+      $("imageInput").addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          $("bgImage").src = ev.target.result;
+          $("bgImage").style.display = "block";
+          $("placeholder").style.display = "none";
+        };
+        reader.readAsDataURL(file);
+      });
+
+      $("fontSelect").addEventListener("change", () => {
+        $("captionText").style.fontFamily = $("fontSelect").value;
+      });
+
+      $("fontSize").addEventListener("input", () => {
+        $("captionText").style.fontSize = $("fontSize").value + "px";
+        $("fontSizeValue").textContent = $("fontSize").value + "px";
+      });
+
+      $("colText").addEventListener("input", (e) => {
+        document.documentElement.style.setProperty("--text", e.target.value);
+      });
+      $("colHlBg").addEventListener("input", (e) => {
+        document.documentElement.style.setProperty("--hl-bg", e.target.value);
+      });
+      $("colHlText").addEventListener("input", (e) => {
+        document.documentElement.style.setProperty("--hl-text", e.target.value);
+      });
+      $("colBadgeBg").addEventListener("input", (e) => {
+        document.documentElement.style.setProperty(
+          "--badge-bg",
+          e.target.value,
+        );
+      });
+      $("colBadgeText").addEventListener("input", (e) => {
+        document.documentElement.style.setProperty(
+          "--badge-text",
+          e.target.value,
+        );
+      });
+      $("colFade").addEventListener("input", (e) => {
+        document.documentElement.style.setProperty("--fade", e.target.value);
+      });
+
+      function applyFormat() {
+        const [w, h] = $("formatSelect").value.split("x").map(Number);
+        const canvas = $("canvas");
+        canvas.style.width = w + "px";
+        canvas.style.height = h + "px";
+        canvas.dataset.w = w;
+        canvas.dataset.h = h;
+        fitCanvas();
+      }
+      $("formatSelect").addEventListener("change", applyFormat);
+
+      function fitCanvas() {
+        const wrap = document.getElementById("stage-wrap");
+        const canvas = document.getElementById("canvas");
+        const w = Number(canvas.dataset.w || 1080);
+        const h = Number(canvas.dataset.h || 1350);
+        const scale = Math.min(
+          (wrap.clientWidth - 40) / w,
+          (wrap.clientHeight - 40) / h,
+        );
+        canvas.style.transform = `scale(${scale})`;
+      }
+      window.addEventListener("resize", fitCanvas);
+      applyFormat();
+
+      document.getElementById("downloadBtn").addEventListener("click", () => {
+        const canvas = document.getElementById("canvas");
+        const originalTransform = canvas.style.transform;
+        const w = Number(canvas.dataset.w || 1080);
+        const h = Number(canvas.dataset.h || 1350);
+        canvas.style.transform = "none";
+        document.fonts.ready.then(() => {
+          html2canvas(canvas, {
+            width: w,
+            height: h,
+            scale: 1,
+            useCORS: true,
+          }).then((rendered) => {
+            canvas.style.transform = originalTransform;
+            const link = document.createElement("a");
+            link.download = "image-citation.png";
+            link.href = rendered.toDataURL("image/png");
+            link.click();
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
