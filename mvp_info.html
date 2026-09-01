@@ -1,9 +1,10 @@
+
 <!doctype html>
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <title>Générateur image + logo + citation</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -583,18 +584,28 @@ Ce militaire a désobéi aux ordres et a foncé 5 fois dans une zone d'embuscade
         const h = Number(canvas.dataset.h || 1350);
         canvas.style.transform = "none";
         document.fonts.ready.then(() => {
-          html2canvas(canvas, {
-            width: w,
-            height: h,
-            scale: 1,
-            useCORS: true,
-          }).then((rendered) => {
-            canvas.style.transform = originalTransform;
-            const link = document.createElement("a");
-            link.download = "image-citation.png";
-            link.href = rendered.toDataURL("image/png");
-            link.click();
-          });
+          htmlToImage
+            .toPng(canvas, {
+              width: w,
+              height: h,
+              pixelRatio: 1,
+              skipFonts: false,
+              cacheBust: true,
+            })
+            .then((dataUrl) => {
+              canvas.style.transform = originalTransform;
+              const link = document.createElement("a");
+              link.download = "image-citation.png";
+              link.href = dataUrl;
+              link.click();
+            })
+            .catch((err) => {
+              canvas.style.transform = originalTransform;
+              console.error("Erreur export PNG :", err);
+              alert(
+                "Erreur pendant l'export de l'image. Vérifie la console (F12) pour le détail.",
+              );
+            });
         });
       });
     </script>
