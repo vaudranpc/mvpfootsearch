@@ -2,6 +2,7 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Générateur image + logo + citation</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -265,6 +266,32 @@
         border-radius: 6px;
         box-decoration-break: clone;
         -webkit-box-decoration-break: clone;
+      }
+
+      /* ---------- MOBILE : aperçu épinglé en haut ---------- */
+      @media (max-width: 860px) {
+        #app-body {
+          flex-direction: column;
+        }
+        #panel {
+          order: 2;
+          width: 100%;
+          height: auto;
+          position: static;
+        }
+        #stage-wrap {
+          order: 1;
+          flex: none;
+          position: sticky;
+          top: 0;
+          z-index: 20;
+          width: 100%;
+          height: 46vh;
+          min-height: 260px;
+          padding: 12px;
+          background: #e9e9ef;
+          box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+        }
       }
     </style>
     <script src="header.js"></script>
