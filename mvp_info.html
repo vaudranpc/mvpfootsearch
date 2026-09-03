@@ -192,10 +192,19 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-position: 50% 50%;
+        overflow: hidden;
         cursor: move;
+      }
+      #bgImage img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 50% 50%;
+        display: none;
+        pointer-events: none;
       }
       #placeholder {
         position: absolute;
@@ -359,7 +368,7 @@ Ce militaire a désobéi aux ordres et a foncé 5 fois dans une zone d'embuscade
 
     <div id="stage-wrap">
       <div id="canvas">
-        <div id="bgImage"></div>
+        <div id="bgImage"><img id="bgImageEl" alt="" /></div>
         <div id="placeholder">
           Choisis une image de fond dans le panneau à gauche
         </div>
@@ -403,8 +412,12 @@ Ce militaire a désobéi aux ordres et a foncé 5 fois dans une zone d'embuscade
         if (!file) return;
         const reader = new FileReader();
         reader.onload = (ev) => {
-          $("bgImage").style.backgroundImage = `url(${ev.target.result})`;
-          $("bgImage").style.backgroundPosition = "50% 50%";
+          const img = $("bgImageEl");
+          img.onload = () => {
+            img.style.display = "block";
+          };
+          img.src = ev.target.result;
+          img.style.objectPosition = "50% 50%";
           $("placeholder").style.display = "none";
         };
         reader.readAsDataURL(file);
@@ -512,7 +525,7 @@ Ce militaire a désobéi aux ordres et a foncé 5 fois dans une zone d'embuscade
         $("captionWrap").style.width = Math.round(w * 0.914) + "px";
         $("captionWrap").style.top = Math.round(h * 0.63) + "px";
 
-        $("bgImage").style.backgroundPosition = "50% 50%";
+        $("bgImageEl").style.objectPosition = "50% 50%";
       }
       resetPositions();
       applyFormat();
@@ -534,7 +547,8 @@ Ce militaire a désobéi aux ordres et a foncé 5 fois dans une zone d'embuscade
           const canvasRect = $("canvas").getBoundingClientRect();
 
           if (isBackground) {
-            const posStr = getComputedStyle(el).backgroundPosition.split(" ");
+            const posStr = getComputedStyle($("bgImageEl"))
+              .objectPosition.split(" ");
             startPosX = parseFloat(posStr[0]);
             startPosY = parseFloat(posStr[1]);
           } else {
@@ -554,7 +568,8 @@ Ce militaire a désobéi aux ordres et a foncé 5 fois dans une zone d'embuscade
               const newY = startPosY - (dy / h) * 100;
               const clampedX = Math.max(0, Math.min(100, newX));
               const clampedY = Math.max(0, Math.min(100, newY));
-              el.style.backgroundPosition = `${clampedX}% ${clampedY}%`;
+              $("bgImageEl").style.objectPosition =
+                `${clampedX}% ${clampedY}%`;
             } else {
               el.style.left = startLeft + dx + "px";
               el.style.top = startTop + dy + "px";
