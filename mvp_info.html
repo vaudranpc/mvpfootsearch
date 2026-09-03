@@ -27,6 +27,8 @@
         margin: 0;
         font-family: "Segoe UI", Arial, sans-serif;
         background: #e9e9ef;
+      }
+      #app-body {
         display: flex;
         min-height: 100vh;
       }
@@ -266,9 +268,14 @@
         -webkit-box-decoration-break: clone;
       }
     </style>
+    <script src="header.js"></script>
   </head>
   <body>
+    
+    <div id="app-body">
+     
     <div id="panel">
+       <div id="header-container"></div>
       <h1>Image + logo + citation</h1>
       <p class="sub">Photo de fond, badge en haut, texte en bas.</p>
       <p class="hint">
@@ -382,6 +389,7 @@ Ce militaire a désobéi aux ordres et a foncé 5 fois dans une zone d'embuscade
           <div id="captionText"></div>
         </div>
       </div>
+    </div>
     </div>
 
     <script>

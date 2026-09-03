@@ -20,6 +20,8 @@
     margin:0;
     font-family:'Segoe UI', Arial, sans-serif;
     background:#e9e9ef;
+  }
+  #app-body{
     display:flex;
     min-height:100vh;
   }
@@ -213,9 +215,12 @@
     letter-spacing:.02em;
   }
 </style>
+<script src="header.js"></script>
 </head>
 <body>
 
+<div id="header-container"></div>
+<div id="app-body">
 <div id="panel">
   <h1>Générateur d'overlay</h1>
   <p class="sub">Modifie les champs, l'aperçu se met à jour en direct.</p>
@@ -304,6 +309,7 @@ TOUTES NOS ASTUCES POUR CUISINER FACILEMENT !</div>
     <div id="handleBadge">@canvasupersite</div>
 
   </div>
+</div>
 </div>
 
 <script>

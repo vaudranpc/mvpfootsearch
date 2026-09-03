@@ -1,287 +1,765 @@
-<!DOCTYPE html>
+
+<!doctype html>
 <html lang="fr">
-<head>
-<meta charset="UTF-8">
-<title>Générateur de citation</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Bebas+Neue&family=Fredoka:wght@600;700&family=Inter:wght@700;800;900&family=Montserrat:wght@700;800;900&family=Poppins:wght@700;800;900&family=Space+Grotesk:wght@700&family=Barlow+Condensed:wght@700;800&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --bg:#000000;
-    --text:#ffffff;
-    --hl-bg:#ffffff;
-    --hl-text:#000000;
-  }
-  *{box-sizing:border-box;}
-  body{
-    margin:0;
-    font-family:'Segoe UI', Arial, sans-serif;
-    background:#e9e9ef;
-    display:flex;
-    min-height:100vh;
-  }
+  <head>
+    <meta charset="UTF-8" />
+    <title>Générateur image + logo + citation</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Bebas+Neue&family=Fredoka:wght@600;700&family=Inter:wght@700;800;900&family=Montserrat:wght@700;800;900&family=Poppins:wght@700;800;900&family=Space+Grotesk:wght@700&family=Barlow+Condensed:wght@700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --text: #ffffff;
+        --hl-bg: #ffffff;
+        --hl-text: #000000;
+        --badge-bg: #ffffff;
+        --badge-text: #000000;
+        --fade: #cf2645;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: #e9e9ef;
+      }
+      #app-body {
+        display: flex;
+        min-height: 100vh;
+      }
 
-  /* ---------- PANNEAU DE CONTRÔLE ---------- */
-  #panel{
-    width:360px;
-    flex-shrink:0;
-    background:#1b1b22;
-    color:#eee;
-    padding:24px 20px;
-    overflow-y:auto;
-    height:100vh;
-    position:sticky;
-    top:0;
-  }
-  #panel h1{font-size:18px;margin:0 0 4px;}
-  #panel p.sub{font-size:12px;color:#9a9aa5;margin:0 0 6px;}
-  #panel p.hint{font-size:11.5px;color:#7d7d89;margin:0 0 18px;line-height:1.5;}
-  #panel p.hint code{background:#111117;padding:1px 5px;border-radius:4px;color:#8fd3ff;}
-  #panel label{
-    display:block;
-    font-size:12px;
-    text-transform:uppercase;
-    letter-spacing:.04em;
-    color:#9a9aa5;
-    margin:16px 0 6px;
-  }
-  #panel textarea{
-    width:100%;
-    min-height:130px;
-    padding:9px 10px;
-    border-radius:8px;
-    border:1px solid #34343f;
-    background:#111117;
-    color:#fff;
-    font-size:14px;
-    font-family:inherit;
-    resize:vertical;
-  }
-  #panel select{
-    width:100%;
-    padding:9px 10px;
-    border-radius:8px;
-    border:1px solid #34343f;
-    background:#111117;
-    color:#fff;
-    font-size:14px;
-    font-family:inherit;
-  }
-  #panel input[type=color]{
-    width:44px;height:28px;border:none;border-radius:6px;background:none;padding:0;cursor:pointer;
-    vertical-align:middle;
-  }
-  .color-row{display:flex;align-items:center;gap:10px;margin-top:12px;}
-  .color-row span{font-size:12px;color:#c7c7d0;}
-  .range-row{display:flex;align-items:center;gap:10px;}
-  .range-row input[type=range]{flex:1;}
-  .range-row span{font-size:12px;color:#c7c7d0;min-width:44px;text-align:right;}
-  #downloadBtn{
-    margin-top:26px;
-    width:100%;
-    padding:12px;
-    border:none;
-    border-radius:9px;
-    background:#2b56d6;
-    color:#fff;
-    font-weight:700;
-    font-size:14px;
-    cursor:pointer;
-  }
-  #downloadBtn:hover{background:#1e42ad;}
-  hr{border:none;border-top:1px solid #2c2c36;margin:22px 0;}
+      /* ---------- PANNEAU DE CONTRÔLE ---------- */
+      #panel {
+        width: 360px;
+        flex-shrink: 0;
+        background: #1b1b22;
+        color: #eee;
+        padding: 24px 20px;
+        overflow-y: auto;
+        height: 100vh;
+        position: sticky;
+        top: 0;
+      }
+      #panel h1 {
+        font-size: 18px;
+        margin: 0 0 4px;
+      }
+      #panel p.sub {
+        font-size: 12px;
+        color: #9a9aa5;
+        margin: 0 0 6px;
+      }
+      #panel p.hint {
+        font-size: 11.5px;
+        color: #7d7d89;
+        margin: 0 0 18px;
+        line-height: 1.5;
+      }
+      #panel p.hint code {
+        background: #111117;
+        padding: 1px 5px;
+        border-radius: 4px;
+        color: #8fd3ff;
+      }
+      #panel label {
+        display: block;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: #9a9aa5;
+        margin: 16px 0 6px;
+      }
+      #panel textarea,
+      #panel input[type="text"] {
+        width: 100%;
+        padding: 9px 10px;
+        border-radius: 8px;
+        border: 1px solid #34343f;
+        background: #111117;
+        color: #fff;
+        font-size: 14px;
+        font-family: inherit;
+        resize: vertical;
+      }
+      #panel textarea {
+        min-height: 130px;
+      }
+      #panel select {
+        width: 100%;
+        padding: 9px 10px;
+        border-radius: 8px;
+        border: 1px solid #34343f;
+        background: #111117;
+        color: #fff;
+        font-size: 14px;
+        font-family: inherit;
+      }
+      #panel input[type="file"] {
+        width: 100%;
+        font-size: 12.5px;
+        color: #c7c7d0;
+      }
+      #panel input[type="color"] {
+        width: 44px;
+        height: 28px;
+        border: none;
+        border-radius: 6px;
+        background: none;
+        padding: 0;
+        cursor: pointer;
+        vertical-align: middle;
+      }
+      .color-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 12px;
+      }
+      .color-row span {
+        font-size: 12px;
+        color: #c7c7d0;
+      }
+      .range-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .range-row input[type="range"] {
+        flex: 1;
+      }
+      .range-row span {
+        font-size: 12px;
+        color: #c7c7d0;
+        min-width: 44px;
+        text-align: right;
+      }
+      #downloadBtn {
+        margin-top: 26px;
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 9px;
+        background: #2b56d6;
+        color: #fff;
+        font-weight: 700;
+        font-size: 14px;
+        cursor: pointer;
+      }
+      #resetPosBtn {
+        margin-top: 10px;
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #34343f;
+        border-radius: 9px;
+        background: transparent;
+        color: #c7c7d0;
+        font-size: 13px;
+        cursor: pointer;
+      }
+      #downloadBtn:hover {
+        background: #cf2645;
+      }
+      hr {
+        border: none;
+        border-top: 1px solid #2c2c36;
+        margin: 22px 0;
+      }
 
-  /* ---------- ZONE DE PREVIEW ---------- */
-  #stage-wrap{
-    flex:1;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:30px;
-    overflow:auto;
-  }
-  #canvas{
-    width:1200px;
-    height:675px;
-    transform-origin:center center;
-    background:var(--bg);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:70px;
-    flex-shrink:0;
-  }
-  #captionText{
-    font-family:'Montserrat', sans-serif;
-    font-weight:800;
-    font-size:46px;
-    line-height:1.35;
-    color:var(--text);
-    text-align:center;
-    width:100%;
-  }
-  #captionText .hl{
-    background:var(--hl-bg);
-    color:var(--hl-text);
-    padding:0 10px;
-    border-radius:4px;
-    box-decoration-break:clone;
-    -webkit-box-decoration-break:clone;
-  }
-</style>
-</head>
-<body>
+      /* ---------- ZONE DE PREVIEW ---------- */
+      #stage-wrap {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 30px;
+        overflow: auto;
+      }
+      #canvas {
+        width: 1080px;
+        height: 1350px;
+        transform-origin: center center;
+        background: #000;
+        position: relative;
+        overflow: hidden;
+        flex-shrink: 0;
+      }
+      #bgImage {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        cursor: move;
+      }
+      #bgImage img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 50% 50%;
+        display: none;
+        pointer-events: none;
+      }
+      #placeholder {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #555;
+        font-size: 22px;
+        text-align: center;
+        padding: 40px;
+        pointer-events: none;
+      }
+      #fadeOverlay {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+      #badge {
+        position: absolute;
+        left: 36px;
+        top: 36px;
+        background: var(--badge-bg);
+        color: var(--badge-text);
+        font-family: "Archivo Black", sans-serif;
+        font-weight: 900;
+        font-size: 30px;
+        padding: 10px 22px;
+        border-radius: 10px;
+        letter-spacing: 0.02em;
+        transform: rotate(-2deg);
+        cursor: move;
+        user-select: none;
+        white-space: nowrap;
+      }
+      #captionWrap {
+        position: absolute;
+        left: 46px;
+        top: 850px;
+        width: 988px;
+        cursor: move;
+        user-select: none;
+      }
+      #captionText {
+        font-family: "Barlow Condensed", sans-serif;
+        font-weight: 800;
+        font-size: 52px;
+        line-height: 1.32;
+        color: var(--text);
+        text-align: center;
+        width: 100%;
+      }
+      #captionText .hl {
+        background: var(--hl-bg);
+        color: var(--hl-text);
+        padding: 0 12px;
+        border-radius: 6px;
+        box-decoration-break: clone;
+        -webkit-box-decoration-break: clone;
+      }
+    </style>
+    <script src="header.js"></script>
+  </head>
+  <body>
+    
+    <div id="app-body">
+     
+    <div id="panel">
+       <div id="header-container"></div>
+      <h1>Image + logo + citation</h1>
+      <p class="sub">Photo de fond, badge en haut, texte en bas.</p>
+      <p class="hint">
+        Entoure un mot ou groupe de mots avec <code>==...==</code> pour lui
+        donner un fond en surbrillance. Tu peux
+        <strong>glisser-déposer</strong> l'image, le badge et le texte
+        directement dans l'aperçu pour les repositionner.
+      </p>
 
-<div id="panel">
-  <h1>Générateur de citation</h1>
-  <p class="sub">Texte noir/blanc façon capture de citation.</p>
-  <p class="hint">Entoure un mot ou un groupe de mots avec <code>==...==</code> pour lui donner un fond en surbrillance (comme "vivrait" dans l'exemple).</p>
+      <label for="imageInput">Image de fond</label>
+      <input type="file" id="imageInput" accept="image/*" />
 
-  <label for="captionInput">Texte</label>
-  <textarea id="captionInput">Gabriel Attal déclare que Stéphane Séjourné, son compagnon, ==vivrait avec lui à l'Élysée s'il était élu.==</textarea>
+      <label for="badgeInput">Texte du badge (logo)</label>
+      <input type="text" id="badgeInput" value="PASCOU FOOT" />
 
-  <label for="formatSelect">Format</label>
-  <select id="formatSelect">
-    <option value="1200x675" selected>Paysage — 1200×675</option>
-    <option value="1080x1080">Carré — 1080×1080</option>
-    <option value="1080x1350">Portrait — 1080×1350</option>
-    <option value="1080x1920">Story — 1080×1920</option>
-  </select>
+      <label for="captionInput">Texte de la citation</label>
+      <textarea id="captionInput">
+Ce militaire a désobéi aux ordres et a foncé 5 fois dans une zone d'embuscade ==pour sauver 36 soldats américains et afghans, récupérer 4 corps et t*er au moins 8 rebels.==</textarea
+      >
 
-  <label for="fontSelect">Police</label>
-  <select id="fontSelect">
-    <option value="'Montserrat', sans-serif" selected>Montserrat — claire, sérieuse</option>
-    <option value="'Inter', sans-serif">Inter — neutre, lisible</option>
-    <option value="'Poppins', sans-serif">Poppins — moderne, ronde</option>
-    <option value="'Archivo Black', sans-serif">Archivo Black — très épaisse</option>
-    <option value="'Anton', sans-serif">Anton — impact affiche</option>
-    <option value="'Bebas Neue', sans-serif">Bebas Neue — condensée</option>
-    <option value="'Barlow Condensed', sans-serif">Barlow Condensed — presse</option>
-    <option value="'Space Grotesk', sans-serif">Space Grotesk — geek chic</option>
-    <option value="'Fredoka', sans-serif">Fredoka — ronde et fun</option>
-  </select>
+      <label for="formatSelect">Format</label>
+      <select id="formatSelect">
+        <option value="1080x1350" selected>Portrait — 1080×1350</option>
+        <option value="1080x1080">Carré — 1080×1080</option>
+        <option value="1080x1920">Story — 1080×1920</option>
+        <option value="1200x675">Paysage — 1200×675</option>
+      </select>
 
-  <label for="fontSize">Taille du texte</label>
-  <div class="range-row">
-    <input type="range" id="fontSize" min="20" max="90" value="46">
-    <span id="fontSizeValue">46px</span>
-  </div>
+      <label for="fontSelect">Police du texte</label>
+      <select id="fontSelect">
+        <option value="'Barlow Condensed', sans-serif" selected>
+          Barlow Condensed — presse
+        </option>
+        <option value="'Montserrat', sans-serif">Montserrat — claire</option>
+        <option value="'Inter', sans-serif">Inter — neutre</option>
+        <option value="'Poppins', sans-serif">Poppins — ronde</option>
+        <option value="'Archivo Black', sans-serif">
+          Archivo Black — épaisse
+        </option>
+        <option value="'Anton', sans-serif">Anton — impact affiche</option>
+        <option value="'Bebas Neue', sans-serif">Bebas Neue — condensée</option>
+        <option value="'Space Grotesk', sans-serif">
+          Space Grotesk — geek chic
+        </option>
+        <option value="'Fredoka', sans-serif">Fredoka — fun</option>
+      </select>
 
-  <hr>
+      <label for="fontSize">Taille du texte</label>
+      <div class="range-row">
+        <input type="range" id="fontSize" min="20" max="90" value="52" />
+        <span id="fontSizeValue">52px</span>
+      </div>
 
-  <div class="color-row">
-    <span>Fond</span>
-    <input type="color" id="colBg" value="#000000">
-  </div>
-  <div class="color-row">
-    <span>Texte</span>
-    <input type="color" id="colText" value="#ffffff">
-  </div>
-  <div class="color-row">
-    <span>Fond surbrillance</span>
-    <input type="color" id="colHlBg" value="#ffffff">
-  </div>
-  <div class="color-row">
-    <span>Texte surbrillance</span>
-    <input type="color" id="colHlText" value="#000000">
-  </div>
+      <hr />
 
-  <hr>
-  <button id="downloadBtn">Télécharger en PNG</button>
-</div>
+      <div class="color-row">
+        <span>Texte</span>
+        <input type="color" id="colText" value="#ffffff" />
+      </div>
+      <div class="color-row">
+        <span>Fond surbrillance</span>
+        <input type="color" id="colHlBg" value="#ffffff" />
+      </div>
+      <div class="color-row">
+        <span>Texte surbrillance</span>
+        <input type="color" id="colHlText" value="#000000" />
+      </div>
+      <div class="color-row">
+        <span>Fond badge</span>
+        <input type="color" id="colBadgeBg" value="#ffffff" />
+      </div>
+      <div class="color-row">
+        <span>Texte badge</span>
+        <input type="color" id="colBadgeText" value="#000000" />
+      </div>
+      <div class="color-row">
+        <span>Couleur du fondu</span>
+        <input type="color" id="colFade" value="#cf2645" />
+      </div>
 
-<div id="stage-wrap">
-  <div id="canvas">
-    <div id="captionText"></div>
-  </div>
-</div>
+      <label for="fadeHeight">Hauteur du fondu</label>
+      <div class="range-row">
+        <input type="range" id="fadeHeight" min="10" max="100" value="52" />
+        <span id="fadeHeightValue">52%</span>
+      </div>
 
-<script>
-  const $ = id => document.getElementById(id);
+      <label for="fadeIntensity">Intensité du fondu</label>
+      <div class="range-row">
+        <input type="range" id="fadeIntensity" min="0" max="100" value="100" />
+        <span id="fadeIntensityValue">100%</span>
+      </div>
 
-  function escapeHtml(str){
-    return str
-      .replace(/&/g,'&amp;')
-      .replace(/</g,'&lt;')
-      .replace(/>/g,'&gt;');
-  }
+      <hr />
+      <button id="downloadBtn">Télécharger en PNG</button>
+      <button id="resetPosBtn">Réinitialiser les positions</button>
+      <p style="font-size:11px;color:#8f8f9a;line-height:1.45;margin:10px 0 0;">
+        Sur iPhone : le bouton ouvre le partage iOS pour enregistrer l'image
+        dans Photos ou Fichiers.
+      </p>
+    </div>
 
-  function renderCaption(){
-    const raw = $('captionInput').value;
-    const escaped = escapeHtml(raw);
-    const withHighlights = escaped.replace(/==(.+?)==/gs, '<span class="hl">$1</span>');
-    $('captionText').innerHTML = withHighlights.replace(/\n/g, '<br>');
-  }
+    <div id="stage-wrap">
+      <div id="canvas">
+        <div id="bgImage"><img id="bgImageEl" alt="" /></div>
+        <div id="placeholder">
+          Choisis une image de fond dans le panneau à gauche
+        </div>
+        <div id="fadeOverlay"></div>
+        <div id="badge">Pascou Foot</div>
+        <div id="captionWrap">
+          <div id="captionText"></div>
+        </div>
+      </div>
+    </div>
+    </div>
 
-  $('captionInput').addEventListener('input', renderCaption);
-  renderCaption();
+    <script>
+      const $ = (id) => document.getElementById(id);
+      let currentScale = 1;
 
-  $('fontSelect').addEventListener('change', () => {
-    $('captionText').style.fontFamily = $('fontSelect').value;
-  });
+      function escapeHtml(str) {
+        return str
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+      }
 
-  $('fontSize').addEventListener('input', () => {
-    $('captionText').style.fontSize = $('fontSize').value + 'px';
-    $('fontSizeValue').textContent = $('fontSize').value + 'px';
-  });
+      function renderCaption() {
+        const raw = $("captionInput").value;
+        const escaped = escapeHtml(raw);
+        const withHighlights = escaped.replace(
+          /==(.+?)==/gs,
+          '<span class="hl">$1</span>',
+        );
+        $("captionText").innerHTML = withHighlights.replace(/\n/g, "<br>");
+      }
+      $("captionInput").addEventListener("input", renderCaption);
+      renderCaption();
 
-  $('colBg').addEventListener('input', e => {
-    document.documentElement.style.setProperty('--bg', e.target.value);
-  });
-  $('colText').addEventListener('input', e => {
-    document.documentElement.style.setProperty('--text', e.target.value);
-  });
-  $('colHlBg').addEventListener('input', e => {
-    document.documentElement.style.setProperty('--hl-bg', e.target.value);
-  });
-  $('colHlText').addEventListener('input', e => {
-    document.documentElement.style.setProperty('--hl-text', e.target.value);
-  });
-
-  function applyFormat(){
-    const [w, h] = $('formatSelect').value.split('x').map(Number);
-    const canvas = $('canvas');
-    canvas.style.width = w + 'px';
-    canvas.style.height = h + 'px';
-    canvas.dataset.w = w;
-    canvas.dataset.h = h;
-    fitCanvas();
-  }
-  $('formatSelect').addEventListener('change', applyFormat);
-
-  function fitCanvas(){
-    const wrap = document.getElementById('stage-wrap');
-    const canvas = document.getElementById('canvas');
-    const w = Number(canvas.dataset.w || 1200);
-    const h = Number(canvas.dataset.h || 675);
-    const scale = Math.min(
-      (wrap.clientWidth - 40) / w,
-      (wrap.clientHeight - 40) / h
-    );
-    canvas.style.transform = `scale(${scale})`;
-  }
-  window.addEventListener('resize', fitCanvas);
-  applyFormat();
-
-  document.getElementById('downloadBtn').addEventListener('click', () => {
-    const canvas = document.getElementById('canvas');
-    const originalTransform = canvas.style.transform;
-    const w = Number(canvas.dataset.w || 1200);
-    const h = Number(canvas.dataset.h || 675);
-    canvas.style.transform = 'none';
-    document.fonts.ready.then(() => {
-      html2canvas(canvas, {width:w, height:h, scale:1}).then(rendered => {
-        canvas.style.transform = originalTransform;
-        const link = document.createElement('a');
-        link.download = 'citation.png';
-        link.href = rendered.toDataURL('image/png');
-        link.click();
+      $("badgeInput").addEventListener("input", () => {
+        $("badge").textContent = $("badgeInput").value;
       });
-    });
-  });
-</script>
 
-</body>
+      function loadAndDownscaleImage(file, maxDim) {
+        return new Promise((resolve, reject) => {
+          const objectUrl = URL.createObjectURL(file);
+          const tmp = new Image();
+
+          tmp.onload = () => {
+            try {
+              let { width, height } = tmp;
+
+              if (width > maxDim || height > maxDim) {
+                const ratio = Math.min(maxDim / width, maxDim / height);
+                width = Math.round(width * ratio);
+                height = Math.round(height * ratio);
+              }
+
+              const off = document.createElement("canvas");
+              off.width = width;
+              off.height = height;
+
+              const ctx = off.getContext("2d");
+              ctx.drawImage(tmp, 0, 0, width, height);
+
+              // IMPORTANT:
+              // Return a data URL instead of a blob URL.
+              // Safari/iPhone is much more reliable with data URLs
+              // when html-to-image exports the DOM.
+              const dataUrl = off.toDataURL("image/jpeg", 0.9);
+
+              URL.revokeObjectURL(objectUrl);
+              resolve(dataUrl);
+            } catch (err) {
+              URL.revokeObjectURL(objectUrl);
+              reject(err);
+            }
+          };
+
+          tmp.onerror = () => {
+            URL.revokeObjectURL(objectUrl);
+            reject(new Error("Impossible de lire cette image."));
+          };
+
+          tmp.src = objectUrl;
+        });
+      }
+
+      let currentBgDataUrl = null;
+
+      $("imageInput").addEventListener("change", async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        try {
+          const dataUrl = await loadAndDownscaleImage(file, 2000);
+          const img = $("bgImageEl");
+
+          currentBgDataUrl = dataUrl;
+
+          // Wait until Safari has actually decoded the image.
+          await new Promise((resolve, reject) => {
+            img.onload = resolve;
+            img.onerror = reject;
+            img.src = dataUrl;
+          });
+
+          img.style.display = "block";
+          img.style.objectPosition = "50% 50%";
+          $("placeholder").style.display = "none";
+        } catch (err) {
+          console.error(err);
+          alert("Erreur pendant le chargement de l'image.");
+        }
+      });
+
+      $("fontSelect").addEventListener("change", () => {
+        $("captionText").style.fontFamily = $("fontSelect").value;
+      });
+
+      $("fontSize").addEventListener("input", () => {
+        $("captionText").style.fontSize = $("fontSize").value + "px";
+        $("fontSizeValue").textContent = $("fontSize").value + "px";
+      });
+
+      $("colText").addEventListener("input", (e) => {
+        document.documentElement.style.setProperty("--text", e.target.value);
+      });
+      $("colHlBg").addEventListener("input", (e) => {
+        document.documentElement.style.setProperty("--hl-bg", e.target.value);
+      });
+      $("colHlText").addEventListener("input", (e) => {
+        document.documentElement.style.setProperty("--hl-text", e.target.value);
+      });
+      $("colBadgeBg").addEventListener("input", (e) => {
+        document.documentElement.style.setProperty(
+          "--badge-bg",
+          e.target.value,
+        );
+      });
+      $("colBadgeText").addEventListener("input", (e) => {
+        document.documentElement.style.setProperty(
+          "--badge-text",
+          e.target.value,
+        );
+      });
+      $("colFade").addEventListener("input", (e) => {
+        document.documentElement.style.setProperty("--fade", e.target.value);
+        updateFade();
+      });
+
+      function hexToRgb(hex) {
+        const clean = hex.replace("#", "");
+        const num = parseInt(clean, 16);
+        return {
+          r: (num >> 16) & 255,
+          g: (num >> 8) & 255,
+          b: num & 255,
+        };
+      }
+
+      function updateFade() {
+        const hex = $("colFade").value;
+        const { r, g, b } = hexToRgb(hex);
+        const heightPct = Number($("fadeHeight").value);
+        const alpha = Number($("fadeIntensity").value) / 100;
+        const start = 100 - heightPct;
+        $("fadeOverlay").style.background =
+          `linear-gradient(to bottom, rgba(${r},${g},${b},0) 0%, rgba(${r},${g},${b},0) ${start}%, rgba(${r},${g},${b},${alpha}) 100%)`;
+      }
+
+      $("fadeHeight").addEventListener("input", () => {
+        $("fadeHeightValue").textContent = $("fadeHeight").value + "%";
+        updateFade();
+      });
+      $("fadeIntensity").addEventListener("input", () => {
+        $("fadeIntensityValue").textContent = $("fadeIntensity").value + "%";
+        updateFade();
+      });
+
+      function applyFormat() {
+        const [w, h] = $("formatSelect").value.split("x").map(Number);
+        const canvas = $("canvas");
+        canvas.style.width = w + "px";
+        canvas.style.height = h + "px";
+        canvas.dataset.w = w;
+        canvas.dataset.h = h;
+        resetPositions();
+        fitCanvas();
+      }
+      $("formatSelect").addEventListener("change", applyFormat);
+
+      function fitCanvas() {
+        const wrap = document.getElementById("stage-wrap");
+        const canvas = document.getElementById("canvas");
+        const w = Number(canvas.dataset.w || 1080);
+        const h = Number(canvas.dataset.h || 1350);
+        currentScale = Math.min(
+          (wrap.clientWidth - 40) / w,
+          (wrap.clientHeight - 40) / h,
+        );
+        canvas.style.transform = `scale(${currentScale})`;
+      }
+      window.addEventListener("resize", fitCanvas);
+
+      /* ---------- POSITIONS PAR DÉFAUT ---------- */
+      function resetPositions() {
+        const canvas = $("canvas");
+        const w = Number(canvas.dataset.w || 1080);
+        const h = Number(canvas.dataset.h || 1350);
+
+        $("badge").style.left = Math.round(w * 0.033) + "px";
+        $("badge").style.top = Math.round(h * 0.027) + "px";
+
+        $("captionWrap").style.left = Math.round(w * 0.043) + "px";
+        $("captionWrap").style.width = Math.round(w * 0.914) + "px";
+        $("captionWrap").style.top = Math.round(h * 0.63) + "px";
+
+        $("bgImageEl").style.objectPosition = "50% 50%";
+      }
+      resetPositions();
+      applyFormat();
+      updateFade();
+      $("resetPosBtn").addEventListener("click", resetPositions);
+
+      /* ---------- GLISSER-DÉPOSER (image, badge, texte) ---------- */
+      function makeDraggable(el, isBackground) {
+        el.addEventListener("mousedown", startDrag);
+        el.addEventListener("touchstart", startDrag, { passive: false });
+
+        function startDrag(e) {
+          e.preventDefault();
+          const point = e.touches ? e.touches[0] : e;
+          const startX = point.clientX;
+          const startY = point.clientY;
+
+          let startLeft, startTop, startPosX, startPosY;
+          const canvasRect = $("canvas").getBoundingClientRect();
+
+          if (isBackground) {
+            const posStr = getComputedStyle($("bgImageEl"))
+              .objectPosition.split(" ");
+            startPosX = parseFloat(posStr[0]);
+            startPosY = parseFloat(posStr[1]);
+          } else {
+            startLeft = parseFloat(getComputedStyle(el).left);
+            startTop = parseFloat(getComputedStyle(el).top);
+          }
+
+          function onMove(e) {
+            const p = e.touches ? e.touches[0] : e;
+            const dx = (p.clientX - startX) / currentScale;
+            const dy = (p.clientY - startY) / currentScale;
+
+            if (isBackground) {
+              const w = Number($("canvas").dataset.w || 1080);
+              const h = Number($("canvas").dataset.h || 1350);
+              const newX = startPosX - (dx / w) * 100;
+              const newY = startPosY - (dy / h) * 100;
+              const clampedX = Math.max(0, Math.min(100, newX));
+              const clampedY = Math.max(0, Math.min(100, newY));
+              $("bgImageEl").style.objectPosition =
+                `${clampedX}% ${clampedY}%`;
+            } else {
+              el.style.left = startLeft + dx + "px";
+              el.style.top = startTop + dy + "px";
+            }
+          }
+          function onUp() {
+            document.removeEventListener("mousemove", onMove);
+            document.removeEventListener("mouseup", onUp);
+            document.removeEventListener("touchmove", onMove);
+            document.removeEventListener("touchend", onUp);
+          }
+          document.addEventListener("mousemove", onMove);
+          document.addEventListener("mouseup", onUp);
+          document.addEventListener("touchmove", onMove, { passive: false });
+          document.addEventListener("touchend", onUp);
+        }
+      }
+
+      makeDraggable($("bgImage"), true);
+      makeDraggable($("badge"), false);
+      makeDraggable($("captionWrap"), false);
+
+      function isIOS() {
+        return /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+          (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+      }
+
+      async function waitForImages(root) {
+        const images = Array.from(root.querySelectorAll("img"));
+        await Promise.all(
+          images.map(async (img) => {
+            if (img.complete && img.naturalWidth > 0) {
+              if (img.decode) {
+                try { await img.decode(); } catch (_) {}
+              }
+              return;
+            }
+            await new Promise((resolve) => {
+              img.addEventListener("load", resolve, { once: true });
+              img.addEventListener("error", resolve, { once: true });
+            });
+          }),
+        );
+      }
+
+      async function downloadDataUrl(dataUrl) {
+        // On iPhone/iPad, navigator.share with a File is more reliable
+        // than programmatic <a download> for files generated in-browser.
+        if (isIOS() && navigator.share && navigator.canShare) {
+          try {
+            const response = await fetch(dataUrl);
+            const blob = await response.blob();
+            const file = new File([blob], "image-citation.png", {
+              type: "image/png",
+            });
+
+            if (navigator.canShare({ files: [file] })) {
+              await navigator.share({
+                files: [file],
+                title: "Image citation",
+              });
+              return;
+            }
+          } catch (err) {
+            // User cancelled Share, or sharing is unavailable.
+            if (err && err.name === "AbortError") return;
+            console.warn("Partage iOS indisponible :", err);
+          }
+        }
+
+        // Fallback for desktop/other browsers.
+        const link = document.createElement("a");
+        link.download = "image-citation.png";
+        link.href = dataUrl;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      }
+
+      document.getElementById("downloadBtn").addEventListener("click", async () => {
+        const canvas = document.getElementById("canvas");
+        const originalTransform = canvas.style.transform;
+        const w = Number(canvas.dataset.w || 1080);
+        const h = Number(canvas.dataset.h || 1350);
+
+        try {
+          // Make sure the background is really present before export.
+          if (!currentBgDataUrl || !$("bgImageEl").naturalWidth) {
+            alert("Ajoute d'abord une image de fond.");
+            return;
+          }
+
+          canvas.style.transform = "none";
+
+          await document.fonts.ready;
+          await waitForImages(canvas);
+
+          // Give Safari one rendering cycle before html-to-image reads the DOM.
+          await new Promise((resolve) =>
+            requestAnimationFrame(() => requestAnimationFrame(resolve))
+          );
+
+          const dataUrl = await htmlToImage.toPng(canvas, {
+            width: w,
+            height: h,
+            pixelRatio: 1,
+            cacheBust: true,
+            skipFonts: false,
+            backgroundColor: "#000000",
+          });
+
+          await downloadDataUrl(dataUrl);
+        } catch (err) {
+          console.error("Erreur export PNG :", err);
+          alert(
+            "Erreur pendant l'export. Sur iPhone, réessaie après avoir choisi l'image et attendu son affichage complet."
+          );
+        } finally {
+          canvas.style.transform = originalTransform;
+        }
+      });
+    </script>
+  </body>
 </html>
