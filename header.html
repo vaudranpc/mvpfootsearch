@@ -1,92 +1,131 @@
 <header>
-  <nav style="background-color: #6d2222; padding: 15px; text-align: center">
-    <a
-      href="index.html"
-      style="color: white; margin: 0 15px; text-decoration: none"
-      >Accueil</a
-    >
-    <a
-      href="mvp_info.html"
-      style="color: white; margin: 0 15px; text-decoration: none"
-      >mvp info</a
-    >
-    <a
-      href="link.html"
-      style="color: white; margin: 0 15px; text-decoration: none"
-      >jt des éléphants</a
-    >
-    <a
-      href="joueurs.html"
-      style="color: white; margin: 0 15px; text-decoration: none"
-      >23 de Fae</a
-    >
+  <nav class="site-nav">
+    <a href="index.html" class="site-nav-link">Accueil</a>
 
-    <a
-      href="joueurscanadien.html"
-      style="color: white; margin: 0 15px; text-decoration: none"
-      >23 canadiens</a
-    >
-    <a
-      href="videos.html"
-      style="color: white; margin: 0 15px; text-decoration: none"
-      >Vidéos</a
-    >
+    <div class="site-dropdown">
+      <button type="button" class="site-nav-link site-dropdown-toggle">
+        Mvp info ▾
+      </button>
+      <div class="site-dropdown-menu">
+        <a href="mvp_info.html">Mvp info</a>
+        <a href="link.html">Des éléphants</a>
+        <a href="joueurs.html">23 de Fae</a>
+        <a href="videos.html">Vidéos</a>
+        <a href="post2.html">Post avec image</a>
+        <a href="pagesportif.html">Les pages Mvp</a>
+      </div>
+    </div>
 
-    <a
-      href="audio.html"
-      style="color: white; margin: 0 15px; text-decoration: none"
-      >Top Gbairai</a
-    >
+    <div class="site-dropdown">
+      <button type="button" class="site-nav-link site-dropdown-toggle">
+        Canada ▾
+      </button>
+      <div class="site-dropdown-menu">
+        <a href="joueurscanadien.html">23 canadiens</a>
+        <a href="canadapage.html">Les pages canadiens</a>
+        <a href="contact.html">Canada Soccer</a>
+      </div>
+    </div>
 
-    <a
-      href="MLS.html"
-      style="color: white; margin: 0 15px; text-decoration: none"
-      >generation de texte
-    </a>
-    <a
-      href="pascoo.html"
-      style="color: white; margin: 0 15px; text-decoration: none"
-      >quote 2</a
-    >
-    <a
-      href="post.html"
-      style="color: white; margin: 0 15px; text-decoration: none"
-      >Journal des éléphants</a
-    >
-    <a
-      href="post2.html"
-      style="color: white; margin: 0 15px; text-decoration: none"
-      >Post avec image
-    </a>
-    <a
-      href="pagesportif.html"
-      style="color: white; margin: 0 15px; text-decoration: none"
-      >les pages mvp</a
-    >
-    <a
-      href="canadapage.html"
-      style="color: white; margin: 0 15px; text-decoration: none"
-      >les pages Candien</a
-    >
-    <a
-      href="gbairai.html"
-      style="color: white; margin: 0 15px; text-decoration: none"
-      >les dernieres actus</a
-    >
-    <a
-      href="contact.html"
-      style="color: white; margin: 0 15px; text-decoration: none"
-      >Canada Soccer</a
-    >
-    <a
-      href="pdf.html"
-      style="color: white; margin: 0 15px; text-decoration: none"
-      >PDF vers PNG</a
-    >
-    <a
-      href="score.html"
-      style="color: white; margin: 0 15px; text-decoration: none"
-      >Thumbnail match</a
-    >
+    <div class="site-dropdown">
+      <button type="button" class="site-nav-link site-dropdown-toggle">
+        Top Gbairai ▾
+      </button>
+      <div class="site-dropdown-menu">
+        <a href="audio.html">Top Gbairai</a>
+        <a href="post.html">Journal des éléphants</a>
+        <a href="gbairai.html">Les dernières actus</a>
+      </div>
+    </div>
+
+    <div class="site-dropdown">
+      <button type="button" class="site-nav-link site-dropdown-toggle">
+        Montage ▾
+      </button>
+      <div class="site-dropdown-menu">
+        <a href="MLS.html">Génération de texte</a>
+        <a href="pascoo.html">Quote</a>
+        <a href="pdf.html">PDF vers PNG</a>
+        <a href="score.html">Thumbnail match</a>
+      </div>
+    </div>
   </nav>
+
+  <style>
+    .site-nav {
+      background-color: #6d2222;
+      padding: 15px;
+      text-align: center;
+      position: relative;
+      z-index: 1000;
+    }
+    .site-nav-link {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      background: none;
+      border: none;
+      font-size: 1rem;
+      font-family: inherit;
+      cursor: pointer;
+      padding: 0;
+    }
+    .site-nav-link:hover {
+      text-decoration: underline;
+    }
+    .site-dropdown {
+      display: inline-block;
+      position: relative;
+    }
+    .site-dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #fff;
+      min-width: 200px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 8px;
+      text-align: left;
+    }
+    .site-dropdown-menu.open {
+      display: block;
+    }
+    .site-dropdown-menu a {
+      display: block;
+      padding: 10px 15px;
+      color: #6d2222;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .site-dropdown-menu a:hover {
+      background-color: #f2e4e4;
+    }
+  </style>
+
+  <script>
+    (function () {
+      document.querySelectorAll(".site-dropdown-toggle").forEach(function (toggle) {
+        toggle.addEventListener("click", function (e) {
+          e.stopPropagation();
+          const menu = toggle.nextElementSibling;
+          const isOpen = menu.classList.contains("open");
+          document.querySelectorAll(".site-dropdown-menu.open").forEach(function (m) {
+            m.classList.remove("open");
+          });
+          if (!isOpen) {
+            menu.classList.add("open");
+          }
+        });
+      });
+      document.addEventListener("click", function () {
+        document.querySelectorAll(".site-dropdown-menu.open").forEach(function (m) {
+          m.classList.remove("open");
+        });
+      });
+    })();
+  </script>
 </header>
