@@ -32,9 +32,10 @@
         Top Gbairai ▾
       </button>
       <div class="site-dropdown-menu">
-        <a href="audio.html">Top Gbairai</a>
+        <a href="topgbairai.html">Top Gbairai</a>
         <a href="post.html">Journal des éléphants</a>
         <a href="gbairai.html">Les dernières actus</a>
+        <a href="audio.html">post</a>
       </div>
     </div>
 
@@ -108,23 +109,29 @@
 
   <script>
     (function () {
-      document.querySelectorAll(".site-dropdown-toggle").forEach(function (toggle) {
-        toggle.addEventListener("click", function (e) {
-          e.stopPropagation();
-          const menu = toggle.nextElementSibling;
-          const isOpen = menu.classList.contains("open");
-          document.querySelectorAll(".site-dropdown-menu.open").forEach(function (m) {
+      document
+        .querySelectorAll(".site-dropdown-toggle")
+        .forEach(function (toggle) {
+          toggle.addEventListener("click", function (e) {
+            e.stopPropagation();
+            const menu = toggle.nextElementSibling;
+            const isOpen = menu.classList.contains("open");
+            document
+              .querySelectorAll(".site-dropdown-menu.open")
+              .forEach(function (m) {
+                m.classList.remove("open");
+              });
+            if (!isOpen) {
+              menu.classList.add("open");
+            }
+          });
+        });
+      document.addEventListener("click", function () {
+        document
+          .querySelectorAll(".site-dropdown-menu.open")
+          .forEach(function (m) {
             m.classList.remove("open");
           });
-          if (!isOpen) {
-            menu.classList.add("open");
-          }
-        });
-      });
-      document.addEventListener("click", function () {
-        document.querySelectorAll(".site-dropdown-menu.open").forEach(function (m) {
-          m.classList.remove("open");
-        });
       });
     })();
   </script>
