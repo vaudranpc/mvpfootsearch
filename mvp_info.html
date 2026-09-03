@@ -407,20 +407,63 @@ Ce militaire a désobéi aux ordres et a foncé 5 fois dans une zone d'embuscade
         $("badge").textContent = $("badgeInput").value;
       });
 
+      function loadAndDownscaleImage(file, maxDim) {
+        return new Promise((resolve, reject) => {
+          const objectUrl = URL.createObjectURL(file);
+          const tmp = new Image();
+          tmp.onload = () => {
+            let { width, height } = tmp;
+            if (width > maxDim || height > maxDim) {
+              const ratio = Math.min(maxDim / width, maxDim / height);
+              width = Math.round(width * ratio);
+              height = Math.round(height * ratio);
+            }
+            const off = document.createElement("canvas");
+            off.width = width;
+            off.height = height;
+            off.getContext("2d").drawImage(tmp, 0, 0, width, height);
+            URL.revokeObjectURL(objectUrl);
+            off.toBlob(
+              (blob) => {
+                if (!blob) {
+                  reject(new Error("Impossible de traiter cette image."));
+                  return;
+                }
+                resolve(URL.createObjectURL(blob));
+              },
+              "image/jpeg",
+              0.9,
+            );
+          };
+          tmp.onerror = () => {
+            URL.revokeObjectURL(objectUrl);
+            reject(new Error("Impossible de lire cette image."));
+          };
+          tmp.src = objectUrl;
+        });
+      }
+
+      let currentBgObjectUrl = null;
+
       $("imageInput").addEventListener("change", (e) => {
         const file = e.target.files[0];
         if (!file) return;
-        const reader = new FileReader();
-        reader.onload = (ev) => {
-          const img = $("bgImageEl");
-          img.onload = () => {
-            img.style.display = "block";
-          };
-          img.src = ev.target.result;
-          img.style.objectPosition = "50% 50%";
-          $("placeholder").style.display = "none";
-        };
-        reader.readAsDataURL(file);
+        loadAndDownscaleImage(file, 2000)
+          .then((blobUrl) => {
+            const img = $("bgImageEl");
+            if (currentBgObjectUrl) URL.revokeObjectURL(currentBgObjectUrl);
+            currentBgObjectUrl = blobUrl;
+            img.onload = () => {
+              img.style.display = "block";
+            };
+            img.src = blobUrl;
+            img.style.objectPosition = "50% 50%";
+            $("placeholder").style.display = "none";
+          })
+          .catch((err) => {
+            console.error(err);
+            alert("Erreur pendant le chargement de l'image.");
+          });
       });
 
       $("fontSelect").addEventListener("change", () => {
@@ -605,7 +648,6 @@ Ce militaire a désobéi aux ordres et a foncé 5 fois dans une zone d'embuscade
               height: h,
               pixelRatio: 1,
               skipFonts: false,
-              cacheBust: true,
             })
             .then((dataUrl) => {
               canvas.style.transform = originalTransform;
