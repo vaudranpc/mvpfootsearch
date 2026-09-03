@@ -364,6 +364,10 @@ Ce militaire a désobéi aux ordres et a foncé 5 fois dans une zone d'embuscade
       <hr />
       <button id="downloadBtn">Télécharger en PNG</button>
       <button id="resetPosBtn">Réinitialiser les positions</button>
+      <p style="font-size:11px;color:#8f8f9a;line-height:1.45;margin:10px 0 0;">
+        Sur iPhone : le bouton ouvre le partage iOS pour enregistrer l'image
+        dans Photos ou Fichiers.
+      </p>
     </div>
 
     <div id="stage-wrap">
@@ -411,59 +415,73 @@ Ce militaire a désobéi aux ordres et a foncé 5 fois dans une zone d'embuscade
         return new Promise((resolve, reject) => {
           const objectUrl = URL.createObjectURL(file);
           const tmp = new Image();
+
           tmp.onload = () => {
-            let { width, height } = tmp;
-            if (width > maxDim || height > maxDim) {
-              const ratio = Math.min(maxDim / width, maxDim / height);
-              width = Math.round(width * ratio);
-              height = Math.round(height * ratio);
+            try {
+              let { width, height } = tmp;
+
+              if (width > maxDim || height > maxDim) {
+                const ratio = Math.min(maxDim / width, maxDim / height);
+                width = Math.round(width * ratio);
+                height = Math.round(height * ratio);
+              }
+
+              const off = document.createElement("canvas");
+              off.width = width;
+              off.height = height;
+
+              const ctx = off.getContext("2d");
+              ctx.drawImage(tmp, 0, 0, width, height);
+
+              // IMPORTANT:
+              // Return a data URL instead of a blob URL.
+              // Safari/iPhone is much more reliable with data URLs
+              // when html-to-image exports the DOM.
+              const dataUrl = off.toDataURL("image/jpeg", 0.9);
+
+              URL.revokeObjectURL(objectUrl);
+              resolve(dataUrl);
+            } catch (err) {
+              URL.revokeObjectURL(objectUrl);
+              reject(err);
             }
-            const off = document.createElement("canvas");
-            off.width = width;
-            off.height = height;
-            off.getContext("2d").drawImage(tmp, 0, 0, width, height);
-            URL.revokeObjectURL(objectUrl);
-            off.toBlob(
-              (blob) => {
-                if (!blob) {
-                  reject(new Error("Impossible de traiter cette image."));
-                  return;
-                }
-                resolve(URL.createObjectURL(blob));
-              },
-              "image/jpeg",
-              0.9,
-            );
           };
+
           tmp.onerror = () => {
             URL.revokeObjectURL(objectUrl);
             reject(new Error("Impossible de lire cette image."));
           };
+
           tmp.src = objectUrl;
         });
       }
 
-      let currentBgObjectUrl = null;
+      let currentBgDataUrl = null;
 
-      $("imageInput").addEventListener("change", (e) => {
+      $("imageInput").addEventListener("change", async (e) => {
         const file = e.target.files[0];
         if (!file) return;
-        loadAndDownscaleImage(file, 2000)
-          .then((blobUrl) => {
-            const img = $("bgImageEl");
-            if (currentBgObjectUrl) URL.revokeObjectURL(currentBgObjectUrl);
-            currentBgObjectUrl = blobUrl;
-            img.onload = () => {
-              img.style.display = "block";
-            };
-            img.src = blobUrl;
-            img.style.objectPosition = "50% 50%";
-            $("placeholder").style.display = "none";
-          })
-          .catch((err) => {
-            console.error(err);
-            alert("Erreur pendant le chargement de l'image.");
+
+        try {
+          const dataUrl = await loadAndDownscaleImage(file, 2000);
+          const img = $("bgImageEl");
+
+          currentBgDataUrl = dataUrl;
+
+          // Wait until Safari has actually decoded the image.
+          await new Promise((resolve, reject) => {
+            img.onload = resolve;
+            img.onerror = reject;
+            img.src = dataUrl;
           });
+
+          img.style.display = "block";
+          img.style.objectPosition = "50% 50%";
+          $("placeholder").style.display = "none";
+        } catch (err) {
+          console.error(err);
+          alert("Erreur pendant le chargement de l'image.");
+        }
       });
 
       $("fontSelect").addEventListener("change", () => {
@@ -635,35 +653,104 @@ Ce militaire a désobéi aux ordres et a foncé 5 fois dans une zone d'embuscade
       makeDraggable($("badge"), false);
       makeDraggable($("captionWrap"), false);
 
-      document.getElementById("downloadBtn").addEventListener("click", () => {
+      function isIOS() {
+        return /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+          (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+      }
+
+      async function waitForImages(root) {
+        const images = Array.from(root.querySelectorAll("img"));
+        await Promise.all(
+          images.map(async (img) => {
+            if (img.complete && img.naturalWidth > 0) {
+              if (img.decode) {
+                try { await img.decode(); } catch (_) {}
+              }
+              return;
+            }
+            await new Promise((resolve) => {
+              img.addEventListener("load", resolve, { once: true });
+              img.addEventListener("error", resolve, { once: true });
+            });
+          }),
+        );
+      }
+
+      async function downloadDataUrl(dataUrl) {
+        // On iPhone/iPad, navigator.share with a File is more reliable
+        // than programmatic <a download> for files generated in-browser.
+        if (isIOS() && navigator.share && navigator.canShare) {
+          try {
+            const response = await fetch(dataUrl);
+            const blob = await response.blob();
+            const file = new File([blob], "image-citation.png", {
+              type: "image/png",
+            });
+
+            if (navigator.canShare({ files: [file] })) {
+              await navigator.share({
+                files: [file],
+                title: "Image citation",
+              });
+              return;
+            }
+          } catch (err) {
+            // User cancelled Share, or sharing is unavailable.
+            if (err && err.name === "AbortError") return;
+            console.warn("Partage iOS indisponible :", err);
+          }
+        }
+
+        // Fallback for desktop/other browsers.
+        const link = document.createElement("a");
+        link.download = "image-citation.png";
+        link.href = dataUrl;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      }
+
+      document.getElementById("downloadBtn").addEventListener("click", async () => {
         const canvas = document.getElementById("canvas");
         const originalTransform = canvas.style.transform;
         const w = Number(canvas.dataset.w || 1080);
         const h = Number(canvas.dataset.h || 1350);
-        canvas.style.transform = "none";
-        document.fonts.ready.then(() => {
-          htmlToImage
-            .toPng(canvas, {
-              width: w,
-              height: h,
-              pixelRatio: 1,
-              skipFonts: false,
-            })
-            .then((dataUrl) => {
-              canvas.style.transform = originalTransform;
-              const link = document.createElement("a");
-              link.download = "image-citation.png";
-              link.href = dataUrl;
-              link.click();
-            })
-            .catch((err) => {
-              canvas.style.transform = originalTransform;
-              console.error("Erreur export PNG :", err);
-              alert(
-                "Erreur pendant l'export de l'image. Vérifie la console (F12) pour le détail.",
-              );
-            });
-        });
+
+        try {
+          // Make sure the background is really present before export.
+          if (!currentBgDataUrl || !$("bgImageEl").naturalWidth) {
+            alert("Ajoute d'abord une image de fond.");
+            return;
+          }
+
+          canvas.style.transform = "none";
+
+          await document.fonts.ready;
+          await waitForImages(canvas);
+
+          // Give Safari one rendering cycle before html-to-image reads the DOM.
+          await new Promise((resolve) =>
+            requestAnimationFrame(() => requestAnimationFrame(resolve))
+          );
+
+          const dataUrl = await htmlToImage.toPng(canvas, {
+            width: w,
+            height: h,
+            pixelRatio: 1,
+            cacheBust: true,
+            skipFonts: false,
+            backgroundColor: "#000000",
+          });
+
+          await downloadDataUrl(dataUrl);
+        } catch (err) {
+          console.error("Erreur export PNG :", err);
+          alert(
+            "Erreur pendant l'export. Sur iPhone, réessaie après avoir choisi l'image et attendu son affichage complet."
+          );
+        } finally {
+          canvas.style.transform = originalTransform;
+        }
       });
     </script>
   </body>
