@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Texte vers PDF</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f5f7;
+    margin: 0;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .container {
+    background: #fff;
+    width: 100%;
+    max-width: 700px;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+  h1 {
+    margin-top: 0;
+    font-size: 22px;
+    color: #222;
+  }
+  label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 6px;
+    font-weight: bold;
+    color: #333;
+    font-size: 14px;
+  }
+  input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+  textarea {
+    width: 100%;
+    height: 350px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    line-height: 1.5;
+    resize: vertical;
+    font-family: inherit;
+  }
+  button {
+    margin-top: 20px;
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    padding: 12px 22px;
+    border-radius: 6px;
+    font-size: 15px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  button:hover {
+    background: #1d4ed8;
+  }
+  .hint {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #777;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>Texte vers PDF</h1>
+
+    <label for="pdfTitle">Titre du document (optionnel)</label>
+    <input type="text" id="pdfTitle" placeholder="Ex: Mon document">
+
+    <label for="pdfText">Colle ou écris ton texte ici</label>
+    <textarea id="pdfText" placeholder="Écris ton texte ici..."></textarea>
+
+    <button id="downloadBtn">Télécharger en PDF</button>
+    <div class="hint">Le fichier sera téléchargé au format PDF (A4).</div>
+  </div>
+
+<script>
+  const { jsPDF } = window.jspdf;
+
+  document.getElementById('downloadBtn').addEventListener('click', function () {
+    const text = document.getElementById('pdfText').value;
+    const titleInput = document.getElementById('pdfTitle').value.trim();
+
+    if (!text.trim()) {
+      alert('Merci d\'écrire un texte avant de générer le PDF.');
+      return;
+    }
+
+    const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+    const margin = 20;
+    const maxLineWidth = pageWidth - margin * 2;
+    let y = margin;
+
+    if (titleInput) {
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(16);
+      const titleLines = doc.splitTextToSize(titleInput, maxLineWidth);
+      doc.text(titleLines, margin, y);
+      y += titleLines.length * 8 + 6;
+    }
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(12);
+    const lineHeight = 6;
+
+    const paragraphs = text.split('\n');
+
+    paragraphs.forEach(function (paragraph) {
+      const lines = doc.splitTextToSize(paragraph, maxLineWidth);
+      lines.forEach(function (line) {
+        if (y + lineHeight > pageHeight - margin) {
+          doc.addPage();
+          y = margin;
+        }
+        doc.text(line, margin, y);
+        y += lineHeight;
+      });
+      if (paragraph === '') {
+        y += lineHeight;
+      }
+    });
+
+    const fileName = (titleInput ? titleInput : 'document').replace(/[^a-z0-9_\-àâäéèêëïîôöùûüç ]/gi, '').trim() || 'document';
+    doc.save(fileName + '.pdf');
+  });
+</script>
+</body>
+</html>
