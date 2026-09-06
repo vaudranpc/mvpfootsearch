@@ -193,6 +193,10 @@
             <label for="mcLeftBorderWidth">Épaisseur de bordure (<span id="mcLeftBorderWidthVal">6</span>px)</label>
             <input type="range" id="mcLeftBorderWidth" min="0" max="20" value="6">
 
+            <div class="checkbox-row">
+              <input type="checkbox" id="mcLeftTagEnabled" checked>
+              <label for="mcLeftTagEnabled">Afficher l'étiquette</label>
+            </div>
             <label for="mcLeftName">Nom (étiquette)</label>
             <input type="text" id="mcLeftName" value="WILOO">
             <div class="row-2">
@@ -228,6 +232,10 @@
             <label for="mcRightBorderWidth">Épaisseur de bordure (<span id="mcRightBorderWidthVal">6</span>px)</label>
             <input type="range" id="mcRightBorderWidth" min="0" max="20" value="6">
 
+            <div class="checkbox-row">
+              <input type="checkbox" id="mcRightTagEnabled" checked>
+              <label for="mcRightTagEnabled">Afficher l'étiquette</label>
+            </div>
             <label for="mcRightName">Nom (étiquette)</label>
             <input type="text" id="mcRightName" value="STAN">
             <div class="row-2">
@@ -300,7 +308,7 @@
   const canvas = document.getElementById('mcCanvas');
   const W = canvas.width;
   const H = canvas.height;
-  const BANNER_W = W * 0.62;
+  const BANNER_MIN_W = 320;
   const BANNER_H = 150;
   const TAG_H = 74;
   const HANDLE_SIZE = 28;
@@ -337,6 +345,31 @@
     return Math.max(tw + paddingX * 2, 170);
   }
 
+  function mcCalcBannerLayout() {
+    const font = document.getElementById('mcFont').value;
+    const icon = document.getElementById('mcBannerIcon').value.trim();
+    const title = document.getElementById('mcBannerTitle').value;
+    const subtitle = document.getElementById('mcBannerSubtitle').value;
+
+    const titleFont = subtitle ? ("bold 52px " + font) : ("bold 54px " + font);
+    const subtitleFont = "30px " + font;
+
+    mctx.font = titleFont;
+    const titleW = mctx.measureText(title).width;
+    let subtitleW = 0;
+    if (subtitle) {
+      mctx.font = subtitleFont;
+      subtitleW = mctx.measureText(subtitle).width;
+    }
+    const textW = Math.max(titleW, subtitleW, 1);
+
+    const iconAreaW = icon ? 150 : 40;
+    const rightPad = 40;
+    const width = Math.max(BANNER_MIN_W, iconAreaW + textW + rightPad);
+
+    return { width, iconAreaW, rightPad, titleFont, subtitleFont, title, subtitle, icon };
+  }
+
   function mcDefaultState() {
     const margin = 20;
     const gap = 20;
@@ -344,10 +377,11 @@
     const frameH = H - margin * 2;
     const font = document.getElementById('mcFont').value;
     const tagRightWidth = mcCalcTagWidth(document.getElementById('mcRightName').value, font);
+    const bannerWidth = mcCalcBannerLayout().width;
     return {
       frameLeft: { x: margin, y: margin, w: frameW, h: frameH },
       frameRight: { x: margin + frameW + gap, y: margin, w: frameW, h: frameH },
-      banner: { x: (W - BANNER_W) / 2, y: H - 300 },
+      banner: { x: (W - bannerWidth) / 2, y: H - 300, w: bannerWidth },
       tagLeft: { x: margin, y: margin + frameH - TAG_H },
       tagRight: { x: margin + frameW + gap + frameW - tagRightWidth, y: margin + frameH - TAG_H }
     };
@@ -386,26 +420,26 @@
     const bg = document.getElementById('mcBannerBgColor').value;
     const opacity = parseInt(document.getElementById('mcBannerOpacity').value, 10);
     const iconColor = document.getElementById('mcIconBgColor').value;
-    const icon = document.getElementById('mcBannerIcon').value.trim();
-    const title = document.getElementById('mcBannerTitle').value;
-    const subtitle = document.getElementById('mcBannerSubtitle').value;
     const titleColor = document.getElementById('mcTitleColor').value;
     const subtitleColor = document.getElementById('mcSubtitleColor').value;
-    const font = document.getElementById('mcFont').value;
+
+    const layout = mcCalcBannerLayout();
+    const bannerWidth = layout.width;
+    mcState.banner.w = bannerWidth;
 
     const x = mcState.banner.x;
     const y = mcState.banner.y;
     const radius = 20;
 
     mctx.fillStyle = hexToRgba(bg, opacity);
-    roundRectPath(mctx, x, y, BANNER_W, BANNER_H, radius);
+    roundRectPath(mctx, x, y, bannerWidth, BANNER_H, radius);
     mctx.fill();
 
     const circleR = 60;
     const circleCx = x + 20;
     const circleCy = y;
 
-    if (icon) {
+    if (layout.icon) {
       mctx.fillStyle = iconColor;
       mctx.beginPath();
       mctx.arc(circleCx, circleCy, circleR, 0, Math.PI * 2);
@@ -414,26 +448,28 @@
       mctx.font = "60px 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif";
       mctx.textAlign = 'center';
       mctx.textBaseline = 'middle';
-      mctx.fillText(icon, circleCx, circleCy + 4);
+      mctx.fillText(layout.icon, circleCx, circleCy + 4);
     }
 
-    const textX = x + 130;
-    mctx.textAlign = 'left';
+    const textAreaX = x + layout.iconAreaW;
+    const textAreaW = bannerWidth - layout.iconAreaW - layout.rightPad;
+    const textCenterX = textAreaX + textAreaW / 2;
+    mctx.textAlign = 'center';
 
-    if (subtitle) {
+    if (layout.subtitle) {
       mctx.textBaseline = 'alphabetic';
-      mctx.font = "bold 52px " + font;
+      mctx.font = layout.titleFont;
       mctx.fillStyle = titleColor;
-      mctx.fillText(title, textX, y + 66);
+      mctx.fillText(layout.title, textCenterX, y + 66);
 
-      mctx.font = "30px " + font;
+      mctx.font = layout.subtitleFont;
       mctx.fillStyle = subtitleColor;
-      mctx.fillText(subtitle, textX, y + 110);
+      mctx.fillText(layout.subtitle, textCenterX, y + 110);
     } else {
       mctx.textBaseline = 'middle';
-      mctx.font = "bold 54px " + font;
+      mctx.font = layout.titleFont;
       mctx.fillStyle = titleColor;
-      mctx.fillText(title, textX, y + BANNER_H / 2 + 2);
+      mctx.fillText(layout.title, textCenterX, y + BANNER_H / 2 + 2);
     }
   }
 
@@ -472,6 +508,8 @@
     const leftOn = document.getElementById('mcLeftEnabled').checked;
     const rightOn = document.getElementById('mcRightEnabled').checked;
     const bannerOn = document.getElementById('mcBannerEnabled').checked;
+    const leftTagOn = document.getElementById('mcLeftTagEnabled').checked;
+    const rightTagOn = document.getElementById('mcRightTagEnabled').checked;
 
     if (leftOn) {
       mcDrawFrame(
@@ -494,7 +532,7 @@
     if (bannerOn) {
       mcDrawBanner();
     }
-    if (leftOn) {
+    if (leftOn && leftTagOn) {
       mcDrawTag(
         document.getElementById('mcLeftName').value,
         document.getElementById('mcLeftTagBg').value,
@@ -502,7 +540,7 @@
         mcState.tagLeft
       );
     }
-    if (rightOn) {
+    if (rightOn && rightTagOn) {
       mcDrawTag(
         document.getElementById('mcRightName').value,
         document.getElementById('mcRightTagBg').value,
@@ -538,6 +576,8 @@
     const leftOn = document.getElementById('mcLeftEnabled').checked;
     const rightOn = document.getElementById('mcRightEnabled').checked;
     const bannerOn = document.getElementById('mcBannerEnabled').checked;
+    const leftTagOn = document.getElementById('mcLeftTagEnabled').checked;
+    const rightTagOn = document.getElementById('mcRightTagEnabled').checked;
     const font = document.getElementById('mcFont').value;
 
     if (rightOn) {
@@ -559,7 +599,7 @@
       }
     }
 
-    if (leftOn) {
+    if (leftOn && leftTagOn) {
       const w = mcCalcTagWidth(document.getElementById('mcLeftName').value, font);
       if (hitTest(pt.x, pt.y, mcState.tagLeft.x, mcState.tagLeft.y, w, TAG_H)) {
         mcDragTarget = 'tagLeft';
@@ -569,7 +609,7 @@
         return;
       }
     }
-    if (rightOn) {
+    if (rightOn && rightTagOn) {
       const w = mcCalcTagWidth(document.getElementById('mcRightName').value, font);
       if (hitTest(pt.x, pt.y, mcState.tagRight.x, mcState.tagRight.y, w, TAG_H)) {
         mcDragTarget = 'tagRight';
@@ -581,7 +621,8 @@
     }
 
     if (bannerOn) {
-      if (hitTest(pt.x, pt.y, mcState.banner.x, mcState.banner.y, BANNER_W, BANNER_H)) {
+      const bw = mcState.banner.w || mcCalcBannerLayout().width;
+      if (hitTest(pt.x, pt.y, mcState.banner.x, mcState.banner.y, bw, BANNER_H)) {
         mcDragTarget = 'banner';
         mcDragOffsetX = pt.x - mcState.banner.x;
         mcDragOffsetY = pt.y - mcState.banner.y;
