@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Overlay YouTube</title>
+<script src="header.js"></script>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f5f7;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .page {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+  }
+  .container {
+    background: #fff;
+    width: 100%;
+    max-width: 1100px;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+  h1 {
+    margin-top: 0;
+    font-size: 22px;
+    color: #222;
+  }
+  h2 {
+    font-size: 16px;
+    color: #222;
+    margin: 0 0 12px;
+  }
+  label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 6px;
+    font-weight: bold;
+    color: #333;
+    font-size: 13px;
+  }
+  input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+  input[type="color"] {
+    width: 100%;
+    height: 38px;
+    padding: 2px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  input[type="range"] {
+    width: 100%;
+  }
+  button {
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    padding: 12px 22px;
+    border-radius: 6px;
+    font-size: 15px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  button:hover {
+    background: #1d4ed8;
+  }
+  .hint {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #777;
+  }
+  .overlay-layout {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+  .overlay-controls {
+    flex: 1 1 320px;
+    min-width: 300px;
+  }
+  .overlay-preview {
+    flex: 1 1 420px;
+    min-width: 300px;
+  }
+  fieldset {
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 14px 16px 18px;
+    margin: 0 0 18px;
+  }
+  legend {
+    font-weight: bold;
+    font-size: 14px;
+    padding: 0 6px;
+    color: #222;
+  }
+  .checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 6px;
+  }
+  .checkbox-row label {
+    margin: 0;
+    font-weight: bold;
+  }
+  .row-2 {
+    display: flex;
+    gap: 12px;
+  }
+  .row-2 > div {
+    flex: 1;
+  }
+  #overlayCanvas {
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
+    background-color: #fff;
+    background-image:
+      linear-gradient(45deg, #ccc 25%, transparent 25%),
+      linear-gradient(-45deg, #ccc 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #ccc 75%),
+      linear-gradient(-45deg, transparent 75%, #ccc 75%);
+    background-size: 20px 20px;
+    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+    border: 1px solid #ddd;
+  }
+</style>
+</head>
+<body>
+  <div id="header-container" style="align-self: stretch; width: 100%;"></div>
+
+  <div class="page">
+    <div class="container">
+      <h1>Overlay YouTube</h1>
+
+      <div class="overlay-layout">
+
+        <div class="overlay-controls">
+
+          <fieldset>
+            <legend>Fond de l'image</legend>
+            <div class="checkbox-row">
+              <input type="checkbox" id="bgTransparent" checked>
+              <label for="bgTransparent">Fond transparent</label>
+            </div>
+            <label for="bgColor">Couleur de fond (si non transparent)</label>
+            <input type="color" id="bgColor" value="#00b140" disabled>
+          </fieldset>
+
+          <fieldset>
+            <legend>Bandeau titre</legend>
+            <div class="checkbox-row">
+              <input type="checkbox" id="bannerEnabled" checked>
+              <label for="bannerEnabled">Afficher le bandeau</label>
+            </div>
+
+            <label for="bannerIcon">Icône (emoji)</label>
+            <input type="text" id="bannerIcon" value="💰">
+
+            <label for="bannerTitle">Titre</label>
+            <input type="text" id="bannerTitle" value="L'ÉTÉ DES FOUS">
+
+            <label for="bannerSubtitle">Sous-titre</label>
+            <input type="text" id="bannerSubtitle" value="On fait un point sur ce mercato démentiel...">
+
+            <div class="row-2">
+              <div>
+                <label for="bannerBgColor">Couleur du fond</label>
+                <input type="color" id="bannerBgColor" value="#0d0d0d">
+              </div>
+              <div>
+                <label for="iconBgColor">Couleur du cercle icône</label>
+                <input type="color" id="iconBgColor" value="#f5c518">
+              </div>
+            </div>
+
+            <div class="row-2">
+              <div>
+                <label for="titleColor">Couleur du titre</label>
+                <input type="color" id="titleColor" value="#ffffff">
+              </div>
+              <div>
+                <label for="subtitleColor">Couleur du sous-titre</label>
+                <input type="color" id="subtitleColor" value="#d1d1d1">
+              </div>
+            </div>
+
+            <label for="bannerOpacity">Opacité du fond (<span id="bannerOpacityVal">90</span>%)</label>
+            <input type="range" id="bannerOpacity" min="0" max="100" value="90">
+          </fieldset>
+
+          <fieldset>
+            <legend>Étiquette de nom — gauche</legend>
+            <div class="checkbox-row">
+              <input type="checkbox" id="tagLeftEnabled" checked>
+              <label for="tagLeftEnabled">Afficher</label>
+            </div>
+            <label for="tagLeftText">Nom</label>
+            <input type="text" id="tagLeftText" value="WILOO">
+            <div class="row-2">
+              <div>
+                <label for="tagLeftBg">Couleur de fond</label>
+                <input type="color" id="tagLeftBg" value="#ffffff">
+              </div>
+              <div>
+                <label for="tagLeftColor">Couleur du texte</label>
+                <input type="color" id="tagLeftColor" value="#111111">
+              </div>
+            </div>
+            <div class="hint">🖱️ Glisse l'étiquette directement sur l'aperçu pour la positionner.</div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Étiquette de nom — droite</legend>
+            <div class="checkbox-row">
+              <input type="checkbox" id="tagRightEnabled" checked>
+              <label for="tagRightEnabled">Afficher</label>
+            </div>
+            <label for="tagRightText">Nom</label>
+            <input type="text" id="tagRightText" value="STAN">
+            <div class="row-2">
+              <div>
+                <label for="tagRightBg">Couleur de fond</label>
+                <input type="color" id="tagRightBg" value="#ffffff">
+              </div>
+              <div>
+                <label for="tagRightColor">Couleur du texte</label>
+                <input type="color" id="tagRightColor" value="#111111">
+              </div>
+            </div>
+            <div class="hint">🖱️ Glisse l'étiquette directement sur l'aperçu pour la positionner.</div>
+          </fieldset>
+
+          <div class="hint" style="margin-bottom:12px;">🖱️ Tu peux aussi glisser le bandeau titre directement sur l'aperçu.</div>
+
+          <button id="resetPositionsBtn" style="background:#6b7280; margin-right:10px;">Réinitialiser les positions</button>
+          <button id="downloadOverlayBtn">Télécharger en PNG (1920×1080)</button>
+          <div class="hint">Fond transparent (la zone quadrillée) : superpose ce PNG sur ta vidéo dans ton logiciel de montage.</div>
+        </div>
+
+        <div class="overlay-preview">
+          <h2>Aperçu</h2>
+          <canvas id="overlayCanvas" width="1920" height="1080"></canvas>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+<script>
+  const canvas = document.getElementById('overlayCanvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width;
+  const H = canvas.height;
+
+  const BANNER_W = W * 0.62;
+  const BANNER_H = 150;
+  const TAG_H = 74;
+
+  function hexToRgba(hex, alphaPercent) {
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    return 'rgba(' + r + ',' + g + ',' + b + ',' + (alphaPercent / 100) + ')';
+  }
+
+  function roundRectPath(c, x, y, w, h, r) {
+    c.beginPath();
+    c.moveTo(x + r, y);
+    c.arcTo(x + w, y, x + w, y + h, r);
+    c.arcTo(x + w, y + h, x, y + h, r);
+    c.arcTo(x, y + h, x, y, r);
+    c.arcTo(x, y, x + w, y, r);
+    c.closePath();
+  }
+
+  function calcTagWidth(text) {
+    ctx.font = "bold 32px Arial, Helvetica, sans-serif";
+    const textWidth = ctx.measureText((text || 'NOM').toUpperCase()).width;
+    const paddingX = 45;
+    return Math.max(textWidth + paddingX * 2, 170);
+  }
+
+  function defaultPositions() {
+    const tagRightWidth = calcTagWidth(document.getElementById('tagRightText').value);
+    return {
+      banner: { x: (W - BANNER_W) / 2, y: H - 300 },
+      tagLeft: { x: 0, y: H - TAG_H },
+      tagRight: { x: W - tagRightWidth, y: H - TAG_H }
+    };
+  }
+
+  let positions = defaultPositions();
+
+  function drawBanner() {
+    const bg = document.getElementById('bannerBgColor').value;
+    const opacity = parseInt(document.getElementById('bannerOpacity').value, 10);
+    const iconColor = document.getElementById('iconBgColor').value;
+    const icon = document.getElementById('bannerIcon').value.trim();
+    const title = document.getElementById('bannerTitle').value;
+    const subtitle = document.getElementById('bannerSubtitle').value;
+    const titleColor = document.getElementById('titleColor').value;
+    const subtitleColor = document.getElementById('subtitleColor').value;
+
+    const x = positions.banner.x;
+    const y = positions.banner.y;
+    const radius = 20;
+
+    ctx.fillStyle = hexToRgba(bg, opacity);
+    roundRectPath(ctx, x, y, BANNER_W, BANNER_H, radius);
+    ctx.fill();
+
+    const circleR = 60;
+    const circleCx = x + 20;
+    const circleCy = y;
+
+    if (icon) {
+      ctx.fillStyle = iconColor;
+      ctx.beginPath();
+      ctx.arc(circleCx, circleCy, circleR, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.font = "60px 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif";
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(icon, circleCx, circleCy + 4);
+    }
+
+    const textX = x + 130;
+    ctx.textAlign = 'left';
+
+    if (subtitle) {
+      ctx.textBaseline = 'alphabetic';
+      ctx.font = "bold 52px Arial, Helvetica, sans-serif";
+      ctx.fillStyle = titleColor;
+      ctx.fillText(title, textX, y + 66);
+
+      ctx.font = "30px Arial, Helvetica, sans-serif";
+      ctx.fillStyle = subtitleColor;
+      ctx.fillText(subtitle, textX, y + 110);
+    } else {
+      ctx.textBaseline = 'middle';
+      ctx.font = "bold 54px Arial, Helvetica, sans-serif";
+      ctx.fillStyle = titleColor;
+      ctx.fillText(title, textX, y + BANNER_H / 2 + 2);
+    }
+  }
+
+  function drawNameTag(text, bgColor, textColor, pos) {
+    const tagWidth = calcTagWidth(text);
+    const radius = 14;
+    const tagX = pos.x;
+    const tagY = pos.y;
+
+    ctx.fillStyle = bgColor;
+    roundRectPath(ctx, tagX, tagY, tagWidth, TAG_H, radius);
+    ctx.fill();
+
+    ctx.font = "bold 32px Arial, Helvetica, sans-serif";
+    ctx.fillStyle = textColor;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText((text || 'NOM').toUpperCase(), tagX + tagWidth / 2, tagY + TAG_H / 2 + 3);
+  }
+
+  function drawOverlay() {
+    if (document.getElementById('bgTransparent').checked) {
+      ctx.clearRect(0, 0, W, H);
+    } else {
+      ctx.fillStyle = document.getElementById('bgColor').value;
+      ctx.fillRect(0, 0, W, H);
+    }
+
+    if (document.getElementById('bannerEnabled').checked) {
+      drawBanner();
+    }
+
+    if (document.getElementById('tagLeftEnabled').checked) {
+      drawNameTag(
+        document.getElementById('tagLeftText').value,
+        document.getElementById('tagLeftBg').value,
+        document.getElementById('tagLeftColor').value,
+        positions.tagLeft
+      );
+    }
+
+    if (document.getElementById('tagRightEnabled').checked) {
+      drawNameTag(
+        document.getElementById('tagRightText').value,
+        document.getElementById('tagRightBg').value,
+        document.getElementById('tagRightColor').value,
+        positions.tagRight
+      );
+    }
+  }
+
+  const bgTransparentInput = document.getElementById('bgTransparent');
+  const bgColorInput = document.getElementById('bgColor');
+  bgTransparentInput.addEventListener('input', function () {
+    bgColorInput.disabled = bgTransparentInput.checked;
+  });
+
+  let dragTarget = null;
+  let dragOffsetX = 0;
+  let dragOffsetY = 0;
+
+  function getCanvasCoords(evt) {
+    const rect = canvas.getBoundingClientRect();
+    return {
+      x: (evt.clientX - rect.left) * (W / rect.width),
+      y: (evt.clientY - rect.top) * (H / rect.height)
+    };
+  }
+
+  function hitTest(px, py, rx, ry, rw, rh) {
+    return px >= rx && px <= rx + rw && py >= ry && py <= ry + rh;
+  }
+
+  canvas.style.touchAction = 'none';
+  canvas.style.cursor = 'grab';
+
+  canvas.addEventListener('pointerdown', function (e) {
+    const pt = getCanvasCoords(e);
+
+    if (document.getElementById('tagLeftEnabled').checked) {
+      const w = calcTagWidth(document.getElementById('tagLeftText').value);
+      if (hitTest(pt.x, pt.y, positions.tagLeft.x, positions.tagLeft.y, w, TAG_H)) {
+        dragTarget = 'tagLeft';
+        dragOffsetX = pt.x - positions.tagLeft.x;
+        dragOffsetY = pt.y - positions.tagLeft.y;
+        canvas.setPointerCapture(e.pointerId);
+        return;
+      }
+    }
+
+    if (document.getElementById('tagRightEnabled').checked) {
+      const w = calcTagWidth(document.getElementById('tagRightText').value);
+      if (hitTest(pt.x, pt.y, positions.tagRight.x, positions.tagRight.y, w, TAG_H)) {
+        dragTarget = 'tagRight';
+        dragOffsetX = pt.x - positions.tagRight.x;
+        dragOffsetY = pt.y - positions.tagRight.y;
+        canvas.setPointerCapture(e.pointerId);
+        return;
+      }
+    }
+
+    if (document.getElementById('bannerEnabled').checked) {
+      if (hitTest(pt.x, pt.y, positions.banner.x, positions.banner.y, BANNER_W, BANNER_H)) {
+        dragTarget = 'banner';
+        dragOffsetX = pt.x - positions.banner.x;
+        dragOffsetY = pt.y - positions.banner.y;
+        canvas.setPointerCapture(e.pointerId);
+        return;
+      }
+    }
+  });
+
+  canvas.addEventListener('pointermove', function (e) {
+    if (!dragTarget) return;
+    const pt = getCanvasCoords(e);
+    const nx = Math.max(0, Math.min(W, pt.x - dragOffsetX));
+    const ny = Math.max(0, Math.min(H, pt.y - dragOffsetY));
+    positions[dragTarget].x = nx;
+    positions[dragTarget].y = ny;
+    drawOverlay();
+  });
+
+  canvas.addEventListener('pointerup', function () {
+    dragTarget = null;
+  });
+  canvas.addEventListener('pointerleave', function () {
+    dragTarget = null;
+  });
+
+  document.getElementById('resetPositionsBtn').addEventListener('click', function () {
+    positions = defaultPositions();
+    drawOverlay();
+  });
+
+  const overlayInputs = document.querySelectorAll('.overlay-controls input');
+  overlayInputs.forEach(function (input) {
+    input.addEventListener('input', function () {
+      if (input.id === 'bannerOpacity') {
+        document.getElementById('bannerOpacityVal').textContent = input.value;
+      }
+      drawOverlay();
+    });
+  });
+
+  document.getElementById('downloadOverlayBtn').addEventListener('click', function () {
+    const link = document.createElement('a');
+    link.download = 'overlay-youtube.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  });
+
+  drawOverlay();
+</script>
+</body>
+</html>

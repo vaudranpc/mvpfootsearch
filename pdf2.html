@@ -5,16 +5,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Texte vers PDF</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="header.js"></script>
 <style>
   * { box-sizing: border-box; }
   body {
     font-family: Arial, Helvetica, sans-serif;
     background: #f4f5f7;
     margin: 0;
-    padding: 40px 20px;
+    padding: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+  .page {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
   }
   .container {
     background: #fff;
@@ -35,7 +43,7 @@
     margin-bottom: 6px;
     font-weight: bold;
     color: #333;
-    font-size: 14px;
+    font-size: 13px;
   }
   input[type="text"] {
     width: 100%;
@@ -56,7 +64,6 @@
     font-family: inherit;
   }
   button {
-    margin-top: 20px;
     background: #2563eb;
     color: #fff;
     border: none;
@@ -77,17 +84,21 @@
 </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Texte vers PDF</h1>
+  <div id="header-container" style="align-self: stretch; width: 100%;"></div>
 
-    <label for="pdfTitle">Titre du document (optionnel)</label>
-    <input type="text" id="pdfTitle" placeholder="Ex: Mon document">
+  <div class="page">
+    <div class="container">
+      <h1>Texte vers PDF</h1>
 
-    <label for="pdfText">Colle ou écris ton texte ici</label>
-    <textarea id="pdfText" placeholder="Écris ton texte ici..."></textarea>
+      <label for="pdfTitle">Titre du document (optionnel)</label>
+      <input type="text" id="pdfTitle" placeholder="Ex: Mon document">
 
-    <button id="downloadBtn">Télécharger en PDF</button>
-    <div class="hint">Le fichier sera téléchargé au format PDF (A4).</div>
+      <label for="pdfText">Colle ou écris ton texte ici</label>
+      <textarea id="pdfText" placeholder="Écris ton texte ici..."></textarea>
+
+      <button id="downloadBtn">Télécharger en PDF</button>
+      <div class="hint">Le fichier sera téléchargé au format PDF (A4).</div>
+    </div>
   </div>
 
 <script>

@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Webcam PIP</title>
+<script src="header.js"></script>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f5f7;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .page {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+  }
+  .container {
+    background: #fff;
+    width: 100%;
+    max-width: 1100px;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+  h1 {
+    margin-top: 0;
+    font-size: 22px;
+    color: #222;
+  }
+  h2 {
+    font-size: 16px;
+    color: #222;
+    margin: 0 0 12px;
+  }
+  label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 6px;
+    font-weight: bold;
+    color: #333;
+    font-size: 13px;
+  }
+  input[type="text"], select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+  input[type="color"] {
+    width: 100%;
+    height: 38px;
+    padding: 2px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  input[type="range"] {
+    width: 100%;
+  }
+  button {
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    padding: 12px 22px;
+    border-radius: 6px;
+    font-size: 15px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  button:hover {
+    background: #1d4ed8;
+  }
+  .hint {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #777;
+  }
+  .overlay-layout {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+  .overlay-controls {
+    flex: 1 1 320px;
+    min-width: 300px;
+  }
+  .overlay-preview {
+    flex: 1 1 420px;
+    min-width: 300px;
+  }
+  fieldset {
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 14px 16px 18px;
+    margin: 0 0 18px;
+  }
+  legend {
+    font-weight: bold;
+    font-size: 14px;
+    padding: 0 6px;
+    color: #222;
+  }
+  .checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 6px;
+  }
+  .checkbox-row label {
+    margin: 0;
+    font-weight: bold;
+  }
+  .row-2 {
+    display: flex;
+    gap: 12px;
+  }
+  .row-2 > div {
+    flex: 1;
+  }
+  #wcCanvas {
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
+    background-color: #fff;
+    background-image:
+      linear-gradient(45deg, #ccc 25%, transparent 25%),
+      linear-gradient(-45deg, #ccc 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #ccc 75%),
+      linear-gradient(-45deg, transparent 75%, #ccc 75%);
+    background-size: 20px 20px;
+    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+    border: 1px solid #ddd;
+  }
+</style>
+</head>
+<body>
+  <div id="header-container" style="align-self: stretch; width: 100%;"></div>
+
+  <div class="page">
+    <div class="container">
+      <h1>Webcam PIP</h1>
+
+      <div class="overlay-layout">
+
+        <div class="overlay-controls">
+
+          <fieldset>
+            <legend>Fond de l'image</legend>
+            <div class="checkbox-row">
+              <input type="checkbox" id="wcBgTransparent" checked>
+              <label for="wcBgTransparent">Fond transparent</label>
+            </div>
+            <label for="wcBgColor">Couleur de fond (si non transparent)</label>
+            <input type="color" id="wcBgColor" value="#000000" disabled>
+          </fieldset>
+
+          <fieldset>
+            <legend>Cadre webcam</legend>
+            <div class="checkbox-row">
+              <input type="checkbox" id="wcFrameEnabled" checked>
+              <label for="wcFrameEnabled">Afficher</label>
+            </div>
+            <label for="wcImage">Image (webcam)</label>
+            <input type="file" id="wcImage" accept="image/*">
+            <div class="row-2">
+              <div>
+                <label for="wcFillColor">Couleur si pas d'image</label>
+                <input type="color" id="wcFillColor" value="#333333">
+              </div>
+              <div>
+                <label for="wcBorderColor">Couleur de bordure</label>
+                <input type="color" id="wcBorderColor" value="#ffffff">
+              </div>
+            </div>
+            <label for="wcBorderWidth">Épaisseur de bordure (<span id="wcBorderWidthVal">4</span>px)</label>
+            <input type="range" id="wcBorderWidth" min="0" max="20" value="4">
+            <label for="wcRadius">Rayon des coins (<span id="wcRadiusVal">24</span>px)</label>
+            <input type="range" id="wcRadius" min="0" max="240" value="24">
+          </fieldset>
+
+          <fieldset>
+            <legend>Étiquette de nom</legend>
+            <div class="checkbox-row">
+              <input type="checkbox" id="wcTagEnabled" checked>
+              <label for="wcTagEnabled">Afficher</label>
+            </div>
+            <label for="wcTagText">Nom</label>
+            <input type="text" id="wcTagText" value="WILOO">
+            <div class="row-2">
+              <div>
+                <label for="wcTagBg">Fond étiquette</label>
+                <input type="color" id="wcTagBg" value="#ffffff">
+              </div>
+              <div>
+                <label for="wcTagColor">Texte étiquette</label>
+                <input type="color" id="wcTagColor" value="#111111">
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Police du texte</legend>
+            <select id="wcFont">
+              <option value="Arial, Helvetica, sans-serif">Arial</option>
+              <option value="'Arial Black', sans-serif">Arial Black</option>
+              <option value="Impact, sans-serif">Impact</option>
+              <option value="Verdana, sans-serif">Verdana</option>
+              <option value="'Trebuchet MS', sans-serif">Trebuchet MS</option>
+              <option value="Georgia, serif">Georgia</option>
+              <option value="'Courier New', monospace">Courier New</option>
+              <option value="'Comic Sans MS', sans-serif">Comic Sans MS</option>
+            </select>
+          </fieldset>
+
+          <div class="hint" style="margin-bottom:12px;">
+            🖱️ Glisse le cadre webcam et l'étiquette directement sur l'aperçu.
+            Glisse le petit rond bleu en bas à droite du cadre pour le redimensionner.
+          </div>
+
+          <button id="wcResetBtn" style="background:#6b7280; margin-right:10px;">Réinitialiser les positions</button>
+          <button id="wcDownloadBtn">Télécharger en PNG (1920×1080)</button>
+          <div class="hint">Fond transparent : superpose ce PNG sur un enregistrement d'écran ou une vidéo dans ton logiciel de montage.</div>
+        </div>
+
+        <div class="overlay-preview">
+          <h2>Aperçu</h2>
+          <canvas id="wcCanvas" width="1920" height="1080"></canvas>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+<script>
+  const canvas = document.getElementById('wcCanvas');
+  const W = canvas.width;
+  const H = canvas.height;
+  const TAG_H = 74;
+  const HANDLE_SIZE = 28;
+  const HANDLE_HIT = 44;
+
+  function roundRectPath(c, x, y, w, h, r) {
+    c.beginPath();
+    c.moveTo(x + r, y);
+    c.arcTo(x + w, y, x + w, y + h, r);
+    c.arcTo(x + w, y + h, x, y + h, r);
+    c.arcTo(x, y + h, x, y, r);
+    c.arcTo(x, y, x + w, y, r);
+    c.closePath();
+  }
+
+  function hitTest(px, py, rx, ry, rw, rh) {
+    return px >= rx && px <= rx + rw && py >= ry && py <= ry + rh;
+  }
+
+  const wcCanvas = canvas;
+  const wctx = wcCanvas.getContext('2d');
+
+  function wcCalcTagWidth(text, font) {
+    wctx.font = "bold 32px " + font;
+    const tw = wctx.measureText((text || 'NOM').toUpperCase()).width;
+    const paddingX = 45;
+    return Math.max(tw + paddingX * 2, 170);
+  }
+
+  function wcDefaultState() {
+    const w = 480;
+    const h = 420;
+    const frame = { x: W - w + 40, y: -40, w: w, h: h };
+    const tag = { x: frame.x, y: frame.y + frame.h - TAG_H };
+    return { frame: frame, tag: tag };
+  }
+
+  let wcState = wcDefaultState();
+  let wcImage = null;
+
+  function wcDrawFrame() {
+    const frame = wcState.frame;
+    const radius = parseInt(document.getElementById('wcRadius').value, 10);
+    const borderWidth = parseInt(document.getElementById('wcBorderWidth').value, 10);
+    const borderColor = document.getElementById('wcBorderColor').value;
+    const fillColor = document.getElementById('wcFillColor').value;
+
+    wctx.save();
+    roundRectPath(wctx, frame.x, frame.y, frame.w, frame.h, radius);
+    wctx.clip();
+    if (wcImage) {
+      const scale = Math.max(frame.w / wcImage.width, frame.h / wcImage.height);
+      const dw = wcImage.width * scale;
+      const dh = wcImage.height * scale;
+      const dx = frame.x + (frame.w - dw) / 2;
+      const dy = frame.y + (frame.h - dh) / 2;
+      wctx.drawImage(wcImage, dx, dy, dw, dh);
+    } else {
+      wctx.fillStyle = fillColor;
+      wctx.fillRect(frame.x, frame.y, frame.w, frame.h);
+    }
+    wctx.restore();
+
+    if (borderWidth > 0) {
+      roundRectPath(wctx, frame.x + borderWidth / 2, frame.y + borderWidth / 2, frame.w - borderWidth, frame.h - borderWidth, radius);
+      wctx.lineWidth = borderWidth;
+      wctx.strokeStyle = borderColor;
+      wctx.stroke();
+    }
+  }
+
+  function wcDrawTag() {
+    const text = document.getElementById('wcTagText').value;
+    const font = document.getElementById('wcFont').value;
+    const bg = document.getElementById('wcTagBg').value;
+    const color = document.getElementById('wcTagColor').value;
+    const tagWidth = wcCalcTagWidth(text, font);
+    const pos = wcState.tag;
+
+    roundRectPath(wctx, pos.x, pos.y, tagWidth, TAG_H, 14);
+    wctx.fillStyle = bg;
+    wctx.fill();
+
+    wctx.font = "bold 32px " + font;
+    wctx.fillStyle = color;
+    wctx.textAlign = 'center';
+    wctx.textBaseline = 'middle';
+    wctx.fillText((text || 'NOM').toUpperCase(), pos.x + tagWidth / 2, pos.y + TAG_H / 2 + 3);
+  }
+
+  function wcDrawHandle() {
+    const frame = wcState.frame;
+    const hx = frame.x + frame.w;
+    const hy = frame.y + frame.h;
+    wctx.fillStyle = 'rgba(37,99,235,0.9)';
+    wctx.beginPath();
+    wctx.arc(hx, hy, HANDLE_SIZE / 2, 0, Math.PI * 2);
+    wctx.fill();
+    wctx.strokeStyle = '#fff';
+    wctx.lineWidth = 2;
+    wctx.stroke();
+  }
+
+  function wcDraw(forExport) {
+    if (document.getElementById('wcBgTransparent').checked) {
+      wctx.clearRect(0, 0, W, H);
+    } else {
+      wctx.fillStyle = document.getElementById('wcBgColor').value;
+      wctx.fillRect(0, 0, W, H);
+    }
+
+    const frameOn = document.getElementById('wcFrameEnabled').checked;
+    const tagOn = document.getElementById('wcTagEnabled').checked;
+
+    if (frameOn) wcDrawFrame();
+    if (tagOn) wcDrawTag();
+    if (!forExport && frameOn) wcDrawHandle();
+  }
+
+  let wcDragTarget = null;
+  let wcDragOffsetX = 0;
+  let wcDragOffsetY = 0;
+  let wcResizeStart = null;
+
+  function wcGetCoords(evt) {
+    const rect = wcCanvas.getBoundingClientRect();
+    return {
+      x: (evt.clientX - rect.left) * (W / rect.width),
+      y: (evt.clientY - rect.top) * (H / rect.height)
+    };
+  }
+
+  wcCanvas.style.touchAction = 'none';
+  wcCanvas.style.cursor = 'grab';
+
+  wcCanvas.addEventListener('pointerdown', function (e) {
+    const pt = wcGetCoords(e);
+    const frameOn = document.getElementById('wcFrameEnabled').checked;
+    const tagOn = document.getElementById('wcTagEnabled').checked;
+    const font = document.getElementById('wcFont').value;
+
+    if (frameOn) {
+      const f = wcState.frame;
+      if (hitTest(pt.x, pt.y, f.x + f.w - HANDLE_HIT / 2, f.y + f.h - HANDLE_HIT / 2, HANDLE_HIT, HANDLE_HIT)) {
+        wcDragTarget = 'resize';
+        wcResizeStart = { w: f.w, h: f.h, x0: pt.x, y0: pt.y };
+        wcCanvas.setPointerCapture(e.pointerId);
+        return;
+      }
+    }
+
+    if (tagOn) {
+      const w = wcCalcTagWidth(document.getElementById('wcTagText').value, font);
+      if (hitTest(pt.x, pt.y, wcState.tag.x, wcState.tag.y, w, TAG_H)) {
+        wcDragTarget = 'tag';
+        wcDragOffsetX = pt.x - wcState.tag.x;
+        wcDragOffsetY = pt.y - wcState.tag.y;
+        wcCanvas.setPointerCapture(e.pointerId);
+        return;
+      }
+    }
+
+    if (frameOn) {
+      const f = wcState.frame;
+      if (hitTest(pt.x, pt.y, f.x, f.y, f.w, f.h)) {
+        wcDragTarget = 'frame';
+        wcDragOffsetX = pt.x - f.x;
+        wcDragOffsetY = pt.y - f.y;
+        wcCanvas.setPointerCapture(e.pointerId);
+        return;
+      }
+    }
+  });
+
+  wcCanvas.addEventListener('pointermove', function (e) {
+    if (!wcDragTarget) return;
+    const pt = wcGetCoords(e);
+
+    if (wcDragTarget === 'resize') {
+      const dx = pt.x - wcResizeStart.x0;
+      const dy = pt.y - wcResizeStart.y0;
+      wcState.frame.w = Math.max(120, wcResizeStart.w + dx);
+      wcState.frame.h = Math.max(120, wcResizeStart.h + dy);
+      wcDraw();
+      return;
+    }
+
+    const nx = pt.x - wcDragOffsetX;
+    const ny = pt.y - wcDragOffsetY;
+
+    if (wcDragTarget === 'frame') {
+      wcState.frame.x = Math.max(-wcState.frame.w + 60, Math.min(W - 60, nx));
+      wcState.frame.y = Math.max(-wcState.frame.h + 60, Math.min(H - 60, ny));
+    } else if (wcDragTarget === 'tag') {
+      wcState.tag.x = Math.max(0, Math.min(W, nx));
+      wcState.tag.y = Math.max(0, Math.min(H, ny));
+    }
+
+    wcDraw();
+  });
+
+  wcCanvas.addEventListener('pointerup', function () {
+    wcDragTarget = null;
+    wcResizeStart = null;
+  });
+  wcCanvas.addEventListener('pointerleave', function () {
+    wcDragTarget = null;
+    wcResizeStart = null;
+  });
+
+  document.getElementById('wcResetBtn').addEventListener('click', function () {
+    wcState = wcDefaultState();
+    wcDraw();
+  });
+
+  document.getElementById('wcImage').addEventListener('change', function (e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function (ev) {
+      const img = new Image();
+      img.onload = function () {
+        wcImage = img;
+        wcDraw();
+      };
+      img.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+
+  const wcBgTransparentInput = document.getElementById('wcBgTransparent');
+  const wcBgColorInput = document.getElementById('wcBgColor');
+  wcBgTransparentInput.addEventListener('input', function () {
+    wcBgColorInput.disabled = wcBgTransparentInput.checked;
+  });
+
+  const wcInputs = document.querySelectorAll('.overlay-controls input:not([type="file"]), .overlay-controls select');
+  wcInputs.forEach(function (input) {
+    input.addEventListener('input', function () {
+      if (input.id === 'wcBorderWidth') {
+        document.getElementById('wcBorderWidthVal').textContent = input.value;
+      }
+      if (input.id === 'wcRadius') {
+        document.getElementById('wcRadiusVal').textContent = input.value;
+      }
+      wcDraw();
+    });
+  });
+
+  document.getElementById('wcDownloadBtn').addEventListener('click', function () {
+    wcDraw(true);
+    const link = document.createElement('a');
+    link.download = 'webcam-pip.png';
+    link.href = wcCanvas.toDataURL('image/png');
+    link.click();
+    wcDraw(false);
+  });
+
+  wcDraw();
+</script>
+</body>
+</html>
