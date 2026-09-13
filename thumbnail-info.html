@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Miniature Info (16:9)</title>
+<script src="header.js"></script>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f5f7;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .page {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+  }
+  .container {
+    background: #fff;
+    width: 100%;
+    max-width: 1200px;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+  h1 {
+    margin-top: 0;
+    font-size: 22px;
+    color: #222;
+  }
+  h2 {
+    font-size: 16px;
+    color: #222;
+    margin: 0 0 12px;
+  }
+  label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 6px;
+    font-weight: bold;
+    color: #333;
+    font-size: 13px;
+  }
+  input[type="text"], textarea, select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: inherit;
+  }
+  textarea {
+    height: 80px;
+    resize: vertical;
+  }
+  input[type="color"] {
+    width: 100%;
+    height: 38px;
+    padding: 2px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  button {
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    padding: 12px 22px;
+    border-radius: 6px;
+    font-size: 15px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  button:hover {
+    background: #1d4ed8;
+  }
+  .hint {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #777;
+  }
+  .layout {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+  .controls {
+    flex: 1 1 340px;
+    min-width: 300px;
+  }
+  .preview {
+    flex: 1 1 500px;
+    min-width: 300px;
+  }
+  fieldset {
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 14px 16px 18px;
+    margin: 0 0 18px;
+  }
+  legend {
+    font-weight: bold;
+    font-size: 14px;
+    padding: 0 6px;
+    color: #222;
+  }
+  .checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .checkbox-row label {
+    margin: 0;
+    font-weight: bold;
+  }
+  .row-2 {
+    display: flex;
+    gap: 12px;
+  }
+  .row-2 > div {
+    flex: 1;
+  }
+  .radio-row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .radio-row label {
+    margin: 0;
+    font-weight: normal;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+  }
+  #thumbCanvas {
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    background: #111;
+  }
+  .style-fields {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed #e5e7eb;
+  }
+</style>
+</head>
+<body>
+  <div id="header-container" style="align-self: stretch; width: 100%;"></div>
+
+  <div class="page">
+    <div class="container">
+      <h1>Générateur de miniature — Actu / Info (16:9)</h1>
+
+      <div class="layout">
+
+        <div class="controls">
+
+          <fieldset>
+            <legend>Image de fond</legend>
+            <label for="bgImage">Choisir une image</label>
+            <input type="file" id="bgImage" accept="image/*">
+            <div class="hint">L'image est automatiquement recadrée pour remplir le cadre 16:9.</div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Logos &amp; étiquettes du haut</legend>
+            <label for="cornerLogoText">Logo / Catégorie (haut gauche)</label>
+            <input type="text" id="cornerLogoText" value="INFO">
+
+            <label for="topRightText">Étiquette supérieure droite (pilule)</label>
+            <input type="text" id="topRightText" value="PANEL">
+          </fieldset>
+
+          <fieldset>
+            <legend>Titre</legend>
+            <label for="titleText">Titre principal</label>
+            <textarea id="titleText">Le flou sur l'indépendance nuit-il à Christine Fréchette?</textarea>
+
+            <div class="radio-row">
+              <label><input type="radio" name="titleStyle" value="bottom" id="styleBottom" checked> Style Titre Bas (bandeau sombre + badge)</label>
+              <label><input type="radio" name="titleStyle" value="cutout" id="styleCutout"> Style Cartouches Centrés (blocs beige)</label>
+            </div>
+
+            <div id="bottomStyleFields" class="style-fields">
+              <div class="checkbox-row">
+                <input type="checkbox" id="themeBadgeEnabled" checked>
+                <label for="themeBadgeEnabled">Afficher le badge thématique</label>
+              </div>
+              <label for="themeBadgeText">Badge thématique</label>
+              <input type="text" id="themeBadgeText" value="ÉLECTIONS QUÉBEC 2026">
+              <div class="row-2">
+                <div>
+                  <label for="themeBadgeColor">Couleur du badge</label>
+                  <input type="color" id="themeBadgeColor" value="#d6127e">
+                </div>
+                <div>
+                  <label for="titleColor">Couleur du titre</label>
+                  <input type="color" id="titleColor" value="#ffffff">
+                </div>
+              </div>
+              <label for="themeBadgeSize">Taille du badge (<span id="themeBadgeSizeVal">22</span>px)</label>
+              <input type="range" id="themeBadgeSize" min="14" max="48" value="22">
+            </div>
+
+            <div id="cutoutStyleFields" class="style-fields" style="display:none;">
+              <div class="hint">💡 Utilise des retours à la ligne dans le titre pour choisir précisément la coupure de chaque bloc (ex : "Sous écoute" / "à" / "vendre?").</div>
+              <div class="row-2">
+                <div>
+                  <label for="cutoutBgColor">Couleur des cartouches</label>
+                  <input type="color" id="cutoutBgColor" value="#f0e6d3">
+                </div>
+                <div>
+                  <label for="cutoutTextColor">Couleur du texte</label>
+                  <input type="color" id="cutoutTextColor" value="#111111">
+                </div>
+              </div>
+            </div>
+          </fieldset>
+
+          <div class="hint" style="margin-bottom:12px;">🖱️ Glisse le logo, les pilules, le badge et le titre directement sur l'aperçu pour les positionner.</div>
+
+          <button id="resetPositionsBtn" style="background:#6b7280; margin-right:10px;">Réinitialiser les positions</button>
+          <button id="downloadBtn">Télécharger la miniature (PNG 1280×720)</button>
+        </div>
+
+        <div class="preview">
+          <h2>Aperçu</h2>
+          <canvas id="thumbCanvas" width="1280" height="720"></canvas>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+<script>
+  const canvas = document.getElementById('thumbCanvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width;
+  const H = canvas.height;
+
+  let bgImg = null;
+  const lastBoxes = {};
+
+  function roundRectPath(c, x, y, w, h, r) {
+    r = Math.min(r, w / 2, h / 2);
+    c.beginPath();
+    c.moveTo(x + r, y);
+    c.arcTo(x + w, y, x + w, y + h, r);
+    c.arcTo(x + w, y + h, x, y + h, r);
+    c.arcTo(x, y + h, x, y, r);
+    c.arcTo(x, y, x + w, y, r);
+    c.closePath();
+  }
+
+  function hitTest(px, py, box) {
+    return box && px >= box.x && px <= box.x + box.w && py >= box.y && py <= box.y + box.h;
+  }
+
+  function drawCoverImage(img) {
+    const scale = Math.max(W / img.width, H / img.height);
+    const dw = img.width * scale;
+    const dh = img.height * scale;
+    const dx = (W - dw) / 2;
+    const dy = (H - dh) / 2;
+    ctx.drawImage(img, dx, dy, dw, dh);
+  }
+
+  function wrapText(text, maxWidth) {
+    const words = text.split(/\s+/).filter(Boolean);
+    const lines = [];
+    let current = '';
+    words.forEach(function (word) {
+      const test = current ? current + ' ' + word : word;
+      if (ctx.measureText(test).width <= maxWidth || !current) {
+        current = test;
+      } else {
+        lines.push(current);
+        current = word;
+      }
+    });
+    if (current) lines.push(current);
+    return lines;
+  }
+
+  function fitTitle(text, maxWidth, maxLines, maxSize, minSize) {
+    for (let size = maxSize; size >= minSize; size -= 2) {
+      ctx.font = "bold " + size + "px Arial, Helvetica, sans-serif";
+      const lines = wrapText(text, maxWidth);
+      if (lines.length <= maxLines) {
+        return { lines: lines, size: size };
+      }
+    }
+    ctx.font = "bold " + minSize + "px Arial, Helvetica, sans-serif";
+    return { lines: wrapText(text, maxWidth), size: minSize };
+  }
+
+  function measureTitleBottom(text, maxWidth) {
+    const fit = fitTitle(text, maxWidth, 3, 52, 30);
+    const lineHeight = fit.size * 1.18;
+    const totalHeight = fit.lines.length * lineHeight;
+    ctx.font = "bold " + fit.size + "px Arial, Helvetica, sans-serif";
+    let widest = 0;
+    fit.lines.forEach(function (l) { widest = Math.max(widest, ctx.measureText(l).width); });
+    return { lines: fit.lines, size: fit.size, lineHeight: lineHeight, totalHeight: totalHeight, width: widest };
+  }
+
+  function measureLogoBox(label) {
+    ctx.font = "bold 20px Arial, Helvetica, sans-serif";
+    const textW = label ? ctx.measureText(label).width : 0;
+    const circleD = 34, gap = 10, paddingX = 14, pillH = 48;
+    const pillW = paddingX + circleD + (label ? gap + textW : 0) + paddingX;
+    return { w: pillW, h: pillH, circleD: circleD, gap: gap, paddingX: paddingX };
+  }
+
+  function measurePillBox(label) {
+    ctx.font = "bold 20px Arial, Helvetica, sans-serif";
+    const textW = ctx.measureText(label).width;
+    const paddingX = 22, h = 44;
+    return { w: textW + paddingX * 2, h: h };
+  }
+
+  function measureBadgeBox(label) {
+    const size = parseInt(document.getElementById('themeBadgeSize').value, 10);
+    ctx.font = "bold " + size + "px Arial, Helvetica, sans-serif";
+    const textW = ctx.measureText(label).width;
+    const paddingX = size * 0.9;
+    const h = size * 1.9;
+    return { w: textW + paddingX * 2, h: h, size: size };
+  }
+
+  function defaultState() {
+    const marginX = 48;
+    const titleText = document.getElementById('titleText').value.replace(/\n+/g, ' ').trim();
+    const tInfo = measureTitleBottom(titleText, W - marginX * 2);
+    const badgeLabel = document.getElementById('themeBadgeText').value.trim().toUpperCase() || ' ';
+    const badgeBox = measureBadgeBox(badgeLabel);
+    const pillLabel = document.getElementById('topRightText').value.trim().toUpperCase() || ' ';
+    const pillBox = measurePillBox(pillLabel);
+
+    const lastBaselineY = H - 55;
+    const firstBaselineY = lastBaselineY - (tInfo.lines.length - 1) * tInfo.lineHeight;
+    const titleTopY = firstBaselineY - tInfo.size;
+
+    return {
+      logo: { x: 24, y: 24 },
+      pill: { x: W - 24 - pillBox.w, y: 24 },
+      badge: { x: marginX, y: titleTopY - 6 - badgeBox.h },
+      titleBottom: { x: marginX, y: titleTopY },
+      titleCutout: { x: W / 2, y: H / 2 + 20 }
+    };
+  }
+
+  let state = defaultState();
+
+  function drawBackground() {
+    if (bgImg) {
+      drawCoverImage(bgImg);
+    } else {
+      const grad = ctx.createLinearGradient(0, 0, W, H);
+      grad.addColorStop(0, '#2a2a2e');
+      grad.addColorStop(1, '#111113');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, W, H);
+    }
+  }
+
+  function drawBottomGradient() {
+    const grad = ctx.createLinearGradient(0, H * 0.32, 0, H);
+    grad.addColorStop(0, 'rgba(0,0,0,0)');
+    grad.addColorStop(1, 'rgba(0,0,0,0.82)');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, H * 0.32, W, H * 0.68);
+  }
+
+  function drawThemeBadge() {
+    const label = document.getElementById('themeBadgeText').value.trim().toUpperCase();
+    if (!label) return;
+    const color = document.getElementById('themeBadgeColor').value;
+    const box = measureBadgeBox(label);
+    const anchor = state.badge;
+
+    roundRectPath(ctx, anchor.x, anchor.y, box.w, box.h, box.h / 2);
+    ctx.fillStyle = color;
+    ctx.fill();
+
+    ctx.fillStyle = '#ffffff';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.font = "bold " + box.size + "px Arial, Helvetica, sans-serif";
+    ctx.fillText(label, anchor.x + box.w / 2, anchor.y + box.h / 2 + 1);
+
+    lastBoxes.badge = { x: anchor.x, y: anchor.y, w: box.w, h: box.h };
+  }
+
+  function drawTitleBottomStyle() {
+    const marginX = 48;
+    const maxWidth = W - marginX * 2;
+    const titleText = document.getElementById('titleText').value.replace(/\n+/g, ' ').trim();
+    const titleColor = document.getElementById('titleColor').value;
+    const badgeEnabled = document.getElementById('themeBadgeEnabled').checked;
+    const anchor = state.titleBottom;
+
+    drawBottomGradient();
+
+    const info = measureTitleBottom(titleText, maxWidth);
+    const firstBaselineY = anchor.y + info.size;
+
+    ctx.font = "bold " + info.size + "px Arial, Helvetica, sans-serif";
+    ctx.fillStyle = titleColor;
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'alphabetic';
+    info.lines.forEach(function (line, i) {
+      ctx.fillText(line, anchor.x, firstBaselineY + i * info.lineHeight);
+    });
+
+    lastBoxes.titleBottom = { x: anchor.x, y: anchor.y, w: info.width, h: info.totalHeight };
+
+    if (badgeEnabled) {
+      drawThemeBadge();
+    } else {
+      lastBoxes.badge = null;
+    }
+  }
+
+  function drawCutoutTitleStyle() {
+    const bgColor = document.getElementById('cutoutBgColor').value;
+    const textColor = document.getElementById('cutoutTextColor').value;
+    const rawText = document.getElementById('titleText').value;
+    const maxWidth = W * 0.86;
+    const anchor = state.titleCutout;
+
+    let lines = rawText.split('\n').map(function (l) { return l.trim(); }).filter(Boolean);
+    if (lines.length <= 1) {
+      ctx.font = "bold 58px Arial, Helvetica, sans-serif";
+      lines = wrapText(rawText.trim(), W * 0.6);
+    }
+
+    let fontSize = 58;
+    ctx.font = "bold " + fontSize + "px Arial, Helvetica, sans-serif";
+    let widest = 0;
+    lines.forEach(function (l) { widest = Math.max(widest, ctx.measureText(l).width); });
+    while (widest > maxWidth - 60 && fontSize > 26) {
+      fontSize -= 2;
+      ctx.font = "bold " + fontSize + "px Arial, Helvetica, sans-serif";
+      widest = 0;
+      lines.forEach(function (l) { widest = Math.max(widest, ctx.measureText(l).width); });
+    }
+
+    const paddingX = 26;
+    const paddingY = 16;
+    const blockHeight = fontSize + paddingY * 2;
+    const gap = 6;
+    const totalHeight = lines.length * blockHeight + (lines.length - 1) * gap;
+    let widestBoxW = 0;
+    let y = anchor.y - totalHeight / 2;
+
+    ctx.font = "bold " + fontSize + "px Arial, Helvetica, sans-serif";
+    lines.forEach(function (line) {
+      const textW = ctx.measureText(line).width;
+      const boxW = textW + paddingX * 2;
+      const x = anchor.x - boxW / 2;
+      widestBoxW = Math.max(widestBoxW, boxW);
+
+      roundRectPath(ctx, x, y, boxW, blockHeight, 10);
+      ctx.fillStyle = bgColor;
+      ctx.fill();
+
+      ctx.fillStyle = textColor;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(line, x + boxW / 2, y + blockHeight / 2 + 2);
+
+      y += blockHeight + gap;
+    });
+
+    lastBoxes.titleCutout = { x: anchor.x - widestBoxW / 2, y: anchor.y - totalHeight / 2, w: widestBoxW, h: totalHeight };
+  }
+
+  function drawTopLeftLogo() {
+    const label = document.getElementById('cornerLogoText').value.trim().toUpperCase();
+    const box = measureLogoBox(label);
+    const anchor = state.logo;
+
+    roundRectPath(ctx, anchor.x, anchor.y, box.w, box.h, box.h / 2);
+    ctx.fillStyle = 'rgba(0,0,0,0.5)';
+    ctx.fill();
+
+    const circleCx = anchor.x + box.paddingX + box.circleD / 2;
+    const circleCy = anchor.y + box.h / 2;
+    ctx.beginPath();
+    ctx.arc(circleCx, circleCy, box.circleD / 2, 0, Math.PI * 2);
+    ctx.fillStyle = '#ffffff';
+    ctx.fill();
+
+    ctx.fillStyle = '#e4002b';
+    ctx.font = "bold 20px Georgia, 'Times New Roman', serif";
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('i', circleCx, circleCy + 1);
+
+    if (label) {
+      ctx.fillStyle = '#ffffff';
+      ctx.font = "bold 20px Arial, Helvetica, sans-serif";
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(label, circleCx + box.circleD / 2 + box.gap, circleCy + 1);
+    }
+
+    lastBoxes.logo = { x: anchor.x, y: anchor.y, w: box.w, h: box.h };
+  }
+
+  function drawTopRightPill() {
+    const label = document.getElementById('topRightText').value.trim().toUpperCase();
+    if (!label) {
+      lastBoxes.pill = null;
+      return;
+    }
+
+    const box = measurePillBox(label);
+    const anchor = state.pill;
+
+    roundRectPath(ctx, anchor.x, anchor.y, box.w, box.h, box.h / 2);
+    ctx.fillStyle = '#ffffff';
+    ctx.fill();
+
+    ctx.fillStyle = '#111111';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.font = "bold 20px Arial, Helvetica, sans-serif";
+    ctx.fillText(label, anchor.x + box.w / 2, anchor.y + box.h / 2 + 1);
+
+    lastBoxes.pill = { x: anchor.x, y: anchor.y, w: box.w, h: box.h };
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    drawBackground();
+
+    const style = document.querySelector('input[name="titleStyle"]:checked').value;
+    if (style === 'bottom') {
+      drawTitleBottomStyle();
+      lastBoxes.titleCutout = null;
+    } else {
+      drawCutoutTitleStyle();
+      lastBoxes.titleBottom = null;
+      lastBoxes.badge = null;
+    }
+
+    drawTopLeftLogo();
+    drawTopRightPill();
+  }
+
+  document.getElementById('bgImage').addEventListener('change', function (e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function (ev) {
+      const img = new Image();
+      img.onload = function () {
+        bgImg = img;
+        draw();
+      };
+      img.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+
+  function updateStyleFieldsVisibility() {
+    const style = document.querySelector('input[name="titleStyle"]:checked').value;
+    document.getElementById('bottomStyleFields').style.display = style === 'bottom' ? 'block' : 'none';
+    document.getElementById('cutoutStyleFields').style.display = style === 'cutout' ? 'block' : 'none';
+  }
+
+  document.querySelectorAll('input[name="titleStyle"]').forEach(function (radio) {
+    radio.addEventListener('change', function () {
+      updateStyleFieldsVisibility();
+      draw();
+    });
+  });
+
+  const allInputs = document.querySelectorAll('.controls input:not([type="file"]), .controls textarea, .controls select');
+  allInputs.forEach(function (input) {
+    input.addEventListener('input', function () {
+      if (input.id === 'themeBadgeSize') {
+        document.getElementById('themeBadgeSizeVal').textContent = input.value;
+      }
+      draw();
+    });
+  });
+
+  document.getElementById('resetPositionsBtn').addEventListener('click', function () {
+    state = defaultState();
+    draw();
+  });
+
+  document.getElementById('downloadBtn').addEventListener('click', function () {
+    const link = document.createElement('a');
+    link.download = 'miniature-info.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  });
+
+  /* ---- Drag & drop des éléments sur l'aperçu ---- */
+  let dragTarget = null;
+  let dragOffsetX = 0;
+  let dragOffsetY = 0;
+  let dragIsCenterAnchor = false;
+
+  function getCanvasCoords(evt) {
+    const rect = canvas.getBoundingClientRect();
+    return {
+      x: (evt.clientX - rect.left) * (W / rect.width),
+      y: (evt.clientY - rect.top) * (H / rect.height)
+    };
+  }
+
+  canvas.style.touchAction = 'none';
+  canvas.style.cursor = 'grab';
+
+  canvas.addEventListener('pointerdown', function (e) {
+    const pt = getCanvasCoords(e);
+    const style = document.querySelector('input[name="titleStyle"]:checked').value;
+
+    const candidates = [
+      { key: 'logo', anchor: state.logo, box: lastBoxes.logo, center: false },
+      { key: 'pill', anchor: state.pill, box: lastBoxes.pill, center: false },
+      { key: 'badge', anchor: state.badge, box: lastBoxes.badge, center: false }
+    ];
+    if (style === 'bottom') {
+      candidates.push({ key: 'titleBottom', anchor: state.titleBottom, box: lastBoxes.titleBottom, center: false });
+    } else {
+      candidates.push({ key: 'titleCutout', anchor: state.titleCutout, box: lastBoxes.titleCutout, center: true });
+    }
+
+    for (let i = 0; i < candidates.length; i++) {
+      const c = candidates[i];
+      if (hitTest(pt.x, pt.y, c.box)) {
+        dragTarget = c.key;
+        dragIsCenterAnchor = c.center;
+        dragOffsetX = pt.x - c.anchor.x;
+        dragOffsetY = pt.y - c.anchor.y;
+        canvas.setPointerCapture(e.pointerId);
+        return;
+      }
+    }
+  });
+
+  canvas.addEventListener('pointermove', function (e) {
+    if (!dragTarget) return;
+    const pt = getCanvasCoords(e);
+    const nx = Math.max(0, Math.min(W, pt.x - dragOffsetX));
+    const ny = Math.max(0, Math.min(H, pt.y - dragOffsetY));
+    state[dragTarget].x = nx;
+    state[dragTarget].y = ny;
+    draw();
+  });
+
+  canvas.addEventListener('pointerup', function () {
+    dragTarget = null;
+  });
+  canvas.addEventListener('pointerleave', function () {
+    dragTarget = null;
+  });
+
+  updateStyleFieldsVisibility();
+  draw();
+</script>
+</body>
+</html>
