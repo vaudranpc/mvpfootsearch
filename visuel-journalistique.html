@@ -1,0 +1,1666 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Studio Bulletin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600&family=Inter:wght@400;500;600;700;800;900&family=Montserrat:wght@400;600;700;800;900&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f2f1ec;
+    --panel:#ffffff;
+    --ink:#141412;
+    --ink-soft:#5c5b54;
+    --line:#dedcd2;
+    --accent:#f5c400;
+    --accent-ink:#141412;
+    --signal:#e00000;
+    --focus:#2b56d6;
+    --stage-bg:#0e0e0c;
+    --stage-bg-2:#1c1c18;
+    --readout-text:#ece9df;
+    --readout-muted:#8f8d82;
+    --font-display:'Barlow Condensed',"Arial Narrow",Arial,sans-serif;
+    --font-body:'Inter',Arial,Helvetica,sans-serif;
+    --font-mono:'IBM Plex Mono','Courier New',monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#141412;
+      --panel:#1c1c19;
+      --ink:#f1efe6;
+      --ink-soft:#a6a398;
+      --line:#38372f;
+      --accent:#f5c400;
+      --accent-ink:#141412;
+      --signal:#ff4b3e;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#141412;
+    --panel:#1c1c19;
+    --ink:#f1efe6;
+    --ink-soft:#a6a398;
+    --line:#38372f;
+    --accent:#f5c400;
+    --accent-ink:#141412;
+    --signal:#ff4b3e;
+  }
+  *{ box-sizing:border-box; }
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--font-body);
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{ margin:0; font-family:var(--font-display); font-weight:800; text-wrap:balance; }
+  button{ font-family:inherit; }
+  ::selection{ background:var(--accent); color:var(--accent-ink); }
+  a{ color:inherit; }
+
+  .app{ min-height:100vh; }
+
+  /* ---------- BARRE SUPÉRIEURE ---------- */
+  .topbar{
+    display:flex; align-items:baseline; justify-content:space-between; gap:16px; flex-wrap:wrap;
+    padding:16px clamp(16px,3vw,40px);
+    border-bottom:1px solid var(--line);
+  }
+  .brand{ font-family:var(--font-display); font-size:22px; font-weight:800; letter-spacing:.01em; }
+  .brand em{ font-style:normal; color:var(--ink-soft); font-weight:600; }
+  .brand .dot{ color:var(--accent); }
+  .topbar-meta{ font-family:var(--font-mono); font-size:11px; letter-spacing:.06em; color:var(--ink-soft); text-transform:uppercase; }
+
+  /* ---------- STRUCTURE PRINCIPALE ---------- */
+  .workspace{ display:grid; grid-template-columns:380px 1fr; }
+  @media (max-width:960px){ .workspace{ grid-template-columns:1fr; } }
+
+  /* ---------- PANNEAU DE FORMULAIRE ---------- */
+  .panel{
+    border-right:1px solid var(--line);
+    padding:4px clamp(16px,2.4vw,28px) 80px;
+    height:calc(100vh - 61px);
+    overflow-y:auto;
+    position:sticky; top:61px;
+    counter-reset:section;
+  }
+  @media (max-width:960px){
+    .panel{ position:static; height:auto; border-right:none; border-bottom:1px solid var(--line); order:1; }
+    .stage-wrap{ order:2; }
+  }
+
+  .field-group{ border-bottom:1px solid var(--line); padding:16px 0; counter-increment:section; }
+  .field-group:last-of-type{ border-bottom:none; }
+  .field-group summary{
+    display:flex; align-items:center; gap:10px;
+    cursor:pointer; list-style:none; user-select:none;
+    font-family:var(--font-display); font-size:17px; font-weight:800; letter-spacing:.01em;
+    padding:6px 0;
+  }
+  .field-group summary::-webkit-details-marker{ display:none; }
+  .field-group summary::before{
+    content:counter(section,decimal-leading-zero);
+    font-family:var(--font-mono); font-size:11px; font-weight:600; color:var(--ink-soft);
+    border:1px solid var(--line); border-radius:2px; padding:2px 5px; letter-spacing:.02em;
+  }
+  .field-group summary::after{
+    content:'—'; margin-left:auto; color:var(--ink-soft); font-family:var(--font-mono);
+    transition:transform .15s ease;
+  }
+  .field-group:not([open]) summary::after{ content:'+'; }
+  .field-group-body{ padding-top:12px; display:flex; flex-direction:column; gap:12px; }
+
+  label{
+    display:block; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.05em;
+    color:var(--ink-soft); margin-bottom:6px;
+  }
+  .field{ display:flex; flex-direction:column; }
+  .field-row{ display:flex; gap:10px; }
+  .field-row > .field{ flex:1; min-width:0; }
+
+  input[type="text"], input[type="search"], textarea, select{
+    width:100%; padding:9px 10px; border:1px solid var(--line); border-radius:3px;
+    background:var(--panel); color:var(--ink); font:500 13.5px/1.4 var(--font-body);
+  }
+  input[type="text"]:focus, textarea:focus, select:focus{ outline:2px solid var(--focus); outline-offset:1px; }
+  textarea{ resize:vertical; min-height:56px; }
+
+  .range-field{ display:flex; align-items:center; gap:10px; }
+  .range-field input[type="range"]{ flex:1; accent-color:var(--ink); }
+  .range-readout{ font-family:var(--font-mono); font-size:11px; color:var(--ink-soft); min-width:44px; text-align:right; }
+
+  .swatch-row{ display:flex; align-items:center; gap:8px; }
+  input[type="color"]{ width:36px; height:32px; padding:0; border:1px solid var(--line); border-radius:3px; background:none; cursor:pointer; }
+  .swatch-hint{ font-size:11px; color:var(--ink-soft); }
+  .swatch-alt{
+    border:1px solid var(--line); background:var(--panel); border-radius:3px; padding:4px 8px;
+    font:600 10.5px var(--font-mono); letter-spacing:.03em; cursor:pointer; color:var(--ink-soft);
+  }
+  .swatch-alt:hover{ border-color:var(--ink-soft); color:var(--ink); }
+
+  .chip-grid{ display:flex; flex-wrap:wrap; gap:6px; }
+  .chip{
+    border:1px solid var(--line); background:var(--panel); color:var(--ink-soft);
+    padding:7px 11px; font:600 11.5px var(--font-body); letter-spacing:.03em; text-transform:uppercase;
+    border-radius:3px; cursor:pointer;
+  }
+  .chip:hover{ border-color:var(--ink-soft); color:var(--ink); }
+  .chip.is-active{ background:var(--ink); border-color:var(--ink); color:var(--paper); }
+  .chip-format{ display:flex; flex-direction:column; align-items:flex-start; gap:2px; padding:9px 12px; text-transform:none; }
+  .chip-format b{ font:700 12px var(--font-body); letter-spacing:.01em; }
+  .chip-format span{ font:600 10px var(--font-mono); color:var(--ink-soft); letter-spacing:.03em; }
+  .chip-format.is-active span{ color:var(--paper); opacity:.75; }
+
+  .template-grid{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .template-card{
+    position:relative; border:1px solid var(--line); background:var(--panel); border-radius:3px;
+    padding:0; display:block;
+  }
+  .template-card.is-active{ border-color:var(--ink); }
+  .template-apply{
+    all:unset; box-sizing:border-box; display:flex; flex-direction:column; gap:3px;
+    width:100%; padding:10px 28px 10px 11px; text-align:left; cursor:pointer;
+  }
+  .template-apply:hover{ background:var(--paper); }
+  .template-apply b{ font:700 12.5px var(--font-body); }
+  .template-apply span{ font-size:10.5px; color:var(--ink-soft); line-height:1.35; }
+  .template-edit{
+    position:absolute; top:6px; right:6px; width:20px; height:20px; line-height:18px;
+    border:1px solid var(--line); background:var(--panel); border-radius:3px; padding:0;
+    font-size:11px; color:var(--ink-soft); cursor:pointer;
+  }
+  .template-edit:hover{ color:var(--ink); border-color:var(--ink-soft); }
+  .template-add{
+    border:1px dashed var(--line); background:transparent; border-radius:3px;
+    display:flex; align-items:center; justify-content:center; min-height:52px;
+    font:700 11.5px var(--font-body); color:var(--ink-soft); cursor:pointer; text-align:center;
+  }
+  .template-add:hover{ border-color:var(--ink-soft); color:var(--ink); }
+  .template-editor{
+    margin-top:10px; border:1px solid var(--line); border-radius:3px; padding:12px;
+    display:flex; flex-direction:column; gap:10px; background:var(--paper);
+  }
+
+  .checkbox-field{ display:flex; align-items:center; gap:8px; }
+  .checkbox-field label{ margin:0; }
+  input[type="checkbox"]{ width:16px; height:16px; accent-color:var(--ink); }
+
+  .element-add-grid{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; }
+  .element-add-grid button{
+    border:1px solid var(--line); background:var(--panel); color:var(--ink-soft);
+    padding:9px 4px; font:600 10.5px var(--font-body); letter-spacing:.02em; border-radius:3px; cursor:pointer;
+  }
+  .element-add-grid button:hover{ border-color:var(--ink); color:var(--ink); }
+  .element-list{ display:flex; flex-direction:column; gap:4px; }
+  .element-row{
+    display:flex; align-items:center; justify-content:space-between; gap:8px;
+    border:1px solid var(--line); border-radius:3px; padding:6px 8px; font-size:12.5px; cursor:pointer;
+  }
+  .element-row.is-selected{ border-color:var(--ink); background:var(--panel); }
+  .element-row-label{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .element-row-controls{ display:flex; align-items:center; gap:6px; flex-shrink:0; }
+  .element-row-controls input[type="color"]{ width:24px; height:24px; }
+  .element-value-input{ width:38px; padding:4px 5px; font-size:12px; text-align:center; }
+  .element-del{ border:none; background:none; color:var(--ink-soft); font-size:16px; line-height:1; cursor:pointer; padding:0 2px; }
+  .element-del:hover{ color:var(--signal); }
+  .muted{ color:var(--ink-soft); font-size:12px; }
+
+  /* ---------- ZONE DE SCÈNE ---------- */
+  .stage-wrap{ display:flex; flex-direction:column; min-height:calc(100vh - 61px); }
+  .stage-toolbar{
+    display:flex; flex-wrap:wrap; align-items:center; gap:8px;
+    padding:14px clamp(16px,3vw,40px); border-bottom:1px solid var(--line);
+  }
+  .stage-toolbar .sep{ width:1px; align-self:stretch; background:var(--line); margin:2px 4px; }
+
+  .stage-readout{
+    display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+    padding:9px clamp(16px,3vw,40px);
+    background:var(--stage-bg); color:var(--readout-text);
+    font-family:var(--font-mono); font-size:11.5px; letter-spacing:.05em;
+  }
+  .tally{ width:7px; height:7px; border-radius:50%; background:var(--signal); animation:pulse 1.8s ease-in-out infinite; flex-shrink:0; }
+  @media (prefers-reduced-motion:reduce){ .tally{ animation:none; } }
+  @keyframes pulse{ 0%,100%{ opacity:1; } 50%{ opacity:.35; } }
+  .stage-readout .rd-sep{ color:var(--readout-muted); }
+  .stage-readout .rd-muted{ color:var(--readout-muted); }
+  .stage-readout .rd-fill{ flex:1; }
+
+  .canvas-frame{
+    flex:1; display:flex; align-items:center; justify-content:center;
+    padding:clamp(18px,4vw,48px);
+    background:radial-gradient(130% 150% at 50% 0%, var(--stage-bg-2) 0%, var(--stage-bg) 62%);
+  }
+  #stage{ max-width:100%; max-height:64vh; width:auto; height:auto; display:block; box-shadow:0 22px 55px rgba(0,0,0,.4); touch-action:none; cursor:default; background:#000; }
+
+  .export-bar{
+    display:flex; flex-wrap:wrap; gap:12px; align-items:center;
+    padding:18px clamp(16px,3vw,40px) 30px; border-top:1px solid var(--line);
+  }
+  .btn{
+    border:1px solid var(--ink); background:var(--panel); color:var(--ink);
+    padding:13px 20px; font:700 12.5px var(--font-body); letter-spacing:.04em; text-transform:uppercase;
+    border-radius:3px; cursor:pointer;
+  }
+  .btn:hover{ background:var(--ink); color:var(--paper); }
+  .btn-accent{ background:var(--accent); border-color:var(--accent); color:var(--accent-ink); }
+  .btn-accent:hover{ background:var(--ink); border-color:var(--ink); color:var(--paper); }
+  .btn-dark{ background:var(--ink); color:var(--paper); }
+  .btn-ghost{ border-color:var(--line); color:var(--ink-soft); }
+  .btn-ghost:hover{ background:var(--panel); color:var(--ink); border-color:var(--ink-soft); }
+  .export-note{ font-size:11px; color:var(--ink-soft); flex-basis:100%; }
+
+  @media (max-width:960px){
+    #stage{ max-height:56vh; }
+  }
+</style>
+<script src="header.js"></script>
+</head>
+<body>
+<div id="header-container"></div>
+<div class="app">
+  <header class="topbar">
+    <div class="brand">STUDIO <span class="dot">·</span> <em>BULLETIN</em></div>
+    <div class="topbar-meta">Atelier de visuels d'actualité — sans serveur, 100% navigateur</div>
+  </header>
+
+  <div class="workspace">
+    <!-- ============ PANNEAU DE CRÉATION ============ -->
+    <aside class="panel" id="panel">
+
+      <details class="field-group" open>
+        <summary>Modèles</summary>
+        <div class="field-group-body">
+          <div class="template-grid" id="templateGrid"></div>
+          <div class="template-editor" id="templateEditor" hidden>
+            <div class="field">
+              <label for="teLabel">Nom du modèle</label>
+              <input type="text" id="teLabel">
+            </div>
+            <div class="field">
+              <label for="teDesc">Description courte</label>
+              <input type="text" id="teDesc">
+            </div>
+            <div class="chip-grid">
+              <button class="chip" id="teSaveCurrent">Enregistrer le canevas actuel ici</button>
+              <button class="chip" id="teReset">Valeurs d'origine</button>
+              <button class="chip" id="teDelete">Supprimer</button>
+              <button class="chip" id="teClose">Fermer</button>
+            </div>
+          </div>
+          <p class="muted">Clique « ✎ » sur un modèle pour le renommer ou y enregistrer le canevas actuel. « + Nouveau modèle » crée un modèle personnalisé à partir de ce qui est affiché.</p>
+        </div>
+      </details>
+
+      <details class="field-group" open>
+        <summary>Format</summary>
+        <div class="field-group-body">
+          <div class="chip-grid">
+            <button class="chip chip-format" data-group="formatKey" data-value="yt"><b>Miniature YouTube</b><span>1280 × 720</span></button>
+            <button class="chip chip-format" data-group="formatKey" data-value="ig-square"><b>Instagram carré</b><span>1080 × 1080</span></button>
+            <button class="chip chip-format" data-group="formatKey" data-value="ig-portrait"><b>Instagram portrait</b><span>1080 × 1350</span></button>
+            <button class="chip chip-format" data-group="formatKey" data-value="fb"><b>Facebook</b><span>1200 × 630</span></button>
+            <button class="chip chip-format" data-group="formatKey" data-value="x"><b>X / Twitter</b><span>1600 × 900</span></button>
+            <button class="chip chip-format" data-group="formatKey" data-value="story"><b>Story</b><span>1080 × 1920</span></button>
+          </div>
+          <div id="thumbStyleRow" hidden>
+            <label style="margin-top:4px;">Composition de la miniature</label>
+            <div class="chip-grid">
+              <button class="chip" data-group="thumbStyle" data-value="1">Style 1 · Titre à gauche</button>
+              <button class="chip" data-group="thumbStyle" data-value="2">Style 2 · Plein écran</button>
+              <button class="chip" data-group="thumbStyle" data-value="3">Style 3 · Mot-clé jaune</button>
+              <button class="chip" data-group="thumbStyle" data-value="4">Style 4 · Bloc éditorial</button>
+              <button class="chip" data-group="thumbStyle" data-value="5">Style 5 · Minimal centré</button>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <details class="field-group" open>
+        <summary>Contenu</summary>
+        <div class="field-group-body">
+          <div class="field">
+            <label for="fTitle">Titre principal</label>
+            <textarea id="fTitle" data-bind="content.title" rows="2"></textarea>
+          </div>
+          <div class="field">
+            <label for="fSubtitle">Sous-titre</label>
+            <textarea id="fSubtitle" data-bind="content.subtitle" rows="2"></textarea>
+          </div>
+          <div class="field">
+            <label for="fSecondary">Texte secondaire</label>
+            <textarea id="fSecondary" data-bind="content.secondary" rows="2" placeholder="Optionnel — précision, citation courte…"></textarea>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="fCategory">Catégorie</label>
+              <input type="text" id="fCategory" data-bind="content.category">
+            </div>
+            <div class="field">
+              <label for="fDate">Date</label>
+              <input type="text" id="fDate" data-bind="content.date">
+            </div>
+          </div>
+          <div class="field">
+            <label for="fSource">Nom de la source</label>
+            <input type="text" id="fSource" data-bind="content.source">
+          </div>
+          <div class="field">
+            <label for="fBadge">Texte du badge</label>
+            <input type="text" id="fBadge" data-bind="content.badge">
+            <div class="chip-grid" style="margin-top:8px;">
+              <button class="chip" data-badge-preset="BREAKING NEWS">Breaking News</button>
+              <button class="chip" data-badge-preset="ACTUALITÉ">Actualité</button>
+              <button class="chip" data-badge-preset="FOOTBALL">Football</button>
+              <button class="chip" data-badge-preset="TRANSFERT">Transfert</button>
+              <button class="chip" data-badge-preset="EXCLUSIF">Exclusif</button>
+              <button class="chip" data-badge-preset="ANALYSE">Analyse</button>
+              <button class="chip" data-badge-preset="DÉCRYPTAGE">Décryptage</button>
+              <button class="chip" data-badge-preset="INTERVIEW">Interview</button>
+            </div>
+          </div>
+          <div class="field">
+            <label for="fLogoText">Texte du logo personnalisé</label>
+            <input type="text" id="fLogoText" data-bind="content.logoText" placeholder="Utilisé si aucun logo n'est importé">
+          </div>
+        </div>
+      </details>
+
+      <details class="field-group">
+        <summary>Image</summary>
+        <div class="field-group-body">
+          <div class="field">
+            <label for="fImageUpload">Importer une image (JPG, PNG, WebP)</label>
+            <input type="file" id="fImageUpload" accept="image/jpeg,image/png,image/webp">
+          </div>
+          <div>
+            <label>Disposition</label>
+            <div class="chip-grid">
+              <button class="chip" data-group="image.mode" data-value="background">Arrière-plan</button>
+              <button class="chip" data-group="image.mode" data-value="fullscreen">Plein écran</button>
+              <button class="chip" data-group="image.mode" data-value="left">À gauche</button>
+              <button class="chip" data-group="image.mode" data-value="right">À droite</button>
+              <button class="chip" data-group="image.mode" data-value="center">Centrée</button>
+            </div>
+          </div>
+          <div class="field">
+            <label for="fZoom">Zoom (<span class="range-readout" data-readout="image.zoom" style="display:inline;">1.0×</span>)</label>
+            <div class="range-field"><input type="range" id="fZoom" data-bind="image.zoom" min="1" max="2.5" step="0.02"></div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="fPosX">Position X</label>
+              <div class="range-field"><input type="range" id="fPosX" data-bind="image.posX" min="0" max="100" step="1"><span class="range-readout" data-readout="image.posX">50%</span></div>
+            </div>
+            <div class="field">
+              <label for="fPosY">Position Y</label>
+              <div class="range-field"><input type="range" id="fPosY" data-bind="image.posY" min="0" max="100" step="1"><span class="range-readout" data-readout="image.posY">50%</span></div>
+            </div>
+          </div>
+          <div class="field">
+            <label for="fImgOpacity">Opacité de l'image</label>
+            <div class="range-field"><input type="range" id="fImgOpacity" data-bind="image.opacity" min="0.1" max="1" step="0.02"><span class="range-readout" data-readout="image.opacity">100%</span></div>
+          </div>
+          <div class="checkbox-field">
+            <input type="checkbox" id="fOverlay" data-bind="image.overlay">
+            <label for="fOverlay" style="margin:0;">Overlay sombre</label>
+          </div>
+          <div class="field">
+            <label for="fOverlayOpacity">Intensité de l'overlay</label>
+            <div class="range-field"><input type="range" id="fOverlayOpacity" data-bind="image.overlayOpacity" min="0" max="0.9" step="0.02"><span class="range-readout" data-readout="image.overlayOpacity">55%</span></div>
+          </div>
+        </div>
+      </details>
+
+      <details class="field-group">
+        <summary>Couleurs</summary>
+        <div class="field-group-body">
+          <div class="field-row">
+            <div class="field">
+              <label>Principale</label>
+              <div class="swatch-row"><input type="color" data-bind="colors.primary"></div>
+            </div>
+            <div class="field">
+              <label>Secondaire</label>
+              <div class="swatch-row"><input type="color" data-bind="colors.secondary"></div>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Accent</label>
+              <div class="swatch-row">
+                <input type="color" id="fAccent" data-bind="colors.accent">
+                <button class="swatch-alt" data-set-accent="#F5C400">Jaune</button>
+                <button class="swatch-alt" data-set-accent="#E00000">Rouge</button>
+              </div>
+            </div>
+            <div class="field">
+              <label>Texte</label>
+              <div class="swatch-row"><input type="color" data-bind="colors.text"></div>
+            </div>
+          </div>
+          <div class="field">
+            <label>Fond du canevas</label>
+            <div class="swatch-row"><input type="color" data-bind="colors.bg"></div>
+          </div>
+          <p class="swatch-hint">L'accent doit rester rare : badge, mot-clé, petits éléments graphiques.</p>
+        </div>
+      </details>
+
+      <details class="field-group">
+        <summary>Typographie</summary>
+        <div class="field-group-body">
+          <div class="field">
+            <label for="fFont">Police</label>
+            <select id="fFont" data-bind="type.font">
+              <option value="Arial">Arial</option>
+              <option value="Helvetica">Helvetica</option>
+              <option value="Inter">Inter</option>
+              <option value="Montserrat">Montserrat</option>
+              <option value="Roboto">Roboto</option>
+            </select>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="fTitleSize">Taille du titre</label>
+              <div class="range-field"><input type="range" id="fTitleSize" data-bind="type.titleSize" min="28" max="120" step="1"><span class="range-readout" data-readout="type.titleSize">64px</span></div>
+            </div>
+            <div class="field">
+              <label for="fSubSize">Taille du sous-titre</label>
+              <div class="range-field"><input type="range" id="fSubSize" data-bind="type.subtitleSize" min="14" max="52" step="1"><span class="range-readout" data-readout="type.subtitleSize">28px</span></div>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="fWeight">Graisse du titre</label>
+              <select id="fWeight" data-bind="type.weight">
+                <option value="400">400 — Normal</option>
+                <option value="500">500 — Medium</option>
+                <option value="600">600 — Semibold</option>
+                <option value="700">700 — Bold</option>
+                <option value="800">800 — Extrabold</option>
+                <option value="900">900 — Black</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="fLine">Interligne</label>
+              <div class="range-field"><input type="range" id="fLine" data-bind="type.lineHeight" min="0.9" max="1.6" step="0.02"><span class="range-readout" data-readout="type.lineHeight">1.08</span></div>
+            </div>
+          </div>
+          <div class="field">
+            <label for="fTrack">Espacement des lettres (titre)</label>
+            <div class="range-field"><input type="range" id="fTrack" data-bind="type.letterSpacing" min="0" max="8" step="0.2"><span class="range-readout" data-readout="type.letterSpacing">0px</span></div>
+          </div>
+          <div>
+            <label>Alignement</label>
+            <div class="chip-grid">
+              <button class="chip" data-group="type.align" data-value="left">Gauche</button>
+              <button class="chip" data-group="type.align" data-value="center">Centre</button>
+              <button class="chip" data-group="type.align" data-value="right">Droite</button>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <details class="field-group">
+        <summary>Logo</summary>
+        <div class="field-group-body">
+          <div class="field">
+            <label for="fLogoUpload">Importer un logo (PNG, fond transparent conseillé)</label>
+            <input type="file" id="fLogoUpload" accept="image/png,image/webp,image/jpeg">
+          </div>
+          <div>
+            <label>Position</label>
+            <div class="chip-grid">
+              <button class="chip" data-group="logo.position" data-value="top-left">Haut gauche</button>
+              <button class="chip" data-group="logo.position" data-value="top-right">Haut droite</button>
+              <button class="chip" data-group="logo.position" data-value="bottom-left">Bas gauche</button>
+              <button class="chip" data-group="logo.position" data-value="bottom-right">Bas droite</button>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="fLogoSize">Taille</label>
+              <div class="range-field"><input type="range" id="fLogoSize" data-bind="logo.size" min="40" max="220" step="2"><span class="range-readout" data-readout="logo.size">90px</span></div>
+            </div>
+            <div class="field">
+              <label for="fLogoOpacity">Opacité</label>
+              <div class="range-field"><input type="range" id="fLogoOpacity" data-bind="logo.opacity" min="0.2" max="1" step="0.02"><span class="range-readout" data-readout="logo.opacity">92%</span></div>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <details class="field-group">
+        <summary>Éléments graphiques</summary>
+        <div class="field-group-body">
+          <div class="element-add-grid">
+            <button data-add-element="line-h">Ligne H</button>
+            <button data-add-element="line-v">Ligne V</button>
+            <button data-add-element="rect">Rectangle</button>
+            <button data-add-element="circle">Cercle</button>
+            <button data-add-element="block-black">Bloc noir</button>
+            <button data-add-element="block-white">Bloc blanc</button>
+            <button data-add-element="block-accent">Bloc accent</button>
+            <button data-add-element="arrow">Flèche</button>
+            <button data-add-element="number">Numéro</button>
+            <button data-add-element="dot">Point</button>
+          </div>
+          <div class="element-list" id="elementsList"></div>
+          <p class="muted">Glisse un élément sur l'aperçu pour le déplacer, ou sa poignée (coin) pour le redimensionner. Touche Suppr pour l'effacer.</p>
+        </div>
+      </details>
+
+    </aside>
+
+    <!-- ============ ZONE DE SCÈNE ============ -->
+    <main class="stage-wrap">
+      <div class="stage-readout">
+        <span class="tally" aria-hidden="true"></span>
+        <span>APERÇU EN DIRECT</span>
+        <span class="rd-sep">/</span>
+        <span id="rdFormat" class="rd-muted">—</span>
+        <span class="rd-sep">/</span>
+        <span id="rdDims">—</span>
+        <span class="rd-fill"></span>
+        <span class="rd-muted" id="rdDpr">—</span>
+      </div>
+      <div class="canvas-frame">
+        <canvas id="stage" width="1080" height="1080"></canvas>
+      </div>
+      <div class="export-bar">
+        <button class="btn btn-ghost" id="btnReset">Réinitialiser</button>
+        <button class="btn btn-dark" id="btnDownloadHD">Télécharger HD</button>
+        <button class="btn btn-accent" id="btnDownload">Télécharger en PNG</button>
+        <span class="export-note">Le PNG standard exporte exactement aux dimensions du format choisi. La version HD exporte à ×3 pour l'impression ou les grands écrans.</span>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* =========================================================
+     CONFIGURATION — formats, polices, modèles
+     ========================================================= */
+  var FORMATS = {
+    "yt":          { label:"Miniature YouTube", w:1280, h:720 },
+    "ig-square":   { label:"Instagram carré",   w:1080, h:1080 },
+    "ig-portrait": { label:"Instagram portrait",w:1080, h:1350 },
+    "fb":          { label:"Facebook",          w:1200, h:630 },
+    "x":           { label:"X / Twitter",       w:1600, h:900 },
+    "story":       { label:"Story",             w:1080, h:1920 }
+  };
+
+  var FONT_STACKS = {
+    "Arial":      "Arial, Helvetica, sans-serif",
+    "Helvetica":  "Helvetica, Arial, sans-serif",
+    "Inter":      "'Inter', Arial, sans-serif",
+    "Montserrat": "'Montserrat', Arial, sans-serif",
+    "Roboto":     "'Roboto', Arial, sans-serif"
+  };
+
+  var TEMPLATES = {
+    "breaking-news":{
+      content:{ category:"ACTUALITÉ", badge:"BREAKING NEWS", title:"DERNIÈRE MINUTE",
+        subtitle:"Les informations arrivent en direct de la rédaction", secondary:"", source:"CELLULE INFO", logoText:"LIGNE ÉDITORIALE" },
+      colors:{ primary:"#000000", secondary:"#ffffff", accent:"#e00000", text:"#ffffff", bg:"#000000" },
+      type:{ align:"left", titleSize:76, weight:"900", lineHeight:1.04 },
+      image:{ mode:"background", overlay:true, overlayOpacity:0.6 }
+    },
+    "analyse":{
+      content:{ category:"FOOTBALL", badge:"ANALYSE", title:"LE GRAND RETOUR",
+        subtitle:"Une nouvelle étape pour l'international ivoirien", secondary:"", source:"RÉDACTION SPORT", logoText:"LIGNE ÉDITORIALE" },
+      colors:{ primary:"#000000", secondary:"#ffffff", accent:"#f5c400", text:"#ffffff", bg:"#000000" },
+      type:{ align:"left", titleSize:64, weight:"800", lineHeight:1.08 },
+      image:{ mode:"background", overlay:true, overlayOpacity:0.55 }
+    },
+    "transfert":{
+      content:{ category:"TRANSFERT", badge:"EXCLUSIF", title:"TRANSFERT CHOC",
+        subtitle:"Un accord de principe trouvé entre les deux clubs", secondary:"", source:"CELLULE MERCATO", logoText:"LIGNE ÉDITORIALE" },
+      colors:{ primary:"#000000", secondary:"#ffffff", accent:"#f5c400", text:"#ffffff", bg:"#000000" },
+      type:{ align:"center", titleSize:70, weight:"900", lineHeight:1.02 },
+      image:{ mode:"center", overlay:true, overlayOpacity:0.3 }
+    },
+    "portrait":{
+      content:{ category:"PORTRAIT", badge:"INTERVIEW", title:"DANS LA PEAU D'UN CAPITAINE",
+        subtitle:"Rencontre avec un joueur qui a marqué la saison", secondary:"", source:"GRAND FORMAT", logoText:"LIGNE ÉDITORIALE" },
+      colors:{ primary:"#000000", secondary:"#ffffff", accent:"#f5c400", text:"#ffffff", bg:"#000000" },
+      type:{ align:"right", titleSize:54, weight:"800", lineHeight:1.1 },
+      image:{ mode:"left", overlay:false, overlayOpacity:0.2 }
+    },
+    "match":{
+      content:{ category:"FOOTBALL", badge:"MATCH", title:"ÇA CHANGE TOUT",
+        subtitle:"Le résumé complet de la rencontre à ne pas manquer", secondary:"", source:"DIRECT SPORT", logoText:"LIGNE ÉDITORIALE" },
+      colors:{ primary:"#000000", secondary:"#ffffff", accent:"#f5c400", text:"#ffffff", bg:"#000000" },
+      type:{ align:"left", titleSize:66, weight:"900", lineHeight:1.05 },
+      image:{ mode:"right", overlay:true, overlayOpacity:0.45 }
+    },
+    "debat":{
+      content:{ category:"DÉCRYPTAGE", badge:"DÉBAT", title:"LE GROS DOUTE",
+        subtitle:"Deux avis, une seule question qui divise la rédaction", secondary:"", source:"PLATEAU", logoText:"LIGNE ÉDITORIALE" },
+      colors:{ primary:"#111111", secondary:"#ffffff", accent:"#e00000", text:"#ffffff", bg:"#111111" },
+      type:{ align:"center", titleSize:60, weight:"800", lineHeight:1.08 },
+      image:{ mode:"background", overlay:true, overlayOpacity:0.65 }
+    }
+  };
+
+  var ELEMENT_LABELS = {
+    "line-h":"Ligne horizontale", "line-v":"Ligne verticale", "rect":"Rectangle", "circle":"Cercle",
+    "block-black":"Bloc noir", "block-white":"Bloc blanc", "block-accent":"Bloc accent",
+    "arrow":"Flèche", "number":"Numéro", "dot":"Point"
+  };
+
+  /* =========================================================
+     MODÈLES — éditables et enregistrables (localStorage)
+     ========================================================= */
+  var TEMPLATE_META = {
+    "breaking-news":{ label:"Breaking News", description:"Bandeau rouge, urgence" },
+    "analyse":{ label:"Analyse", description:"Sobre, lecture longue" },
+    "transfert":{ label:"Transfert Football", description:"Image centrée, impact" },
+    "portrait":{ label:"Portrait Joueur", description:"Image à gauche, calme" },
+    "match":{ label:"Match", description:"Photo à droite, direct" },
+    "debat":{ label:"Débat", description:"Fond sombre, contraste" }
+  };
+  var TEMPLATE_ORDER = Object.keys(TEMPLATES);
+  var ORIGINAL_TEMPLATES = JSON.parse(JSON.stringify(TEMPLATES));
+  var ORIGINAL_META = JSON.parse(JSON.stringify(TEMPLATE_META));
+  var TEMPLATE_STORE_KEY = "studioBulletinTemplates";
+
+  function loadTemplateStore(){
+    try {
+      var raw = localStorage.getItem(TEMPLATE_STORE_KEY);
+      if (!raw) return;
+      var saved = JSON.parse(raw);
+      if (saved.templates) deepAssign(TEMPLATES, saved.templates);
+      if (saved.meta) deepAssign(TEMPLATE_META, saved.meta);
+      if (saved.order && saved.order.length) TEMPLATE_ORDER = saved.order;
+    } catch(e){ /* stockage indisponible ou corrompu : on garde les modèles par défaut */ }
+  }
+  function saveTemplateStore(){
+    try {
+      localStorage.setItem(TEMPLATE_STORE_KEY, JSON.stringify({ templates:TEMPLATES, meta:TEMPLATE_META, order:TEMPLATE_ORDER }));
+    } catch(e){ /* stockage indisponible (navigation privée, quota) : édition non persistée */ }
+  }
+  function snapshotCurrentAsTemplate(){
+    return {
+      content: JSON.parse(JSON.stringify(state.content)),
+      colors: JSON.parse(JSON.stringify(state.colors)),
+      type: JSON.parse(JSON.stringify(state.type)),
+      image: { mode:state.image.mode, overlay:state.image.overlay, overlayOpacity:state.image.overlayOpacity }
+    };
+  }
+  function escapeHtml(s){
+    return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+  }
+
+  /* =========================================================
+     ÉTAT
+     ========================================================= */
+  function freshState(){
+    var base = {
+      formatKey:"yt",
+      thumbStyle:2,
+      activeTemplate:"analyse",
+      content:{ category:"", title:"", subtitle:"", secondary:"", date:"", source:"", badge:"", logoText:"" },
+      colors:{ primary:"#000000", secondary:"#ffffff", accent:"#f5c400", text:"#ffffff", bg:"#000000" },
+      type:{ font:"Inter", titleSize:64, subtitleSize:28, weight:"800", lineHeight:1.08, letterSpacing:0, align:"left" },
+      image:{ src:null, img:null, mode:"background", zoom:1, posX:50, posY:50, opacity:1, overlay:true, overlayOpacity:0.55 },
+      logo:{ src:null, img:null, position:"bottom-right", size:90, opacity:0.92 },
+      elements:[],
+      selectedElId:null
+    };
+    var tpl = TEMPLATES[base.activeTemplate];
+    deepAssign(base.content, tpl.content);
+    deepAssign(base.colors, tpl.colors);
+    deepAssign(base.type, tpl.type);
+    deepAssign(base.image, tpl.image);
+    base.content.date = new Date().toLocaleDateString("fr-FR", { day:"numeric", month:"long", year:"numeric" });
+    return base;
+  }
+
+  loadTemplateStore();
+  var state = freshState();
+  var elementSeq = 0;
+
+  function deepAssign(target, src){ for (var k in src){ if (Object.prototype.hasOwnProperty.call(src,k)) target[k]=src[k]; } }
+  function getPath(obj, path){ var parts=path.split("."), o=obj; for (var i=0;i<parts.length;i++){ if (o==null) return undefined; o=o[parts[i]]; } return o; }
+  function setPath(obj, path, val){ var parts=path.split("."), o=obj; for (var i=0;i<parts.length-1;i++){ o=o[parts[i]]; } o[parts[parts.length-1]]=val; }
+  function clamp(v,min,max){ return Math.max(min, Math.min(max, v)); }
+
+  /* =========================================================
+     RÉFÉRENCES DOM
+     ========================================================= */
+  var stage = document.getElementById("stage");
+  var ctxLive = stage.getContext("2d");
+  var elementsListEl = document.getElementById("elementsList");
+  var thumbStyleRow = document.getElementById("thumbStyleRow");
+
+  /* =========================================================
+     LIAISON FORMULAIRE <-> ÉTAT
+     ========================================================= */
+  function formatReadout(bind, val){
+    if (bind === "image.zoom") return (Number(val)).toFixed(2) + "×";
+    if (bind === "image.posX" || bind === "image.posY") return Math.round(val) + "%";
+    if (bind === "image.opacity" || bind === "image.overlayOpacity" || bind === "logo.opacity") return Math.round(val*100) + "%";
+    if (bind === "type.titleSize" || bind === "type.subtitleSize" || bind === "logo.size") return Math.round(val) + "px";
+    if (bind === "type.lineHeight") return Number(val).toFixed(2);
+    if (bind === "type.letterSpacing") return Math.round(val) + "px";
+    return val;
+  }
+
+  function syncFormFromState(){
+    var bound = document.querySelectorAll("[data-bind]");
+    for (var i=0;i<bound.length;i++){
+      var el = bound[i];
+      var val = getPath(state, el.dataset.bind);
+      if (val === undefined || val === null) continue;
+      if (el.type === "checkbox") el.checked = !!val;
+      else el.value = val;
+      var readout = document.querySelector('[data-readout="'+el.dataset.bind+'"]');
+      if (readout) readout.textContent = formatReadout(el.dataset.bind, val);
+    }
+    syncButtonGroups();
+  }
+
+  function syncButtonGroups(){
+    var groups = document.querySelectorAll("[data-group]");
+    for (var i=0;i<groups.length;i++){
+      var btn = groups[i];
+      var val = getPath(state, btn.dataset.group);
+      btn.classList.toggle("is-active", String(val) === String(btn.dataset.value));
+    }
+  }
+
+  document.body.addEventListener("input", handleFieldChange);
+  document.body.addEventListener("change", handleFieldChange);
+  function handleFieldChange(e){
+    var el = e.target;
+    if (!el.dataset || !el.dataset.bind) return;
+    var val;
+    if (el.type === "checkbox") val = el.checked;
+    else if (el.type === "range") val = parseFloat(el.value);
+    else val = el.value;
+    setPath(state, el.dataset.bind, val);
+    var readout = document.querySelector('[data-readout="'+el.dataset.bind+'"]');
+    if (readout) readout.textContent = formatReadout(el.dataset.bind, val);
+    render();
+  }
+
+  document.body.addEventListener("click", function(e){
+    var tplBtn = e.target.closest("[data-template]");
+    if (tplBtn){ applyTemplate(tplBtn.dataset.template); return; }
+
+    var addBtn = e.target.closest("[data-add-element]");
+    if (addBtn){ addElement(addBtn.dataset.addElement); return; }
+
+    var teEditBtn = e.target.closest("[data-template-edit]");
+    if (teEditBtn){ openTemplateEditor(teEditBtn.dataset.templateEdit); return; }
+
+    var teAddBtn = e.target.closest("[data-template-add]");
+    if (teAddBtn){ createTemplateFromCurrent(); return; }
+
+    var badgeBtn = e.target.closest("[data-badge-preset]");
+    if (badgeBtn){ state.content.badge = badgeBtn.dataset.badgePreset; syncFormFromState(); render(); return; }
+
+    var accentBtn = e.target.closest("[data-set-accent]");
+    if (accentBtn){ state.colors.accent = accentBtn.dataset.setAccent; syncFormFromState(); render(); return; }
+
+    var groupBtn = e.target.closest("[data-group]");
+    if (groupBtn){
+      var raw = groupBtn.dataset.value;
+      var value = /^\d+$/.test(raw) ? parseInt(raw,10) : raw;
+      setPath(state, groupBtn.dataset.group, value);
+      if (groupBtn.dataset.group === "formatKey") onFormatChange();
+      syncButtonGroups();
+      render();
+      return;
+    }
+
+    if (e.target.id === "btnReset"){ doReset(); return; }
+    if (e.target.id === "btnDownload"){ downloadPNG(false); return; }
+    if (e.target.id === "btnDownloadHD"){ downloadPNG(true); return; }
+  });
+
+  function applyTemplate(key){
+    var tpl = TEMPLATES[key];
+    if (!tpl) return;
+    state.activeTemplate = key;
+    deepAssign(state.content, tpl.content);
+    deepAssign(state.colors, tpl.colors);
+    deepAssign(state.type, tpl.type);
+    deepAssign(state.image, tpl.image);
+    state.content.date = state.content.date || new Date().toLocaleDateString("fr-FR", { day:"numeric", month:"long", year:"numeric" });
+    syncFormFromState();
+    render();
+  }
+
+  function onFormatChange(){
+    thumbStyleRow.hidden = state.formatKey !== "yt";
+  }
+
+  /* ---------- Modèles : grille + éditeur ---------- */
+  function renderTemplateGrid(){
+    var grid = document.getElementById("templateGrid");
+    var html = "";
+    TEMPLATE_ORDER.forEach(function(id){
+      var meta = TEMPLATE_META[id] || { label:id, description:"" };
+      var active = state.activeTemplate === id ? " is-active" : "";
+      html += '<div class="template-card' + active + '">'
+        + '<button class="template-apply" data-template="' + id + '"><b>' + escapeHtml(meta.label) + '</b><span>' + escapeHtml(meta.description) + '</span></button>'
+        + '<button class="template-edit" data-template-edit="' + id + '" title="Modifier ce modèle">✎</button>'
+        + '</div>';
+    });
+    html += '<button class="template-add" data-template-add="1">+ Nouveau modèle</button>';
+    grid.innerHTML = html;
+  }
+
+  var editingTemplateId = null;
+  function openTemplateEditor(id){
+    editingTemplateId = id;
+    var meta = TEMPLATE_META[id] || { label:id, description:"" };
+    document.getElementById("teLabel").value = meta.label;
+    document.getElementById("teDesc").value = meta.description;
+    var isBuiltin = !!ORIGINAL_TEMPLATES[id];
+    document.getElementById("teReset").hidden = !isBuiltin;
+    document.getElementById("teDelete").hidden = isBuiltin;
+    document.getElementById("templateEditor").hidden = false;
+  }
+
+  document.getElementById("teLabel").addEventListener("input", function(){
+    if (!editingTemplateId) return;
+    TEMPLATE_META[editingTemplateId].label = this.value;
+    saveTemplateStore();
+    renderTemplateGrid();
+  });
+  document.getElementById("teDesc").addEventListener("input", function(){
+    if (!editingTemplateId) return;
+    TEMPLATE_META[editingTemplateId].description = this.value;
+    saveTemplateStore();
+    renderTemplateGrid();
+  });
+  document.getElementById("teSaveCurrent").addEventListener("click", function(){
+    if (!editingTemplateId) return;
+    TEMPLATES[editingTemplateId] = snapshotCurrentAsTemplate();
+    saveTemplateStore();
+  });
+  document.getElementById("teReset").addEventListener("click", function(){
+    if (!editingTemplateId || !ORIGINAL_TEMPLATES[editingTemplateId]) return;
+    TEMPLATES[editingTemplateId] = JSON.parse(JSON.stringify(ORIGINAL_TEMPLATES[editingTemplateId]));
+    TEMPLATE_META[editingTemplateId] = JSON.parse(JSON.stringify(ORIGINAL_META[editingTemplateId]));
+    saveTemplateStore();
+    openTemplateEditor(editingTemplateId);
+    renderTemplateGrid();
+  });
+  document.getElementById("teDelete").addEventListener("click", function(){
+    if (!editingTemplateId || ORIGINAL_TEMPLATES[editingTemplateId]) return;
+    delete TEMPLATES[editingTemplateId];
+    delete TEMPLATE_META[editingTemplateId];
+    TEMPLATE_ORDER = TEMPLATE_ORDER.filter(function(x){ return x !== editingTemplateId; });
+    saveTemplateStore();
+    document.getElementById("templateEditor").hidden = true;
+    editingTemplateId = null;
+    renderTemplateGrid();
+  });
+  document.getElementById("teClose").addEventListener("click", function(){
+    document.getElementById("templateEditor").hidden = true;
+    editingTemplateId = null;
+  });
+
+  function createTemplateFromCurrent(){
+    var id = "custom-" + Date.now();
+    TEMPLATES[id] = snapshotCurrentAsTemplate();
+    TEMPLATE_META[id] = { label:"Nouveau modèle", description:"Basé sur le canevas actuel" };
+    TEMPLATE_ORDER.push(id);
+    state.activeTemplate = id;
+    saveTemplateStore();
+    renderTemplateGrid();
+    openTemplateEditor(id);
+  }
+
+  /* ---------- Upload image / logo ---------- */
+  document.getElementById("fImageUpload").addEventListener("change", function(e){
+    var file = e.target.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(ev){
+      var img = new Image();
+      img.onload = function(){ state.image.img = img; state.image.src = ev.target.result; render(); };
+      img.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+
+  document.getElementById("fLogoUpload").addEventListener("change", function(e){
+    var file = e.target.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(ev){
+      var img = new Image();
+      img.onload = function(){ state.logo.img = img; state.logo.src = ev.target.result; render(); };
+      img.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+
+  /* =========================================================
+     ÉLÉMENTS GRAPHIQUES
+     ========================================================= */
+  function addElement(type){
+    elementSeq++;
+    var base = { id:"el"+elementSeq, type:type, x:38, y:38, w:20, h:0, color:state.colors.accent };
+    switch(type){
+      case "line-h": base.w=30; base.h=0; base.color=state.colors.text; break;
+      case "line-v": base.w=0; base.h=26; base.color=state.colors.text; break;
+      case "rect": base.w=24; base.h=16; base.color=state.colors.text; break;
+      case "circle": base.w=16; base.h=16*(FORMATS[state.formatKey].w/FORMATS[state.formatKey].h); base.color=state.colors.accent; break;
+      case "block-black": base.w=20; base.h=12; base.color="#000000"; break;
+      case "block-white": base.w=20; base.h=12; base.color="#ffffff"; break;
+      case "block-accent": base.w=20; base.h=12; base.color=state.colors.accent; break;
+      case "arrow": base.w=22; base.h=6; base.color=state.colors.accent; break;
+      case "number":
+        base.w=6; base.h=6*(FORMATS[state.formatKey].w/FORMATS[state.formatKey].h);
+        base.color=state.colors.accent;
+        base.value = String(state.elements.filter(function(x){return x.type==="number";}).length+1);
+        break;
+      case "dot": base.w=3; base.h=3*(FORMATS[state.formatKey].w/FORMATS[state.formatKey].h); base.color=state.colors.accent; break;
+    }
+    state.elements.push(base);
+    state.selectedElId = base.id;
+    render();
+  }
+
+  function renderElementsList(){
+    elementsListEl.innerHTML = "";
+    if (!state.elements.length){
+      elementsListEl.innerHTML = '<p class="muted">Aucun élément ajouté pour le moment.</p>';
+      return;
+    }
+    state.elements.forEach(function(el){
+      var row = document.createElement("div");
+      row.className = "element-row" + (el.id === state.selectedElId ? " is-selected" : "");
+
+      var span = document.createElement("span");
+      span.className = "element-row-label";
+      span.textContent = ELEMENT_LABELS[el.type];
+      row.appendChild(span);
+
+      var controls = document.createElement("div");
+      controls.className = "element-row-controls";
+
+      var colorInput = document.createElement("input");
+      colorInput.type = "color";
+      colorInput.value = el.color;
+      colorInput.title = "Couleur de l'élément";
+      colorInput.addEventListener("click", function(ev){ ev.stopPropagation(); });
+      colorInput.addEventListener("input", function(){ el.color = colorInput.value; renderCanvasOnly(); });
+      controls.appendChild(colorInput);
+
+      if (el.type === "number"){
+        var valueInput = document.createElement("input");
+        valueInput.type = "text";
+        valueInput.className = "element-value-input";
+        valueInput.maxLength = 3;
+        valueInput.value = el.value;
+        valueInput.title = "Chiffre affiché";
+        valueInput.addEventListener("click", function(ev){ ev.stopPropagation(); });
+        valueInput.addEventListener("input", function(){ el.value = valueInput.value || "1"; renderCanvasOnly(); });
+        controls.appendChild(valueInput);
+      }
+
+      var del = document.createElement("button");
+      del.className = "element-del";
+      del.textContent = "×";
+      del.title = "Supprimer";
+      del.addEventListener("click", function(ev){
+        ev.stopPropagation();
+        state.elements = state.elements.filter(function(x){ return x.id !== el.id; });
+        if (state.selectedElId === el.id) state.selectedElId = null;
+        render();
+      });
+      controls.appendChild(del);
+
+      row.appendChild(controls);
+      row.addEventListener("click", function(){ state.selectedElId = el.id; render(); });
+      elementsListEl.appendChild(row);
+    });
+  }
+
+  window.addEventListener("keydown", function(e){
+    if ((e.key === "Delete" || e.key === "Backspace") && state.selectedElId){
+      var tag = document.activeElement ? document.activeElement.tagName : "";
+      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+      state.elements = state.elements.filter(function(x){ return x.id !== state.selectedElId; });
+      state.selectedElId = null;
+      render();
+    }
+  });
+
+  function elPx(el, w, h){
+    return { x: el.x/100*w, y: el.y/100*h, w: (el.w||0)/100*w, h: (el.h||0)/100*h };
+  }
+
+  /* ---------- Interaction souris / tactile sur la scène ---------- */
+  var dragMode = null, dragEl = null, dragStart = null;
+
+  function toLogical(e){
+    var rect = stage.getBoundingClientRect();
+    var fmt = FORMATS[state.formatKey];
+    return { x:(e.clientX-rect.left)*(fmt.w/rect.width), y:(e.clientY-rect.top)*(fmt.h/rect.height) };
+  }
+  function dist(a,b){ return Math.hypot(a.x-b.x, a.y-b.y); }
+
+  stage.addEventListener("pointerdown", function(e){
+    var pt = toLogical(e);
+    var fmt = FORMATS[state.formatKey];
+    var i, el, p;
+
+    if (state.selectedElId){
+      for (i=state.elements.length-1;i>=0;i--){
+        el = state.elements[i];
+        if (el.id !== state.selectedElId) continue;
+        p = elPx(el, fmt.w, fmt.h);
+        var handle = { x:p.x+p.w, y:p.y+p.h };
+        if (dist(pt, handle) < Math.max(20, fmt.w*0.014)){
+          dragMode = "resize"; dragEl = el;
+          stage.setPointerCapture(e.pointerId);
+          return;
+        }
+      }
+    }
+    for (i=state.elements.length-1;i>=0;i--){
+      el = state.elements[i];
+      p = elPx(el, fmt.w, fmt.h);
+      var hitW = Math.max(p.w, 22), hitH = Math.max(p.h, 22);
+      var hx = p.w >= 0 ? p.x : p.x+p.w, hy = p.h >= 0 ? p.y : p.y+p.h;
+      if (pt.x >= hx-6 && pt.x <= hx+hitW+6 && pt.y >= hy-6 && pt.y <= hy+hitH+6){
+        dragMode = "move"; dragEl = el; dragStart = { x:pt.x-p.x, y:pt.y-p.y };
+        state.selectedElId = el.id;
+        stage.setPointerCapture(e.pointerId);
+        render();
+        return;
+      }
+    }
+    state.selectedElId = null;
+    render();
+  });
+
+  stage.addEventListener("pointermove", function(e){
+    if (!dragEl) return;
+    var pt = toLogical(e);
+    var fmt = FORMATS[state.formatKey];
+    if (dragMode === "move"){
+      dragEl.x = clamp((pt.x-dragStart.x)/fmt.w*100, -40, 130);
+      dragEl.y = clamp((pt.y-dragStart.y)/fmt.h*100, -40, 130);
+    } else if (dragMode === "resize"){
+      var p = elPx(dragEl, fmt.w, fmt.h);
+      var dx = pt.x - p.x, dy = pt.y - p.y;
+      if (dragEl.type === "line-h"){ dragEl.w = clamp(dx/fmt.w*100, 4, 120); }
+      else if (dragEl.type === "line-v"){ dragEl.h = clamp(dy/fmt.h*100, 4, 120); }
+      else if (dragEl.type === "circle" || dragEl.type === "number" || dragEl.type === "dot"){
+        var d = clamp(dx/fmt.w*100, 2, 100);
+        dragEl.w = d; dragEl.h = d*(fmt.w/fmt.h);
+      } else {
+        dragEl.w = clamp(dx/fmt.w*100, 4, 120);
+        dragEl.h = clamp(dy/fmt.h*100, 4, 120);
+      }
+    }
+    render();
+  });
+  stage.addEventListener("pointerup", function(){ dragMode=null; dragEl=null; });
+  stage.addEventListener("pointercancel", function(){ dragMode=null; dragEl=null; });
+
+  /* =========================================================
+     RENDU CANVAS
+     ========================================================= */
+  function fontStack(name){ return FONT_STACKS[name] || FONT_STACKS.Inter; }
+
+  function measureSpaced(ctx, text, spacing){
+    if (!spacing) return ctx.measureText(text).width;
+    var w = 0;
+    for (var i=0;i<text.length;i++) w += ctx.measureText(text[i]).width;
+    return w + spacing*(text.length-1);
+  }
+  function wrapLinesSpaced(ctx, text, maxWidth, spacing){
+    var words = String(text || "").split(/\s+/).filter(Boolean);
+    var lines = [], line = "";
+    for (var i=0;i<words.length;i++){
+      var test = line ? line+" "+words[i] : words[i];
+      if (measureSpaced(ctx, test, spacing) > maxWidth && line){ lines.push(line); line = words[i]; }
+      else line = test;
+    }
+    if (line) lines.push(line);
+    return lines.length ? lines : [""];
+  }
+  function drawTextSpaced(ctx, text, x, y, spacing, align){
+    if (!spacing){ ctx.fillText(text, x, y); return; }
+    var chars = String(text).split("");
+    var widths = chars.map(function(c){ return ctx.measureText(c).width; });
+    var total = widths.reduce(function(a,b){return a+b;},0) + spacing*(chars.length-1);
+    var startX;
+    if (align === "center") startX = x - total/2;
+    else if (align === "right") startX = x - total;
+    else startX = x;
+    var prevAlign = ctx.textAlign;
+    ctx.textAlign = "left";
+    var cx = startX;
+    for (var i=0;i<chars.length;i++){ ctx.fillText(chars[i], cx, y); cx += widths[i] + spacing; }
+    ctx.textAlign = prevAlign;
+  }
+
+  function hexToRgba(hex, alpha){
+    var h = hex.replace("#","");
+    if (h.length === 3) h = h.split("").map(function(c){return c+c;}).join("");
+    var r = parseInt(h.slice(0,2),16), g = parseInt(h.slice(2,4),16), b = parseInt(h.slice(4,6),16);
+    return "rgba("+r+","+g+","+b+","+alpha+")";
+  }
+
+  function drawImageCover(ctx, img, rx, ry, rw, rh, imgState){
+    if (rw<=0 || rh<=0) return;
+    var scale = Math.max(rw/img.width, rh/img.height) * (imgState.zoom||1);
+    var dw = img.width*scale, dh = img.height*scale;
+    var maxOffX = Math.max(0, dw-rw), maxOffY = Math.max(0, dh-rh);
+    var px = (imgState.posX!=null?imgState.posX:50)/100;
+    var py = (imgState.posY!=null?imgState.posY:50)/100;
+    var dx = rx - maxOffX*px, dy = ry - maxOffY*py;
+    ctx.save();
+    ctx.beginPath(); ctx.rect(rx,ry,rw,rh); ctx.clip();
+    ctx.globalAlpha = imgState.opacity!=null?imgState.opacity:1;
+    ctx.drawImage(img, dx, dy, dw, dh);
+    ctx.globalAlpha = 1;
+    ctx.restore();
+  }
+
+  function drawPlaceholder(ctx, rx, ry, rw, rh, colors){
+    if (rw<=0 || rh<=0) return;
+    ctx.save();
+    ctx.beginPath(); ctx.rect(rx,ry,rw,rh); ctx.clip();
+    ctx.fillStyle = "#1a1a1a";
+    ctx.fillRect(rx,ry,rw,rh);
+    ctx.strokeStyle = "rgba(255,255,255,0.18)";
+    ctx.lineWidth = Math.max(1, rw*0.003);
+    ctx.setLineDash([Math.max(6,rw*0.01), Math.max(6,rw*0.01)]);
+    ctx.strokeRect(rx+rw*0.03, ry+rh*0.03, rw*0.94, rh*0.94);
+    ctx.setLineDash([]);
+    ctx.fillStyle = "rgba(255,255,255,0.35)";
+    ctx.font = "600 " + Math.max(12, rw*0.028) + "px " + fontStack("Inter");
+    ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    ctx.fillText("EXEMPLE — AJOUTEZ UNE PHOTO", rx+rw/2, ry+rh/2);
+    ctx.restore();
+  }
+
+  function drawOverlay(ctx, rx, ry, rw, rh, color, opacity, vertical){
+    if (!opacity) return;
+    ctx.save();
+    if (vertical){
+      var grad = ctx.createLinearGradient(0, ry, 0, ry+rh);
+      grad.addColorStop(0, hexToRgba(color, 0));
+      grad.addColorStop(0.45, hexToRgba(color, opacity*0.35));
+      grad.addColorStop(1, hexToRgba(color, opacity));
+      ctx.fillStyle = grad;
+    } else {
+      ctx.fillStyle = hexToRgba(color, opacity);
+    }
+    ctx.fillRect(rx,ry,rw,rh);
+    ctx.restore();
+  }
+
+  function drawImageBlock(ctx, rx, ry, rw, rh, vertical){
+    var im = state.image;
+    if (im.img) drawImageCover(ctx, im.img, rx, ry, rw, rh, im);
+    else drawPlaceholder(ctx, rx, ry, rw, rh, state.colors);
+    if (im.overlay) drawOverlay(ctx, rx, ry, rw, rh, state.colors.primary, im.overlayOpacity, vertical!==false);
+  }
+
+  function badgeMetrics(ctx, text, fontPx){
+    ctx.font = "700 " + fontPx + "px " + fontStack("Inter");
+    var tw = ctx.measureText(text.toUpperCase()).width;
+    return { w: tw + fontPx*2.4, h: fontPx*2.5, font: "700 " + fontPx + "px " + fontStack("Inter") };
+  }
+  function drawBadge(ctx, text, x, y, align, fontPx, color){
+    if (!text) return 0;
+    var m = badgeMetrics(ctx, text, fontPx);
+    var bx = align === "right" ? x-m.w : (align === "center" ? x-m.w/2 : x);
+    ctx.save();
+    ctx.strokeStyle = color; ctx.lineWidth = Math.max(1.5, fontPx*0.09);
+    roundRect(ctx, bx, y, m.w, m.h, m.h*0.18);
+    ctx.stroke();
+    ctx.fillStyle = color;
+    ctx.font = m.font;
+    ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    drawTextSpaced(ctx, text.toUpperCase(), bx+m.w/2, y+m.h/2+fontPx*0.04, fontPx*0.08, "center");
+    ctx.restore();
+    return m.h;
+  }
+  function roundRect(ctx,x,y,w,h,r){
+    ctx.beginPath();
+    ctx.moveTo(x+r,y);
+    ctx.arcTo(x+w,y,x+w,y+h,r);
+    ctx.arcTo(x+w,y+h,x,y+h,r);
+    ctx.arcTo(x,y+h,x,y,r);
+    ctx.arcTo(x,y,x+w,y,r);
+    ctx.closePath();
+  }
+
+  /* ---------- Bloc éditorial générique (contenu texte) ---------- */
+  function drawTextBlock(ctx, box, opts){
+    var c = state.content, t = state.type, colors = state.colors;
+    var align = opts.align || t.align;
+    var anchorX = align === "right" ? box.x+box.w : (align === "center" ? box.x+box.w/2 : box.x);
+    var cy = opts.flow === "bottom" ? null : box.y;
+    var blocks = [];
+
+    if (c.category){
+      blocks.push({ kind:"category", h: Math.max(14, box.w*0.018)*1.6 });
+    }
+    if (c.badge){
+      var bm = badgeMetrics(ctx, c.badge, Math.max(11, box.w*0.017));
+      blocks.push({ kind:"badge", h: bm.h });
+    }
+    ctx.font = t.weight + " " + t.titleSize + "px " + fontStack(t.font);
+    var titleLines = wrapLinesSpaced(ctx, c.title || "", box.w, t.letterSpacing);
+    var titleLH = t.titleSize * t.lineHeight;
+    blocks.push({ kind:"title", h: titleLines.length*titleLH, lines:titleLines, lh:titleLH });
+
+    if (c.subtitle){
+      ctx.font = "500 " + t.subtitleSize + "px " + fontStack(t.font);
+      var subLines = wrapLinesSpaced(ctx, c.subtitle, box.w, 0);
+      var subLH = t.subtitleSize*1.35;
+      blocks.push({ kind:"subtitle", h: subLines.length*subLH, lines:subLines, lh:subLH });
+    }
+    if (c.secondary){
+      var secSize = Math.max(12, t.subtitleSize*0.72);
+      ctx.font = "italic 500 " + secSize + "px " + fontStack(t.font);
+      var secLines = wrapLinesSpaced(ctx, c.secondary, box.w, 0);
+      var secLH = secSize*1.4;
+      blocks.push({ kind:"secondary", h: secLines.length*secLH, lines:secLines, lh:secLH, size:secSize });
+    }
+
+    var gap = box.w*0.018;
+    var totalH = blocks.reduce(function(s,b){return s+b.h;},0) + gap*(blocks.length-1);
+    var startY;
+    if (opts.flow === "bottom") startY = box.y+box.h-totalH;
+    else if (opts.flow === "middle") startY = box.y + (box.h-totalH)/2;
+    else startY = box.y;
+
+    var y = startY;
+    blocks.forEach(function(b){
+      if (b.kind === "category"){
+        ctx.fillStyle = colors.accent;
+        ctx.font = "700 " + Math.max(12, box.w*0.016) + "px " + fontStack(t.font);
+        ctx.textAlign = align; ctx.textBaseline = "top";
+        drawTextSpaced(ctx, c.category.toUpperCase(), anchorX, y+b.h*0.18, box.w*0.006, align);
+      } else if (b.kind === "badge"){
+        var bx0 = align === "right" ? anchorX : (align === "center" ? anchorX : anchorX);
+        drawBadge(ctx, c.badge, anchorX, y, align, Math.max(11, box.w*0.017), colors.accent);
+      } else if (b.kind === "title"){
+        ctx.fillStyle = colors.text;
+        ctx.font = t.weight + " " + t.titleSize + "px " + fontStack(t.font);
+        ctx.textAlign = "left"; ctx.textBaseline = "top";
+        b.lines.forEach(function(line, i){
+          var lx = align === "right" ? anchorX : (align === "center" ? anchorX : anchorX);
+          drawTextSpaced(ctx, line.toUpperCase(), lx, y+i*b.lh+b.lh*0.14, t.letterSpacing, align);
+        });
+      } else if (b.kind === "subtitle"){
+        ctx.fillStyle = hexToRgba(colors.secondary, 0.92);
+        ctx.font = "500 " + t.subtitleSize + "px " + fontStack(t.font);
+        ctx.textBaseline = "top";
+        b.lines.forEach(function(line, i){ drawTextSpaced(ctx, line, anchorX, y+i*b.lh+b.lh*0.16, 0, align); });
+      } else if (b.kind === "secondary"){
+        ctx.fillStyle = hexToRgba(colors.secondary, 0.7);
+        ctx.font = "italic 500 " + b.size + "px " + fontStack(t.font);
+        ctx.textBaseline = "top";
+        b.lines.forEach(function(line, i){ drawTextSpaced(ctx, line, anchorX, y+i*b.lh+b.lh*0.16, 0, align); });
+      }
+      y += b.h + gap;
+    });
+    return totalH;
+  }
+
+  function drawFooter(ctx, w, h, margin){
+    var c = state.content, colors = state.colors;
+    var fs = Math.max(11, w*0.013);
+    ctx.strokeStyle = hexToRgba(colors.secondary, 0.25);
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(margin, h-margin-fs*2); ctx.lineTo(w-margin, h-margin-fs*2); ctx.stroke();
+
+    ctx.font = "600 " + fs + "px " + fontStack(state.type.font);
+    ctx.fillStyle = hexToRgba(colors.secondary, 0.75);
+    ctx.textBaseline = "alphabetic";
+    if (c.source){ ctx.textAlign = "left"; drawTextSpaced(ctx, c.source.toUpperCase(), margin, h-margin, fs*0.05, "left"); }
+    if (c.date){ ctx.textAlign = "right"; drawTextSpaced(ctx, c.date, w-margin, h-margin, 0, "right"); }
+  }
+
+  /* ---------- Mise en page générique (tous formats hors miniature) ---------- */
+  function drawEditorialGeneric(ctx, w, h){
+    var margin = Math.round(w*0.06);
+    var mode = state.image.mode;
+    var stacked = h > w*1.15;
+
+    if (mode === "background" || mode === "fullscreen"){
+      drawImageBlock(ctx, 0, 0, w, h, true);
+      drawTextBlock(ctx, { x:margin, y:h*0.34, w:w-margin*2, h:h*0.66-margin-h*0.05 }, { flow:"bottom" });
+    } else if (mode === "center"){
+      var imgH = h*0.5, imgW = Math.min(w-margin*2, imgH*1.4);
+      var ix = (w-imgW)/2, iy = margin*0.8;
+      drawImageBlock(ctx, ix, iy, imgW, imgH, false);
+      ctx.save(); ctx.strokeStyle = hexToRgba(state.colors.secondary,0.2); ctx.lineWidth=1; ctx.strokeRect(ix,iy,imgW,imgH); ctx.restore();
+      drawTextBlock(ctx, { x:margin, y:iy+imgH+margin*0.7, w:w-margin*2, h:h-(iy+imgH+margin*0.7)-margin }, { flow:"top", align:"center" });
+    } else {
+      var primaryIsLeft = mode === "right";
+      var box, txt;
+      if (stacked){
+        var top = { x:0,y:0,w:w,h:h*0.46 };
+        var bottom = { x:margin,y:h*0.46+margin,w:w-margin*2,h:h*0.54-margin*2 };
+        if (mode === "left"){ box=top; txt=bottom; } else { box={x:0,y:h*0.54,w:w,h:h*0.46}; txt={x:margin,y:margin,w:w-margin*2,h:h*0.54-margin*2}; }
+        drawImageBlock(ctx, box.x, box.y, box.w, box.h, true);
+        drawTextBlock(ctx, txt, { flow:"middle", align:"left" });
+      } else {
+        var imgBox = primaryIsLeft ? { x:0,y:0,w:w*0.5,h:h } : { x:w*0.54,y:0,w:w*0.46,h:h };
+        var textBox = primaryIsLeft ? { x:margin,y:margin,w:w*0.5-margin*1.6,h:h-margin*2 } : { x:margin,y:margin,w:w*0.54-margin*1.6,h:h-margin*2 };
+        drawImageBlock(ctx, imgBox.x, imgBox.y, imgBox.w, imgBox.h, false);
+        drawTextBlock(ctx, textBox, { flow:"middle" });
+      }
+    }
+    drawFooter(ctx, w, h, margin);
+  }
+
+  /* ---------- Compositions dédiées à la miniature YouTube ---------- */
+  function thumbCommonBlock(ctx, w, h, imgBox, txtBox, opts){
+    drawImageBlock(ctx, imgBox.x, imgBox.y, imgBox.w, imgBox.h, opts.vertical!==false);
+    drawTextBlock(ctx, txtBox, opts);
+  }
+
+  var THUMB_STYLES = {
+    1: function(ctx,w,h){ // Image principale + gros titre à gauche
+      var margin = w*0.055;
+      ctx.fillStyle = state.colors.primary; ctx.fillRect(0,0,w*0.46,h);
+      drawImageBlock(ctx, w*0.46, 0, w*0.54, h, false);
+      drawTextBlock(ctx, { x:margin, y:margin, w:w*0.46-margin*1.6, h:h-margin*2 }, { flow:"middle", align:"left" });
+    },
+    2: function(ctx,w,h){ // Plein écran + overlay + titre blanc
+      var margin = w*0.055;
+      drawImageBlock(ctx, 0,0,w,h, true);
+      drawTextBlock(ctx, { x:margin, y:h*0.3, w:w-margin*2, h:h*0.7-margin }, { flow:"bottom", align:"center" });
+    },
+    3: function(ctx,w,h){ // Fond noir + image détourée + mot-clé jaune
+      var margin = w*0.06;
+      ctx.fillStyle = state.colors.bg; ctx.fillRect(0,0,w,h);
+      var d = h*0.62;
+      var cx = w*0.745, cy = h*0.5;
+      ctx.save();
+      ctx.beginPath(); ctx.arc(cx,cy,d/2,0,Math.PI*2); ctx.clip();
+      if (state.image.img) drawImageCover(ctx, state.image.img, cx-d/2, cy-d/2, d, d, state.image);
+      else drawPlaceholder(ctx, cx-d/2, cy-d/2, d, d, state.colors);
+      ctx.restore();
+      ctx.save(); ctx.strokeStyle = hexToRgba(state.colors.secondary,0.25); ctx.lineWidth=2; ctx.beginPath(); ctx.arc(cx,cy,d/2,0,Math.PI*2); ctx.stroke(); ctx.restore();
+
+      var words = (state.content.title || "").toUpperCase().split(/\s+/).filter(Boolean);
+      var last = words.pop() || "";
+      var head = words.join(" ");
+      ctx.font = state.type.weight + " " + state.type.titleSize + "px " + fontStack(state.type.font);
+      var maxW = w*0.58;
+      var lines = wrapLinesSpaced(ctx, (head + " " + last).trim(), maxW, state.type.letterSpacing);
+      var lh = state.type.titleSize*state.type.lineHeight;
+      var totalH = lines.length*lh;
+      var startY = h/2 - totalH/2;
+      ctx.textAlign = "left"; ctx.textBaseline = "top";
+      lines.forEach(function(line, i){
+        var isLast = i === lines.length-1;
+        var lineWords = line.split(" ");
+        var lastWordInLine = isLast ? lineWords.pop() : null;
+        var restText = isLast ? lineWords.join(" ") : line;
+        ctx.fillStyle = state.colors.text;
+        drawTextSpaced(ctx, restText, margin, startY+i*lh, state.type.letterSpacing, "left");
+        if (isLast && lastWordInLine){
+          var restW = measureSpaced(ctx, restText + (restText?" ":""), state.type.letterSpacing);
+          ctx.fillStyle = state.colors.accent;
+          drawTextSpaced(ctx, lastWordInLine, margin+restW, startY+i*lh, state.type.letterSpacing, "left");
+        }
+      });
+      if (state.content.badge) drawBadge(ctx, state.content.badge, margin, margin, "left", Math.max(12,w*0.016), state.colors.accent);
+      drawFooter(ctx, w, h, margin);
+    },
+    4: function(ctx,w,h){ // Photo à droite + bloc éditorial noir à gauche
+      var margin = w*0.055;
+      ctx.fillStyle = state.colors.primary; ctx.fillRect(0,0,w*0.42,h);
+      drawImageBlock(ctx, w*0.42, 0, w*0.58, h, false);
+      drawTextBlock(ctx, { x:margin, y:margin, w:w*0.42-margin*1.6, h:h-margin*2 }, { flow:"middle", align:"left" });
+    },
+    5: function(ctx,w,h){ // Photo centrale + titre court + badge
+      var margin = w*0.07;
+      ctx.fillStyle = state.colors.bg; ctx.fillRect(0,0,w,h);
+      var bh = state.content.badge ? drawBadge(ctx, state.content.badge, w/2, margin*0.6, "center", Math.max(12,w*0.017), state.colors.accent) : 0;
+      var imgTop = margin*0.6 + bh + margin*0.5;
+      var imgH = h*0.42, imgW = imgH*1.55;
+      var ix = (w-imgW)/2;
+      drawImageBlock(ctx, ix, imgTop, imgW, imgH, false);
+      ctx.save(); ctx.strokeStyle = hexToRgba(state.colors.secondary,0.2); ctx.lineWidth=1; ctx.strokeRect(ix,imgTop,imgW,imgH); ctx.restore();
+      var ty = imgTop+imgH+margin*0.5;
+      ctx.font = state.type.weight + " " + Math.min(state.type.titleSize, h*0.11) + "px " + fontStack(state.type.font);
+      var lines = wrapLinesSpaced(ctx, (state.content.title||"").toUpperCase(), w-margin*2, state.type.letterSpacing);
+      var lh = Math.min(state.type.titleSize, h*0.11)*state.type.lineHeight;
+      ctx.fillStyle = state.colors.text; ctx.textAlign = "center"; ctx.textBaseline = "top";
+      lines.forEach(function(line,i){ drawTextSpaced(ctx, line, w/2, ty+i*lh, state.type.letterSpacing, "center"); });
+      drawFooter(ctx, w, h, margin);
+    }
+  };
+
+  /* ---------- Logo ---------- */
+  function drawLogo(ctx, w, h){
+    var pad = w*0.035;
+    var lg = state.logo;
+    if (lg.img){
+      var targetW = (lg.size/1080)*w;
+      var ratio = lg.img.height/lg.img.width;
+      var targetH = targetW*ratio;
+      var x,y;
+      if (lg.position === "top-left"){ x=pad; y=pad; }
+      else if (lg.position === "top-right"){ x=w-pad-targetW; y=pad; }
+      else if (lg.position === "bottom-left"){ x=pad; y=h-pad-targetH; }
+      else { x=w-pad-targetW; y=h-pad-targetH; }
+      ctx.save(); ctx.globalAlpha = lg.opacity;
+      ctx.drawImage(lg.img, x, y, targetW, targetH);
+      ctx.restore();
+    } else if (state.content.logoText){
+      ctx.save(); ctx.globalAlpha = lg.opacity;
+      var fs = Math.max(11, w*0.014);
+      ctx.font = "700 " + fs + "px " + fontStack("Inter");
+      ctx.fillStyle = state.colors.text;
+      var align = lg.position.indexOf("right")>-1 ? "right" : "left";
+      var tx = align === "right" ? w-pad : pad;
+      var ty = lg.position.indexOf("top")>-1 ? pad+fs : h-pad;
+      ctx.textAlign = align; ctx.textBaseline = lg.position.indexOf("top")>-1 ? "top" : "bottom";
+      drawTextSpaced(ctx, state.content.logoText.toUpperCase(), tx, ty, fs*0.12, align);
+      ctx.restore();
+    }
+  }
+
+  /* ---------- Éléments graphiques additionnels ---------- */
+  function drawArrow(ctx, x1,y1,x2,y2,color,lw){
+    var angle = Math.atan2(y2-y1, x2-x1);
+    var head = Math.max(10, lw*4);
+    ctx.save();
+    ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = lw;
+    ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(x2,y2);
+    ctx.lineTo(x2-head*Math.cos(angle-Math.PI/7), y2-head*Math.sin(angle-Math.PI/7));
+    ctx.lineTo(x2-head*Math.cos(angle+Math.PI/7), y2-head*Math.sin(angle+Math.PI/7));
+    ctx.closePath(); ctx.fill();
+    ctx.restore();
+  }
+
+  function drawElements(ctx, w, h, interactive){
+    state.elements.forEach(function(el){
+      var p = elPx(el, w, h);
+      ctx.save();
+      var lw = Math.max(1.5, w*0.0025);
+      switch(el.type){
+        case "line-h":
+          ctx.strokeStyle = el.color; ctx.lineWidth = lw;
+          ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(p.x+p.w,p.y); ctx.stroke();
+          break;
+        case "line-v":
+          ctx.strokeStyle = el.color; ctx.lineWidth = lw;
+          ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(p.x,p.y+p.h); ctx.stroke();
+          break;
+        case "rect":
+          ctx.strokeStyle = el.color; ctx.lineWidth = lw*1.4;
+          ctx.strokeRect(p.x,p.y,p.w,p.h);
+          break;
+        case "circle":
+          ctx.strokeStyle = el.color; ctx.lineWidth = lw*1.4;
+          ctx.beginPath(); ctx.ellipse(p.x+p.w/2,p.y+p.h/2,Math.abs(p.w)/2,Math.abs(p.h)/2,0,0,Math.PI*2); ctx.stroke();
+          break;
+        case "block-black":
+          ctx.fillStyle = "#000000"; ctx.fillRect(p.x,p.y,p.w,p.h); break;
+        case "block-white":
+          ctx.fillStyle = "#ffffff"; ctx.fillRect(p.x,p.y,p.w,p.h); break;
+        case "block-accent":
+          ctx.fillStyle = el.color; ctx.fillRect(p.x,p.y,p.w,p.h); break;
+        case "arrow":
+          drawArrow(ctx, p.x,p.y,p.x+p.w,p.y+p.h, el.color, lw*2); break;
+        case "number":
+          var r = Math.abs(p.w)/2;
+          ctx.fillStyle = el.color; ctx.beginPath(); ctx.arc(p.x+r,p.y+r,r,0,Math.PI*2); ctx.fill();
+          ctx.fillStyle = "#111111"; ctx.font = "800 " + Math.max(10,r*1.05) + "px " + fontStack("Inter");
+          ctx.textAlign = "center"; ctx.textBaseline = "middle";
+          ctx.fillText(el.value, p.x+r, p.y+r+r*0.06);
+          break;
+        case "dot":
+          var r2 = Math.max(3, Math.abs(p.w)/2);
+          ctx.fillStyle = el.color; ctx.beginPath(); ctx.arc(p.x+r2,p.y+r2,r2,0,Math.PI*2); ctx.fill();
+          break;
+      }
+      if (interactive && el.id === state.selectedElId){
+        ctx.strokeStyle = "#2b56d6"; ctx.lineWidth = 1.5; ctx.setLineDash([5,4]);
+        var sx = Math.min(p.x, p.x+p.w), sy = Math.min(p.y, p.y+p.h);
+        ctx.strokeRect(sx-8, sy-8, Math.abs(p.w)+16, Math.abs(p.h)+16);
+        ctx.setLineDash([]);
+        ctx.fillStyle = "#2b56d6";
+        ctx.beginPath(); ctx.arc(p.x+p.w, p.y+p.h, 6, 0, Math.PI*2); ctx.fill();
+      }
+      ctx.restore();
+    });
+  }
+
+  /* ---------- Dispatcher principal ---------- */
+  function drawScene(ctx, w, h, interactive){
+    ctx.clearRect(0,0,w,h);
+    ctx.fillStyle = state.colors.bg;
+    ctx.fillRect(0,0,w,h);
+    if (state.formatKey === "yt" && THUMB_STYLES[state.thumbStyle]){
+      THUMB_STYLES[state.thumbStyle](ctx, w, h);
+    } else {
+      drawEditorialGeneric(ctx, w, h);
+    }
+    drawLogo(ctx, w, h);
+    drawElements(ctx, w, h, interactive);
+  }
+
+  /* =========================================================
+     RENDU DE L'APERÇU + LECTURE
+     ========================================================= */
+  function sizeStageCanvas(){
+    var fmt = FORMATS[state.formatKey];
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    stage.width = Math.round(fmt.w*dpr);
+    stage.height = Math.round(fmt.h*dpr);
+  }
+
+  function updateReadout(){
+    var fmt = FORMATS[state.formatKey];
+    document.getElementById("rdFormat").textContent = fmt.label.toUpperCase();
+    document.getElementById("rdDims").textContent = fmt.w + " × " + fmt.h + " PX";
+    document.getElementById("rdDpr").textContent = "DPR " + (stage.width/fmt.w).toFixed(1);
+  }
+
+  function renderCanvasOnly(){
+    sizeStageCanvas();
+    var fmt = FORMATS[state.formatKey];
+    var dpr = stage.width/fmt.w;
+    ctxLive.setTransform(dpr,0,0,dpr,0,0);
+    drawScene(ctxLive, fmt.w, fmt.h, true);
+    updateReadout();
+  }
+
+  function render(){
+    renderCanvasOnly();
+    renderElementsList();
+    renderTemplateGrid();
+  }
+
+  /* =========================================================
+     EXPORT PNG
+     — utilise la capacité "downloads" du visualiseur Artifact quand
+       elle est disponible ; sinon, lien <a download> classique
+       (fonctionne tel quel dans un navigateur normal).
+     ========================================================= */
+  var downloadsApi = null;
+  if (window.claude && typeof window.claude.use === "function"){
+    window.claude.use("downloads").then(function(ns){ downloadsApi = ns; }).catch(function(){ downloadsApi = null; });
+  }
+
+  function downloadPNG(hd){
+    var fmt = FORMATS[state.formatKey];
+    var scale = hd ? 3 : 1;
+    var off = document.createElement("canvas");
+    off.width = fmt.w*scale; off.height = fmt.h*scale;
+    var octx = off.getContext("2d");
+    octx.setTransform(scale,0,0,scale,0,0);
+    drawScene(octx, fmt.w, fmt.h, false);
+    var dateStr = new Date().toISOString().slice(0,10);
+    var filename = "visuel-journalistique-" + dateStr + (hd ? "-HD" : "") + ".png";
+
+    if (downloadsApi){
+      off.toBlob(function(blob){
+        if (!blob) return;
+        downloadsApi.save({ filename:filename, data:blob }).catch(function(err){
+          console.warn("Téléchargement annulé ou indisponible :", err && err.code);
+        });
+      }, "image/png");
+      return;
+    }
+
+    var a = document.createElement("a");
+    a.download = filename;
+    a.href = off.toDataURL("image/png");
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }
+
+  /* =========================================================
+     RESET
+     ========================================================= */
+  function doReset(){
+    state = freshState();
+    elementSeq = 0;
+    editingTemplateId = null;
+    document.getElementById("templateEditor").hidden = true;
+    document.getElementById("fImageUpload").value = "";
+    document.getElementById("fLogoUpload").value = "";
+    onFormatChange();
+    syncFormFromState();
+    render();
+  }
+
+  /* =========================================================
+     INITIALISATION
+     ========================================================= */
+  onFormatChange();
+  syncFormFromState();
+  render();
+  window.addEventListener("resize", render);
+
+})();
+</script>
+
+</body>
+</html>
