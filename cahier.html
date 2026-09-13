@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Cahier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Kalam:wght@400;700&family=Literata:opsz,wght@18..72,400;18..72,500;18..72,600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#f6f2e8;
+    --panel:#ffffff;
+    --ink:#2b2620;
+    --ink-soft:#756b5c;
+    --line:#e4dcc8;
+    --accent:#c0392b;
+    --accent-ink:#ffffff;
+    --blue:#2f4f7c;
+    --focus:#2f4f7c;
+    --font-ui:'Inter',Arial,sans-serif;
+    --font-hand:'Kalam',cursive;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#1c1912;
+      --panel:#262119;
+      --ink:#f2ece0;
+      --ink-soft:#b6ab98;
+      --line:#3a3428;
+      --accent:#e0685a;
+      --accent-ink:#231a17;
+      --blue:#7fa1cf;
+      --focus:#7fa1cf;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#1c1912;
+    --panel:#262119;
+    --ink:#f2ece0;
+    --ink-soft:#b6ab98;
+    --line:#3a3428;
+    --accent:#e0685a;
+    --accent-ink:#231a17;
+    --blue:#7fa1cf;
+    --focus:#7fa1cf;
+  }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--bg); color:var(--ink); font-family:var(--font-ui); }
+  h1,h2{ margin:0; }
+  code{ background:var(--line); padding:1px 6px; border-radius:4px; font-size:.92em; }
+
+  .page{ max-width:900px; margin:0 auto; padding:36px 20px 80px; }
+
+  .masthead{ margin-bottom:26px; }
+  .masthead h1{
+    font-family:var(--font-hand); font-size:38px; font-weight:700; color:var(--accent);
+    display:flex; align-items:baseline; gap:10px;
+  }
+  .masthead p{ margin:6px 0 0; color:var(--ink-soft); font-size:14px; max-width:60ch; line-height:1.5; }
+
+  .intake{
+    background:var(--panel); border:1px solid var(--line); border-radius:10px;
+    padding:22px clamp(16px,3vw,28px); margin-bottom:34px;
+  }
+  label{ display:block; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-soft); margin:0 0 6px; }
+  input[type="text"], textarea{
+    width:100%; border:1px solid var(--line); border-radius:6px; background:var(--bg); color:var(--ink);
+    padding:10px 12px; font:400 14.5px/1.5 var(--font-ui);
+  }
+  input[type="text"]:focus, textarea:focus{ outline:2px solid var(--focus); outline-offset:1px; }
+  textarea{ min-height:220px; resize:vertical; font-family:'Literata', Georgia, serif; font-size:15px; }
+  .field{ margin-bottom:16px; }
+  .field:last-child{ margin-bottom:0; }
+
+  .intake-actions{ display:flex; flex-wrap:wrap; align-items:center; gap:14px; margin-top:18px; }
+  button{ font-family:inherit; cursor:pointer; }
+  .btn{
+    border:1px solid var(--ink); background:var(--panel); color:var(--ink);
+    padding:12px 20px; font:700 13px var(--font-ui); letter-spacing:.03em; text-transform:uppercase;
+    border-radius:6px;
+  }
+  .btn:hover{ background:var(--ink); color:var(--bg); }
+  .btn-accent{ background:var(--accent); border-color:var(--accent); color:var(--accent-ink); }
+  .btn-accent:hover{ filter:brightness(0.92); background:var(--accent); color:var(--accent-ink); }
+  .stat-line{ font-size:12.5px; color:var(--ink-soft); font-variant-numeric:tabular-nums; }
+
+  .empty-hint{ color:var(--ink-soft); font-size:14px; font-style:italic; }
+
+  /* ---------- PAGES DE CAHIER : identité visuelle fixe, indépendante du thème ---------- */
+  .cahier-page{
+    --paper:#fffdf6;
+    --rule:#a9c6e0;
+    --margin-line:#d5615a;
+    --cahier-ink:#2c2620;
+    --heading-ink:#2f4f7c;
+    position:relative;
+    background:var(--paper);
+    background-image: repeating-linear-gradient(to bottom, transparent 0 34px, var(--rule) 34px 35px);
+    padding:34px 30px 34px 64px;
+    border:1px solid #d8cfb8;
+    border-radius:3px;
+    box-shadow:0 10px 26px rgba(30,20,10,0.14);
+    max-width:720px;
+    margin:0 auto 44px;
+    color:var(--cahier-ink);
+  }
+  .cahier-page::before{
+    content:""; position:absolute; left:42px; top:0; bottom:0; width:2px; background:var(--margin-line);
+  }
+  .cahier-page.tilt-a{ transform:rotate(-0.35deg); }
+  .cahier-page.tilt-b{ transform:rotate(0.35deg); }
+  .cahier-heading{
+    font-family:var(--font-hand); font-weight:700; font-size:24px; color:var(--heading-ink);
+    line-height:35px; margin:0 0 4px;
+  }
+  .cahier-sentence{
+    font-family:'Literata', Georgia, serif; font-size:16px; line-height:35px; margin:0 0 35px;
+    white-space:normal;
+  }
+  .cahier-sentence:last-child{ margin-bottom:0; }
+
+  @media (max-width:640px){
+    .cahier-page{ padding:30px 18px 30px 46px; }
+    .cahier-page::before{ left:26px; }
+  }
+</style>
+<script src="header.js"></script>
+</head>
+<body>
+<div id="header-container"></div>
+
+<div class="page">
+  <div class="masthead">
+    <h1>Le Cahier</h1>
+    <p>Colle un texte découpé en chapitres avec une ligne de <code>=======</code> entre chacun. Chaque chapitre devient une page de cahier, une phrase par ligne — prêt à être relu ou téléchargé en PDF.</p>
+  </div>
+
+  <div class="intake">
+    <div class="field">
+      <label for="docTitle">Titre du document (optionnel)</label>
+      <input type="text" id="docTitle" placeholder="Ex : Le journal des éléphants — épisode 4">
+    </div>
+    <div class="field">
+      <label for="inputText">Texte source</label>
+      <textarea id="inputText" placeholder="Chapitre un. Première phrase. Deuxième phrase.
+=======
+Chapitre deux. Une autre phrase ici."></textarea>
+    </div>
+    <div class="intake-actions">
+      <button class="btn" id="renderBtn">Mettre en page</button>
+      <button class="btn btn-accent" id="downloadBtn">Télécharger en PDF</button>
+      <span class="stat-line" id="statLine"></span>
+    </div>
+  </div>
+
+  <div id="preview"></div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var $ = function(id){ return document.getElementById(id); };
+
+  function normalize(text){ return String(text || "").replace(/\r\n?/g, "\n"); }
+
+  function splitChapters(raw){
+    var lines = normalize(raw).split("\n");
+    var chapters = [];
+    var buf = [];
+    lines.forEach(function(line){
+      var t = line.trim();
+      if (/^=+$/.test(t) && t.length >= 3){
+        chapters.push(buf.join("\n"));
+        buf = [];
+      } else {
+        buf.push(line);
+      }
+    });
+    chapters.push(buf.join("\n"));
+    return chapters.map(function(c){ return c.trim(); }).filter(function(c){ return c.length > 0; });
+  }
+
+  function splitSentences(chapterText){
+    var clean = chapterText.replace(/\s+/g, " ").trim();
+    if (!clean) return [];
+    return clean.split(/(?<=[.!?…])\s+/).map(function(s){ return s.trim(); }).filter(Boolean);
+  }
+
+  function pad2(n){ return n < 10 ? "0" + n : String(n); }
+
+  function updateStats(nChap, nSent){
+    if (!nChap){ $("statLine").textContent = ""; return; }
+    $("statLine").textContent = nChap + " chapitre" + (nChap > 1 ? "s" : "") + " · " + nSent + " phrase" + (nSent > 1 ? "s" : "");
+  }
+
+  function renderPreview(){
+    var raw = $("inputText").value;
+    var chapters = splitChapters(raw);
+    var container = $("preview");
+    container.innerHTML = "";
+
+    if (!chapters.length){
+      container.innerHTML = '<p class="empty-hint">L’aperçu apparaîtra ici dès que le texte contient au moins un chapitre.</p>';
+      updateStats(0, 0);
+      return;
+    }
+
+    var totalSentences = 0;
+    chapters.forEach(function(chapterText, idx){
+      var sentences = splitSentences(chapterText);
+      totalSentences += sentences.length;
+
+      var pageEl = document.createElement("div");
+      pageEl.className = "cahier-page " + (idx % 2 ? "tilt-a" : "tilt-b");
+
+      var heading = document.createElement("div");
+      heading.className = "cahier-heading";
+      heading.textContent = "Chapitre " + pad2(idx + 1);
+      pageEl.appendChild(heading);
+
+      sentences.forEach(function(sentence){
+        var p = document.createElement("p");
+        p.className = "cahier-sentence";
+        p.textContent = sentence;
+        pageEl.appendChild(p);
+      });
+
+      container.appendChild(pageEl);
+    });
+
+    updateStats(chapters.length, totalSentences);
+  }
+
+  var debounceTimer = null;
+  $("inputText").addEventListener("input", function(){
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(renderPreview, 350);
+  });
+  $("renderBtn").addEventListener("click", renderPreview);
+
+  /* ---------- Export PDF (jsPDF) : reproduit le papier réglé + la marge rouge ---------- */
+  var downloadsApi = null;
+  if (window.claude && typeof window.claude.use === "function"){
+    window.claude.use("downloads").then(function(ns){ downloadsApi = ns; }).catch(function(){ downloadsApi = null; });
+  }
+
+  function downloadPDF(){
+    var raw = $("inputText").value;
+    var docTitle = $("docTitle").value.trim();
+    var chapters = splitChapters(raw);
+
+    if (!chapters.length){
+      alert("Colle d'abord un texte avec au moins un chapitre (séparé par une ligne de =======).");
+      return;
+    }
+
+    var jsPDFCtor = window.jspdf && window.jspdf.jsPDF;
+    if (!jsPDFCtor){
+      alert("La bibliothèque PDF n'a pas pu se charger. Vérifie ta connexion et réessaie.");
+      return;
+    }
+
+    var doc = new jsPDFCtor({ unit:"mm", format:"a4" });
+    var pageW = doc.internal.pageSize.getWidth();
+    var pageH = doc.internal.pageSize.getHeight();
+    var marginTop = 24, marginBottom = 22, marginLeft = 32, marginRight = 20;
+    var lineHeight = 8;
+    var redLineX = marginLeft - 7;
+    var maxTextWidth = pageW - marginLeft - marginRight;
+
+    var firstPage = true;
+    var y = marginTop;
+
+    function drawRuledBackground(){
+      doc.setDrawColor(169, 198, 224);
+      doc.setLineWidth(0.2);
+      for (var ly = marginTop; ly <= pageH - marginBottom; ly += lineHeight){
+        doc.line(marginLeft - 12, ly, pageW - marginRight, ly);
+      }
+      doc.setDrawColor(213, 97, 90);
+      doc.setLineWidth(0.4);
+      doc.line(redLineX, marginTop - lineHeight * 0.7, redLineX, pageH - marginBottom + lineHeight * 0.3);
+    }
+
+    function newPage(){
+      if (!firstPage) doc.addPage();
+      firstPage = false;
+      drawRuledBackground();
+      y = marginTop;
+    }
+
+    if (docTitle){
+      newPage();
+      doc.setFont("times", "bolditalic");
+      doc.setFontSize(20);
+      doc.setTextColor(40, 34, 28);
+      doc.text(docTitle, pageW / 2, y, { align:"center" });
+      y += lineHeight * 2;
+    }
+
+    chapters.forEach(function(chapterText, idx){
+      newPage();
+      doc.setFont("times", "bolditalic");
+      doc.setFontSize(15);
+      doc.setTextColor(47, 79, 124);
+      doc.text("Chapitre " + pad2(idx + 1), marginLeft, y);
+      y += lineHeight * 1.7;
+
+      var sentences = splitSentences(chapterText);
+      doc.setFont("times", "normal");
+      doc.setFontSize(12.5);
+      doc.setTextColor(35, 30, 25);
+
+      sentences.forEach(function(sentence, sIdx){
+        var wrapped = doc.splitTextToSize(sentence, maxTextWidth);
+        wrapped.forEach(function(line){
+          if (y > pageH - marginBottom){
+            doc.addPage();
+            drawRuledBackground();
+            y = marginTop;
+          }
+          doc.text(line, marginLeft, y);
+          y += lineHeight;
+        });
+        if (sIdx < sentences.length - 1){
+          if (y > pageH - marginBottom){
+            doc.addPage();
+            drawRuledBackground();
+            y = marginTop;
+          } else {
+            y += lineHeight;
+          }
+        }
+      });
+    });
+
+    var fileName = (docTitle || "cahier").replace(/[^a-z0-9_\-àâäéèêëïîôöùûüç ]/gi, "").trim() || "cahier";
+    var filename = fileName + ".pdf";
+
+    if (downloadsApi){
+      downloadsApi.save({ filename:filename, data:doc.output("blob") }).catch(function(err){
+        console.warn("Téléchargement annulé ou indisponible :", err && err.code);
+      });
+      return;
+    }
+    doc.save(filename);
+  }
+
+  $("downloadBtn").addEventListener("click", downloadPDF);
+
+  renderPreview();
+})();
+</script>
+
+</body>
+</html>

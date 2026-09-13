@@ -712,6 +712,7 @@
       type:{ font:"Inter", titleSize:64, subtitleSize:28, weight:"800", lineHeight:1.08, letterSpacing:0, align:"left" },
       image:{ src:null, img:null, mode:"background", zoom:1, posX:50, posY:50, opacity:1, overlay:true, overlayOpacity:0.55 },
       logo:{ src:null, img:null, position:"bottom-right", size:90, opacity:0.92 },
+      layout:{ textOffsetX:0, textOffsetY:0, logoOffsetX:0, logoOffsetY:0 },
       elements:[],
       selectedElId:null
     };
@@ -1054,23 +1055,24 @@
     return { x:(e.clientX-rect.left)*(fmt.w/rect.width), y:(e.clientY-rect.top)*(fmt.h/rect.height) };
   }
   function dist(a,b){ return Math.hypot(a.x-b.x, a.y-b.y); }
+  function pointInRect(pt, r){
+    if (!r) return false;
+    var x0 = Math.min(r.x, r.x+r.w), x1 = Math.max(r.x, r.x+r.w);
+    var y0 = Math.min(r.y, r.y+r.h), y1 = Math.max(r.y, r.y+r.h);
+    return pt.x >= x0 && pt.x <= x1 && pt.y >= y0 && pt.y <= y1;
+  }
 
-  stage.addEventListener("pointerdown", function(e){
-    var pt = toLogical(e);
-    var fmt = FORMATS[state.formatKey];
+  /* Tout élément visuel — formes ajoutées, logo, bloc de texte, image —
+     est glissable : on teste du premier plan (formes) vers l'arrière-plan (image). */
+  function hitTestScene(pt, fmt){
     var i, el, p;
-
     if (state.selectedElId){
       for (i=state.elements.length-1;i>=0;i--){
         el = state.elements[i];
         if (el.id !== state.selectedElId) continue;
         p = elPx(el, fmt.w, fmt.h);
         var handle = { x:p.x+p.w, y:p.y+p.h };
-        if (dist(pt, handle) < Math.max(20, fmt.w*0.014)){
-          dragMode = "resize"; dragEl = el;
-          stage.setPointerCapture(e.pointerId);
-          return;
-        }
+        if (dist(pt, handle) < Math.max(20, fmt.w*0.014)) return { kind:"resize-el", el:el };
       }
     }
     for (i=state.elements.length-1;i>=0;i--){
@@ -1078,22 +1080,61 @@
       p = elPx(el, fmt.w, fmt.h);
       var hitW = Math.max(p.w, 22), hitH = Math.max(p.h, 22);
       var hx = p.w >= 0 ? p.x : p.x+p.w, hy = p.h >= 0 ? p.y : p.y+p.h;
-      if (pt.x >= hx-6 && pt.x <= hx+hitW+6 && pt.y >= hy-6 && pt.y <= hy+hitH+6){
-        dragMode = "move"; dragEl = el; dragStart = { x:pt.x-p.x, y:pt.y-p.y };
-        state.selectedElId = el.id;
-        stage.setPointerCapture(e.pointerId);
-        render();
-        return;
-      }
+      if (pt.x >= hx-6 && pt.x <= hx+hitW+6 && pt.y >= hy-6 && pt.y <= hy+hitH+6) return { kind:"move-el", el:el };
     }
-    state.selectedElId = null;
-    render();
+    if (pointInRect(pt, lastLogoRect)) return { kind:"move-logo" };
+    if (pointInRect(pt, lastTextRect)) return { kind:"move-text" };
+    if (pointInRect(pt, lastImageRect)) return { kind:"pan-image" };
+    return null;
+  }
+
+  stage.addEventListener("pointerdown", function(e){
+    var pt = toLogical(e);
+    var fmt = FORMATS[state.formatKey];
+    var hit = hitTestScene(pt, fmt);
+
+    if (!hit){
+      state.selectedElId = null;
+      render();
+      return;
+    }
+    stage.setPointerCapture(e.pointerId);
+
+    if (hit.kind === "resize-el"){
+      dragMode = "resize"; dragEl = hit.el;
+    } else if (hit.kind === "move-el"){
+      var p = elPx(hit.el, fmt.w, fmt.h);
+      dragMode = "move"; dragEl = hit.el; dragStart = { x:pt.x-p.x, y:pt.y-p.y };
+      state.selectedElId = hit.el.id;
+      render();
+    } else if (hit.kind === "move-logo"){
+      dragMode = "move-logo";
+      dragStart = { x:pt.x, y:pt.y, offX:state.layout.logoOffsetX, offY:state.layout.logoOffsetY };
+      state.selectedElId = null;
+      render();
+    } else if (hit.kind === "move-text"){
+      dragMode = "move-text";
+      dragStart = { x:pt.x, y:pt.y, offX:state.layout.textOffsetX, offY:state.layout.textOffsetY };
+      state.selectedElId = null;
+      render();
+    } else if (hit.kind === "pan-image"){
+      dragMode = "pan-image";
+      dragStart = { x:pt.x, y:pt.y, posX:state.image.posX, posY:state.image.posY };
+      state.selectedElId = null;
+      render();
+    }
   });
 
   stage.addEventListener("pointermove", function(e){
-    if (!dragEl) return;
     var pt = toLogical(e);
     var fmt = FORMATS[state.formatKey];
+
+    if (!dragMode){
+      var hover = hitTestScene(pt, fmt);
+      stage.style.cursor = hover ? (hover.kind === "resize-el" ? "nwse-resize" : "move") : "default";
+      return;
+    }
+
     if (dragMode === "move"){
       dragEl.x = clamp((pt.x-dragStart.x)/fmt.w*100, -40, 130);
       dragEl.y = clamp((pt.y-dragStart.y)/fmt.h*100, -40, 130);
@@ -1109,16 +1150,41 @@
         dragEl.w = clamp(dx/fmt.w*100, 4, 120);
         dragEl.h = clamp(dy/fmt.h*100, 4, 120);
       }
+    } else if (dragMode === "move-logo"){
+      state.layout.logoOffsetX = dragStart.offX + (pt.x-dragStart.x)/fmt.w*100;
+      state.layout.logoOffsetY = dragStart.offY + (pt.y-dragStart.y)/fmt.h*100;
+    } else if (dragMode === "move-text"){
+      state.layout.textOffsetX = dragStart.offX + (pt.x-dragStart.x)/fmt.w*100;
+      state.layout.textOffsetY = dragStart.offY + (pt.y-dragStart.y)/fmt.h*100;
+    } else if (dragMode === "pan-image"){
+      var img = state.image.img;
+      if (img && lastImageRect){
+        var scale = Math.max(lastImageRect.w/img.width, lastImageRect.h/img.height) * (state.image.zoom||1);
+        var dw = img.width*scale, dh = img.height*scale;
+        var maxOffX = Math.max(1, dw-lastImageRect.w), maxOffY = Math.max(1, dh-lastImageRect.h);
+        var ddx = pt.x - dragStart.x, ddy = pt.y - dragStart.y;
+        state.image.posX = clamp(dragStart.posX - ddx/maxOffX*100, 0, 100);
+        state.image.posY = clamp(dragStart.posY - ddy/maxOffY*100, 0, 100);
+      }
     }
     render();
   });
-  stage.addEventListener("pointerup", function(){ dragMode=null; dragEl=null; });
-  stage.addEventListener("pointercancel", function(){ dragMode=null; dragEl=null; });
+  stage.addEventListener("pointerup", function(){
+    if (dragMode === "pan-image") syncFormFromState();
+    dragMode = null; dragEl = null; dragStart = null;
+  });
+  stage.addEventListener("pointercancel", function(){ dragMode=null; dragEl=null; dragStart=null; });
+  stage.addEventListener("pointerleave", function(){ if (!dragMode) stage.style.cursor = "default"; });
 
   /* =========================================================
      RENDU CANVAS
      ========================================================= */
   function fontStack(name){ return FONT_STACKS[name] || FONT_STACKS.Inter; }
+
+  /* Dimensions du canevas logique et rectangles du dernier rendu,
+     utilisés pour le glisser-déposer (image, bloc de texte, logo). */
+  var CW = 0, CH = 0;
+  var lastImageRect = null, lastTextRect = null, lastLogoRect = null;
 
   function measureSpaced(ctx, text, spacing){
     if (!spacing) return ctx.measureText(text).width;
@@ -1212,6 +1278,7 @@
 
   function drawImageBlock(ctx, rx, ry, rw, rh, vertical){
     var im = state.image;
+    lastImageRect = { x:rx, y:ry, w:rw, h:rh };
     if (im.img) drawImageCover(ctx, im.img, rx, ry, rw, rh, im);
     else drawPlaceholder(ctx, rx, ry, rw, rh, state.colors);
     if (im.overlay) drawOverlay(ctx, rx, ry, rw, rh, state.colors.primary, im.overlayOpacity, vertical!==false);
@@ -1250,6 +1317,7 @@
   /* ---------- Bloc éditorial générique (contenu texte) ---------- */
   function drawTextBlock(ctx, box, opts){
     var c = state.content, t = state.type, colors = state.colors;
+    box = { x: box.x + state.layout.textOffsetX/100*CW, y: box.y + state.layout.textOffsetY/100*CH, w: box.w, h: box.h };
     var align = opts.align || t.align;
     var anchorX = align === "right" ? box.x+box.w : (align === "center" ? box.x+box.w/2 : box.x);
     var cy = opts.flow === "bottom" ? null : box.y;
@@ -1319,6 +1387,7 @@
       }
       y += b.h + gap;
     });
+    lastTextRect = { x:box.x, y:startY, w:box.w, h:totalH };
     return totalH;
   }
 
@@ -1393,6 +1462,7 @@
       ctx.fillStyle = state.colors.bg; ctx.fillRect(0,0,w,h);
       var d = h*0.62;
       var cx = w*0.745, cy = h*0.5;
+      lastImageRect = { x:cx-d/2, y:cy-d/2, w:d, h:d };
       ctx.save();
       ctx.beginPath(); ctx.arc(cx,cy,d/2,0,Math.PI*2); ctx.clip();
       if (state.image.img) drawImageCover(ctx, state.image.img, cx-d/2, cy-d/2, d, d, state.image);
@@ -1400,6 +1470,8 @@
       ctx.restore();
       ctx.save(); ctx.strokeStyle = hexToRgba(state.colors.secondary,0.25); ctx.lineWidth=2; ctx.beginPath(); ctx.arc(cx,cy,d/2,0,Math.PI*2); ctx.stroke(); ctx.restore();
 
+      var offX3 = state.layout.textOffsetX/100*w, offY3 = state.layout.textOffsetY/100*h;
+      var textMarginX = margin + offX3;
       var words = (state.content.title || "").toUpperCase().split(/\s+/).filter(Boolean);
       var last = words.pop() || "";
       var head = words.join(" ");
@@ -1408,7 +1480,8 @@
       var lines = wrapLinesSpaced(ctx, (head + " " + last).trim(), maxW, state.type.letterSpacing);
       var lh = state.type.titleSize*state.type.lineHeight;
       var totalH = lines.length*lh;
-      var startY = h/2 - totalH/2;
+      var startY = h/2 - totalH/2 + offY3;
+      lastTextRect = { x:textMarginX, y:startY, w:maxW, h:totalH };
       ctx.textAlign = "left"; ctx.textBaseline = "top";
       lines.forEach(function(line, i){
         var isLast = i === lines.length-1;
@@ -1416,11 +1489,11 @@
         var lastWordInLine = isLast ? lineWords.pop() : null;
         var restText = isLast ? lineWords.join(" ") : line;
         ctx.fillStyle = state.colors.text;
-        drawTextSpaced(ctx, restText, margin, startY+i*lh, state.type.letterSpacing, "left");
+        drawTextSpaced(ctx, restText, textMarginX, startY+i*lh, state.type.letterSpacing, "left");
         if (isLast && lastWordInLine){
           var restW = measureSpaced(ctx, restText + (restText?" ":""), state.type.letterSpacing);
           ctx.fillStyle = state.colors.accent;
-          drawTextSpaced(ctx, lastWordInLine, margin+restW, startY+i*lh, state.type.letterSpacing, "left");
+          drawTextSpaced(ctx, lastWordInLine, textMarginX+restW, startY+i*lh, state.type.letterSpacing, "left");
         }
       });
       if (state.content.badge) drawBadge(ctx, state.content.badge, margin, margin, "left", Math.max(12,w*0.016), state.colors.accent);
@@ -1441,12 +1514,15 @@
       var ix = (w-imgW)/2;
       drawImageBlock(ctx, ix, imgTop, imgW, imgH, false);
       ctx.save(); ctx.strokeStyle = hexToRgba(state.colors.secondary,0.2); ctx.lineWidth=1; ctx.strokeRect(ix,imgTop,imgW,imgH); ctx.restore();
-      var ty = imgTop+imgH+margin*0.5;
+      var offX5 = state.layout.textOffsetX/100*w, offY5 = state.layout.textOffsetY/100*h;
+      var ty = imgTop+imgH+margin*0.5 + offY5;
+      var centerX = w/2 + offX5;
       ctx.font = state.type.weight + " " + Math.min(state.type.titleSize, h*0.11) + "px " + fontStack(state.type.font);
       var lines = wrapLinesSpaced(ctx, (state.content.title||"").toUpperCase(), w-margin*2, state.type.letterSpacing);
       var lh = Math.min(state.type.titleSize, h*0.11)*state.type.lineHeight;
+      lastTextRect = { x:centerX-(w-margin*2)/2, y:ty, w:w-margin*2, h:lines.length*lh };
       ctx.fillStyle = state.colors.text; ctx.textAlign = "center"; ctx.textBaseline = "top";
-      lines.forEach(function(line,i){ drawTextSpaced(ctx, line, w/2, ty+i*lh, state.type.letterSpacing, "center"); });
+      lines.forEach(function(line,i){ drawTextSpaced(ctx, line, centerX, ty+i*lh, state.type.letterSpacing, "center"); });
       drawFooter(ctx, w, h, margin);
     }
   };
@@ -1455,6 +1531,8 @@
   function drawLogo(ctx, w, h){
     var pad = w*0.035;
     var lg = state.logo;
+    var offX = state.layout.logoOffsetX/100*w, offY = state.layout.logoOffsetY/100*h;
+    lastLogoRect = null;
     if (lg.img){
       var targetW = (lg.size/1080)*w;
       var ratio = lg.img.height/lg.img.width;
@@ -1464,6 +1542,8 @@
       else if (lg.position === "top-right"){ x=w-pad-targetW; y=pad; }
       else if (lg.position === "bottom-left"){ x=pad; y=h-pad-targetH; }
       else { x=w-pad-targetW; y=h-pad-targetH; }
+      x += offX; y += offY;
+      lastLogoRect = { x:x, y:y, w:targetW, h:targetH };
       ctx.save(); ctx.globalAlpha = lg.opacity;
       ctx.drawImage(lg.img, x, y, targetW, targetH);
       ctx.restore();
@@ -1473,9 +1553,13 @@
       ctx.font = "700 " + fs + "px " + fontStack("Inter");
       ctx.fillStyle = state.colors.text;
       var align = lg.position.indexOf("right")>-1 ? "right" : "left";
-      var tx = align === "right" ? w-pad : pad;
-      var ty = lg.position.indexOf("top")>-1 ? pad+fs : h-pad;
+      var tx = (align === "right" ? w-pad : pad) + offX;
+      var ty = (lg.position.indexOf("top")>-1 ? pad+fs : h-pad) + offY;
       ctx.textAlign = align; ctx.textBaseline = lg.position.indexOf("top")>-1 ? "top" : "bottom";
+      var tw = measureSpaced(ctx, state.content.logoText.toUpperCase(), fs*0.12);
+      var boxX = align === "right" ? tx-tw : tx;
+      var boxY = lg.position.indexOf("top")>-1 ? ty : ty-fs;
+      lastLogoRect = { x:boxX, y:boxY, w:tw, h:fs*1.3 };
       drawTextSpaced(ctx, state.content.logoText.toUpperCase(), tx, ty, fs*0.12, align);
       ctx.restore();
     }
@@ -1552,6 +1636,7 @@
 
   /* ---------- Dispatcher principal ---------- */
   function drawScene(ctx, w, h, interactive){
+    CW = w; CH = h;
     ctx.clearRect(0,0,w,h);
     ctx.fillStyle = state.colors.bg;
     ctx.fillRect(0,0,w,h);
