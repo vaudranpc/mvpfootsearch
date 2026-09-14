@@ -189,6 +189,9 @@
             <label for="titleText">Titre principal</label>
             <textarea id="titleText">Le flou sur l'indépendance nuit-il à Christine Fréchette?</textarea>
 
+            <label for="titleSize">Taille du titre (<span id="titleSizeVal">52</span>px)</label>
+            <input type="range" id="titleSize" min="20" max="90" value="52">
+
             <div class="radio-row">
               <label><input type="radio" name="titleStyle" value="bottom" id="styleBottom" checked> Style Titre Bas (bandeau sombre + badge)</label>
               <label><input type="radio" name="titleStyle" value="cutout" id="styleCutout"> Style Cartouches Centrés (blocs beige)</label>
@@ -308,7 +311,9 @@
   }
 
   function measureTitleBottom(text, maxWidth) {
-    const fit = fitTitle(text, maxWidth, 3, 52, 30);
+    const maxSize = parseInt(document.getElementById('titleSize').value, 10);
+    const minSize = Math.min(20, maxSize);
+    const fit = fitTitle(text, maxWidth, 3, maxSize, minSize);
     const lineHeight = fit.size * 1.18;
     const totalHeight = fit.lines.length * lineHeight;
     ctx.font = "bold " + fit.size + "px Arial, Helvetica, sans-serif";
@@ -442,17 +447,19 @@
     const maxWidth = W * 0.86;
     const anchor = state.titleCutout;
 
+    let fontSize = parseInt(document.getElementById('titleSize').value, 10);
+    const minFontSize = Math.min(20, fontSize);
+
     let lines = rawText.split('\n').map(function (l) { return l.trim(); }).filter(Boolean);
     if (lines.length <= 1) {
-      ctx.font = "bold 58px Arial, Helvetica, sans-serif";
+      ctx.font = "bold " + fontSize + "px Arial, Helvetica, sans-serif";
       lines = wrapText(rawText.trim(), W * 0.6);
     }
 
-    let fontSize = 58;
     ctx.font = "bold " + fontSize + "px Arial, Helvetica, sans-serif";
     let widest = 0;
     lines.forEach(function (l) { widest = Math.max(widest, ctx.measureText(l).width); });
-    while (widest > maxWidth - 60 && fontSize > 26) {
+    while (widest > maxWidth - 60 && fontSize > minFontSize) {
       fontSize -= 2;
       ctx.font = "bold " + fontSize + "px Arial, Helvetica, sans-serif";
       widest = 0;
@@ -596,6 +603,9 @@
     input.addEventListener('input', function () {
       if (input.id === 'themeBadgeSize') {
         document.getElementById('themeBadgeSizeVal').textContent = input.value;
+      }
+      if (input.id === 'titleSize') {
+        document.getElementById('titleSizeVal').textContent = input.value;
       }
       draw();
     });
