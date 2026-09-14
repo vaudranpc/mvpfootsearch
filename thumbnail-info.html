@@ -173,6 +173,21 @@
             <label for="bgImage">Choisir une image</label>
             <input type="file" id="bgImage" accept="image/*">
             <div class="hint">L'image est automatiquement recadrée pour remplir le cadre 16:9.</div>
+
+            <div class="checkbox-row">
+              <input type="checkbox" id="bgBorderEnabled" checked>
+              <label for="bgBorderEnabled">Afficher un contour</label>
+            </div>
+            <div class="row-2">
+              <div>
+                <label for="bgBorderColor">Couleur du contour</label>
+                <input type="color" id="bgBorderColor" value="#a10ff0">
+              </div>
+              <div>
+                <label for="bgBorderWidth">Épaisseur (<span id="bgBorderWidthVal">16</span>px)</label>
+                <input type="range" id="bgBorderWidth" min="1" max="30" value="16">
+              </div>
+            </div>
           </fieldset>
 
           <fieldset>
@@ -379,6 +394,12 @@
       grad.addColorStop(1, '#111113');
       ctx.fillStyle = grad;
       ctx.fillRect(0, 0, W, H);
+    }
+    if (document.getElementById('bgBorderEnabled').checked) {
+      const width = parseInt(document.getElementById('bgBorderWidth').value, 10);
+      ctx.lineWidth = width;
+      ctx.strokeStyle = document.getElementById('bgBorderColor').value;
+      ctx.strokeRect(width / 2, width / 2, W - width, H - width);
     }
   }
 
@@ -606,6 +627,9 @@
       }
       if (input.id === 'titleSize') {
         document.getElementById('titleSizeVal').textContent = input.value;
+      }
+      if (input.id === 'bgBorderWidth') {
+        document.getElementById('bgBorderWidthVal').textContent = input.value;
       }
       draw();
     });
