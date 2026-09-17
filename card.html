@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Générateur de Cards — Top Gbairai</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="header.js"></script>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    background:#0e0f11;
+    color:#eee;
+    font-family:'Inter',Arial,sans-serif;
+    min-height:100vh;
+  }
+  .page{max-width:1200px;margin:0 auto;padding:30px 20px 60px;}
+
+  .masthead{margin-bottom:22px;}
+  .masthead h1{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:32px;letter-spacing:.3px;}
+  .masthead p{color:#9a9a9a;font-size:13.5px;margin-top:6px;line-height:1.5;max-width:720px;}
+  .masthead code{background:#1c1c1f;padding:2px 6px;border-radius:4px;color:#F5A800;}
+
+  .intake{
+    background:#161618;border:1px solid #2a2a2e;border-radius:12px;
+    padding:18px;margin-bottom:32px;
+  }
+  .intake label{display:block;font-size:11.5px;text-transform:uppercase;letter-spacing:.4px;color:#8d8d92;margin-bottom:8px;font-weight:600;}
+  textarea{
+    width:100%;min-height:220px;background:#0e0e10;border:1px solid #2a2a2e;color:#eee;
+    padding:12px 14px;border-radius:8px;font-family:'Inter',monospace;font-size:13px;line-height:1.6;resize:vertical;
+  }
+  .intake-actions{display:flex;align-items:center;gap:14px;margin-top:14px;flex-wrap:wrap;}
+  .btn{
+    background:#F5A800;color:#000;border:none;padding:11px 20px;border-radius:8px;
+    font-weight:700;font-size:13px;cursor:pointer;letter-spacing:.2px;
+  }
+  .btn:hover{background:#ffb81c;}
+  .btn.secondary{background:#232326;color:#eee;border:1px solid #333;}
+  .btn.secondary:hover{background:#2c2c30;}
+  .btn:disabled{opacity:.4;cursor:not-allowed;}
+  .stat-line{color:#8d8d92;font-size:12.5px;}
+
+  .file-row{
+    display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+    padding-bottom:16px;margin-bottom:16px;border-bottom:1px solid #232326;
+  }
+  .file-status{font-size:12.5px;color:#8d8d92;}
+  .file-status.ok{color:#5fd18a;}
+  .file-status.err{color:#ff6b6b;}
+
+  .form-label{display:block;font-size:11.5px;text-transform:uppercase;letter-spacing:.4px;color:#8d8d92;margin-bottom:8px;font-weight:600;}
+  input[type=text].field-input{
+    width:100%;background:#0e0e10;border:1px solid #2a2a2e;color:#eee;
+    padding:10px 12px;border-radius:8px;font-size:13.5px;margin-bottom:16px;font-family:inherit;
+  }
+
+  .grid{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px;
+  }
+  .empty{color:#7a7a7e;font-size:13.5px;padding:40px 0;text-align:center;grid-column:1/-1;}
+
+  /* CARD */
+  .card{
+    position:relative;background:linear-gradient(160deg,#17181b,#101113);
+    border:1px solid #262629;border-radius:14px;overflow:hidden;cursor:pointer;
+    transition:transform .15s, box-shadow .15s;
+  }
+  .card:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(0,0,0,.45);}
+  .flag-strip{height:5px;background:linear-gradient(90deg,#F5A800 0 33.33%,#ffffff 33.33% 66.66%,#009639 66.66% 100%);}
+  .card-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 0;gap:8px;}
+  .tag{
+    display:inline-flex;align-items:center;gap:6px;background:#1f2023;color:#F5A800;
+    font-size:10.5px;font-weight:700;letter-spacing:.4px;padding:4px 9px;border-radius:20px;text-transform:uppercase;
+    white-space:nowrap;
+  }
+  .card-actions{display:flex;gap:6px;flex-shrink:0;}
+  .dl-btn{
+    background:#1f2023;border:1px solid #33343a;color:#eee;width:28px;height:28px;border-radius:50%;
+    cursor:pointer;font-size:13px;line-height:1;display:flex;align-items:center;justify-content:center;
+  }
+  .dl-btn:hover{background:#2b2c30;}
+  .dl-btn.danger:hover{background:#3a1f22;border-color:#5a2b2f;color:#ff6b6b;}
+  .card-title{
+    font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:19px;line-height:1.25;
+    padding:12px 16px 8px;color:#fff;
+  }
+  .card-body{padding:0 16px 14px;font-size:13px;line-height:1.55;color:#c7c7ca;position:relative;}
+  .card-body p{margin-bottom:10px;}
+  .card-body p:last-child{margin-bottom:0;}
+  .card-body p.cta{color:#F5A800;font-weight:600;}
+  .card-body .src{color:#7a7a7e;font-size:11.5px;font-style:italic;}
+  .card-hint{
+    padding:10px 16px 14px;font-size:11px;color:#5f5f63;border-top:1px solid #232326;
+  }
+
+  .card.thumb .card-body{max-height:150px;overflow:hidden;}
+  .card.thumb .card-body::after{
+    content:"";position:absolute;left:0;right:0;bottom:0;height:44px;
+    background:linear-gradient(to bottom, transparent, #101113);
+  }
+
+  /* MODAL */
+  .modal-backdrop{
+    position:fixed;inset:0;background:rgba(0,0,0,.72);display:none;
+    align-items:center;justify-content:center;padding:30px;z-index:2000;
+  }
+  .modal-backdrop.open{display:flex;}
+  .modal-shell{position:relative;max-width:480px;width:100%;max-height:90vh;}
+  .modal-shell .card{cursor:default;max-height:90vh;display:flex;flex-direction:column;}
+  .modal-shell .card-body{overflow-y:auto;}
+  .modal-close{
+    position:absolute;top:-14px;right:-14px;width:34px;height:34px;border-radius:50%;
+    background:#F5A800;color:#000;border:none;font-size:16px;font-weight:700;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.4);z-index:1;
+  }
+  .modal-actions{display:flex;justify-content:flex-end;gap:10px;padding:0 16px 16px;}
+
+  .edit-shell{max-width:520px;}
+  .edit-body{padding:16px;}
+  .edit-body textarea{min-height:220px;}
+
+  @media (max-width:480px){
+    .modal-shell{max-width:100%;}
+  }
+</style>
+</head>
+<body>
+<div id="header-container"></div>
+
+<div class="page">
+  <div class="masthead">
+    <h1>Générateur de Cards</h1>
+    <p>Colle un texte découpé en articles séparés par une ligne de <code>=========</code>. Chaque article devient une card : cliquez pour l'agrandir, ou téléchargez-la directement en image.</p>
+  </div>
+
+  <div class="intake">
+    <div class="file-row">
+      <button class="btn secondary" id="connectBtn">🔗 Connecter data.txt</button>
+      <button class="btn secondary" id="reloadBtn" disabled>↻ Recharger</button>
+      <button class="btn secondary" id="downloadDataBtn">⬇ Télécharger data.txt</button>
+      <input type="file" id="legacyFileInput" accept=".txt,text/plain" style="display:none;">
+      <span class="file-status" id="fileStatus">Aucun fichier connecté — les modifications restent en mémoire tant que data.txt n'est pas connecté.</span>
+    </div>
+
+    <label for="inputText">Texte source (import en masse)</label>
+    <textarea id="inputText" spellcheck="false"></textarea>
+    <div class="intake-actions">
+      <button class="btn" id="generateBtn">Générer les cards</button>
+      <button class="btn secondary" id="addBtn">+ Ajouter une card</button>
+      <button class="btn secondary" id="clearBtn">Vider</button>
+      <span class="stat-line" id="statLine"></span>
+    </div>
+  </div>
+
+  <div class="grid" id="grid"></div>
+</div>
+
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal-shell" id="modalShell">
+    <button class="modal-close" id="modalClose">&times;</button>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="editBackdrop">
+  <div class="modal-shell edit-shell">
+    <button class="modal-close" id="editClose">&times;</button>
+    <div class="card" style="cursor:default;">
+      <div class="flag-strip"></div>
+      <div class="edit-body">
+        <label class="form-label" for="editTitle">Titre</label>
+        <input type="text" id="editTitle" class="field-input" placeholder="Titre de la card">
+        <label class="form-label" for="editBody">Corps (une phrase / paragraphe par ligne)</label>
+        <textarea id="editBody" placeholder="Première phrase.&#10;Deuxième phrase."></textarea>
+        <div class="modal-actions" style="padding:16px 0 0;">
+          <button class="btn secondary" id="editCancel">Annuler</button>
+          <button class="btn" id="editSave">Enregistrer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var $ = function(id){ return document.getElementById(id); };
+
+  var items = [];
+
+  var DEFAULT_TEXT = "🇨🇮🐘 COUP DUR POUR GUÉLA DOUÉ !\nGuéla Doué va devoir patienter avant de retrouver les terrains. Le défenseur ivoirien s’est blessé au mollet droit lors de l’entraînement du Bayer Leverkusen mardi 15 septembre. Une IRM réalisée mercredi a confirmé une blessure musculaire. Le club allemand indique qu’il sera absent dans les prochaines semaines, sans donner de date précise pour son retour. (Bayer 04 Leverkusen Fussball GmbH)\nCette blessure arrive malheureusement au mauvais moment. Guéla Doué venait tout juste de rejoindre Leverkusen après deux saisons importantes à Strasbourg. Avec le Racing, il avait disputé 69 matches, marqué 3 buts et délivré 9 passes décisives. Il a également participé à la belle campagne européenne de Strasbourg la saison dernière. (L'Équipe)\nLe défenseur de 23 ans avait aussi été retenu par Hervé Renard dans la liste des Éléphants pour les prochaines échéances. La Côte d’Ivoire doit notamment affronter le Ghana le 24 septembre, puis la Somalie le 29 septembre dans le cadre des qualifications pour la CAN 2027. Sa présence pour ces rencontres paraît donc très compromise. (BENIN WEB TV)\nPour Guéla, c’est forcément frustrant. Il venait de changer de club, de découvrir la Bundesliga et de commencer une nouvelle aventure dans un championnat très exigeant. Le plus important maintenant sera de bien récupérer et de ne surtout pas précipiter son retour.\nUne blessure peut ralentir une carrière pendant quelques semaines, mais elle ne doit pas arrêter la progression.\n🇨🇮💪 Courage Guéla Doué ! Prends le temps de bien récupérer et reviens encore plus fort. Les Éléphants et les supporters ivoiriens sont derrière toi ! 🐘❤️\n💬 Un message pour lui ?\n============\n🇨🇮 Amadou Koné : une première convocation qui récompense sa progression\nAmadou Koné va découvrir pour la première fois la sélection A de Côte d’Ivoire. Le milieu de terrain de NEOM SC, âgé de 21 ans, fait partie des nouveaux joueurs appelés par Hervé Renard pour ce nouveau cycle des Éléphants. La CAF confirme qu’il fait partie des huit joueurs qui connaissent leur première convocation avec les A. (Confédération Africaine de Football)\nCette sélection arrive après un très bon début de saison en Arabie Saoudite. Avec NEOM, Koné a commencé les sept premiers matchs de championnat de la saison 2026-2027. Selon les données de FBref, il compte déjà 4 buts et 1 passe décisive en 7 rencontres, pour 626 minutes jouées. (FB Ref)\nSon début de saison est donc particulièrement intéressant. Il a notamment marqué lors de la victoire 2-0 de NEOM contre Al-Hilal, une rencontre importante puisque cette défaite a mis fin à la longue série d’invincibilité du club saoudien à domicile. (FOX Sports)\nMais Amadou Koné n’est pas arrivé de nulle part. Avant de rejoindre NEOM en 2025, il évoluait au Stade de Reims, où il avait déjà accumulé près de 50 apparitions avec l’équipe première. Il avait également porté le maillot de la Côte d’Ivoire chez les U23. (NEOM)\nAujourd’hui, Hervé Renard lui offre une nouvelle étape.\nCette convocation est donc une belle récompense pour son travail et sa forme actuelle. Maintenant, le plus important sera de voir comment Amadou Koné va s’adapter au niveau international et s’il pourra gagner du temps de jeu avec les Éléphants.\nFélicitations à Amadou Koné ! 🇨🇮🐘🔥 Le peuple ivoirien attend maintenant de le découvrir sous le maillot orange.\n============\n🇨🇮 Malick Yalcouyé : une première convocation qui récompense son travail\nMalick Yalcouyé va enfin découvrir le groupe des Éléphants. À seulement 20 ans, le milieu de terrain de Brighton fait partie des nouveaux joueurs appelés par Hervé Renard pour ce rassemblement. La CAF confirme qu’il figure parmi les huit nouveaux visages de cette première liste du sélectionneur français. (Confédération Africaine de Football)\nCette convocation est importante pour Yalcouyé, mais elle n’arrive pas par hasard. Le joueur est né à Bandiagara, au Mali, et possède les nationalités malienne et ivoirienne. Il a été formé notamment à l’ASEC Mimosas, avant de partir en Suède avec l’IFK Göteborg. Brighton l’a ensuite recruté en juillet 2024 avec un contrat jusqu’en 2029. (Brighton & Hove Albion)\nCette saison, il commence également à prendre de l’importance avec Brighton. Selon Opta Analyst, il a participé aux quatre premières journées de Premier League 2026-2027 et compte déjà deux buts en championnat, dont un lors de la victoire 5-0 contre Coventry. (Opta Analyst)\nPour Hervé Renard, son profil peut donc apporter une nouvelle option au milieu de terrain. Yalcouyé est un joueur capable d’évoluer dans l’entrejeu et son expérience avec les sélections de jeunes ivoiriennes lui donne déjà un premier contact avec l’environnement des Éléphants. (Transfermarkt)\nEt maintenant, place au grand moment : le maillot orange avec les A. 🇨🇮🐘\nLa Côte d’Ivoire affrontera notamment le Ghana le 24 septembre, puis la Somalie le 29 septembre dans les qualifications pour la CAN 2027. (Confédération Africaine de Football)\nFélicitations Malick ! Maintenant, montre à tout le monde pourquoi tu mérites ta place chez les Éléphants ! 🔥🇨🇮🐘\n============\nRayan Fofana vient de franchir une nouvelle étape importante dans sa jeune carrière. À seulement 20 ans, l’attaquant est officiellement convoqué pour la première fois avec les Éléphants de Côte d’Ivoire par Hervé Renard. Il fait partie des huit nouveaux joueurs appelés par le sélectionneur pour cette première liste. (Confédération Africaine de Football)\nNé à Paris et formé au RC Lens, Fofana a rapidement montré ses qualités. Le club lensois le présente comme un attaquant rapide et prometteur. Il a notamment marqué 19 buts en 35 matches avec les U19 lors de la saison 2023-2024, avant de signer son premier contrat professionnel en octobre 2024. (Site officiel)\nLa saison dernière, il a commencé à prendre plus de place chez les professionnels. Avec Lens, il a joué 25 matches de Ligue 1 et marqué 5 buts. Il a aussi inscrit un but en Coupe de France. Cet été, il a été prêté au Havre pour continuer sa progression et obtenir davantage de temps de jeu. (HAC Football)\nSon début de saison est également intéressant : il a déjà marqué une fois en deux apparitions avec Le Havre. (HAC Football)\nAvant cette convocation, Rayan Fofana avait joué avec les Espoirs français. En mars 2026, il avait même inscrit un doublé contre le Luxembourg pour sa première apparition. (Lensois.com)\nAujourd’hui, il ouvre donc un nouveau chapitre avec la Côte d’Ivoire. Il rejoint une attaque où la concurrence est forte. Ses premières minutes avec les Éléphants pourraient arriver lors des prochains matches contre le Ghana, la Somalie ou le Cameroun. (Confédération Africaine de Football)\nUne chose est certaine : cette convocation est une belle récompense pour son travail. Maintenant, à Rayan Fofana de saisir sa chance. 🇨🇮🐘\n==========\n💪🇨🇮 CONTINUE DE POUSSER, KARIM KONATÉ !\nKarim, ne baisse surtout pas les bras. 🔥\nTa forme actuelle avec Salzburg montre que tu continues de travailler et de progresser. Cette sélection avec les Éléphants n’est peut-être pas pour aujourd’hui, mais les performances finissent toujours par parler.\nContinue à marquer, à travailler et à te battre pour gagner ta place. 💪🐘\nEt peut-être qu’un nouveau challenge dans un championnat plus exposé pourrait aussi être une étape importante dans ta progression. 🇨🇮🔥\nLe plus important maintenant : rester concentré et continuer de pousser. La Côte d’Ivoire a besoin de joueurs qui ne lâchent rien.\nCourage Karim Konaté ! 🐘❤️\nTon heure viendra. 🇨🇮🔥\n===========\n🇨🇮🐘 HERVÉ RENARD : UN RETOUR AVEC BEAUCOUP D’AMBITION !\nÀ l’occasion de l’annonce de sa première liste depuis son retour à la tête des Éléphants, Hervé Renard a affiché sa détermination :\n« C'est un honneur d'être à nouveau à la tête de cette sélection et je ferai tout pour rendre la confiance qui m'a été donnée. »\nCes mots prennent une dimension particulière quand on connaît son histoire avec la Côte d’Ivoire. En 2015, Hervé Renard avait conduit les Éléphants au titre de champion d’Afrique, après une finale remportée contre le Ghana aux tirs au but. 🏆🇨🇮\nOnze ans plus tard, il revient avec une équipe qui a beaucoup changé. Pour sa première liste, il a appelé 25 joueurs, dont 8 nouveaux visages. L’objectif semble clair : garder une partie de l’ancienne génération tout en donnant progressivement leur chance aux jeunes.\nRenard a d’ailleurs expliqué qu’il ne voulait pas simplement arriver et « balayer » le travail de son prédécesseur. Il souhaite conserver une ossature tout en créant une vraie concurrence entre les joueurs.\nSon retour commence donc avec beaucoup d’attentes. Les premiers vrais tests arrivent rapidement avec les qualifications pour la CAN 2027 : Ghana le 24 septembre, Somalie le 29 septembre, puis Cameroun en amical le 3 octobre.\nAprès le titre de 2015, Renard revient avec une nouvelle génération.\nLa question maintenant : peut-il écrire une nouvelle histoire avec les Éléphants ? 🐘🇨🇮\n💬 Votre avis sur ses premiers mots ?\n===========\nLe dossier Issa Doumbia devient de plus en plus intéressant pour la Côte d’Ivoire. Hervé Renard a clairement confirmé que les Éléphants travaillent sur le dossier du jeune milieu de terrain de 22 ans. Le sélectionneur a également reconnu que la Côte d’Ivoire est en concurrence avec une autre sélection : l’Italie. (Afrik-Foot)\nIssa Doumbia est né en Italie et possède la double nationalité italienne et ivoirienne. Ses parents sont ivoiriens. Il a déjà représenté l’Italie dans les catégories de jeunes, notamment avec les Espoirs. Cela signifie que son choix international est forcément un sujet important pour les deux pays. (Sporting)\nSur le terrain, Doumbia arrive avec un profil intéressant. Il est milieu de terrain, mesure 1,87 m et est présenté comme un joueur physique, technique, rapide et polyvalent. Avant de rejoindre le Sporting CP en juin 2026, il évoluait à Venezia. Lors de la saison 2025-2026, il a participé à la montée du club en Serie A après une saison très réussie en Serie B, avec 10 buts et 2 passes décisives en 38 apparitions. (Sporting)\nSon arrivée au Sporting CP représente aussi un gros changement. Il a signé jusqu’en 2031 avec une clause libératoire de 80 millions d’euros et a déjà découvert la Ligue des champions cette saison. (Sporting)\nRenard lui a donc publiquement ouvert la porte. Maintenant, le choix appartient au joueur.\n🇨🇮 La Côte d’Ivoire veut Issa Doumbia. L’Italie peut également compter sur son parcours chez les jeunes.\n💬 Selon vous, que doit prendre en compte Doumbia avant de faire son choix ?\n===========\n🇨🇮🐘 HERVÉ RENARD VEUT UNE VRAIE BATAILLE EN DÉFENSE !\nLe message d’Hervé Renard à Ousmane Diomandé est assez clair : le jeune défenseur doit gagner sa place. Le sélectionneur rappelle que la Côte d’Ivoire a remporté la CAN 2023 avec une charnière composée d’Évan Ndicka et Odilon Kossounou, deux joueurs qui restent aujourd’hui dans son groupe. (Confédération Africaine de Football)\nMais cela ne veut pas dire que la porte est fermée pour Diomandé. Au contraire, le défenseur de 22 ans fait bien partie de la première liste de Renard. Il évolue désormais en Premier League avec Nottingham Forest, après son transfert du Sporting CP pour environ 40 millions d’euros. Il arrive donc avec une expérience importante du haut niveau, notamment en Ligue des champions. (L'Équipe)\nDiomandé possède aussi déjà une expérience avec les Éléphants. Il était présent lors de la Coupe du monde 2026 et compte 15 sélections selon L’Équipe. (L'Équipe)\nLe message de Renard est donc simple : personne n’a une place garantie. Ndicka et Kossounou ont l’avantage de l’expérience et de leur histoire avec la sélection, mais Diomandé peut profiter de ses performances en club pour mettre la pression.\nLa concurrence sera d’ailleurs encore plus forte avec Emmanuel Agbadou et Christ Tapé dans le groupe.\nPour Diomandé, le défi est maintenant de convaincre Renard sur le terrain. Il devra montrer qu’il peut apporter sa puissance, sa vitesse et sa qualité défensive.\n💬 Selon vous, Diomandé peut-il réussir à s’imposer comme titulaire chez les Éléphants ? 🐘🇨🇮\n=============\n⚽️🇨🇮 DAVID DATRO FOFANA : ET SI C’ÉTAIT LE DÉBUT D’UNE NOUVELLE HISTOIRE ?\nDavid Datro Fofana vient de débloquer son compteur avec le Servette FC. Le 16 septembre, l’attaquant ivoirien a marqué le dernier but de la victoire 4-2 contre Thoune, en concluant une contre-attaque à la 86e minute. C’est son premier but sous le maillot grenat. (Servette FC)\nCe but arrive à un moment important pour le joueur. À 23 ans, Fofana cherche clairement à retrouver de la stabilité après plusieurs années compliquées. Il avait rejoint Chelsea après son passage remarqué à Molde, mais il n’a jamais réussi à s’installer durablement chez les Blues. Le club londonien l’a ensuite envoyé en prêt à plusieurs reprises, notamment à Burnley, Göztepe, Karagümrük et Strasbourg. (Servette FC)\nCette fois, la situation est différente. Le Servette FC a décidé de le recruter définitivement et de lui faire confiance jusqu’en 2030. Le club suisse présente Fofana comme un attaquant puissant, rapide et capable de gagner des duels. (Servette FC)\nSon début avec Servette n’a pas été énorme en termes de temps de jeu, mais il commence à prendre ses marques. Après plusieurs entrées en jeu, il a finalement trouvé le chemin des filets lors de son quatrième match. (FotMob)\nPour Fofana, ce but peut donc représenter beaucoup plus qu’un simple but. Il doit maintenant enchaîner les minutes, retrouver la confiance et surtout enchaîner les performances.\n🇨🇮🐘 Le talent n’a jamais vraiment disparu. Maintenant, il faut retrouver la régularité.\n💬 Selon vous, David Datro Fofana peut-il relancer sa carrière en Suisse ?\n==============\n⚠️🇨🇮 HALLER ÉCARTÉ : UNE PAGE SE TOURNE-T-ELLE CHEZ LES ÉLÉPHANTS ?\nLa non-sélection de Sébastien Haller est l’un des choix les plus marquants de la première liste d’Hervé Renard. Le sélectionneur a expliqué qu’il avait suivi les performances de l’attaquant avec Sanfrecce Hiroshima et qu’il avait constaté qu’il ne débutait pas toujours les rencontres.\nMais il faut aussi regarder les chiffres avant de tirer des conclusions. Depuis son arrivée au Japon, Haller a disputé 6 matchs de J1 en 2026, avec 3 buts et 1 passe décisive. Il a notamment marqué contre Urawa le 15 août, Nagoya le 2 septembre et Okayama le 6 septembre. (Ｊリーグ公式サイト)\nDonc, dire que Haller traverse simplement une mauvaise période serait un peu trop facile. En revanche, Renard semble vouloir regarder au-delà du nom et du passé. À 32 ans, l’ancien joueur de Dortmund représente l’expérience, mais le sélectionneur parle clairement d’un nouveau cycle, avec des attaquants plus jeunes comme Rayan Fofana.\nCela peut être difficile à accepter pour les supporters, surtout quand on se rappelle le rôle de Haller pendant la CAN 2023. Il avait notamment marqué le but de la qualification en demi-finale contre la RD Congo et celui de la victoire en finale face au Nigeria.\nMais une nouvelle génération arrive et Renard doit maintenant faire ses choix.\n🇨🇮🐘 Haller n’est peut-être pas définitivement sorti des plans. Cette absence montre surtout que son statut n’est plus automatique.\n💬 Selon vous, Haller doit-il encore avoir une place chez les Éléphants ?\n==============\n🇨🇮👑 FRANCK KESSIÉ, TOUJOURS LE CAPITAINE DES ÉLÉPHANTS !\nHervé Renard a décidé de maintenir Franck Kessié comme capitaine de la Côte d’Ivoire. Cette décision confirme que le milieu de terrain reste un élément important du nouveau projet du sélectionneur. Kessié fait bien partie des 25 joueurs convoqués pour les prochaines échéances des Éléphants. (Confédération Africaine de Football)\nCette continuité est assez logique quand on regarde son parcours avec la sélection. En mars 2026, Kessié a atteint la barre symbolique des 100 sélections avec la Côte d’Ivoire, devenant l’un des joueurs les plus expérimentés de l’histoire des Éléphants. (Mondialsport.ci)\nIl possède également une expérience importante au plus haut niveau. Après avoir commencé sa carrière européenne à l’Atalanta, il est passé par l’AC Milan, le FC Barcelone et Al-Ahli. En août 2026, il a justement effectué son retour à l’Atalanta, neuf ans après son premier départ. (Atalanta)\nAvec Renard, l’histoire est aussi particulière. Le sélectionneur français connaît Kessié depuis ses débuts avec les Éléphants. Il a d’ailleurs expliqué qu’il n’allait pas « le laisser partir de si tôt » et a souligné qu’il était toujours à un très haut niveau. (Portail de l'Information)\nMais cela ne signifie pas que Kessié sera tranquille. Renard veut lancer un nouveau cycle et plusieurs jeunes milieux ont été convoqués : Patrick Zabi, Malick Yalcouyé, Amadou Koné, Christ Inao ou encore Eddy Doué. (Confédération Africaine de Football)\nLe message est donc simple : Kessié garde le brassard, mais la concurrence commence déjà derrière lui. 🇨🇮🐘\n💬 Pour vous, Franck Kessié doit-il rester le capitaine des Éléphants ?\n============";
+
+  var fileHandle = null;
+  var supportsFS = 'showOpenFilePicker' in window;
+  var editingIndex = null;
+
+  function escapeHtml(str){
+    return str
+      .replace(/&/g,'&amp;')
+      .replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;');
+  }
+
+  function paragraphHtml(line){
+    var escaped = escapeHtml(line);
+    escaped = escaped.replace(/\(([^()]{2,90})\)\s*$/, '<span class="src">($1)</span>');
+    var cls = /^\s*💬/.test(line) ? ' class="cta"' : '';
+    return '<p' + cls + '>' + escaped + '</p>';
+  }
+
+  function slugify(str){
+    return str
+      .normalize('NFD').replace(/[̀-ͯ]/g,'')
+      .replace(/[^\w\s-]/g,'')
+      .trim().toLowerCase().replace(/\s+/g,'-')
+      .slice(0,40) || 'card';
+  }
+
+  function parseCards(text){
+    var chunks = text.split(/^[ \t]*=+[ \t]*$/gm);
+    var result = [];
+    chunks.forEach(function(chunk, i){
+      var lines = chunk.split('\n').map(function(l){ return l.trim(); }).filter(Boolean);
+      if (!lines.length) return;
+      result.push({
+        id: 'card-' + i + '-' + Date.now(),
+        title: lines[0],
+        paragraphs: lines.slice(1)
+      });
+    });
+    return result;
+  }
+
+  function cardInnerHtml(item, mode){
+    var body = item.paragraphs.map(paragraphHtml).join('');
+    var actions = mode === 'thumb'
+      ? '<div class="card-actions">'
+        +   '<button class="dl-btn" data-act="edit" title="Modifier">✏️</button>'
+        +   '<button class="dl-btn danger" data-act="delete" title="Supprimer">🗑</button>'
+        +   '<button class="dl-btn" data-act="download" title="Télécharger">⬇</button>'
+        + '</div>'
+      : '';
+    return ''
+      + '<div class="flag-strip"></div>'
+      + '<div class="card-head">'
+      +   '<span class="tag">🐘 Top Gbairai</span>'
+      +   actions
+      + '</div>'
+      + '<h3 class="card-title">' + escapeHtml(item.title) + '</h3>'
+      + '<div class="card-body">' + body + '</div>'
+      + (mode === 'thumb' ? '<div class="card-hint">Cliquer pour agrandir</div>' : '');
+  }
+
+  function serializeItems(list){
+    return list.map(function(it){ return it.title + '\n' + it.paragraphs.join('\n'); }).join('\n============\n');
+  }
+
+  function updateTextareaFromItems(){
+    $('inputText').value = serializeItems(items);
+  }
+
+  function renderGrid(){
+    var grid = $('grid');
+    grid.innerHTML = '';
+    if (!items.length){
+      grid.innerHTML = '<div class="empty">Aucune card. Collez un texte, cliquez « Générer les cards », ou « + Ajouter une card ».</div>';
+      $('statLine').textContent = '';
+      return;
+    }
+    items.forEach(function(item, idx){
+      var el = document.createElement('div');
+      el.className = 'card thumb';
+      el.dataset.id = item.id;
+      el.innerHTML = cardInnerHtml(item, 'thumb');
+      el.addEventListener('click', function(e){
+        var actBtn = e.target.closest('[data-act]');
+        if (actBtn){
+          e.stopPropagation();
+          var act = actBtn.dataset.act;
+          if (act === 'download') downloadItem(item);
+          else if (act === 'edit') openEditModal(idx);
+          else if (act === 'delete') deleteItem(idx);
+          return;
+        }
+        openModal(item);
+      });
+      grid.appendChild(el);
+    });
+    $('statLine').textContent = items.length + ' card' + (items.length > 1 ? 's' : '') + ' générée' + (items.length > 1 ? 's' : '');
+  }
+
+  function persistAndRender(){
+    updateTextareaFromItems();
+    renderGrid();
+    persistToFile();
+  }
+
+  function generate(){
+    items = parseCards($('inputText').value);
+    renderGrid();
+    persistToFile();
+  }
+
+  function deleteItem(idx){
+    if (!confirm('Supprimer définitivement « ' + items[idx].title + ' » ?')) return;
+    items.splice(idx, 1);
+    persistAndRender();
+  }
+
+  function openEditModal(idx){
+    editingIndex = idx;
+    var item = idx == null ? { title:'', paragraphs:[''] } : items[idx];
+    $('editTitle').value = item.title;
+    $('editBody').value = item.paragraphs.join('\n');
+    $('editBackdrop').classList.add('open');
+    $('editTitle').focus();
+  }
+
+  function closeEditModal(){
+    $('editBackdrop').classList.remove('open');
+    editingIndex = null;
+  }
+
+  function saveEdit(){
+    var title = $('editTitle').value.trim();
+    if (!title){ alert('Le titre est requis.'); return; }
+    var paragraphs = $('editBody').value.split('\n').map(function(l){ return l.trim(); }).filter(Boolean);
+    var newItem = {
+      id: editingIndex != null ? items[editingIndex].id : ('card-' + Date.now()),
+      title: title,
+      paragraphs: paragraphs
+    };
+    if (editingIndex != null) items[editingIndex] = newItem;
+    else items.push(newItem);
+    closeEditModal();
+    persistAndRender();
+  }
+
+  function openModal(item){
+    var shell = $('modalShell');
+    shell.querySelectorAll('.card').forEach(function(c){ c.remove(); });
+    var card = document.createElement('div');
+    card.className = 'card';
+    card.dataset.id = item.id;
+    card.innerHTML = cardInnerHtml(item, 'plain')
+      + '<div class="modal-actions"><button class="btn" data-act="download">Télécharger</button></div>';
+    shell.appendChild(card);
+    card.querySelector('[data-act="download"]').addEventListener('click', function(){
+      downloadItem(item);
+    });
+    $('modalBackdrop').classList.add('open');
+  }
+
+  function closeModal(){
+    $('modalBackdrop').classList.remove('open');
+  }
+
+  function downloadItem(item){
+    var holder = document.createElement('div');
+    holder.style.position = 'fixed';
+    holder.style.left = '-9999px';
+    holder.style.top = '0';
+    holder.style.width = '420px';
+    var card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = cardInnerHtml(item, 'plain');
+    holder.appendChild(card);
+    document.body.appendChild(holder);
+
+    html2canvas(card, { scale: 3, backgroundColor: '#101113' }).then(function(canvas){
+      var link = document.createElement('a');
+      link.download = 'card-' + slugify(item.title) + '.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+      document.body.removeChild(holder);
+    }).catch(function(){
+      document.body.removeChild(holder);
+    });
+  }
+
+  function downloadDataTxt(){
+    var blob = new Blob([serializeItems(items)], { type:'text/plain' });
+    var url = URL.createObjectURL(blob);
+    var link = document.createElement('a');
+    link.href = url;
+    link.download = 'data.txt';
+    link.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function setFileStatus(msg, kind){
+    var el = $('fileStatus');
+    el.textContent = msg;
+    el.className = 'file-status' + (kind ? ' ' + kind : '');
+  }
+
+  async function loadFromHandle(){
+    if (!fileHandle) return;
+    var file = await fileHandle.getFile();
+    var text = await file.text();
+    items = text.trim() ? parseCards(text) : [];
+    updateTextareaFromItems();
+    renderGrid();
+  }
+
+  async function persistToFile(){
+    if (!fileHandle){
+      setFileStatus('En mémoire seulement — cliquez « Connecter data.txt » pour enregistrer les changements sur disque.');
+      return;
+    }
+    try {
+      var writable = await fileHandle.createWritable();
+      await writable.write(serializeItems(items));
+      await writable.close();
+      setFileStatus('Enregistré dans ' + fileHandle.name + ' ✓', 'ok');
+    } catch(e){
+      setFileStatus("Erreur d'enregistrement : " + e.message, 'err');
+    }
+  }
+
+  async function connectFile(){
+    if (!supportsFS){
+      $('legacyFileInput').click();
+      return;
+    }
+    try {
+      var handles = await window.showOpenFilePicker({
+        types: [{ description: 'Fichier texte', accept: { 'text/plain': ['.txt'] } }]
+      });
+      fileHandle = handles[0];
+      await loadFromHandle();
+      $('reloadBtn').disabled = false;
+      setFileStatus('Connecté : ' + fileHandle.name + ' — les modifications sont enregistrées automatiquement.', 'ok');
+    } catch(e){
+      if (e && e.name !== 'AbortError') setFileStatus('Impossible de connecter le fichier : ' + e.message, 'err');
+    }
+  }
+
+  $('generateBtn').addEventListener('click', generate);
+  $('addBtn').addEventListener('click', function(){ openEditModal(null); });
+  $('clearBtn').addEventListener('click', function(){
+    $('inputText').value = '';
+    items = [];
+    persistAndRender();
+  });
+
+  $('modalClose').addEventListener('click', closeModal);
+  $('modalBackdrop').addEventListener('click', function(e){
+    if (e.target === $('modalBackdrop')) closeModal();
+  });
+
+  $('editClose').addEventListener('click', closeEditModal);
+  $('editCancel').addEventListener('click', closeEditModal);
+  $('editSave').addEventListener('click', saveEdit);
+  $('editBackdrop').addEventListener('click', function(e){
+    if (e.target === $('editBackdrop')) closeEditModal();
+  });
+
+  document.addEventListener('keydown', function(e){
+    if (e.key !== 'Escape') return;
+    closeModal();
+    closeEditModal();
+  });
+
+  $('connectBtn').addEventListener('click', connectFile);
+  $('reloadBtn').addEventListener('click', function(){
+    loadFromHandle().then(function(){ setFileStatus('Rechargé depuis ' + fileHandle.name, 'ok'); });
+  });
+  $('downloadDataBtn').addEventListener('click', downloadDataTxt);
+  $('legacyFileInput').addEventListener('change', function(e){
+    var file = e.target.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(ev){
+      var text = ev.target.result;
+      items = text.trim() ? parseCards(text) : [];
+      updateTextareaFromItems();
+      renderGrid();
+      setFileStatus('Importé : ' + file.name + ' (lecture seule — utilisez « Télécharger data.txt » pour sauvegarder vos changements).');
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+  });
+
+  if (!supportsFS){
+    $('connectBtn').textContent = '📁 Importer data.txt';
+  }
+
+  /* Chargement initial : texte d'exemple, puis tentative de lecture de data.txt si le site est servi via http(s) */
+  $('inputText').value = DEFAULT_TEXT;
+  items = parseCards(DEFAULT_TEXT);
+  renderGrid();
+
+  fetch('data.txt').then(function(r){ return r.ok ? r.text() : ''; }).then(function(text){
+    if (text && text.trim()){
+      items = parseCards(text);
+      updateTextareaFromItems();
+      renderGrid();
+      setFileStatus('Chargé depuis data.txt (lecture) — cliquez « Connecter data.txt » pour activer l\'enregistrement automatique.');
+    }
+  }).catch(function(){ /* file:// ou pas de serveur : on garde l'exemple */ });
+})();
+</script>
+</body>
+</html>
