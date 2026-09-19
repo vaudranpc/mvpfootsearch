@@ -97,17 +97,13 @@
     --heading-ink:#2f4f7c;
     position:relative;
     background:var(--paper);
-    background-image: repeating-linear-gradient(to bottom, transparent 0 34px, var(--rule) 34px 35px);
-    padding:34px 30px 34px 64px;
+    padding:34px 40px;
     border:1px solid #d8cfb8;
     border-radius:3px;
     box-shadow:0 10px 26px rgba(30,20,10,0.14);
     max-width:720px;
     margin:0 auto 44px;
     color:var(--cahier-ink);
-  }
-  .cahier-page::before{
-    content:""; position:absolute; left:42px; top:0; bottom:0; width:2px; background:var(--margin-line);
   }
   .cahier-page.tilt-a{ transform:rotate(-0.35deg); }
   .cahier-page.tilt-b{ transform:rotate(0.35deg); }
@@ -122,8 +118,7 @@
   .cahier-sentence:last-child{ margin-bottom:0; }
 
   @media (max-width:640px){
-    .cahier-page{ padding:30px 18px 30px 46px; }
-    .cahier-page::before{ left:26px; }
+    .cahier-page{ padding:30px 18px; }
   }
 </style>
 <script src="header.js"></script>
@@ -134,7 +129,7 @@
 <div class="page">
   <div class="masthead">
     <h1>Le Cahier</h1>
-    <p>Colle un texte découpé en chapitres avec une ligne de <code>=======</code> entre chacun. Chaque chapitre devient une page de cahier, une phrase par ligne — prêt à être relu ou téléchargé en PDF.</p>
+    <p>Colle un texte découpé en chapitres avec une ligne de <code>=======</code> entre chacun. Chaque chapitre devient une page de cahier, un retour à la ligne à chaque ponctuation — prêt à être relu ou téléchargé en PDF.</p>
   </div>
 
   <div class="intake">
@@ -190,14 +185,14 @@ Chapitre deux. Une autre phrase ici."></textarea>
   function splitSentences(chapterText){
     var clean = chapterText.replace(/\s+/g, " ").trim();
     if (!clean) return [];
-    return clean.split(/(?<=[.!?…])\s+/).map(function(s){ return s.trim(); }).filter(Boolean);
+    return clean.split(/(?<=[.!?…,;:])\s+/).map(function(s){ return s.trim(); }).filter(Boolean);
   }
 
   function pad2(n){ return n < 10 ? "0" + n : String(n); }
 
   function updateStats(nChap, nSent){
     if (!nChap){ $("statLine").textContent = ""; return; }
-    $("statLine").textContent = nChap + " chapitre" + (nChap > 1 ? "s" : "") + " · " + nSent + " phrase" + (nSent > 1 ? "s" : "");
+    $("statLine").textContent = nChap + " chapitre" + (nChap > 1 ? "s" : "") + " · " + nSent + " ligne" + (nSent > 1 ? "s" : "");
   }
 
   function renderPreview(){
@@ -279,22 +274,12 @@ Chapitre deux. Une autre phrase ici."></textarea>
     var pageH = doc.internal.pageSize.getHeight();
     var marginTop = 24, marginBottom = 22, marginLeft = 32, marginRight = 20;
     var lineHeight = 8;
-    var redLineX = marginLeft - 7;
     var maxTextWidth = pageW - marginLeft - marginRight;
 
     var firstPage = true;
     var y = marginTop;
 
-    function drawRuledBackground(){
-      doc.setDrawColor(169, 198, 224);
-      doc.setLineWidth(0.2);
-      for (var ly = marginTop; ly <= pageH - marginBottom; ly += lineHeight){
-        doc.line(marginLeft - 12, ly, pageW - marginRight, ly);
-      }
-      doc.setDrawColor(213, 97, 90);
-      doc.setLineWidth(0.4);
-      doc.line(redLineX, marginTop - lineHeight * 0.7, redLineX, pageH - marginBottom + lineHeight * 0.3);
-    }
+    function drawRuledBackground(){}
 
     function newPage(){
       if (!firstPage) doc.addPage();
