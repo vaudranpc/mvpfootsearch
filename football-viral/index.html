@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Football Viral — Générateur de Thumbnail</title>
+
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Oswald:wght@400;500;600;700&family=Bebas+Neue&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+      <script src="header.js"></script>
+  </head>
+  <body>
+    
+<div id="header-container"></div>
+    <!-- ============ TOP TOOLBAR ============ -->
+    <header id="topbar">
+      <a href="../index.html" id="backLink" title="Retour au site MVP Foot">
+        <i class="bi bi-arrow-left"></i>
+      </a>
+      <h1><i class="bi bi-lightning-charge-fill"></i> Football <span>Viral</span></h1>
+
+      <input
+        type="text"
+        id="projectName"
+        class="form-control form-control-sm"
+        value="Mon projet"
+        title="Nom du projet"
+      />
+
+      <div class="spacer"></div>
+
+      <div class="btn-group btn-group-sm" role="group">
+        <button class="btn btn-tool" id="btnNew" title="Nouveau projet">
+          <i class="bi bi-file-earmark-plus"></i> Nouveau
+        </button>
+        <button class="btn btn-tool" id="btnSave" title="Sauvegarder">
+          <i class="bi bi-save"></i> Sauvegarder
+        </button>
+        <button class="btn btn-tool" id="btnLoad" title="Charger un projet">
+          <i class="bi bi-folder2-open"></i> Charger
+        </button>
+        <button class="btn btn-tool" id="btnReset" title="Réinitialiser">
+          <i class="bi bi-arrow-counterclockwise"></i> Réinitialiser
+        </button>
+      </div>
+
+      <span id="scoreBadge" class="badge text-bg-secondary" style="font-size: 12px; padding: 7px 10px;"
+        >SCORE : —</span
+      >
+      <button class="btn btn-tool" id="btnMobileTest" title="Tester sur mobile">
+        <i class="bi bi-phone"></i> Test mobile
+      </button>
+
+      <button class="btn btn-export" id="btnExportPng">
+        <i class="bi bi-download"></i> PNG
+      </button>
+      <button class="btn btn-export" id="btnExportJpg">
+        <i class="bi bi-download"></i> JPG
+      </button>
+    </header>
+
+    <!-- ============ MAIN LAYOUT ============ -->
+    <div id="layout">
+      <!-- LEFT: control panel -->
+      <aside id="sidebar">
+        <div class="accordion" id="mainAccordion">
+          <!-- FOOTBALL VIRAL — coeur de l'outil -->
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#panelViral"
+              >
+                <i class="bi bi-lightning-charge-fill me-2"></i> ⚽ Football Viral
+              </button>
+            </h2>
+            <div id="panelViral" class="accordion-collapse collapse show">
+              <div class="accordion-body" id="viralBody"></div>
+            </div>
+          </div>
+
+          <!-- SELECTION (dynamic, contextual properties of selected layer) -->
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#panelSelection"
+              >
+                <i class="bi bi-cursor-fill me-2"></i> Sélection
+              </button>
+            </h2>
+            <div
+              id="panelSelection"
+              class="accordion-collapse collapse show"
+            >
+              <div class="accordion-body" id="selectionBody">
+                <p class="hint">
+                  Cliquez un élément dans l'aperçu pour modifier ses
+                  propriétés ici.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- TEXTE -->
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#panelTexte"
+              >
+                <i class="bi bi-type-bold me-2"></i> Texte
+              </button>
+            </h2>
+            <div
+              id="panelTexte"
+              class="accordion-collapse collapse show"
+            >
+              <div class="accordion-body">
+                <button class="btn btn-tool w-100" id="btnAddText">
+                  <i class="bi bi-plus-lg"></i> Ajouter un texte
+                </button>
+                <p class="hint">
+                  Sélectionnez ensuite le texte sur l'aperçu (ou dans les
+                  calques) pour régler police, taille, couleur, contour,
+                  ombre, espacement…
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- FOND -->
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#panelFond"
+              >
+                <i class="bi bi-image me-2"></i> Image de fond
+              </button>
+            </h2>
+            <div
+              id="panelFond"
+              class="accordion-collapse collapse show"
+            >
+              <div class="accordion-body" id="fondBody">
+                <!-- populated by app.js -->
+              </div>
+            </div>
+          </div>
+
+          <!-- SUJET & OBJETS -->
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#panelObjets"
+              >
+                <i class="bi bi-person-bounding-box me-2"></i> Sujet & Objets
+              </button>
+            </h2>
+            <div
+              id="panelObjets"
+              class="accordion-collapse collapse show"
+            >
+              <div class="accordion-body" id="objetsBody">
+                <!-- populated by app.js -->
+              </div>
+            </div>
+          </div>
+
+          <!-- EFFETS GLOBAUX -->
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#panelEffets"
+              >
+                <i class="bi bi-stars me-2"></i> Effets globaux
+              </button>
+            </h2>
+            <div
+              id="panelEffets"
+              class="accordion-collapse collapse"
+            >
+              <div class="accordion-body" id="effetsBody">
+                <!-- populated by app.js -->
+              </div>
+            </div>
+          </div>
+
+          <!-- CALQUES -->
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#panelCalques"
+              >
+                <i class="bi bi-layers me-2"></i> Calques
+                <span class="badge text-bg-secondary ms-2" id="layerCountBadge"
+                  >0</span
+                >
+              </button>
+            </h2>
+            <div
+              id="panelCalques"
+              class="accordion-collapse collapse"
+            >
+              <div class="accordion-body">
+                <div id="layersList"></div>
+                <p class="hint" id="layersEmptyHint">Aucun calque pour l'instant.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- MODELES -->
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#panelModeles"
+              >
+                <i class="bi bi-grid-1x2 me-2"></i> Modèles
+              </button>
+            </h2>
+            <div
+              id="panelModeles"
+              class="accordion-collapse collapse"
+            >
+              <div class="accordion-body" id="templatesBody"></div>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- CENTER: preview stage -->
+      <main id="main">
+        <div id="stageWrap">
+          <div id="stageInner">
+            <div id="bgLayer"></div>
+            <div id="objectsLayer"></div>
+            <div id="fxVignette" class="fx-layer"></div>
+            <div id="fxOverlay" class="fx-layer"></div>
+            <div id="fxGradient" class="fx-layer"></div>
+          </div>
+        </div>
+        <p class="stage-hint">
+          1280 × 720 · Glissez pour déplacer · poignées d'angle pour
+          redimensionner · poignée ronde pour pivoter · <kbd>Suppr</kbd>
+          supprime · <kbd>Ctrl+D</kbd> duplique
+        </p>
+      </main>
+    </div>
+
+    <input type="file" id="fileInputHidden" accept="image/*" style="display: none" />
+
+    <!-- ============ LOAD PROJECT MODAL ============ -->
+    <div class="modal fade" id="loadModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content bg-dark text-light border-secondary">
+          <div class="modal-header border-secondary">
+            <h5 class="modal-title">
+              <i class="bi bi-folder2-open"></i> Charger un projet
+            </h5>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body" id="loadModalBody"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ MOBILE TEST MODAL ============ -->
+    <div class="modal fade" id="mobileModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-light border-secondary">
+          <div class="modal-header border-secondary">
+            <h5 class="modal-title"><i class="bi bi-phone"></i> Test mobile</h5>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body text-center" id="mobileModalBody"></div>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
+    ></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>
