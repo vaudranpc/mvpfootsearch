@@ -1,0 +1,851 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Miniature Interview</title>
+<script src="header.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Poppins:wght@700;800;900&family=Archivo+Black&family=Anton&family=Oswald:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#17131f;
+    --ink-soft:#5a5468;
+    --surface:#ffffff;
+    --surface-2:#f4f1fa;
+    --line:#e3ddf0;
+    --accent:#6b2fd6;
+    --accent-soft:#efe7fb;
+    --danger:#c23a3a;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --ink:#efe9fb;
+      --ink-soft:#b3a9c9;
+      --surface:#1b1626;
+      --surface-2:#231c33;
+      --line:#382e4d;
+      --accent:#a985f7;
+      --accent-soft:#2c2340;
+      --danger:#ff8b8b;
+    }
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--surface-2);
+    color:var(--ink);
+    font-family:'Oswald', 'Segoe UI', sans-serif;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+
+  .page{
+    width:100%;
+    display:flex;
+    justify-content:center;
+    padding:28px 20px 48px;
+  }
+
+  .wrap{max-width:1180px;width:100%;}
+
+  header.tool-header{margin-bottom:22px;}
+  header.tool-header .eyebrow{
+    font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--accent);font-weight:600;margin-bottom:6px;
+  }
+  h1{font-size:26px;margin:0 0 6px;font-weight:600;letter-spacing:.01em;}
+  header.tool-header p{margin:0;color:var(--ink-soft);font-size:14.5px;max-width:60ch;}
+
+  .layout{
+    display:grid;
+    grid-template-columns:minmax(0,1.5fr) minmax(280px,1fr);
+    gap:24px;
+    align-items:start;
+  }
+  @media (max-width:820px){
+    .layout{grid-template-columns:1fr;}
+  }
+
+  .stage-col{position:sticky;top:16px;}
+  @media (max-width:820px){ .stage-col{position:static;} }
+
+  #stage{
+    position:relative;
+    width:100%;
+    aspect-ratio:16/9;
+    overflow:hidden;
+    border-radius:10px;
+    box-shadow:0 1px 2px rgba(0,0,0,.06), 0 12px 32px -16px rgba(0,0,0,.35);
+    container-type:inline-size;
+    background:#111;
+    touch-action:none;
+    user-select:none;
+  }
+  #panelLeft{
+    position:absolute;inset:0;
+    background:var(--c-bg-left);
+    clip-path:polygon(0 0, 42% 0, 58% 100%, 0 100%);
+  }
+  #panelRight{
+    position:absolute;inset:0;
+    background:var(--c-bg-right);
+    clip-path:polygon(41% 0, 100% 0, 100% 100%, 57% 100%);
+    display:flex;align-items:center;justify-content:center;
+    overflow:hidden;
+    cursor:default;
+  }
+  #panelRight.has-photo{cursor:grab;}
+  #panelRight.dragging{cursor:grabbing;}
+  #photoImg{
+    position:absolute;
+    max-width:none;
+    display:none;
+    pointer-events:none;
+  }
+  #photoPlaceholder{
+    color:rgba(255,255,255,.5);
+    font-family:'Oswald',sans-serif;
+    font-size:2.4cqw;
+    text-align:center;
+    letter-spacing:.04em;
+    padding:0 8%;
+  }
+
+  .draggable{
+    position:absolute;
+    cursor:grab;
+    padding:.32em .8em;
+    outline-offset:3px;
+  }
+  .draggable:active{cursor:grabbing;}
+  .draggable:focus-visible{outline:2px solid #fff;}
+
+  #badgeEl{
+    background:var(--c-badge-bg);
+    color:var(--c-badge-text);
+    border:max(1px, .14em) solid var(--c-badge-border);
+    font-family:var(--c-font-family);
+    font-weight:var(--c-badge-weight);
+    font-size:2.15cqw;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    white-space:nowrap;
+    line-height:1;
+  }
+  #nameEl{
+    font-family:var(--c-font-family);
+    font-weight:var(--c-name-weight);
+    color:var(--c-name-color);
+    text-transform:uppercase;
+    letter-spacing:-.01em;
+    line-height:.98;
+    font-size:var(--c-name-size);
+    max-width:34%;
+    padding:0;
+  }
+  #nameEl span{display:block;}
+
+  .hint{
+    margin-top:10px;font-size:12.5px;color:var(--ink-soft);
+    display:flex;align-items:center;gap:6px;
+  }
+
+  .panel{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:16px 16px 18px;
+  }
+  .panel + .panel{margin-top:14px;}
+  .panel h2{
+    font-size:11px;text-transform:uppercase;letter-spacing:.1em;
+    color:var(--ink-soft);margin:0 0 12px;font-weight:600;
+  }
+
+  .field{margin-bottom:12px;}
+  .field:last-child{margin-bottom:0;}
+  .field label{
+    display:block;font-size:12.5px;color:var(--ink-soft);margin-bottom:5px;
+  }
+  .field input[type="text"], .field select, .field textarea{
+    width:100%;
+    padding:8px 10px;
+    border:1px solid var(--line);
+    border-radius:6px;
+    background:var(--surface-2);
+    color:var(--ink);
+    font:inherit;
+    font-size:13.5px;
+    resize:vertical;
+  }
+  .field input[type="text"]:focus, .field select:focus, .field textarea:focus{
+    outline:2px solid var(--accent);outline-offset:1px;
+  }
+
+  .swatch-row{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+  .swatch-row label{margin:0;flex:1;}
+  .swatch-row input[type="color"]{
+    width:38px;height:30px;border:1px solid var(--line);border-radius:6px;
+    padding:2px;background:var(--surface);cursor:pointer;
+  }
+
+  .color-grid{display:flex;flex-direction:column;gap:10px;}
+
+  .range-row{display:flex;align-items:center;gap:10px;}
+  .range-row input[type="range"]{flex:1;accent-color:var(--accent);}
+  .range-row span{font-size:12px;color:var(--ink-soft);width:32px;text-align:right;font-variant-numeric:tabular-nums;}
+
+  .btn{
+    width:100%;
+    padding:9px 12px;
+    border-radius:7px;
+    border:1px solid var(--line);
+    background:var(--surface-2);
+    color:var(--ink);
+    font:inherit;font-size:13.5px;font-weight:600;
+    cursor:pointer;
+  }
+  .btn:hover{border-color:var(--accent);}
+  .btn.primary{
+    background:var(--accent);
+    color:#fff;
+    border-color:var(--accent);
+    margin-top:4px;
+  }
+  .btn.primary:hover{filter:brightness(1.06);}
+  .btn.ghost{background:transparent;}
+  .btn-row{display:flex;gap:8px;}
+  .btn-row .btn{flex:1;}
+
+  #photoInput{display:none;}
+  .subtext{font-size:12px;color:var(--ink-soft);margin-top:8px;}
+
+  #status{
+    font-size:12px;margin-top:8px;min-height:14px;color:var(--ink-soft);
+  }
+  #status.error{color:var(--danger);}
+</style>
+</head>
+<body>
+  <div id="header-container" style="align-self: stretch; width: 100%;"></div>
+
+  <div class="page">
+    <div class="wrap">
+      <header class="tool-header">
+        <div class="eyebrow">Générateur de vignette</div>
+        <h1>Modèle « Interview »</h1>
+        <p>Reproduction éditable du visuel : composition diagonale, badge, titre et photo. Personnalisez les couleurs et la police, puis glissez le badge, le titre et la photo directement sur l'aperçu pour les positionner.</p>
+      </header>
+
+      <div class="layout">
+        <div class="stage-col">
+          <div id="stage">
+            <div id="panelLeft"></div>
+            <div id="panelRight">
+              <img id="photoImg" alt="">
+              <div id="photoPlaceholder">Ajoutez une photo<br>dans le panneau « Photo »</div>
+            </div>
+            <div id="badgeEl" class="draggable" tabindex="0"></div>
+            <div id="nameEl" class="draggable" tabindex="0"></div>
+          </div>
+          <div class="hint">↕ Glissez le badge, le titre ou la photo sur l'aperçu pour changer leur position.</div>
+        </div>
+
+        <div class="controls">
+          <div class="panel">
+            <h2>Texte</h2>
+            <div class="field">
+              <label for="badgeTextInput">Badge</label>
+              <input type="text" id="badgeTextInput" maxlength="24">
+            </div>
+            <div class="field">
+              <label for="nameTextInput">Titre (une ligne par ligne)</label>
+              <textarea id="nameTextInput" rows="3" maxlength="80"></textarea>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h2>Couleurs</h2>
+            <div class="color-grid">
+              <div class="swatch-row">
+                <label for="cBgLeft">Fond gauche</label>
+                <input type="color" id="cBgLeft">
+              </div>
+              <div class="swatch-row">
+                <label for="cBgRight">Fond droit (sans photo)</label>
+                <input type="color" id="cBgRight">
+              </div>
+              <div class="swatch-row">
+                <label for="cBadgeBg">Fond du badge</label>
+                <input type="color" id="cBadgeBg">
+              </div>
+              <div class="swatch-row">
+                <label for="cBadgeText">Texte du badge</label>
+                <input type="color" id="cBadgeText">
+              </div>
+              <div class="swatch-row">
+                <label for="cBadgeBorder">Bordure du badge</label>
+                <input type="color" id="cBadgeBorder">
+              </div>
+              <div class="swatch-row">
+                <label for="cNameColor">Texte du titre</label>
+                <input type="color" id="cNameColor">
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h2>Police</h2>
+            <div class="field">
+              <label for="fontSelect">Police (même style)</label>
+              <select id="fontSelect"></select>
+            </div>
+            <div class="field">
+              <label for="nameSizeRange">Taille du titre</label>
+              <div class="range-row">
+                <input type="range" id="nameSizeRange" min="4" max="11" step="0.1">
+                <span id="nameSizeOut"></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h2>Photo</h2>
+            <div class="btn-row">
+              <button class="btn" id="photoBtn" type="button">Choisir une photo</button>
+              <button class="btn ghost" id="photoRemoveBtn" type="button">Retirer</button>
+            </div>
+            <input type="file" id="photoInput" accept="image/*">
+            <div class="field" style="margin-top:12px;">
+              <label for="photoZoomRange">Zoom de la photo</label>
+              <div class="range-row">
+                <input type="range" id="photoZoomRange" min="1" max="2.5" step="0.05">
+                <span id="photoZoomOut"></span>
+              </div>
+            </div>
+            <div class="subtext">Glissez la photo sur l'aperçu pour la repositionner. Augmentez le zoom si un sens du glissement (haut/bas ou gauche/droite) semble bloqué.</div>
+          </div>
+
+          <div class="panel">
+            <h2>Position</h2>
+            <button class="btn" id="resetPosBtn" type="button">Réinitialiser les positions</button>
+          </div>
+
+          <div class="panel">
+            <button class="btn primary" id="downloadBtn" type="button">Télécharger en PNG</button>
+            <div id="status"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+(function(){
+  "use strict";
+
+  var FONTS = [
+    { label:"Montserrat",    css:"'Montserrat', sans-serif",     canvas:"Montserrat",     nameWeight:900, badgeWeight:700 },
+    { label:"Poppins",       css:"'Poppins', sans-serif",        canvas:"Poppins",        nameWeight:800, badgeWeight:700 },
+    { label:"Archivo Black", css:"'Archivo Black', sans-serif",  canvas:'"Archivo Black"',nameWeight:400, badgeWeight:400 },
+    { label:"Anton",         css:"'Anton', sans-serif",          canvas:"Anton",          nameWeight:400, badgeWeight:400 },
+    { label:"Oswald",        css:"'Oswald', sans-serif",         canvas:"Oswald",         nameWeight:700, badgeWeight:600 }
+  ];
+
+  var DEFAULT_STATE = {
+    badgeText:"Interview",
+    nameText:"Débrief\ndu\nMatch",
+    colors:{
+      bgLeft:"#e2461f",
+      bgRight:"#1b1b1f",
+      badgeBg:"#ffffff",
+      badgeText:"#0d1b3e",
+      badgeBorder:"#3f7d32",
+      nameColor:"#ffffff"
+    },
+    fontIndex:0,
+    nameSizeCqw:6.2,
+    positions:{
+      badge:{ x:6, y:7 },
+      name:{ x:6, y:24 }
+    },
+    photo:null,
+    photoPos:{ x:50, y:30 },
+    photoScale:1.15
+  };
+
+  var STORE_KEY = "miniatureInterview.v1";
+
+  function loadState(){
+    var s = JSON.parse(JSON.stringify(DEFAULT_STATE));
+    try{
+      var raw = localStorage.getItem(STORE_KEY);
+      if(raw){
+        var saved = JSON.parse(raw);
+        Object.assign(s, saved);
+        Object.assign(s.colors, DEFAULT_STATE.colors, saved.colors||{});
+        Object.assign(s.positions, DEFAULT_STATE.positions, saved.positions||{});
+        Object.assign(s.photoPos, DEFAULT_STATE.photoPos, saved.photoPos||{});
+      }
+    }catch(e){}
+    return s;
+  }
+
+  function saveState(){
+    try{
+      localStorage.setItem(STORE_KEY, JSON.stringify(state));
+    }catch(e){}
+  }
+
+  var state = loadState();
+
+  var stage = document.getElementById("stage");
+  var badgeEl = document.getElementById("badgeEl");
+  var nameEl = document.getElementById("nameEl");
+  var panelRight = document.getElementById("panelRight");
+  var photoImg = document.getElementById("photoImg");
+  var photoPlaceholder = document.getElementById("photoPlaceholder");
+
+  var badgeTextInput = document.getElementById("badgeTextInput");
+  var nameTextInput = document.getElementById("nameTextInput");
+  var cBgLeft = document.getElementById("cBgLeft");
+  var cBgRight = document.getElementById("cBgRight");
+  var cBadgeBg = document.getElementById("cBadgeBg");
+  var cBadgeText = document.getElementById("cBadgeText");
+  var cBadgeBorder = document.getElementById("cBadgeBorder");
+  var cNameColor = document.getElementById("cNameColor");
+  var fontSelect = document.getElementById("fontSelect");
+  var nameSizeRange = document.getElementById("nameSizeRange");
+  var nameSizeOut = document.getElementById("nameSizeOut");
+  var photoBtn = document.getElementById("photoBtn");
+  var photoRemoveBtn = document.getElementById("photoRemoveBtn");
+  var photoInput = document.getElementById("photoInput");
+  var photoZoomRange = document.getElementById("photoZoomRange");
+  var photoZoomOut = document.getElementById("photoZoomOut");
+  var resetPosBtn = document.getElementById("resetPosBtn");
+  var downloadBtn = document.getElementById("downloadBtn");
+  var statusEl = document.getElementById("status");
+
+  FONTS.forEach(function(f, i){
+    var opt = document.createElement("option");
+    opt.value = i;
+    opt.textContent = f.label;
+    fontSelect.appendChild(opt);
+  });
+
+  function nameLines(){
+    return state.nameText.split("\n");
+  }
+
+  function renderNameLines(){
+    nameEl.innerHTML = "";
+    nameLines().forEach(function(line){
+      var span = document.createElement("span");
+      span.textContent = line.length ? line : " ";
+      nameEl.appendChild(span);
+    });
+  }
+
+  function computeMetrics(imgW, imgH, destW, destH, scaleMult){
+    var baseScale = Math.max(destW / imgW, destH / imgH);
+    var scale = baseScale * scaleMult;
+    var dispW = imgW * scale, dispH = imgH * scale;
+    return {
+      scale: scale,
+      dispW: dispW,
+      dispH: dispH,
+      maxOffX: Math.max(0, dispW - destW),
+      maxOffY: Math.max(0, dispH - destH)
+    };
+  }
+
+  function layoutPhoto(){
+    if(!state.photo) return;
+    var rect = panelRight.getBoundingClientRect();
+    var iw = photoImg.naturalWidth, ih = photoImg.naturalHeight;
+    if(!rect.width || !rect.height || !iw || !ih) return;
+    var m = computeMetrics(iw, ih, rect.width, rect.height, state.photoScale);
+    var offX = m.maxOffX * (state.photoPos.x / 100);
+    var offY = m.maxOffY * (state.photoPos.y / 100);
+    photoImg.style.width = m.dispW + "px";
+    photoImg.style.height = m.dispH + "px";
+    photoImg.style.left = (-offX) + "px";
+    photoImg.style.top = (-offY) + "px";
+  }
+
+  photoImg.addEventListener("load", layoutPhoto);
+  if(window.ResizeObserver){
+    new ResizeObserver(function(){ layoutPhoto(); }).observe(panelRight);
+  }else{
+    window.addEventListener("resize", layoutPhoto);
+  }
+
+  function render(){
+    badgeTextInput.value = state.badgeText;
+    nameTextInput.value = state.nameText;
+    cBgLeft.value = state.colors.bgLeft;
+    cBgRight.value = state.colors.bgRight;
+    cBadgeBg.value = state.colors.badgeBg;
+    cBadgeText.value = state.colors.badgeText;
+    cBadgeBorder.value = state.colors.badgeBorder;
+    cNameColor.value = state.colors.nameColor;
+    fontSelect.value = state.fontIndex;
+    nameSizeRange.value = state.nameSizeCqw;
+    nameSizeOut.textContent = state.nameSizeCqw.toFixed(1);
+    photoZoomRange.value = state.photoScale;
+    photoZoomOut.textContent = Math.round(state.photoScale * 100) + "%";
+
+    stage.style.setProperty("--c-bg-left", state.colors.bgLeft);
+    stage.style.setProperty("--c-bg-right", state.colors.bgRight);
+    stage.style.setProperty("--c-badge-bg", state.colors.badgeBg);
+    stage.style.setProperty("--c-badge-text", state.colors.badgeText);
+    stage.style.setProperty("--c-badge-border", state.colors.badgeBorder);
+    stage.style.setProperty("--c-name-color", state.colors.nameColor);
+    stage.style.setProperty("--c-name-size", state.nameSizeCqw + "cqw");
+
+    var font = FONTS[state.fontIndex];
+    stage.style.setProperty("--c-font-family", font.css);
+    stage.style.setProperty("--c-name-weight", font.nameWeight);
+    stage.style.setProperty("--c-badge-weight", font.badgeWeight);
+
+    badgeEl.textContent = state.badgeText;
+    renderNameLines();
+
+    badgeEl.style.left = state.positions.badge.x + "%";
+    badgeEl.style.top = state.positions.badge.y + "%";
+    nameEl.style.left = state.positions.name.x + "%";
+    nameEl.style.top = state.positions.name.y + "%";
+
+    if(state.photo){
+      photoImg.src = state.photo;
+      photoImg.style.display = "block";
+      photoPlaceholder.style.display = "none";
+      panelRight.classList.add("has-photo");
+    }else{
+      photoImg.style.display = "none";
+      photoPlaceholder.style.display = "block";
+      panelRight.classList.remove("has-photo");
+    }
+    layoutPhoto();
+  }
+
+  badgeTextInput.addEventListener("input", function(){
+    state.badgeText = badgeTextInput.value;
+    badgeEl.textContent = state.badgeText;
+    saveState();
+  });
+  nameTextInput.addEventListener("input", function(){
+    state.nameText = nameTextInput.value;
+    renderNameLines();
+    saveState();
+  });
+
+  function bindColor(input, key){
+    input.addEventListener("input", function(){
+      state.colors[key] = input.value;
+      stage.style.setProperty("--c-" + key.replace(/([A-Z])/g, "-$1").toLowerCase(), input.value);
+      saveState();
+    });
+  }
+  bindColor(cBgLeft, "bgLeft");
+  bindColor(cBgRight, "bgRight");
+  bindColor(cBadgeBg, "badgeBg");
+  bindColor(cBadgeText, "badgeText");
+  bindColor(cBadgeBorder, "badgeBorder");
+  bindColor(cNameColor, "nameColor");
+
+  fontSelect.addEventListener("change", function(){
+    state.fontIndex = Number(fontSelect.value);
+    var font = FONTS[state.fontIndex];
+    stage.style.setProperty("--c-font-family", font.css);
+    stage.style.setProperty("--c-name-weight", font.nameWeight);
+    stage.style.setProperty("--c-badge-weight", font.badgeWeight);
+    saveState();
+  });
+
+  nameSizeRange.addEventListener("input", function(){
+    state.nameSizeCqw = Number(nameSizeRange.value);
+    nameSizeOut.textContent = state.nameSizeCqw.toFixed(1);
+    stage.style.setProperty("--c-name-size", state.nameSizeCqw + "cqw");
+    saveState();
+  });
+
+  photoZoomRange.addEventListener("input", function(){
+    state.photoScale = Number(photoZoomRange.value);
+    photoZoomOut.textContent = Math.round(state.photoScale * 100) + "%";
+    layoutPhoto();
+    saveState();
+  });
+
+  photoBtn.addEventListener("click", function(){ photoInput.click(); });
+  photoRemoveBtn.addEventListener("click", function(){
+    state.photo = null;
+    photoInput.value = "";
+    render();
+    saveState();
+  });
+  photoInput.addEventListener("change", function(){
+    var file = photoInput.files && photoInput.files[0];
+    if(!file) return;
+    var reader = new FileReader();
+    reader.onload = function(){
+      state.photo = reader.result;
+      render();
+      saveState();
+    };
+    reader.readAsDataURL(file);
+  });
+
+  resetPosBtn.addEventListener("click", function(){
+    state.positions = JSON.parse(JSON.stringify(DEFAULT_STATE.positions));
+    state.photoPos = JSON.parse(JSON.stringify(DEFAULT_STATE.photoPos));
+    state.photoScale = DEFAULT_STATE.photoScale;
+    render();
+    saveState();
+  });
+
+  function setupDrag(el, posKey){
+    var dragging = false;
+    var offX = 0, offY = 0;
+
+    el.addEventListener("pointerdown", function(ev){
+      dragging = true;
+      el.setPointerCapture(ev.pointerId);
+      var elRect = el.getBoundingClientRect();
+      offX = ev.clientX - elRect.left;
+      offY = ev.clientY - elRect.top;
+      ev.preventDefault();
+    });
+
+    el.addEventListener("pointermove", function(ev){
+      if(!dragging) return;
+      var stageRect = stage.getBoundingClientRect();
+      var elRect = el.getBoundingClientRect();
+      var x = ev.clientX - offX - stageRect.left;
+      var y = ev.clientY - offY - stageRect.top;
+      var maxX = stageRect.width - elRect.width;
+      var maxY = stageRect.height - elRect.height;
+      x = Math.max(0, Math.min(maxX, x));
+      y = Math.max(0, Math.min(maxY, y));
+      var xPct = (x / stageRect.width) * 100;
+      var yPct = (y / stageRect.height) * 100;
+      state.positions[posKey].x = xPct;
+      state.positions[posKey].y = yPct;
+      el.style.left = xPct + "%";
+      el.style.top = yPct + "%";
+    });
+
+    function end(ev){
+      if(!dragging) return;
+      dragging = false;
+      try{ el.releasePointerCapture(ev.pointerId); }catch(e){}
+      saveState();
+    }
+    el.addEventListener("pointerup", end);
+    el.addEventListener("pointercancel", end);
+
+    el.addEventListener("keydown", function(ev){
+      var step = ev.shiftKey ? 3 : 1;
+      var pos = state.positions[posKey];
+      if(ev.key === "ArrowLeft") pos.x -= step;
+      else if(ev.key === "ArrowRight") pos.x += step;
+      else if(ev.key === "ArrowUp") pos.y -= step;
+      else if(ev.key === "ArrowDown") pos.y += step;
+      else return;
+      ev.preventDefault();
+      pos.x = Math.max(0, Math.min(95, pos.x));
+      pos.y = Math.max(0, Math.min(95, pos.y));
+      el.style.left = pos.x + "%";
+      el.style.top = pos.y + "%";
+      saveState();
+    });
+  }
+  setupDrag(badgeEl, "badge");
+  setupDrag(nameEl, "name");
+
+  (function setupPhotoDrag(){
+    var dragging = false;
+    var startX = 0, startY = 0, startLeft = 0, startTop = 0, dragMetrics = null;
+
+    panelRight.addEventListener("pointerdown", function(ev){
+      if(!state.photo) return;
+      var rect = panelRight.getBoundingClientRect();
+      var iw = photoImg.naturalWidth, ih = photoImg.naturalHeight;
+      if(!iw || !ih) return;
+      dragMetrics = computeMetrics(iw, ih, rect.width, rect.height, state.photoScale);
+      dragging = true;
+      panelRight.setPointerCapture(ev.pointerId);
+      panelRight.classList.add("dragging");
+      startX = ev.clientX;
+      startY = ev.clientY;
+      startLeft = parseFloat(photoImg.style.left) || 0;
+      startTop = parseFloat(photoImg.style.top) || 0;
+      ev.preventDefault();
+    });
+
+    panelRight.addEventListener("pointermove", function(ev){
+      if(!dragging) return;
+      var dx = ev.clientX - startX;
+      var dy = ev.clientY - startY;
+      var newLeft = Math.max(-dragMetrics.maxOffX, Math.min(0, startLeft + dx));
+      var newTop = Math.max(-dragMetrics.maxOffY, Math.min(0, startTop + dy));
+      photoImg.style.left = newLeft + "px";
+      photoImg.style.top = newTop + "px";
+      state.photoPos.x = dragMetrics.maxOffX > 0 ? (-newLeft / dragMetrics.maxOffX) * 100 : 50;
+      state.photoPos.y = dragMetrics.maxOffY > 0 ? (-newTop / dragMetrics.maxOffY) * 100 : 50;
+    });
+
+    function end(ev){
+      if(!dragging) return;
+      dragging = false;
+      panelRight.classList.remove("dragging");
+      try{ panelRight.releasePointerCapture(ev.pointerId); }catch(e){}
+      saveState();
+    }
+    panelRight.addEventListener("pointerup", end);
+    panelRight.addEventListener("pointercancel", end);
+  })();
+
+  function setStatus(msg, isError){
+    statusEl.textContent = msg;
+    statusEl.className = isError ? "error" : "";
+  }
+
+  async function buildPng(){
+    var W = 1280, H = 720;
+    var canvas = document.createElement("canvas");
+    canvas.width = W; canvas.height = H;
+    var ctx = canvas.getContext("2d");
+
+    var leftPts = [[0,0],[0.42*W,0],[0.58*W,H],[0,H]];
+    var rightPts = [[0.41*W,0],[W,0],[W,H],[0.57*W,H]];
+
+    function pathFrom(pts){
+      ctx.beginPath();
+      ctx.moveTo(pts[0][0], pts[0][1]);
+      for(var i=1;i<pts.length;i++) ctx.lineTo(pts[i][0], pts[i][1]);
+      ctx.closePath();
+    }
+
+    ctx.save();
+    pathFrom(rightPts);
+    ctx.clip();
+    if(state.photo){
+      var img = await new Promise(function(resolve, reject){
+        var im = new Image();
+        im.onload = function(){ resolve(im); };
+        im.onerror = reject;
+        im.src = state.photo;
+      });
+      var destX = 0.41*W, destY = 0, destW = W - 0.41*W, destH = H;
+      var m = computeMetrics(img.naturalWidth, img.naturalHeight, destW, destH, state.photoScale);
+      var offX = m.maxOffX * (state.photoPos.x / 100);
+      var offY = m.maxOffY * (state.photoPos.y / 100);
+      var sx = offX / m.scale, sy = offY / m.scale, sw = destW / m.scale, sh = destH / m.scale;
+      ctx.drawImage(img, sx, sy, sw, sh, destX, destY, destW, destH);
+    }else{
+      ctx.fillStyle = state.colors.bgRight;
+      ctx.fillRect(0, 0, W, H);
+    }
+    ctx.restore();
+
+    ctx.save();
+    pathFrom(leftPts);
+    ctx.fillStyle = state.colors.bgLeft;
+    ctx.fill();
+    ctx.restore();
+
+    var font = FONTS[state.fontIndex];
+
+    var nameSizePx = (state.nameSizeCqw / 100) * W;
+    var badgeSizePx = (2.15 / 100) * W;
+
+    var nameFontSpec = font.nameWeight + " " + nameSizePx + "px " + font.canvas;
+    var badgeFontSpec = font.badgeWeight + " " + badgeSizePx + "px " + font.canvas;
+    try{
+      await Promise.all([
+        document.fonts.load(nameFontSpec),
+        document.fonts.load(badgeFontSpec)
+      ]);
+      await document.fonts.ready;
+    }catch(e){}
+
+    var badgeX = (state.positions.badge.x / 100) * W;
+    var badgeY = (state.positions.badge.y / 100) * H;
+    var badgeText = (state.badgeText || "").toUpperCase();
+    ctx.font = badgeFontSpec;
+    var padX = badgeSizePx * 0.8;
+    var padY = badgeSizePx * 0.55;
+    var textW = ctx.measureText(badgeText).width;
+    var boxW = textW + padX * 2;
+    var boxH = badgeSizePx + padY * 2;
+    var borderW = Math.max(1, badgeSizePx * 0.11);
+
+    ctx.fillStyle = state.colors.badgeBg;
+    ctx.fillRect(badgeX, badgeY, boxW, boxH);
+    ctx.lineWidth = borderW;
+    ctx.strokeStyle = state.colors.badgeBorder;
+    ctx.strokeRect(badgeX + borderW/2, badgeY + borderW/2, boxW - borderW, boxH - borderW);
+
+    ctx.fillStyle = state.colors.badgeText;
+    ctx.textBaseline = "middle";
+    ctx.textAlign = "left";
+    var letterSpacing = badgeSizePx * 0.06;
+    drawSpacedText(ctx, badgeText, badgeX + padX, badgeY + boxH/2, letterSpacing);
+
+    var nameX = (state.positions.name.x / 100) * W;
+    var nameY = (state.positions.name.y / 100) * H;
+    ctx.font = nameFontSpec;
+    ctx.fillStyle = state.colors.nameColor;
+    ctx.textBaseline = "top";
+    ctx.textAlign = "left";
+    var lineHeight = nameSizePx * 0.98;
+    nameLines().forEach(function(line, i){
+      var upper = line.toUpperCase();
+      if(upper.length){
+        drawSpacedText(ctx, upper, nameX, nameY + lineHeight * i, -nameSizePx*0.01);
+      }
+    });
+
+    return new Promise(function(resolve){
+      canvas.toBlob(function(blob){ resolve(blob); }, "image/png");
+    });
+  }
+
+  function drawSpacedText(ctx, text, x, y, spacing){
+    var cx = x;
+    for(var i=0;i<text.length;i++){
+      ctx.fillText(text[i], cx, y);
+      cx += ctx.measureText(text[i]).width + spacing;
+    }
+  }
+
+  downloadBtn.addEventListener("click", async function(){
+    downloadBtn.disabled = true;
+    setStatus("Génération de l'image…", false);
+    try{
+      var blob = await buildPng();
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement("a");
+      a.href = url;
+      a.download = "interview-thumbnail.png";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function(){ URL.revokeObjectURL(url); }, 2000);
+      setStatus("Image téléchargée.", false);
+    }catch(err){
+      setStatus("Impossible de générer le PNG.", true);
+    }
+    downloadBtn.disabled = false;
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
