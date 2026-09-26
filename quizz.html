@@ -43,6 +43,12 @@
     />
 
     <style>
+      :root {
+        --quiz-bg: #020617;
+        --quiz-accent: #34d399;
+        --quiz-text: #ffffff;
+      }
+
       body {
         font-family: "Inter", sans-serif;
         background-color: #0f172a;
@@ -90,6 +96,10 @@
 
       .pulse-urgent {
         animation: pulse-ring 0.5s infinite ease-in-out;
+      }
+
+      .quiz-accent-btn:hover {
+        filter: brightness(1.1);
       }
 
       #photoFileInput {
@@ -172,9 +182,9 @@
             <input
               type="number"
               id="countdownTimeInput"
-              value="5"
+              value="10"
               min="1"
-              max="15"
+              max="30"
               class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500 transition"
             />
           </div>
@@ -216,12 +226,54 @@
             />
           </div>
 
+          <div class="pt-2 border-t border-slate-800">
+            <label class="block text-xs font-semibold text-slate-400 mb-2"
+              >COULEURS</label
+            >
+            <div class="grid grid-cols-3 gap-2">
+              <div>
+                <label class="block text-[10px] text-slate-500 mb-1"
+                  >Fond</label
+                >
+                <input
+                  type="color"
+                  id="colorBgInput"
+                  value="#020617"
+                  class="w-full h-9 bg-slate-950 border border-slate-800 rounded-lg cursor-pointer"
+                />
+              </div>
+              <div>
+                <label class="block text-[10px] text-slate-500 mb-1"
+                  >Accent</label
+                >
+                <input
+                  type="color"
+                  id="colorAccentInput"
+                  value="#34d399"
+                  class="w-full h-9 bg-slate-950 border border-slate-800 rounded-lg cursor-pointer"
+                />
+              </div>
+              <div>
+                <label class="block text-[10px] text-slate-500 mb-1"
+                  >Texte</label
+                >
+                <input
+                  type="color"
+                  id="colorTextInput"
+                  value="#ffffff"
+                  class="w-full h-9 bg-slate-950 border border-slate-800 rounded-lg cursor-pointer"
+                />
+              </div>
+            </div>
+          </div>
+
           <button
             id="exportVideoBtn"
-            class="w-full bg-gradient-to-r from-emerald-500 to-green-400 text-slate-950 font-extrabold px-4 py-2.5 rounded-xl text-sm transition flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+            class="quiz-accent-btn w-full text-slate-950 font-extrabold px-4 py-2.5 rounded-xl text-sm transition flex items-center justify-center gap-2 shadow-lg active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+            style="background: var(--quiz-accent)"
           >
             <i class="fa-solid fa-file-video"></i>
-            <span id="exportVideoLabel">Télécharger en MP4 (5s)</span>
+            <span id="exportVideoLabel">Télécharger en MP4 (10s)</span>
           </button>
           <div id="exportStatus" class="text-xs text-slate-400 hidden"></div>
         </div>
@@ -246,7 +298,8 @@
               ></span>
               <h3
                 id="playerTitleDisplay"
-                class="font-black text-xs sm:text-sm text-white tracking-wide uppercase"
+                class="font-black text-xs sm:text-sm tracking-wide uppercase"
+                style="color: var(--quiz-text)"
               >
                 DEVINE LE JOUEUR !
               </h3>
@@ -255,7 +308,8 @@
 
           <!-- Center Content: Image Display -->
           <div
-            class="absolute inset-0 z-0 flex items-center justify-center p-6 bg-slate-950"
+            class="absolute inset-0 z-0 flex items-center justify-center p-6"
+            style="background: var(--quiz-bg)"
           >
             <!-- Player Image Container -->
             <div
@@ -286,15 +340,18 @@
             <!-- Reveal Box (Hidden during timer, shown on reveal) -->
             <div
               id="answerRevealBox"
-              class="opacity-0 transform translate-y-4 transition-all duration-500 text-center bg-slate-900/90 backdrop-blur border border-emerald-500/50 rounded-2xl py-2.5 px-4 shadow-xl"
+              class="opacity-0 transform translate-y-4 transition-all duration-500 text-center bg-slate-900/90 backdrop-blur rounded-2xl py-2.5 px-4 shadow-xl"
+              style="border: 1px solid var(--quiz-accent)"
             >
               <span
-                class="text-[10px] font-extrabold uppercase tracking-widest text-emerald-400 block"
+                class="text-[10px] font-extrabold uppercase tracking-widest block"
+                style="color: var(--quiz-accent)"
                 >Réponse Correcte</span
               >
               <p
                 id="playerAnswerText"
-                class="text-xl sm:text-2xl font-black text-white tracking-wide uppercase drop-shadow-md"
+                class="text-xl sm:text-2xl font-black tracking-wide uppercase drop-shadow-md"
+                style="color: var(--quiz-text)"
               >
                 KYLIAN MBAPPÉ
               </p>
@@ -306,13 +363,17 @@
                 class="flex justify-between items-center text-xs font-bold text-slate-300 px-1"
               >
                 <span class="flex items-center gap-1.5">
-                  <i class="fa-solid fa-stopwatch text-emerald-400"></i> Temps
-                  restant
+                  <i
+                    class="fa-solid fa-stopwatch"
+                    style="color: var(--quiz-accent)"
+                  ></i>
+                  Temps restant
                 </span>
                 <span
                   id="timerNumber"
-                  class="text-base font-extrabold text-emerald-400 font-mono"
-                  >05s</span
+                  class="text-base font-extrabold font-mono"
+                  style="color: var(--quiz-accent)"
+                  >10s</span
                 >
               </div>
 
@@ -322,8 +383,8 @@
               >
                 <div
                   id="timerProgressBar"
-                  class="h-full bg-gradient-to-r from-emerald-500 to-green-400 rounded-full timer-progress"
-                  style="width: 100%"
+                  class="h-full rounded-full timer-progress"
+                  style="width: 100%; background: var(--quiz-accent)"
                 ></div>
               </div>
             </div>
@@ -337,7 +398,8 @@
           <div class="flex items-center gap-2">
             <button
               id="startPauseBtn"
-              class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold px-5 py-2.5 rounded-xl transition flex items-center gap-2 shadow-lg shadow-emerald-500/20 active:scale-95"
+              class="quiz-accent-btn text-slate-950 font-extrabold px-5 py-2.5 rounded-xl transition flex items-center gap-2 shadow-lg active:scale-95"
+              style="background: var(--quiz-accent)"
             >
               <i class="fa-solid fa-play" id="startPauseIcon"></i>
               <span id="startPauseLabel">Démarrer</span>
@@ -413,9 +475,14 @@
         image: null,
         answer: "Kylian Mbappé",
       };
-      let countdownSeconds = 5;
-      let remainingSeconds = 5;
+      let countdownSeconds = 10;
+      let remainingSeconds = 10;
       let quizTitle = "DEVINE LE JOUEUR DE FOOT !";
+      let quizColors = {
+        bg: "#020617",
+        accent: "#34d399",
+        text: "#ffffff",
+      };
 
       let isRunning = false;
       let isRevealed = false;
@@ -430,6 +497,9 @@
       const photoChooseBtn = document.getElementById("photoChooseBtn");
       const photoRemoveBtn = document.getElementById("photoRemoveBtn");
       const photoFileInput = document.getElementById("photoFileInput");
+      const colorBgInput = document.getElementById("colorBgInput");
+      const colorAccentInput = document.getElementById("colorAccentInput");
+      const colorTextInput = document.getElementById("colorTextInput");
 
       const playerTitleDisplay = document.getElementById("playerTitleDisplay");
       const playerImage = document.getElementById("playerImage");
@@ -512,9 +582,29 @@
       });
 
       countdownTimeInput.addEventListener("change", (e) => {
-        countdownSeconds = Math.max(1, parseInt(e.target.value) || 5);
+        countdownSeconds = Math.max(1, parseInt(e.target.value) || 10);
         resetTimer();
         updateExportLabel();
+      });
+
+      function applyQuizColors() {
+        const root = document.documentElement.style;
+        root.setProperty("--quiz-bg", quizColors.bg);
+        root.setProperty("--quiz-accent", quizColors.accent);
+        root.setProperty("--quiz-text", quizColors.text);
+      }
+
+      colorBgInput.addEventListener("input", (e) => {
+        quizColors.bg = e.target.value;
+        applyQuizColors();
+      });
+      colorAccentInput.addEventListener("input", (e) => {
+        quizColors.accent = e.target.value;
+        applyQuizColors();
+      });
+      colorTextInput.addEventListener("input", (e) => {
+        quizColors.text = e.target.value;
+        applyQuizColors();
       });
 
       answerInput.addEventListener("input", (e) => {
@@ -750,8 +840,9 @@
       function drawExportFrame(ctx, W, H, opts) {
         const { title, imageEl, hasImage, answer, remaining, durationSec, revealed } =
           opts;
+        const colors = quizColors;
 
-        ctx.fillStyle = "#020617";
+        ctx.fillStyle = colors.bg;
         ctx.fillRect(0, 0, W, H);
 
         const boxW = H * 0.62,
@@ -788,7 +879,7 @@
         ctx.beginPath();
         ctx.arc(W * 0.055, H * 0.08, H * 0.012, 0, Math.PI * 2);
         ctx.fill();
-        ctx.fillStyle = "#ffffff";
+        ctx.fillStyle = colors.text;
         ctx.fillText(title.toUpperCase(), W * 0.08, H * 0.08);
 
         if (revealed) {
@@ -799,15 +890,15 @@
           ctx.fillStyle = "rgba(15,23,42,0.92)";
           roundRectPath(ctx, rbX, rbY, rbW, rbH, 18);
           ctx.fill();
-          ctx.strokeStyle = "rgba(16,185,129,0.5)";
+          ctx.strokeStyle = colors.accent;
           ctx.lineWidth = 2;
           roundRectPath(ctx, rbX, rbY, rbW, rbH, 18);
           ctx.stroke();
           ctx.textAlign = "center";
-          ctx.fillStyle = "#34d399";
+          ctx.fillStyle = colors.accent;
           ctx.font = "800 " + Math.round(H * 0.02) + "px Inter, sans-serif";
           ctx.fillText("RÉPONSE CORRECTE", W / 2, rbY + rbH * 0.3);
-          ctx.fillStyle = "#ffffff";
+          ctx.fillStyle = colors.text;
           ctx.font = "900 " + Math.round(H * 0.05) + "px Inter, sans-serif";
           ctx.fillText(answer.toUpperCase(), W / 2, rbY + rbH * 0.68);
           ctx.textAlign = "left";
@@ -821,12 +912,12 @@
         roundRectPath(ctx, barX, barY, barW, barH, barH / 2);
         ctx.fill();
         const pct = Math.max(0, remaining / durationSec);
-        ctx.fillStyle = "#34d399";
+        ctx.fillStyle = colors.accent;
         roundRectPath(ctx, barX, barY, barW * pct, barH, barH / 2);
         ctx.fill();
 
         ctx.font = "700 " + Math.round(H * 0.024) + "px Inter, sans-serif";
-        ctx.fillStyle = "#34d399";
+        ctx.fillStyle = colors.accent;
         ctx.textAlign = "right";
         ctx.fillText(
           Math.ceil(Math.max(0, remaining)) + "s",
@@ -1100,6 +1191,7 @@
         loadCurrentQuestion();
         resetTimer();
         updateExportLabel();
+        applyQuizColors();
       };
     </script>
   </body>
