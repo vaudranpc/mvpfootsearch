@@ -229,6 +229,20 @@
             />
           </div>
 
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-1"
+              >TEXTE DU CADRE DE RÉPONSE</label
+            >
+            <input
+              type="text"
+              id="answerLabelInput"
+              value="Réponse Correcte"
+              maxlength="40"
+              placeholder="Réponse Correcte"
+              class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500 transition"
+            />
+          </div>
+
           <div class="pt-2 border-t border-slate-800">
             <label class="block text-xs font-semibold text-slate-400 mb-2"
               >COULEURS</label
@@ -268,6 +282,29 @@
                 />
               </div>
             </div>
+          </div>
+
+          <div class="pt-2 border-t border-slate-800">
+            <label class="block text-xs font-semibold text-slate-400 mb-2"
+              >FORMAT D'EXPORT</label
+            >
+            <div class="grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                data-format="landscape"
+                class="format-btn border rounded-xl py-2.5 px-3 text-xs font-bold flex items-center justify-center gap-2 transition"
+              >
+                <i class="fa-brands fa-youtube"></i> 16:9 · YouTube
+              </button>
+              <button
+                type="button"
+                data-format="reel"
+                class="format-btn border rounded-xl py-2.5 px-3 text-xs font-bold flex items-center justify-center gap-2 transition"
+              >
+                <i class="fa-brands fa-instagram"></i> 9:16 · Reel Instagram
+              </button>
+            </div>
+            <p id="formatHint" class="text-[11px] text-slate-500 mt-2"></p>
           </div>
 
           <button
@@ -347,6 +384,7 @@
               style="border: 1px solid var(--quiz-accent)"
             >
               <span
+                id="answerLabelDisplay"
                 class="text-[10px] font-extrabold uppercase tracking-widest block"
                 style="color: var(--quiz-accent)"
                 >Réponse Correcte</span
@@ -417,6 +455,28 @@
           </div>
         </div>
 
+        <!-- Export Preview (reflète exactement le format choisi) -->
+        <div
+          class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-lg space-y-3"
+        >
+          <h3 class="text-sm font-bold text-emerald-400 flex items-center gap-2">
+            <i class="fa-solid fa-mobile-screen"></i> Aperçu de l'export
+            <span
+              id="exportPreviewLabel"
+              class="text-[10px] font-semibold text-slate-400 bg-slate-800 rounded-md px-2 py-0.5"
+            ></span>
+          </h3>
+          <div class="flex justify-center">
+            <canvas
+              id="exportPreviewCanvas"
+              width="540"
+              height="960"
+              class="rounded-xl border border-slate-800"
+              style="max-width: 100%; max-height: 560px; height: auto"
+            ></canvas>
+          </div>
+        </div>
+
         <!-- Audio & Info Note -->
         <div
           class="bg-slate-900/50 border border-slate-800/80 rounded-xl p-3 text-xs text-slate-400 flex items-center gap-3"
@@ -478,6 +538,7 @@
         image: null,
         answer: "Kylian Mbappé",
       };
+      let answerLabel = "Réponse Correcte";
       let countdownSeconds = 10;
       let remainingSeconds = 10;
       let quizTitle = "DEVINE LE JOUEUR DE FOOT !";
@@ -493,10 +554,24 @@
       let restartTimeout = null;
       let audioCtx = null;
 
+      // Formats d'export : dimensions, cadence et durée d'affichage de la réponse
+      // (hold) ajoutée après le compte à rebours.
+      const FORMAT_SPECS = {
+        landscape: { w: 960, h: 540, fps: 20, hold: 0 },
+        reel: { w: 1080, h: 1920, fps: 24, hold: 2.5 },
+      };
+      let exportFormat = "landscape";
+      try {
+        const saved = localStorage.getItem("quizExportFormat");
+        if (saved && FORMAT_SPECS[saved]) exportFormat = saved;
+      } catch (e) {}
+
       // DOM Elements
       const quizTitleInput = document.getElementById("quizTitleInput");
       const countdownTimeInput = document.getElementById("countdownTimeInput");
       const answerInput = document.getElementById("answerInput");
+      const answerLabelInput = document.getElementById("answerLabelInput");
+      const answerLabelDisplay = document.getElementById("answerLabelDisplay");
       const photoChooseBtn = document.getElementById("photoChooseBtn");
       const photoRemoveBtn = document.getElementById("photoRemoveBtn");
       const photoFileInput = document.getElementById("photoFileInput");
@@ -520,6 +595,10 @@
       const exportVideoBtn = document.getElementById("exportVideoBtn");
       const exportVideoLabel = document.getElementById("exportVideoLabel");
       const exportStatus = document.getElementById("exportStatus");
+      const formatBtns = document.querySelectorAll(".format-btn");
+      const formatHint = document.getElementById("formatHint");
+      const exportPreviewCanvas = document.getElementById("exportPreviewCanvas");
+      const exportPreviewLabel = document.getElementById("exportPreviewLabel");
 
       const exportPromptBtn = document.getElementById("exportPromptBtn");
       const promptModal = document.getElementById("promptModal");
@@ -582,6 +661,7 @@
       quizTitleInput.addEventListener("input", (e) => {
         quizTitle = e.target.value || "QUIZ FOOTBALL";
         playerTitleDisplay.textContent = quizTitle;
+        renderExportPreview();
       });
 
       countdownTimeInput.addEventListener("change", (e) => {
@@ -595,6 +675,7 @@
         root.setProperty("--quiz-bg", quizColors.bg);
         root.setProperty("--quiz-accent", quizColors.accent);
         root.setProperty("--quiz-text", quizColors.text);
+        renderExportPreview();
       }
 
       colorBgInput.addEventListener("input", (e) => {
@@ -613,6 +694,13 @@
       answerInput.addEventListener("input", (e) => {
         question.answer = e.target.value;
         playerAnswerText.textContent = question.answer || "RÉPONSE";
+        renderExportPreview();
+      });
+
+      answerLabelInput.addEventListener("input", (e) => {
+        answerLabel = e.target.value.trim() || "Réponse Correcte";
+        answerLabelDisplay.textContent = answerLabel;
+        renderExportPreview();
       });
 
       photoChooseBtn.addEventListener("click", () => photoFileInput.click());
@@ -635,8 +723,43 @@
       });
 
       function updateExportLabel() {
-        exportVideoLabel.textContent = `Télécharger en MP4 (${countdownSeconds}s)`;
+        if (exportFormat === "reel") {
+          const total = countdownSeconds + FORMAT_SPECS.reel.hold;
+          exportVideoLabel.textContent = `Télécharger le Reel 9:16 (${total}s)`;
+        } else {
+          exportVideoLabel.textContent = `Télécharger en MP4 (${countdownSeconds}s)`;
+        }
       }
+
+      function setExportFormat(fmt, persist) {
+        exportFormat = fmt;
+        formatBtns.forEach((b) => {
+          const on = b.dataset.format === fmt;
+          b.classList.toggle("bg-emerald-500/20", on);
+          b.classList.toggle("border-emerald-500", on);
+          b.classList.toggle("text-emerald-300", on);
+          b.classList.toggle("bg-slate-950", !on);
+          b.classList.toggle("border-slate-800", !on);
+          b.classList.toggle("text-slate-300", !on);
+        });
+        const spec = FORMAT_SPECS[fmt];
+        exportPreviewLabel.textContent = `${spec.w}×${spec.h}`;
+        formatHint.textContent =
+          fmt === "reel"
+            ? "1080×1920 · 24 i/s · réponse affichée 2,5 s après le compte à rebours · contenu placé dans les zones sûres d'Instagram"
+            : "960×540 · 20 i/s · format horizontal YouTube";
+        updateExportLabel();
+        renderExportPreview();
+        if (persist) {
+          try {
+            localStorage.setItem("quizExportFormat", fmt);
+          } catch (e) {}
+        }
+      }
+
+      formatBtns.forEach((b) =>
+        b.addEventListener("click", () => setExportFormat(b.dataset.format, true)),
+      );
 
       function setExportStatus(msg, isError) {
         exportStatus.textContent = msg;
@@ -660,6 +783,7 @@
 
         answerRevealBox.classList.add("opacity-0", "translate-y-4");
         isRevealed = false;
+        renderExportPreview();
       }
 
       function resetTimer() {
@@ -671,6 +795,7 @@
         timerNumber.textContent = `${Math.ceil(remainingSeconds)}s`;
         const percentage = (remainingSeconds / countdownSeconds) * 100;
         timerProgressBar.style.width = `${Math.max(0, percentage)}%`;
+        renderExportPreview();
       }
 
       // Quiz Core Loop
@@ -728,6 +853,7 @@
 
         answerRevealBox.classList.remove("opacity-0", "translate-y-4");
         playSuccessSound();
+        renderExportPreview();
 
         restartTimeout = setTimeout(() => {
           if (isRevealed) {
@@ -840,9 +966,17 @@
         });
       }
 
-      function drawExportFrame(ctx, W, H, opts) {
-        const { title, imageEl, hasImage, answer, remaining, durationSec, revealed } =
-          opts;
+      function drawLandscapeFrame(ctx, W, H, opts) {
+        const {
+          title,
+          imageEl,
+          hasImage,
+          answer,
+          remaining,
+          durationSec,
+          revealed,
+          label,
+        } = opts;
         const colors = quizColors;
 
         ctx.fillStyle = colors.bg;
@@ -899,8 +1033,8 @@
           ctx.stroke();
           ctx.textAlign = "center";
           ctx.fillStyle = colors.accent;
-          ctx.font = "800 " + Math.round(H * 0.02) + "px Inter, sans-serif";
-          ctx.fillText("RÉPONSE CORRECTE", W / 2, rbY + rbH * 0.3);
+          fitFontSize(ctx, (label || "").toUpperCase(), "800", Math.round(H * 0.02), rbW * 0.9);
+          ctx.fillText((label || "").toUpperCase(), W / 2, rbY + rbH * 0.3);
           ctx.fillStyle = colors.text;
           ctx.font = "900 " + Math.round(H * 0.05) + "px Inter, sans-serif";
           ctx.fillText(answer.toUpperCase(), W / 2, rbY + rbH * 0.68);
@@ -928,6 +1062,220 @@
           barY - H * 0.02,
         );
         ctx.textAlign = "left";
+      }
+
+      function hexToRgba(hex, a) {
+        const h = hex.replace("#", "");
+        const full =
+          h.length === 3
+            ? h
+                .split("")
+                .map((c) => c + c)
+                .join("")
+            : h;
+        const n = parseInt(full, 16);
+        return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`;
+      }
+
+      function fitFontSize(ctx, text, weight, maxSize, maxW) {
+        let size = maxSize;
+        ctx.font = `${weight} ${size}px Inter, sans-serif`;
+        while (size > 16 && ctx.measureText(text).width > maxW) {
+          size -= 2;
+          ctx.font = `${weight} ${size}px Inter, sans-serif`;
+        }
+        return size;
+      }
+
+      function easeOutBackQ(p) {
+        const c1 = 1.70158,
+          c3 = c1 + 1;
+        return 1 + c3 * Math.pow(p - 1, 3) + c1 * Math.pow(p - 1, 2);
+      }
+
+      // Mise en page verticale 9:16 (dessinée dans un repère 1080×1920).
+      // Zones sûres Instagram : on garde ~250 px libres en haut et ~380 px en bas
+      // (légende, boutons, barre de navigation) ; le contenu reste entre y=250 et y=1530.
+      function drawReelFrame(ctx, W, H, opts) {
+        const {
+          title,
+          imageEl,
+          hasImage,
+          answer,
+          remaining,
+          durationSec,
+          revealProgress,
+          label,
+        } = opts;
+        const colors = quizColors;
+        const DW = 1080,
+          DH = 1920;
+
+        ctx.save();
+        ctx.scale(W / DW, H / DH);
+
+        // Fond + halo d'accent
+        ctx.fillStyle = colors.bg;
+        ctx.fillRect(0, 0, DW, DH);
+        const glow = ctx.createRadialGradient(540, 860, 0, 540, 860, 900);
+        glow.addColorStop(0, hexToRgba(colors.accent, 0.22));
+        glow.addColorStop(1, hexToRgba(colors.accent, 0));
+        ctx.fillStyle = glow;
+        ctx.fillRect(0, 0, DW, DH);
+
+        // Titre
+        const px = 90,
+          py = 250,
+          pw = 900,
+          ph = 120;
+        ctx.fillStyle = "rgba(2,6,23,0.88)";
+        roundRectPath(ctx, px, py, pw, ph, 36);
+        ctx.fill();
+        ctx.strokeStyle = "rgba(255,255,255,0.14)";
+        ctx.lineWidth = 3;
+        roundRectPath(ctx, px, py, pw, ph, 36);
+        ctx.stroke();
+        ctx.fillStyle = "#ef4444";
+        ctx.beginPath();
+        ctx.arc(px + 58, py + ph / 2, 15, 0, Math.PI * 2);
+        ctx.fill();
+        const titleText = title.toUpperCase();
+        ctx.textBaseline = "middle";
+        ctx.textAlign = "left";
+        fitFontSize(ctx, titleText, "900", 54, pw - 130);
+        ctx.fillStyle = colors.text;
+        ctx.fillText(titleText, px + 96, py + ph / 2 + 2);
+
+        // Photo du joueur
+        const bx = 90,
+          by = 400,
+          bw = 900,
+          bh = 900;
+        ctx.save();
+        ctx.shadowColor = hexToRgba(colors.accent, 0.55);
+        ctx.shadowBlur = 50;
+        roundRectPath(ctx, bx, by, bw, bh, 44);
+        ctx.fillStyle = "#0f172a";
+        ctx.fill();
+        ctx.restore();
+        ctx.save();
+        roundRectPath(ctx, bx, by, bw, bh, 44);
+        ctx.clip();
+        ctx.fillStyle = "#0f172a";
+        ctx.fillRect(bx, by, bw, bh);
+        if (hasImage) {
+          drawImageCover(ctx, imageEl, bx, by, bw, bh);
+        } else {
+          ctx.fillStyle = "#475569";
+          ctx.font = "700 44px Inter, sans-serif";
+          ctx.textAlign = "center";
+          ctx.fillText("Image introuvable", bx + bw / 2, by + bh / 2);
+          ctx.textAlign = "left";
+        }
+        const shade = ctx.createLinearGradient(0, by + bh * 0.62, 0, by + bh);
+        shade.addColorStop(0, "rgba(2,6,23,0)");
+        shade.addColorStop(1, "rgba(2,6,23,0.7)");
+        ctx.fillStyle = shade;
+        ctx.fillRect(bx, by, bw, bh);
+        ctx.restore();
+        ctx.strokeStyle = colors.accent;
+        ctx.lineWidth = 5;
+        roundRectPath(ctx, bx, by, bw, bh, 44);
+        ctx.stroke();
+
+        // Réponse (apparition avec rebond, chevauche le bas de la photo)
+        if (revealProgress > 0) {
+          const p = Math.min(1, revealProgress);
+          const e = easeOutBackQ(p);
+          const rw = 800,
+            rh = 220,
+            rx = (DW - rw) / 2,
+            ry = by + bh - rh / 2 - 10;
+          ctx.save();
+          ctx.globalAlpha = Math.min(1, p * 3);
+          ctx.translate(DW / 2, ry + rh / 2);
+          const sc = 0.82 + 0.18 * e;
+          ctx.scale(sc, sc);
+          ctx.translate(-DW / 2, -(ry + rh / 2));
+          ctx.save();
+          ctx.shadowColor = hexToRgba(colors.accent, 0.6);
+          ctx.shadowBlur = 40;
+          ctx.fillStyle = "rgba(15,23,42,0.96)";
+          roundRectPath(ctx, rx, ry, rw, rh, 36);
+          ctx.fill();
+          ctx.restore();
+          ctx.strokeStyle = colors.accent;
+          ctx.lineWidth = 5;
+          roundRectPath(ctx, rx, ry, rw, rh, 36);
+          ctx.stroke();
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillStyle = colors.accent;
+          const labelText = (label || "").toUpperCase();
+          fitFontSize(ctx, labelText, "800", 30, rw - 80);
+          ctx.fillText(labelText, DW / 2, ry + 62);
+          const ans = answer.toUpperCase();
+          fitFontSize(ctx, ans, "900", 88, rw - 80);
+          ctx.fillStyle = colors.text;
+          ctx.fillText(ans, DW / 2, ry + 145);
+          ctx.restore();
+        }
+
+        // Chrono
+        const barX = 90,
+          barW = 900,
+          barY = 1482,
+          barH = 46;
+        ctx.textBaseline = "middle";
+        ctx.textAlign = "left";
+        ctx.fillStyle = "#cbd5e1";
+        ctx.font = "800 30px Inter, sans-serif";
+        ctx.fillText("TEMPS RESTANT", barX, 1444);
+        ctx.textAlign = "right";
+        ctx.fillStyle = colors.accent;
+        ctx.font = "900 72px Inter, sans-serif";
+        ctx.fillText(Math.ceil(Math.max(0, remaining)) + "s", barX + barW, 1440);
+        ctx.fillStyle = "#1e293b";
+        roundRectPath(ctx, barX, barY, barW, barH, barH / 2);
+        ctx.fill();
+        const fillW = barW * Math.max(0, Math.min(1, remaining / durationSec));
+        if (fillW > 0) {
+          ctx.fillStyle = colors.accent;
+          roundRectPath(ctx, barX, barY, fillW, barH, Math.min(barH / 2, fillW / 2));
+          ctx.fill();
+        }
+
+        ctx.restore();
+      }
+
+      function drawExportFrame(ctx, W, H, opts) {
+        if (H > W) drawReelFrame(ctx, W, H, opts);
+        else drawLandscapeFrame(ctx, W, H, opts);
+      }
+
+      // Aperçu en direct de l'image exportée (suit le chrono et la réponse)
+      function renderExportPreview() {
+        if (!exportPreviewCanvas) return;
+        const isReel = exportFormat === "reel";
+        const pw = isReel ? 540 : 640;
+        const ph = isReel ? 960 : 360;
+        if (exportPreviewCanvas.width !== pw || exportPreviewCanvas.height !== ph) {
+          exportPreviewCanvas.width = pw;
+          exportPreviewCanvas.height = ph;
+        }
+        const hasImage =
+          !!question.image && playerImage.complete && playerImage.naturalWidth > 0;
+        drawExportFrame(exportPreviewCanvas.getContext("2d"), pw, ph, {
+          title: quizTitle,
+          imageEl: playerImage,
+          hasImage,
+          answer: question.answer || "RÉPONSE",
+          label: answerLabel,
+          remaining: remainingSeconds,
+          durationSec: countdownSeconds,
+          revealed: isRevealed,
+          revealProgress: isRevealed ? 1 : 0,
+        });
       }
 
       function writeWavString(view, offset, str) {
@@ -1001,14 +1349,14 @@
         osc.stop(startTime + 0.4);
       }
 
-      async function renderAudioTrack(durationSec, revealStart) {
+      async function renderAudioTrack(durationSec, revealStart, beepUntil) {
         const sampleRate = 44100;
         const offlineCtx = new OfflineAudioContext(
           2,
           Math.ceil(durationSec * sampleRate),
           sampleRate,
         );
-        for (let s = 1; s < Math.ceil(durationSec); s++) {
+        for (let s = 1; s < Math.ceil(beepUntil || durationSec); s++) {
           scheduleBeepOffline(offlineCtx, offlineCtx.destination, 500, 0.05, s);
         }
         scheduleSuccessOffline(offlineCtx, offlineCtx.destination, revealStart);
@@ -1021,16 +1369,23 @@
         exportVideoBtn.disabled = true;
         setExportStatus("Préparation…");
 
-        const W = 960,
-          H = 540,
-          fps = 20;
-        const durationSec = countdownSeconds;
-        const totalFrames = Math.max(1, Math.round(durationSec * fps));
+        const isReel = exportFormat === "reel";
+        const spec = FORMAT_SPECS[exportFormat];
+        const W = spec.w,
+          H = spec.h,
+          fps = spec.fps;
+        const durationSec = countdownSeconds; // compte à rebours
+        const totalSec = durationSec + spec.hold; // + réponse affichée (Reel)
+        const totalFrames = Math.max(1, Math.round(totalSec * fps));
         const revealFrames = Math.min(
           totalFrames,
           Math.max(4, Math.round(fps * 0.6)),
         );
-        const revealStart = Math.max(0, durationSec - revealFrames / fps);
+        // 16:9 : la réponse apparaît sur les 0,6 dernières secondes du chrono.
+        // Reel : elle apparaît à la fin du chrono et reste affichée.
+        const revealStart = isReel
+          ? durationSec
+          : Math.max(0, totalSec - revealFrames / fps);
         const writtenFrames = [];
 
         try {
@@ -1045,6 +1400,12 @@
             }
           }
 
+          try {
+            await document.fonts.load("900 40px Inter");
+            await document.fonts.load("800 30px Inter");
+            await document.fonts.load("700 30px Inter");
+          } catch (e) {}
+
           const canvas = document.createElement("canvas");
           canvas.width = W;
           canvas.height = H;
@@ -1056,15 +1417,20 @@
             const t = i / fps;
             const remaining = Math.max(0, durationSec - t);
             const revealed = t >= revealStart;
+            const revealProgress = revealed
+              ? Math.min(1, (t - revealStart) / 0.35)
+              : 0;
 
             drawExportFrame(ctx, W, H, {
               title: quizTitle,
               imageEl,
               hasImage,
               answer: question.answer || "RÉPONSE",
+              label: answerLabel,
               remaining,
               durationSec,
               revealed,
+              revealProgress: isReel ? revealProgress : revealed ? 1 : 0,
             });
 
             let blob;
@@ -1092,7 +1458,7 @@
           }
 
           setExportStatus("Génération du son…");
-          const wavBlob = await renderAudioTrack(durationSec, revealStart);
+          const wavBlob = await renderAudioTrack(totalSec, revealStart, durationSec);
           await ffmpeg.writeFile(
             "audio.wav",
             new Uint8Array(await wavBlob.arrayBuffer()),
@@ -1109,6 +1475,9 @@
             "audio.wav",
             "-c:v",
             "libx264",
+            ...(isReel
+              ? ["-preset", "veryfast", "-crf", "20", "-profile:v", "high"]
+              : []),
             "-pix_fmt",
             "yuv420p",
             "-c:a",
@@ -1130,7 +1499,7 @@
             .replace(/[̀-ͯ]/g, "")
             .replace(/[^a-z0-9]+/g, "-")
             .replace(/^-+|-+$/g, "");
-          a.download = `quiz-${safeName || "question"}.mp4`;
+          a.download = `quiz-${safeName || "question"}${isReel ? "-reel" : ""}.mp4`;
           document.body.appendChild(a);
           a.click();
           a.remove();
@@ -1162,15 +1531,7 @@
 
       // Export Custom Prompt Generator
       exportPromptBtn.addEventListener("click", () => {
-        const promptText = `Crée un générateur interactif de Quiz Football en HTML, CSS et JavaScript responsive, pour une seule question à la fois.
-- Un panneau de configuration où l'utilisateur entre le titre du quiz ("${quizTitle}"), le temps du compte à rebours (${countdownSeconds} secondes), importe lui-même une image (upload local, pas d'URL) et saisit la réponse. Possibilité de télécharger cette séquence en vidéo MP4 de ${countdownSeconds} secondes.
-- Une zone d'affichage vidéo/animation au format 16:9 (style YouTube) avec :
-  1. Image nette (pas de flou) et le titre du quiz.
-  2. Un compte à rebours visuel (barre de progression animée).
-  3. Révélation automatique de la réponse à la fin du compte à rebours avec effet sonore synthétisé (AudioContext).
-  4. Redémarrage automatique de la question après 2,5 secondes d'affichage de la réponse.
-  5. Boutons de contrôle (Démarrer/Pause, Recommencer).
-- Style moderne, dynamique (thème sombre/gaming de football), typographie claire et effets visuels engageants.`;
+        const promptText = `https://www.transfermarkt.fr/cote-divoire/kader/verein/3591/plus/0/galerie/0?saison_id=1980`;
 
         promptTextarea.value = promptText;
         promptModal.classList.remove("hidden");
@@ -1193,8 +1554,12 @@
       window.onload = () => {
         loadCurrentQuestion();
         resetTimer();
-        updateExportLabel();
+        setExportFormat(exportFormat, false);
         applyQuizColors();
+        playerImage.addEventListener("load", renderExportPreview);
+        if (document.fonts && document.fonts.ready) {
+          document.fonts.ready.then(renderExportPreview);
+        }
       };
     </script>
   </body>
