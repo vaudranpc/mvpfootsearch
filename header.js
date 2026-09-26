@@ -1,4 +1,5 @@
-fetch("header.html")
+function injectHeaderAndFooter() {
+  fetch("header.html")
     .then(res => res.text())
     .then(data => {
       const headerContainer = document.getElementById("header-container");
@@ -29,3 +30,13 @@ fetch("header.html")
       });
     })
     .catch(() => {});
+}
+
+// Sur les pages dont le <head> est lourd (CDN externes, polices, etc.), le
+// <body> peut ne pas encore être analysé quand ce script s'exécute : on
+// attend que le DOM soit prêt pour être sûr que #header-container existe.
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", injectHeaderAndFooter);
+} else {
+  injectHeaderAndFooter();
+}
