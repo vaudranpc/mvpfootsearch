@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur de Texte Animé sur Fond Vert</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            500: '#10b981',
+                            600: '#059669',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts for typography choices -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@800;900&family=Poppins:wght@700;900&family=Bangers&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Custom scrollbar for professional dark interface */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans selection:bg-emerald-500 selection:text-white">
+
+    <header class="border-b border-slate-800 bg-slate-900/60 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-green-400 flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                    <i class="fa-solid fa-clapperboard text-slate-950 text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg tracking-tight bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">GreenText Studio</h1>
+                    <p class="text-xs text-slate-400">Générateur de texte animé sur fond vert pour monteurs vidéo</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> <span id="pill-text">Chroma Key Prêt (#00FF00)</span>
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        <!-- Controls Column (Left) -->
+        <section class="lg:col-span-5 bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-xl flex flex-col gap-5">
+            <h2 class="text-sm font-semibold tracking-wider text-slate-400 uppercase flex items-center gap-2">
+                <i class="fa-solid fa-sliders text-emerald-400"></i> Configuration du texte
+            </h2>
+
+            <!-- Text Input -->
+            <div class="space-y-2">
+                <label class="text-sm font-medium text-slate-300 flex justify-between">
+                    <span>Message personnalisé</span>
+                    <span class="text-xs text-slate-500" id="char-count">0/50</span>
+                </label>
+                <textarea id="text-input" rows="2" maxlength="50" placeholder="EX: ABONNE-TOI !" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-sm focus:outline-none focus:border-emerald-500 transition resize-none uppercase font-bold tracking-wide">ABONNE-TOI !</textarea>
+            </div>
+
+            <!-- Typography & Font Selection -->
+            <div class="grid grid-cols-2 gap-4">
+                <div class="space-y-2">
+                    <label class="text-sm font-medium text-slate-300">Police</label>
+                    <select id="font-family" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm focus:outline-none focus:border-emerald-500 transition">
+                        <option value="'Anton', sans-serif">Anton (Impact)</option>
+                        <option value="'Montserrat', sans-serif" selected>Montserrat Bold</option>
+                        <option value="'Poppins', sans-serif">Poppins Heavy</option>
+                        <option value="'Bangers', cursive">Bangers (Cartoon)</option>
+                        <option value="'Orbitron', sans-serif">Orbitron (Sci-Fi)</option>
+                    </select>
+                </div>
+                <div class="space-y-2">
+                    <label class="text-sm font-medium text-slate-300">Taille (<span id="font-size-val">55</span>px)</label>
+                    <input type="range" id="font-size" min="24" max="90" value="55" class="w-full accent-emerald-500 bg-slate-950 h-2 rounded-lg cursor-pointer mt-3">
+                </div>
+            </div>
+
+            <!-- Colors (Text & Shadow) -->
+            <div class="grid grid-cols-2 gap-4">
+                <div class="space-y-2">
+                    <label class="text-sm font-medium text-slate-300">Couleur du texte</label>
+                    <div class="flex items-center gap-2 bg-slate-950 border border-slate-800 rounded-xl p-2">
+                        <input type="color" id="text-color" value="#FFFFFF" class="w-8 h-8 rounded border-0 cursor-pointer bg-transparent">
+                        <span id="text-color-hex" class="text-xs text-slate-400 font-mono">#FFFFFF</span>
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <label class="text-sm font-medium text-slate-300">Couleur de l'ombre</label>
+                    <div class="flex items-center gap-2 bg-slate-950 border border-slate-800 rounded-xl p-2">
+                        <input type="color" id="shadow-color" value="#000000" class="w-8 h-8 rounded border-0 cursor-pointer bg-transparent">
+                        <span id="shadow-color-hex" class="text-xs text-slate-400 font-mono">#000000</span>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="border-slate-800">
+
+            <!-- Animation Selectors (générés en JS) -->
+            <div class="space-y-2">
+                <label class="text-sm font-medium text-slate-300">Style d'animation</label>
+                <div class="grid grid-cols-2 gap-2" id="anim-presets"></div>
+            </div>
+
+            <!-- Animation Duration -->
+            <div class="space-y-2">
+                <label class="text-sm font-medium text-slate-300">Durée de l'entrée (<span id="duration-val">0.8</span>s)</label>
+                <input type="range" id="anim-duration" min="0.3" max="2.0" step="0.1" value="0.8" class="w-full accent-emerald-500 bg-slate-950 h-2 rounded-lg cursor-pointer">
+            </div>
+
+            <!-- Position & background -->
+            <div class="grid grid-cols-2 gap-4">
+                <div class="space-y-2">
+                    <label class="text-sm font-medium text-slate-300">Position</label>
+                    <select id="position" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm focus:outline-none focus:border-emerald-500 transition">
+                        <option value="center" selected>Centre</option>
+                        <option value="bottom">Bas (tiers inférieur)</option>
+                        <option value="top">Haut</option>
+                    </select>
+                </div>
+                <div class="space-y-2">
+                    <label class="text-sm font-medium text-slate-300">Fond d'incrustation</label>
+                    <select id="bg-color" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm focus:outline-none focus:border-emerald-500 transition">
+                        <option value="#00FF00" selected>Vert #00FF00</option>
+                        <option value="#0000FF">Bleu #0000FF</option>
+                    </select>
+                </div>
+            </div>
+            <div class="flex flex-wrap gap-x-6 gap-y-2 text-sm text-slate-300">
+                <label class="flex items-center gap-2 cursor-pointer">
+                    <input type="checkbox" id="opt-outro" checked class="accent-emerald-500 w-4 h-4"> Animation de sortie
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer">
+                    <input type="checkbox" id="opt-caps" checked class="accent-emerald-500 w-4 h-4"> Majuscules
+                </label>
+            </div>
+
+            <!-- Action Play / Replay -->
+            <button id="play-btn" class="w-full mt-2 bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-400 hover:to-green-500 text-slate-950 font-bold py-3 px-4 rounded-xl shadow-lg shadow-emerald-500/20 transition flex items-center justify-center gap-2 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed">
+                <i class="fa-solid fa-play"></i> Rejouer l'animation
+            </button>
+
+            <hr class="border-slate-800">
+
+            <!-- Export vidéo fond vert -->
+            <h2 class="text-sm font-semibold tracking-wider text-slate-400 uppercase flex items-center gap-2">
+                <i class="fa-solid fa-download text-emerald-400"></i> Export vidéo
+            </h2>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="space-y-2">
+                    <label class="text-sm font-medium text-slate-300">Durée de la vidéo (<span id="video-len-val">5</span>s)</label>
+                    <input type="range" id="video-len" min="2" max="15" step="1" value="5" class="w-full accent-emerald-500 bg-slate-950 h-2 rounded-lg cursor-pointer mt-3">
+                </div>
+                <div class="space-y-2">
+                    <label class="text-sm font-medium text-slate-300">Résolution</label>
+                    <select id="video-res" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm focus:outline-none focus:border-emerald-500 transition">
+                        <option value="1920x1080" selected>1920 × 1080 (Full HD)</option>
+                        <option value="1280x720">1280 × 720 (HD)</option>
+                    </select>
+                </div>
+            </div>
+            <button id="download-btn" class="w-full bg-slate-950 border border-emerald-500 text-emerald-300 hover:bg-emerald-500/10 font-bold py-3 px-4 rounded-xl transition flex items-center justify-center gap-2 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed">
+                <i class="fa-solid fa-download"></i> Télécharger la vidéo
+            </button>
+            <p id="record-status" class="text-xs text-emerald-400 min-h-[1rem]"></p>
+        </section>
+
+        <!-- Preview & Instructions Column (Right) -->
+        <section class="lg:col-span-7 flex flex-col gap-6">
+
+            <!-- Live Preview Card -->
+            <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-xl flex flex-col gap-4">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-sm font-semibold tracking-wider text-slate-400 uppercase flex items-center gap-2">
+                        <i class="fa-solid fa-eye text-emerald-400"></i> Prévisualisation Directe (Chroma Key)
+                    </h2>
+                    <span id="bg-label" class="text-xs font-mono bg-green-500/20 text-green-400 px-2.5 py-1 rounded-md border border-green-500/30">Fond Vert #00FF00</span>
+                </div>
+
+                <!-- 16:9 Screen Container : le canvas rend exactement ce qui sera exporté -->
+                <div id="preview-container" class="relative w-full aspect-video rounded-xl overflow-hidden shadow-inner border border-slate-800" style="background-color: #00FF00;">
+                    <canvas id="preview-canvas" width="1280" height="720" class="absolute inset-0 w-full h-full"></canvas>
+                </div>
+
+                <!-- Lecteur : lecture / pause / défilement -->
+                <div class="flex items-center gap-3 bg-slate-950/60 p-3 rounded-xl border border-slate-800/80">
+                    <button id="pp-btn" title="Lecture / pause" class="w-9 h-9 shrink-0 rounded-lg bg-emerald-500/20 border border-emerald-500 text-emerald-300 flex items-center justify-center cursor-pointer">
+                        <i class="fa-solid fa-pause"></i>
+                    </button>
+                    <input type="range" id="scrub" min="0" max="5" step="0.01" value="0" class="flex-1 accent-emerald-500 cursor-pointer">
+                    <span id="time-label" class="text-xs font-mono text-slate-400 w-28 text-right">0.0 / 5.0 s</span>
+                </div>
+
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-3 bg-slate-950/60 p-3 rounded-xl border border-slate-800/80 text-xs text-slate-400">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-circle-info text-emerald-400"></i>
+                        <span>Astuce : l'aperçu est exactement la vidéo exportée. Cliquez sur « Télécharger la vidéo » pour obtenir un fichier prêt à incruster dans votre montage. Gardez l'onglet visible pendant l'enregistrement.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Montage Guide Section -->
+            <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-xl flex flex-col gap-4">
+                <h3 class="text-sm font-semibold tracking-wider text-slate-400 uppercase flex items-center gap-2">
+                    <i class="fa-solid fa-video text-emerald-400"></i> Guide d'intégration (Premiere Pro / Final Cut Pro)
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+                    <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800/80 space-y-1.5">
+                        <div class="font-bold text-emerald-400 flex items-center gap-1.5">
+                            <span class="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center text-xs">1</span> Importer
+                        </div>
+                        <p class="text-slate-400">Glissez votre vidéo de texte enregistrée sur fond vert au-dessus de votre plan principal dans la timeline.</p>
+                    </div>
+                    <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800/80 space-y-1.5">
+                        <div class="font-bold text-emerald-400 flex items-center gap-1.5">
+                            <span class="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center text-xs">2</span> Effet Clé
+                        </div>
+                        <p class="text-slate-400">Appliquez l'effet <strong class="text-slate-200">Masquage Ultra</strong> (Premiere) ou <strong class="text-slate-200">Incrustateur</strong> (Final Cut).</p>
+                    </div>
+                    <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800/80 space-y-1.5">
+                        <div class="font-bold text-emerald-400 flex items-center gap-1.5">
+                            <span class="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center text-xs">3</span> Pipette
+                        </div>
+                        <p id="guide-pipette" class="text-slate-400">Sélectionnez la couleur verte <strong class="text-slate-200">#00FF00</strong> avec la pipette pour supprimer instantanément le fond.</p>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const $ = (id) => document.getElementById(id);
+            const textInput = $('text-input');
+            const charCount = $('char-count');
+            const fontFamily = $('font-family');
+            const fontSize = $('font-size');
+            const fontSizeVal = $('font-size-val');
+            const textColor = $('text-color');
+            const textColorHex = $('text-color-hex');
+            const shadowColor = $('shadow-color');
+            const shadowColorHex = $('shadow-color-hex');
+            const animDuration = $('anim-duration');
+            const durationVal = $('duration-val');
+            const positionSel = $('position');
+            const bgSel = $('bg-color');
+            const optOutro = $('opt-outro');
+            const optCaps = $('opt-caps');
+            const playBtn = $('play-btn');
+            const ppBtn = $('pp-btn');
+            const scrub = $('scrub');
+            const timeLabel = $('time-label');
+            const previewContainer = $('preview-container');
+            const previewCanvas = $('preview-canvas');
+            const videoLen = $('video-len');
+            const videoLenVal = $('video-len-val');
+            const videoRes = $('video-res');
+            const downloadBtn = $('download-btn');
+            const recordStatus = $('record-status');
+
+            const PREVIEW_W = 1280;
+            const PREVIEW_H = 720;
+            const REF_W = 700;   // largeur de référence : la taille du texte (px) s'y rapporte
+            const LEAD = 0.5;    // secondes de fond pur avant l'animation
+
+            // ---------- Maths & easings ----------
+            const clamp01 = (v) => Math.max(0, Math.min(1, v));
+            const easeOutCubic = (p) => 1 - Math.pow(1 - p, 3);
+            const easeInCubic = (p) => p * p * p;
+            const easeInOutCubic = (p) => (p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2);
+            const easeOutExpo = (p) => (p >= 1 ? 1 : 1 - Math.pow(2, -10 * p));
+            const easeOutBack = (p, s = 1.70158) => {
+                const c3 = s + 1;
+                return 1 + c3 * Math.pow(p - 1, 3) + s * Math.pow(p - 1, 2);
+            };
+            const easeOutBounce = (p) => {
+                const n1 = 7.5625, d1 = 2.75;
+                if (p < 1 / d1) return n1 * p * p;
+                if (p < 2 / d1) return n1 * (p -= 1.5 / d1) * p + 0.75;
+                if (p < 2.5 / d1) return n1 * (p -= 2.25 / d1) * p + 0.9375;
+                return n1 * (p -= 2.625 / d1) * p + 0.984375;
+            };
+            function rng(seed) {
+                let a = seed >>> 0;
+                return function () {
+                    a = (a + 0x6d2b79f5) | 0;
+                    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+                    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+                    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+                };
+            }
+
+            // ---------- Styles d'animation ----------
+            // Chaque style décrit l'état (opacité, échelle, décalage, rotation) de chaque
+            // « unité » (texte entier, mot ou lettre) à l'instant tau (secondes depuis
+            // le début de l'animation). L'aperçu et la vidéo utilisent ce même code.
+            const S = (o) => Object.assign({ a: 1, sx: 1, sy: 1, dx: 0, dy: 0, rot: 0 }, o);
+
+            // Décalage progressif : renvoie l'avancement de l'unité i parmi n
+            function stagger(i, n, tau, d) {
+                const ud = Math.max(0.2, d * 0.55);
+                const st = n > 1 ? Math.max(0, (d - ud) / (n - 1)) : 0;
+                return { p: clamp01((tau - i * st) / ud), end: i * st + ud, start: i * st };
+            }
+
+            const PRESETS = {
+                pop: {
+                    label: 'Pop Rebond', icon: 'fa-bolt', mode: 'block',
+                    state: ({ tau, d }) => {
+                        const p = clamp01(tau / d);
+                        const s = 0.15 + 0.85 * easeOutBack(p, 2.4);
+                        return S({ a: clamp01(p * 3.5), sx: s, sy: s, rot: -0.07 * (1 - easeOutCubic(p)) });
+                    }
+                },
+                slide: {
+                    label: 'Glissement', icon: 'fa-arrow-right', mode: 'block',
+                    trail: { n: 3, dt: 0.035, a: 0.35 },
+                    state: ({ tau, d, sc }) => {
+                        const p = clamp01(tau / d);
+                        const e = easeOutBack(p, 1.1);
+                        return S({ a: clamp01(p * 5), dx: -(sc.W * 0.55 + sc.blockW / 2) * (1 - e) });
+                    }
+                },
+                typewriter: {
+                    label: 'Machine à écrire', icon: 'fa-keyboard', mode: 'letters',
+                    state: ({ u, tau, d, sc }) => {
+                        const step = d / Math.max(1, sc.chars.length);
+                        const t0 = u.charIdx * step;
+                        if (tau < t0) return S({ a: 0 });
+                        const s = 0.8 + 0.2 * easeOutBack(clamp01((tau - t0) / 0.09), 3);
+                        return S({ sx: s, sy: s });
+                    },
+                    after: (c, sc, tau) => {
+                        const N = sc.chars.length;
+                        if (tau < 0 || !N) return;
+                        const step = sc.d / N;
+                        const shown = Math.min(N, Math.floor(tau / step) + 1);
+                        const doneT = N * step;
+                        if (tau > doneT) {
+                            const since = tau - doneT;
+                            if (since > 1.6 || Math.floor(since / 0.4) % 2 === 1) return;
+                        }
+                        const ch = sc.chars[shown - 1];
+                        const w = Math.max(3, sc.fs * 0.075);
+                        const x = ch.x + ch.w + w * 0.6;
+                        const h = sc.fs * 1.0;
+                        c.save();
+                        c.fillStyle = sc.cfg.shadow;
+                        c.fillRect(x - w / 2 - sc.k * 2.5, ch.y - h / 2 - sc.k * 2.5, w + sc.k * 5, h + sc.k * 5);
+                        c.fillStyle = sc.cfg.color;
+                        c.fillRect(x - w / 2, ch.y - h / 2, w, h);
+                        c.restore();
+                    }
+                },
+                bounce: {
+                    label: 'Flottement', icon: 'fa-water', mode: 'block',
+                    state: ({ tau, d, k }) => {
+                        const p = clamp01(tau / Math.min(d, 0.7));
+                        const e = easeOutCubic(p);
+                        const phase = (Math.max(tau, 0) * Math.PI * 2) / 2.4;
+                        return S({
+                            a: clamp01(p * 3),
+                            dy: (1 - e) * 70 * k - Math.sin(phase) * 14 * k * e,
+                            rot: Math.sin(phase + 1) * 0.012 * e
+                        });
+                    }
+                },
+                letters: {
+                    label: 'Lettre par lettre', icon: 'fa-font', mode: 'letters',
+                    state: ({ i, n, tau, d, k }) => {
+                        const p = stagger(i, n, tau, d).p;
+                        return S({
+                            a: clamp01(p * 6),
+                            dy: -(1 - easeOutBounce(p)) * 160 * k,
+                            rot: (1 - p) * (i % 2 ? 0.35 : -0.35)
+                        });
+                    }
+                },
+                words: {
+                    label: 'Mot par mot', icon: 'fa-comment-dots', mode: 'words',
+                    state: ({ i, n, tau, d, k }) => {
+                        const p = stagger(i, n, tau, d).p;
+                        const s = 0.3 + 0.7 * easeOutBack(p, 2.2);
+                        return S({ a: clamp01(p * 4), sx: s, sy: s, dy: (1 - easeOutCubic(p)) * 60 * k });
+                    }
+                },
+                zoom: {
+                    label: 'Zoom cinéma', icon: 'fa-magnifying-glass-plus', mode: 'block',
+                    trail: { n: 3, dt: 0.03, a: 0.22 },
+                    state: ({ tau, d }) => {
+                        const p = clamp01(tau / d);
+                        const s = 1 + 1.8 * (1 - easeOutExpo(p));
+                        return S({ a: clamp01(p * 3), sx: s, sy: s });
+                    }
+                },
+                wave: {
+                    label: 'Vague', icon: 'fa-wave-square', mode: 'letters',
+                    state: ({ i, n, tau, d, k }) => {
+                        const r = stagger(i, n, tau, d);
+                        const s = 0.3 + 0.7 * easeOutBack(r.p, 2);
+                        const ramp = clamp01((tau - r.end) / 0.4);
+                        return S({
+                            a: clamp01(r.p * 4),
+                            sx: s, sy: s,
+                            dy: (1 - easeOutCubic(r.p)) * 40 * k - Math.sin(tau * 5 - i * 0.55) * 12 * k * ramp
+                        });
+                    }
+                },
+                glitch: {
+                    label: 'Glitch RGB', icon: 'fa-bolt-lightning', mode: 'block', tint: true,
+                    draw: (c, sc, tau) => {
+                        if (tau < 0) return;
+                        const u = sc.units[0];
+                        const d = sc.d;
+                        let inten = 0;
+                        if (tau < d) inten = 1 - tau / d;
+                        else if ((tau - d) % 2.4 < 0.18) inten = 0.55;
+                        const r = rng(Math.floor(tau * 30) * 7919 + 1);
+                        // scintillement pendant l'entrée
+                        if (tau < d && r() > 0.35 + 0.65 * (tau / d)) return;
+                        const x0 = u.cx - u.sw / 2;
+                        const y0 = u.cy - u.sh / 2;
+                        if (inten <= 0) { c.drawImage(u.sprite, x0, y0); return; }
+                        const split = inten * 14 * sc.k;
+                        c.drawImage(u.red, x0 - split, y0);
+                        c.drawImage(u.blue, x0 + split, y0);
+                        const strips = 10;
+                        for (let s = 0; s < strips; s++) {
+                            const sy = Math.round((u.sh / strips) * s);
+                            const sh = Math.round((u.sh / strips) * (s + 1)) - sy;
+                            const dx = (r() - 0.5) * inten * 70 * sc.k * (r() < 0.5 ? 1 : 0.15);
+                            c.drawImage(u.sprite, 0, sy, u.sw, sh, x0 + dx, y0 + sy, u.sw, sh);
+                        }
+                    }
+                },
+                reveal: {
+                    label: 'Révélation', icon: 'fa-eye', mode: 'block',
+                    draw: (c, sc, tau) => {
+                        if (tau <= 0) return;
+                        const u = sc.units[0];
+                        const p = easeInOutCubic(clamp01(tau / sc.d));
+                        const dy = (1 - easeOutCubic(p)) * 26 * sc.k;
+                        const x0 = u.cx - u.sw / 2;
+                        const y0 = u.cy - u.sh / 2;
+                        c.save();
+                        c.translate(0, dy);
+                        c.beginPath();
+                        c.rect(x0, y0, u.sw * p, u.sh);
+                        c.clip();
+                        c.drawImage(u.sprite, x0, y0);
+                        c.restore();
+                        if (p > 0 && p < 1) {
+                            c.save();
+                            c.globalAlpha *= Math.min(1, (1 - p) * 8);
+                            c.fillStyle = sc.cfg.color;
+                            c.shadowColor = sc.cfg.color;
+                            c.shadowBlur = 18 * sc.k;
+                            c.fillRect(x0 + u.sw * p - 3 * sc.k, sc.units[0].cy - sc.blockH / 2 - 6 * sc.k + dy,
+                                6 * sc.k, sc.blockH + 12 * sc.k);
+                            c.restore();
+                        }
+                    }
+                }
+            };
+
+            // ---------- Construction de la scène (sprites pré-rendus) ----------
+            function wrapLines(c, text, maxW) {
+                const lines = [];
+                let line = '';
+                text.split(' ').filter(Boolean).forEach((w) => {
+                    const test = line ? line + ' ' + w : w;
+                    if (line && c.measureText(test).width > maxW) { lines.push(line); line = w; }
+                    else line = test;
+                });
+                if (line) lines.push(line);
+                return lines.length ? lines : [''];
+            }
+
+            // Texte avec contour épais + ombre portée (identique au style de l'aperçu d'origine)
+            function paintStyled(c, text, x, y, align, k, cfg) {
+                c.textAlign = align;
+                c.save();
+                c.shadowColor = 'rgba(0,0,0,0.6)';
+                c.shadowBlur = 15 * k;
+                c.shadowOffsetY = 5 * k;
+                c.fillStyle = cfg.shadow;
+                c.fillText(text, x, y);
+                c.restore();
+                c.fillStyle = cfg.shadow;
+                [[-2, 2], [2, -2], [-2, -2], [3, 3]].forEach(([dx, dy]) => c.fillText(text, x + dx * k, y + dy * k));
+                c.fillStyle = cfg.color;
+                c.fillText(text, x, y);
+            }
+
+            function tint(sprite, color) {
+                const cv = document.createElement('canvas');
+                cv.width = sprite.width;
+                cv.height = sprite.height;
+                const c = cv.getContext('2d');
+                c.drawImage(sprite, 0, 0);
+                c.globalCompositeOperation = 'source-in';
+                c.fillStyle = color;
+                c.fillRect(0, 0, cv.width, cv.height);
+                return cv;
+            }
+
+            function computeTotal(cfg) {
+                const outro = cfg.outro ? Math.min(0.6, cfg.d) : 0;
+                return Math.max(cfg.videoLen, LEAD + cfg.d + 0.6 + outro);
+            }
+
+            function buildScene(cfg, W, H) {
+                const k = W / REF_W;
+                const fs = cfg.fontSize * k;
+                const font = fs + 'px ' + cfg.family;
+                const P = PRESETS[cfg.anim];
+                const m = document.createElement('canvas').getContext('2d');
+                m.font = font;
+                const lines = wrapLines(m, cfg.text, W - 64 * k);
+                const lh = fs * 1.25;
+                const mm = m.measureText('Mg');
+                const asc = mm.fontBoundingBoxAscent !== undefined ? mm.fontBoundingBoxAscent : fs * 0.8;
+                const desc = mm.fontBoundingBoxDescent !== undefined ? mm.fontBoundingBoxDescent : fs * 0.2;
+                const baseOff = (lh - (asc + desc)) / 2 + asc;
+                const lineW = lines.map((l) => m.measureText(l).width);
+                const blockW = Math.max(1, Math.max.apply(null, lineW));
+                const blockH = lh * lines.length;
+                const pad = Math.ceil(28 * k);
+
+                // position de chaque caractère (relative au centre du bloc)
+                const chars = [];
+                lines.forEach((l, li) => {
+                    const sx = -lineW[li] / 2;
+                    const y = -blockH / 2 + li * lh + lh / 2;
+                    for (let j = 0; j < l.length; j++) {
+                        const left = m.measureText(l.slice(0, j)).width;
+                        const right = m.measureText(l.slice(0, j + 1)).width;
+                        chars.push({ ch: l[j], x: sx + left, w: right - left, y: y });
+                    }
+                });
+
+                const sprite = (w, h, fn) => {
+                    const cv = document.createElement('canvas');
+                    cv.width = Math.ceil(w);
+                    cv.height = Math.ceil(h);
+                    const c = cv.getContext('2d');
+                    c.font = font;
+                    c.textBaseline = 'alphabetic';
+                    fn(c);
+                    return cv;
+                };
+
+                const units = [];
+                if (P.mode === 'block') {
+                    const sp = sprite(blockW + 2 * pad, blockH + 2 * pad, (c) => {
+                        lines.forEach((l, li) => paintStyled(c, l, pad + blockW / 2, pad + li * lh + baseOff, 'center', k, cfg));
+                    });
+                    const u = { sprite: sp, cx: 0, cy: 0, sw: sp.width, sh: sp.height };
+                    if (P.tint) { u.red = tint(sp, '#ff2050'); u.blue = tint(sp, '#2050ff'); }
+                    units.push(u);
+                } else if (P.mode === 'letters') {
+                    chars.forEach((ch, idx) => {
+                        if (ch.ch === ' ') return;
+                        const sp = sprite(ch.w + 2 * pad, lh + 2 * pad, (c) => paintStyled(c, ch.ch, pad, pad + baseOff, 'left', k, cfg));
+                        units.push({ sprite: sp, cx: ch.x + ch.w / 2, cy: ch.y, sw: sp.width, sh: sp.height, charIdx: idx });
+                    });
+                } else {
+                    lines.forEach((l, li) => {
+                        const sx = -lineW[li] / 2;
+                        const y = -blockH / 2 + li * lh + lh / 2;
+                        let pos = 0;
+                        l.split(' ').forEach((w) => {
+                            if (w) {
+                                const left = m.measureText(l.slice(0, pos)).width;
+                                const right = m.measureText(l.slice(0, pos + w.length)).width;
+                                const sp = sprite(right - left + 2 * pad, lh + 2 * pad, (c) => paintStyled(c, w, pad, pad + baseOff, 'left', k, cfg));
+                                units.push({ sprite: sp, cx: sx + (left + right) / 2, cy: y, sw: sp.width, sh: sp.height });
+                            }
+                            pos += w.length + 1;
+                        });
+                    });
+                }
+
+                // le bloc reste toujours entièrement dans l'image (marge de sécurité)
+                const margin = 40 * k;
+                const wantY = cfg.position === 'top' ? H * 0.2 : cfg.position === 'bottom' ? H * 0.8 : H / 2;
+                const cy = Math.max(Math.min(wantY, H - blockH / 2 - margin), blockH / 2 + margin);
+
+                return {
+                    W, H, k, fs, lh, blockW, blockH, units, chars, cfg, d: cfg.d,
+                    cy: cy,
+                    total: computeTotal(cfg),
+                    outroDur: Math.min(0.6, cfg.d)
+                };
+            }
+
+            // ---------- Rendu d'une image ----------
+            function drawUnit(c, u, st, alphaMul) {
+                const a = st.a * alphaMul;
+                if (a <= 0.002) return;
+                c.save();
+                c.translate(u.cx + st.dx, u.cy + st.dy);
+                if (st.rot) c.rotate(st.rot);
+                c.scale(st.sx, st.sy);
+                c.globalAlpha *= Math.min(1, a);
+                c.drawImage(u.sprite, -u.sw / 2, -u.sh / 2);
+                c.restore();
+            }
+
+            function defaultDraw(c, sc, tau, P) {
+                const n = sc.units.length;
+                const args = (u, i, t) => ({ u, i, n, tau: t, d: sc.d, k: sc.k, sc });
+                if (P.trail) {
+                    for (let g = P.trail.n; g >= 1; g--) {
+                        const mul = P.trail.a * (1 - (g - 1) / P.trail.n);
+                        sc.units.forEach((u, i) => drawUnit(c, u, P.state(args(u, i, tau - g * P.trail.dt)), mul));
+                    }
+                }
+                sc.units.forEach((u, i) => drawUnit(c, u, P.state(args(u, i, tau)), 1));
+            }
+
+            function drawScene(c, sc, t) {
+                c.clearRect(0, 0, sc.W, sc.H);
+                c.fillStyle = sc.cfg.bg;
+                c.fillRect(0, 0, sc.W, sc.H);
+                const tau = t - LEAD;
+                const P = PRESETS[sc.cfg.anim];
+                c.save();
+                c.translate(sc.W / 2, sc.cy);
+                // animation de sortie : fondu + léger rétrécissement
+                if (sc.cfg.outro) {
+                    const o = clamp01((t - (sc.total - sc.outroDur)) / sc.outroDur);
+                    if (o > 0) {
+                        const e = easeInCubic(o);
+                        const s = 1 - 0.12 * e;
+                        c.scale(s, s);
+                        c.translate(0, 18 * sc.k * e);
+                        c.globalAlpha = 1 - e;
+                    }
+                }
+                if (P.draw) P.draw(c, sc, tau);
+                else defaultDraw(c, sc, tau, P);
+                if (P.after) P.after(c, sc, tau);
+                c.restore();
+            }
+
+            // ---------- Configuration & aperçu ----------
+            let currentAnim = 'pop';
+
+            function getCfg() {
+                let text = (textInput.value || 'VOTRE TEXTE').replace(/\s+/g, ' ').trim();
+                if (optCaps.checked) text = text.toUpperCase();
+                return {
+                    text,
+                    family: fontFamily.value,
+                    fontSize: Number(fontSize.value),
+                    color: textColor.value,
+                    shadow: shadowColor.value,
+                    anim: currentAnim,
+                    d: parseFloat(animDuration.value),
+                    bg: bgSel.value,
+                    outro: optOutro.checked,
+                    position: positionSel.value,
+                    videoLen: Number(videoLen.value)
+                };
+            }
+
+            const pctx = previewCanvas.getContext('2d');
+            let scene = null;
+            let t = 0;
+            let playing = true;
+            let lastTs = performance.now();
+            let rebuildToken = 0;
+
+            async function rebuild(restart) {
+                const token = ++rebuildToken;
+                const cfg = getCfg();
+                try { await document.fonts.load((cfg.fontSize * PREVIEW_W / REF_W) + 'px ' + cfg.family); } catch (e) {}
+                if (token !== rebuildToken) return;
+                scene = buildScene(cfg, PREVIEW_W, PREVIEW_H);
+                scrub.max = scene.total.toFixed(2);
+                previewContainer.style.backgroundColor = cfg.bg;
+                if (restart) { t = 0; playing = true; syncPlayIcon(); }
+            }
+
+            function syncPlayIcon() {
+                ppBtn.innerHTML = '<i class="fa-solid ' + (playing ? 'fa-pause' : 'fa-play') + '"></i>';
+            }
+
+            function loop(now) {
+                const dt = Math.min(0.1, (now - lastTs) / 1000);
+                lastTs = now;
+                if (scene) {
+                    if (playing) {
+                        t += dt;
+                        if (t > scene.total + 0.6) t = 0; // boucle avec une courte pause
+                    }
+                    const tt = Math.min(t, scene.total);
+                    drawScene(pctx, scene, tt);
+                    if (playing) scrub.value = tt;
+                    timeLabel.textContent = tt.toFixed(1) + ' / ' + scene.total.toFixed(1) + ' s';
+                }
+                requestAnimationFrame(loop);
+            }
+
+            function updateLabels() {
+                charCount.textContent = textInput.value.length + '/50';
+                fontSizeVal.textContent = fontSize.value;
+                textColorHex.textContent = textColor.value;
+                shadowColorHex.textContent = shadowColor.value;
+                durationVal.textContent = animDuration.value;
+                videoLenVal.textContent = videoLen.value;
+                const isBlue = bgSel.value === '#0000FF';
+                const name = isBlue ? 'Bleu' : 'Vert';
+                $('pill-text').textContent = 'Chroma Key Prêt (' + bgSel.value + ')';
+                const label = $('bg-label');
+                label.textContent = 'Fond ' + name + ' ' + bgSel.value;
+                label.className = 'text-xs font-mono px-2.5 py-1 rounded-md border ' + (isBlue
+                    ? 'bg-blue-500/20 text-blue-300 border-blue-500/30'
+                    : 'bg-green-500/20 text-green-400 border-green-500/30');
+                $('guide-pipette').innerHTML = 'Sélectionnez la couleur ' + (isBlue ? 'bleue' : 'verte') +
+                    ' <strong class="text-slate-200">' + bgSel.value + '</strong> avec la pipette pour supprimer instantanément le fond.';
+            }
+
+            // Boutons de styles d'animation
+            const presetBox = $('anim-presets');
+            const ON = ['bg-emerald-500/20', 'border-emerald-500', 'text-emerald-300'];
+            const OFF = ['bg-slate-950', 'border-slate-800', 'text-slate-300'];
+            Object.keys(PRESETS).forEach((key) => {
+                const P = PRESETS[key];
+                const btn = document.createElement('button');
+                btn.dataset.anim = key;
+                btn.className = 'anim-btn border rounded-xl py-2.5 px-3 text-xs font-semibold flex items-center justify-center gap-2 transition hover:bg-slate-800 ' +
+                    (key === currentAnim ? ON : OFF).join(' ');
+                btn.innerHTML = '<i class="fa-solid ' + P.icon + '"></i> ' + P.label;
+                btn.addEventListener('click', () => {
+                    presetBox.querySelectorAll('.anim-btn').forEach((b) => {
+                        b.classList.remove(...ON);
+                        b.classList.add(...OFF);
+                    });
+                    btn.classList.remove(...OFF);
+                    btn.classList.add(...ON);
+                    currentAnim = key;
+                    rebuild(true);
+                });
+                presetBox.appendChild(btn);
+            });
+
+            // Réglages : reconstruit la scène (sans relancer, sauf la durée d'entrée)
+            [textInput, fontFamily, fontSize, textColor, shadowColor, positionSel, bgSel, optOutro, optCaps, videoLen]
+                .forEach((el) => {
+                    const evt = el.tagName === 'SELECT' || el.type === 'checkbox' ? 'change' : 'input';
+                    el.addEventListener(evt, () => { updateLabels(); rebuild(false); });
+                });
+            animDuration.addEventListener('input', () => { updateLabels(); rebuild(true); });
+
+            playBtn.addEventListener('click', () => { t = 0; playing = true; syncPlayIcon(); });
+            ppBtn.addEventListener('click', () => { playing = !playing; syncPlayIcon(); });
+            scrub.addEventListener('input', () => { playing = false; syncPlayIcon(); t = Number(scrub.value); });
+
+            // ---------- Export vidéo ----------
+            let recording = false;
+
+            function pickVideoMime() {
+                if (!window.MediaRecorder) return '';
+                const candidates = [
+                    'video/mp4;codecs=avc1.640028',
+                    'video/mp4;codecs=avc1',
+                    'video/mp4',
+                    'video/webm;codecs=vp9',
+                    'video/webm;codecs=vp8',
+                    'video/webm'
+                ];
+                return candidates.find((m) => MediaRecorder.isTypeSupported(m)) || '';
+            }
+
+            async function downloadVideo() {
+                if (recording) return;
+                const mime = pickVideoMime();
+                if (!mime) {
+                    alert("Votre navigateur ne permet pas l'enregistrement vidéo. Utilisez Chrome, Edge, Firefox ou Safari récent.");
+                    return;
+                }
+                recording = true;
+                downloadBtn.disabled = true;
+                playBtn.disabled = true;
+                const wasPlaying = playing;
+                playing = false;
+
+                const [W, H] = videoRes.value.split('x').map(Number);
+                const cfg = getCfg();
+                const cv = document.createElement('canvas');
+                cv.width = W;
+                cv.height = H;
+                cv.className = 'absolute inset-0 w-full h-full';
+                const c = cv.getContext('2d');
+                let stream = null;
+                try {
+                    await document.fonts.load((cfg.fontSize * W / REF_W) + 'px ' + cfg.family);
+                    await document.fonts.ready;
+                    const sc = buildScene(cfg, W, H);
+                    drawScene(c, sc, 0);
+                    previewContainer.appendChild(cv);
+                    stream = cv.captureStream(30);
+                    const chunks = [];
+                    const rec = new MediaRecorder(stream, {
+                        mimeType: mime,
+                        videoBitsPerSecond: H >= 1080 ? 16000000 : 8000000
+                    });
+                    rec.ondataavailable = (e) => { if (e.data && e.data.size) chunks.push(e.data); };
+                    const stopped = new Promise((res) => { rec.onstop = res; });
+                    rec.start(250);
+                    await new Promise((resolve) => {
+                        const start = performance.now();
+                        function frame(now) {
+                            const el = Math.max(0, now - start) / 1000;
+                            const tt = Math.min(el, sc.total);
+                            drawScene(c, sc, tt);
+                            recordStatus.textContent = 'Enregistrement… ' + Math.round((tt / sc.total) * 100) + ' % — gardez cet onglet visible';
+                            if (el < sc.total) requestAnimationFrame(frame);
+                            else resolve();
+                        }
+                        requestAnimationFrame(frame);
+                    });
+                    await new Promise((r) => setTimeout(r, 400)); // dernière image
+                    rec.stop();
+                    await stopped;
+
+                    const type = mime.split(';')[0];
+                    const ext = type === 'video/mp4' ? 'mp4' : 'webm';
+                    const slug = cfg.text.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
+                        .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 30) || 'texte';
+                    const url = URL.createObjectURL(new Blob(chunks, { type }));
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = (cfg.bg === '#0000FF' ? 'fond-bleu-' : 'fond-vert-') + slug + '.' + ext;
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    setTimeout(() => URL.revokeObjectURL(url), 10000);
+                    recordStatus.textContent = 'Vidéo téléchargée (' + ext.toUpperCase() + ', ' + W + '×' + H + ').';
+                } catch (err) {
+                    console.error(err);
+                    recordStatus.textContent = '';
+                    alert("L'enregistrement vidéo a échoué : " + (err && err.message ? err.message : err));
+                } finally {
+                    if (stream) stream.getTracks().forEach((tr) => tr.stop());
+                    cv.remove();
+                    recording = false;
+                    downloadBtn.disabled = false;
+                    playBtn.disabled = false;
+                    t = 0;
+                    playing = wasPlaying;
+                    syncPlayIcon();
+                }
+            }
+            downloadBtn.addEventListener('click', downloadVideo);
+
+            // Initial setup run
+            updateLabels();
+            rebuild(true);
+            requestAnimationFrame(loop);
+        });
+    </script>
+</body>
+</html>
