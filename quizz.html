@@ -257,11 +257,6 @@
           <div
             class="absolute inset-0 z-0 flex items-center justify-center p-6 bg-slate-950"
           >
-            <!-- Background Animated Glow -->
-            <div
-              class="absolute w-72 h-72 bg-emerald-500/10 rounded-full filter blur-3xl pointer-events-none"
-            ></div>
-
             <!-- Player Image Container -->
             <div
               class="relative w-full h-full max-w-sm max-h-[75%] rounded-2xl overflow-hidden border-2 border-slate-700/50 shadow-2xl bg-slate-900 flex items-center justify-center"
@@ -757,18 +752,6 @@
           opts;
 
         ctx.fillStyle = "#020617";
-        ctx.fillRect(0, 0, W, H);
-        const glow = ctx.createRadialGradient(
-          W / 2,
-          H / 2,
-          0,
-          W / 2,
-          H / 2,
-          H * 0.6,
-        );
-        glow.addColorStop(0, "rgba(16,185,129,0.12)");
-        glow.addColorStop(1, "rgba(2,6,23,0)");
-        ctx.fillStyle = glow;
         ctx.fillRect(0, 0, W, H);
 
         const boxW = H * 0.62,
