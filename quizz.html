@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Générateur de Quiz Football Studio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              pitch: {
+                50: "#f0fdf4",
+                500: "#22c55e",
+                800: "#166534",
+                900: "#14532d",
+                950: "#052e16",
+              },
+              gold: {
+                400: "#facc15",
+                500: "#eab308",
+              },
+            },
+            fontFamily: {
+              sans: ["Inter", "sans-serif"],
+              display: ["Impact", "Teko", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <!-- FontAwesome for Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #0f172a;
+        color: #f8fafc;
+      }
+
+      /* Smooth timer progress bar animation */
+      .timer-progress {
+        transition: width 0.1s linear;
+      }
+
+      /* Custom scrollbar for dark theme */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #1e293b;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #475569;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #64748b;
+      }
+
+      .strobe-border {
+        box-shadow: 0 0 25px rgba(34, 197, 94, 0.3);
+      }
+
+      @keyframes pulse-ring {
+        0% {
+          transform: scale(0.95);
+          opacity: 0.8;
+        }
+        50% {
+          transform: scale(1.05);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(0.95);
+          opacity: 0.8;
+        }
+      }
+
+      .pulse-urgent {
+        animation: pulse-ring 0.5s infinite ease-in-out;
+      }
+
+      #photoFileInput {
+        display: none;
+      }
+    </style>
+  </head>
+  <body
+    class="min-h-screen bg-slate-950 text-slate-100 flex flex-col justify-between"
+  >
+    <!-- Header Navigation -->
+    <header
+      class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50"
+    >
+      <div
+        class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between"
+      >
+        <div class="flex items-center gap-3">
+          <div
+            class="bg-gradient-to-tr from-green-600 to-emerald-400 p-2.5 rounded-xl text-slate-950 font-black text-xl shadow-lg shadow-green-500/20"
+          >
+            <i class="fa-solid font-black fa-futbol"></i>
+          </div>
+          <div>
+            <h1
+              class="font-extrabold text-lg sm:text-xl tracking-tight bg-gradient-to-r from-white via-slate-200 to-emerald-400 bg-clip-text text-transparent"
+            >
+              FootQuiz Studio
+            </h1>
+            <p class="text-xs text-slate-400">
+              Générateur vidéo de Quiz Football interactif
+            </p>
+          </div>
+        </div>
+        <button
+          id="exportPromptBtn"
+          class="bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold px-4 py-2 rounded-xl text-sm transition-all flex items-center gap-2 shadow-lg shadow-emerald-600/20 active:scale-95"
+        >
+          <i class="fa-solid fa-code"></i>
+          <span class="hidden sm:inline">Copier le Prompt App</span>
+        </button>
+      </div>
+    </header>
+
+    <main
+      class="max-w-7xl mx-auto w-full p-4 lg:p-6 flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start"
+    >
+      <!-- Left Panel: Configuration (5 cols) -->
+      <section
+        class="lg:col-span-5 bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-6"
+      >
+        <div
+          class="flex items-center justify-between border-b border-slate-800 pb-3"
+        >
+          <h2
+            class="text-lg font-bold flex items-center gap-2 text-emerald-400"
+          >
+            <i class="fa-solid fa-sliders"></i> Configuration du Quiz
+          </h2>
+        </div>
+
+        <!-- Quiz General Settings -->
+        <div class="space-y-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-1"
+              >TITRE DU QUIZ</label
+            >
+            <input
+              type="text"
+              id="quizTitleInput"
+              value="DEVINE LE JOUEUR DE FOOT !"
+              class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500 transition"
+            />
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-1"
+              >DURÉE CHRONO (SEC)</label
+            >
+            <input
+              type="number"
+              id="countdownTimeInput"
+              value="5"
+              min="1"
+              max="15"
+              class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500 transition"
+            />
+          </div>
+
+          <div class="pt-2 border-t border-slate-800">
+            <label class="block text-xs font-semibold text-slate-400 mb-2"
+              >PHOTO DU JOUEUR</label
+            >
+            <div class="flex items-center gap-2">
+              <button
+                id="photoChooseBtn"
+                type="button"
+                class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold px-3.5 py-2.5 rounded-xl text-sm transition border border-slate-700 flex items-center justify-center gap-2"
+              >
+                <i class="fa-solid fa-upload"></i> Choisir une image
+              </button>
+              <button
+                id="photoRemoveBtn"
+                type="button"
+                class="bg-slate-800 hover:bg-red-500/20 text-slate-300 hover:text-red-400 font-semibold px-3 py-2.5 rounded-xl text-sm transition border border-slate-700"
+                title="Retirer l'image"
+              >
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </div>
+            <input type="file" id="photoFileInput" accept="image/*" />
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-1"
+              >RÉPONSE (NOM DU JOUEUR)</label
+            >
+            <input
+              type="text"
+              id="answerInput"
+              value="Kylian Mbappé"
+              placeholder="Nom du joueur"
+              class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500 transition"
+            />
+          </div>
+
+          <button
+            id="exportVideoBtn"
+            class="w-full bg-gradient-to-r from-emerald-500 to-green-400 text-slate-950 font-extrabold px-4 py-2.5 rounded-xl text-sm transition flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <i class="fa-solid fa-file-video"></i>
+            <span id="exportVideoLabel">Télécharger en MP4 (5s)</span>
+          </button>
+          <div id="exportStatus" class="text-xs text-slate-400 hidden"></div>
+        </div>
+      </section>
+
+      <!-- Right Panel: YouTube-style Video Canvas & Player Controls (7 cols) -->
+      <section class="lg:col-span-7 space-y-4">
+        <!-- Video Player 16:9 Frame -->
+        <div
+          class="relative w-full aspect-video bg-slate-900 rounded-2xl overflow-hidden border border-slate-800 shadow-2xl flex flex-col justify-between strobe-border select-none"
+          id="playerFrame"
+        >
+          <!-- Top Overlay: Quiz Title -->
+          <div
+            class="relative z-10 p-4 bg-gradient-to-b from-slate-950/90 via-slate-950/40 to-transparent flex justify-start items-start"
+          >
+            <div
+              class="bg-slate-950/80 backdrop-blur border border-slate-700/60 rounded-xl px-3.5 py-1.5 flex items-center gap-2"
+            >
+              <span
+                class="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse"
+              ></span>
+              <h3
+                id="playerTitleDisplay"
+                class="font-black text-xs sm:text-sm text-white tracking-wide uppercase"
+              >
+                DEVINE LE JOUEUR !
+              </h3>
+            </div>
+          </div>
+
+          <!-- Center Content: Image Display -->
+          <div
+            class="absolute inset-0 z-0 flex items-center justify-center p-6 bg-slate-950"
+          >
+            <!-- Background Animated Glow -->
+            <div
+              class="absolute w-72 h-72 bg-emerald-500/10 rounded-full filter blur-3xl pointer-events-none"
+            ></div>
+
+            <!-- Player Image Container -->
+            <div
+              class="relative w-full h-full max-w-sm max-h-[75%] rounded-2xl overflow-hidden border-2 border-slate-700/50 shadow-2xl bg-slate-900 flex items-center justify-center"
+            >
+              <img
+                id="playerImage"
+                src=""
+                alt="Joueur Mystery"
+                class="w-full h-full object-cover hidden"
+              />
+
+              <div id="imagePlaceholder" class="text-center p-4">
+                <i
+                  class="fa-solid fa-image text-5xl text-slate-600 mb-2"
+                ></i>
+                <p class="text-xs text-slate-500">
+                  Choisissez une image dans le panneau de configuration
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Overlay: Countdown Timer & Answer Reveal -->
+          <div
+            class="relative z-10 p-4 sm:p-6 bg-gradient-to-t from-slate-950 via-slate-950/80 to-transparent space-y-3"
+          >
+            <!-- Reveal Box (Hidden during timer, shown on reveal) -->
+            <div
+              id="answerRevealBox"
+              class="opacity-0 transform translate-y-4 transition-all duration-500 text-center bg-slate-900/90 backdrop-blur border border-emerald-500/50 rounded-2xl py-2.5 px-4 shadow-xl"
+            >
+              <span
+                class="text-[10px] font-extrabold uppercase tracking-widest text-emerald-400 block"
+                >Réponse Correcte</span
+              >
+              <p
+                id="playerAnswerText"
+                class="text-xl sm:text-2xl font-black text-white tracking-wide uppercase drop-shadow-md"
+              >
+                KYLIAN MBAPPÉ
+              </p>
+            </div>
+
+            <!-- Timer Bar & Numbers -->
+            <div class="space-y-1.5">
+              <div
+                class="flex justify-between items-center text-xs font-bold text-slate-300 px-1"
+              >
+                <span class="flex items-center gap-1.5">
+                  <i class="fa-solid fa-stopwatch text-emerald-400"></i> Temps
+                  restant
+                </span>
+                <span
+                  id="timerNumber"
+                  class="text-base font-extrabold text-emerald-400 font-mono"
+                  >05s</span
+                >
+              </div>
+
+              <!-- Progress Bar Track -->
+              <div
+                class="w-full h-3 bg-slate-800 rounded-full overflow-hidden p-0.5 border border-slate-700/50"
+              >
+                <div
+                  id="timerProgressBar"
+                  class="h-full bg-gradient-to-r from-emerald-500 to-green-400 rounded-full timer-progress"
+                  style="width: 100%"
+                ></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Controls Toolbar -->
+        <div
+          class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-wrap items-center justify-between gap-3 shadow-lg"
+        >
+          <div class="flex items-center gap-2">
+            <button
+              id="startPauseBtn"
+              class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold px-5 py-2.5 rounded-xl transition flex items-center gap-2 shadow-lg shadow-emerald-500/20 active:scale-95"
+            >
+              <i class="fa-solid fa-play" id="startPauseIcon"></i>
+              <span id="startPauseLabel">Démarrer</span>
+            </button>
+            <button
+              id="restartBtn"
+              class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold p-2.5 rounded-xl transition border border-slate-700 active:scale-95"
+              title="Recommencer"
+            >
+              <i class="fa-solid fa-rotate-left"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Audio & Info Note -->
+        <div
+          class="bg-slate-900/50 border border-slate-800/80 rounded-xl p-3 text-xs text-slate-400 flex items-center gap-3"
+        >
+          <i class="fa-solid fa-volume-high text-emerald-400 text-base"></i>
+          <p>
+            Les effets sonores synthétisés (AudioContext) s'activent au
+            démarrage du quiz.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <!-- Modal: Export Prompt -->
+    <div
+      id="promptModal"
+      class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden"
+    >
+      <div
+        class="bg-slate-900 border border-slate-800 rounded-2xl max-w-2xl w-full p-6 shadow-2xl space-y-4"
+      >
+        <div
+          class="flex justify-between items-center border-b border-slate-800 pb-3"
+        >
+          <h3 class="font-bold text-lg text-white flex items-center gap-2">
+            <i class="fa-solid fa-wand-magic-sparkles text-emerald-400"></i>
+            Prompt d'Application Web Généré
+          </h3>
+          <button
+            id="closeModalBtn"
+            class="text-slate-400 hover:text-white p-1"
+          >
+            <i class="fa-solid fa-xmark text-lg"></i>
+          </button>
+        </div>
+        <p class="text-xs text-slate-400">
+          Vous pouvez utiliser ce prompt structuré pour régénérer ou adapter
+          cette application interactive dans n'importe quel LLM.
+        </p>
+        <textarea
+          id="promptTextarea"
+          readonly
+          class="w-full h-64 bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-xs font-mono text-emerald-300 focus:outline-none resize-none"
+        ></textarea>
+        <div class="flex justify-end gap-3">
+          <button
+            id="copyPromptModalBtn"
+            class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-4 py-2 rounded-xl text-sm transition flex items-center gap-2"
+          >
+            <i class="fa-solid fa-copy"></i> Copier dans le presse-papier
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Application State (single question)
+      let question = {
+        image: null,
+        answer: "Kylian Mbappé",
+      };
+      let countdownSeconds = 5;
+      let remainingSeconds = 5;
+      let quizTitle = "DEVINE LE JOUEUR DE FOOT !";
+
+      let isRunning = false;
+      let isRevealed = false;
+      let timerInterval = null;
+      let restartTimeout = null;
+      let audioCtx = null;
+
+      // DOM Elements
+      const quizTitleInput = document.getElementById("quizTitleInput");
+      const countdownTimeInput = document.getElementById("countdownTimeInput");
+      const answerInput = document.getElementById("answerInput");
+      const photoChooseBtn = document.getElementById("photoChooseBtn");
+      const photoRemoveBtn = document.getElementById("photoRemoveBtn");
+      const photoFileInput = document.getElementById("photoFileInput");
+
+      const playerTitleDisplay = document.getElementById("playerTitleDisplay");
+      const playerImage = document.getElementById("playerImage");
+      const imagePlaceholder = document.getElementById("imagePlaceholder");
+      const answerRevealBox = document.getElementById("answerRevealBox");
+      const playerAnswerText = document.getElementById("playerAnswerText");
+      const timerNumber = document.getElementById("timerNumber");
+      const timerProgressBar = document.getElementById("timerProgressBar");
+
+      const startPauseBtn = document.getElementById("startPauseBtn");
+      const startPauseIcon = document.getElementById("startPauseIcon");
+      const startPauseLabel = document.getElementById("startPauseLabel");
+      const restartBtn = document.getElementById("restartBtn");
+
+      const exportVideoBtn = document.getElementById("exportVideoBtn");
+      const exportVideoLabel = document.getElementById("exportVideoLabel");
+      const exportStatus = document.getElementById("exportStatus");
+
+      const exportPromptBtn = document.getElementById("exportPromptBtn");
+      const promptModal = document.getElementById("promptModal");
+      const closeModalBtn = document.getElementById("closeModalBtn");
+      const promptTextarea = document.getElementById("promptTextarea");
+      const copyPromptModalBtn = document.getElementById("copyPromptModalBtn");
+
+      // Web Audio Synthesizer for SFX
+      function initAudio() {
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+      }
+
+      function playBeep(freq = 600, duration = 0.1) {
+        try {
+          if (!audioCtx) return;
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = "sine";
+          osc.frequency.value = freq;
+          gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(
+            0.001,
+            audioCtx.currentTime + duration,
+          );
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start();
+          osc.stop(audioCtx.currentTime + duration);
+        } catch (e) {
+          console.error(e);
+        }
+      }
+
+      function playSuccessSound() {
+        try {
+          if (!audioCtx) return;
+          const now = audioCtx.currentTime;
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+
+          osc.type = "triangle";
+          osc.frequency.setValueAtTime(440, now);
+          osc.frequency.exponentialRampToValueAtTime(880, now + 0.3);
+
+          gain.gain.setValueAtTime(0.2, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start(now);
+          osc.stop(now + 0.4);
+        } catch (e) {
+          console.error(e);
+        }
+      }
+
+      // Update Configuration Values
+      quizTitleInput.addEventListener("input", (e) => {
+        quizTitle = e.target.value || "QUIZ FOOTBALL";
+        playerTitleDisplay.textContent = quizTitle;
+      });
+
+      countdownTimeInput.addEventListener("change", (e) => {
+        countdownSeconds = Math.max(1, parseInt(e.target.value) || 5);
+        resetTimer();
+        updateExportLabel();
+      });
+
+      answerInput.addEventListener("input", (e) => {
+        question.answer = e.target.value;
+        playerAnswerText.textContent = question.answer || "RÉPONSE";
+      });
+
+      photoChooseBtn.addEventListener("click", () => photoFileInput.click());
+
+      photoRemoveBtn.addEventListener("click", () => {
+        question.image = null;
+        photoFileInput.value = "";
+        loadCurrentQuestion();
+      });
+
+      photoFileInput.addEventListener("change", () => {
+        const file = photoFileInput.files && photoFileInput.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          question.image = reader.result;
+          loadCurrentQuestion();
+        };
+        reader.readAsDataURL(file);
+      });
+
+      function updateExportLabel() {
+        exportVideoLabel.textContent = `Télécharger en MP4 (${countdownSeconds}s)`;
+      }
+
+      function setExportStatus(msg, isError) {
+        exportStatus.textContent = msg;
+        exportStatus.classList.toggle("hidden", !msg);
+        exportStatus.classList.toggle("text-red-400", !!isError);
+        exportStatus.classList.toggle("text-slate-400", !isError);
+      }
+
+      // Load Question into Video Player
+      function loadCurrentQuestion() {
+        playerAnswerText.textContent = question.answer || "RÉPONSE";
+
+        if (question.image) {
+          playerImage.src = question.image;
+          playerImage.classList.remove("hidden");
+          imagePlaceholder.classList.add("hidden");
+        } else {
+          playerImage.classList.add("hidden");
+          imagePlaceholder.classList.remove("hidden");
+        }
+
+        answerRevealBox.classList.add("opacity-0", "translate-y-4");
+        isRevealed = false;
+      }
+
+      function resetTimer() {
+        remainingSeconds = countdownSeconds;
+        updateTimerDisplay();
+      }
+
+      function updateTimerDisplay() {
+        timerNumber.textContent = `${Math.ceil(remainingSeconds)}s`;
+        const percentage = (remainingSeconds / countdownSeconds) * 100;
+        timerProgressBar.style.width = `${Math.max(0, percentage)}%`;
+      }
+
+      // Quiz Core Loop
+      function startQuiz() {
+        initAudio();
+        isRunning = true;
+        startPauseIcon.className = "fa-solid fa-pause";
+        startPauseLabel.textContent = "Pause";
+
+        if (timerInterval) clearInterval(timerInterval);
+
+        const intervalMs = 100;
+        timerInterval = setInterval(() => {
+          remainingSeconds -= intervalMs / 1000;
+
+          if (
+            Math.abs(remainingSeconds - Math.round(remainingSeconds)) < 0.05 &&
+            remainingSeconds > 0
+          ) {
+            playBeep(500, 0.05);
+          }
+
+          if (remainingSeconds <= 0) {
+            remainingSeconds = 0;
+            updateTimerDisplay();
+            clearInterval(timerInterval);
+            revealAnswer();
+          } else {
+            updateTimerDisplay();
+          }
+        }, intervalMs);
+      }
+
+      function pauseQuiz() {
+        isRunning = false;
+        startPauseIcon.className = "fa-solid fa-play";
+        startPauseLabel.textContent = "Démarrer";
+        if (timerInterval) clearInterval(timerInterval);
+        if (restartTimeout) clearTimeout(restartTimeout);
+      }
+
+      function toggleQuiz() {
+        if (isRunning) {
+          pauseQuiz();
+        } else if (isRevealed) {
+          restartQuestion();
+        } else {
+          startQuiz();
+        }
+      }
+
+      function revealAnswer() {
+        isRevealed = true;
+        pauseQuiz();
+
+        answerRevealBox.classList.remove("opacity-0", "translate-y-4");
+        playSuccessSound();
+
+        restartTimeout = setTimeout(() => {
+          if (isRevealed) {
+            restartQuestion();
+          }
+        }, 2500);
+      }
+
+      function restartQuestion() {
+        pauseQuiz();
+        resetTimer();
+        loadCurrentQuestion();
+        startQuiz();
+      }
+
+      // Controls Bindings
+      startPauseBtn.addEventListener("click", toggleQuiz);
+
+      restartBtn.addEventListener("click", () => {
+        pauseQuiz();
+        resetTimer();
+        loadCurrentQuestion();
+      });
+
+      // ---- MP4 Video Export (ffmpeg.wasm: PNG frame sequence + rendered audio) ----
+
+      function loadScriptOnce(src) {
+        return new Promise((resolve, reject) => {
+          if (document.querySelector(`script[src="${src}"]`)) {
+            resolve();
+            return;
+          }
+          const s = document.createElement("script");
+          s.src = src;
+          s.onload = () => resolve();
+          s.onerror = () => reject(new Error("Échec du chargement de " + src));
+          document.head.appendChild(s);
+        });
+      }
+
+      let ffmpegInstance = null;
+      async function getFFmpeg() {
+        if (ffmpegInstance) return ffmpegInstance;
+        setExportStatus(
+          "Chargement du moteur vidéo (une seule fois, ~25 Mo)…",
+        );
+        await loadScriptOnce(
+          "https://unpkg.com/@ffmpeg/util@0.12.1/dist/umd/index.js",
+        );
+        await loadScriptOnce(
+          "https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/umd/ffmpeg.js",
+        );
+        const { FFmpeg } = FFmpegWASM;
+        const ffmpeg = new FFmpeg();
+        // Note: classWorkerURL forces the worker to run as an ES module,
+        // so the core build must be the ESM build (with `export default`),
+        // not the UMD build (which only supports classic-worker importScripts).
+        const baseURL = "https://unpkg.com/@ffmpeg/core@0.12.10/dist/esm";
+        const ffmpegBaseURL =
+          "https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/umd";
+        ffmpeg.on("progress", ({ progress }) => {
+          const pct = Math.max(0, Math.min(100, Math.round(progress * 100)));
+          setExportStatus(`Encodage de la vidéo… ${pct}%`);
+        });
+        await ffmpeg.load({
+          coreURL: await FFmpegUtil.toBlobURL(
+            `${baseURL}/ffmpeg-core.js`,
+            "text/javascript",
+          ),
+          wasmURL: await FFmpegUtil.toBlobURL(
+            `${baseURL}/ffmpeg-core.wasm`,
+            "application/wasm",
+          ),
+          classWorkerURL: await FFmpegUtil.toBlobURL(
+            `${ffmpegBaseURL}/814.ffmpeg.js`,
+            "text/javascript",
+          ),
+        });
+        ffmpegInstance = ffmpeg;
+        return ffmpeg;
+      }
+
+      function roundRectPath(ctx, x, y, w, h, r) {
+        ctx.beginPath();
+        ctx.moveTo(x + r, y);
+        ctx.arcTo(x + w, y, x + w, y + h, r);
+        ctx.arcTo(x + w, y + h, x, y + h, r);
+        ctx.arcTo(x, y + h, x, y, r);
+        ctx.arcTo(x, y, x + w, y, r);
+        ctx.closePath();
+      }
+
+      function drawImageCover(ctx, img, x, y, w, h) {
+        const iw = img.naturalWidth,
+          ih = img.naturalHeight;
+        const scale = Math.max(w / iw, h / ih);
+        const sw = w / scale,
+          sh = h / scale;
+        const sx = (iw - sw) / 2,
+          sy = (ih - sh) / 2;
+        ctx.drawImage(img, sx, sy, sw, sh, x, y, w, h);
+      }
+
+      function loadImageEl(dataUrl) {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.onload = () => resolve(img);
+          img.onerror = () => reject(new Error("image_error"));
+          img.src = dataUrl;
+        });
+      }
+
+      function drawExportFrame(ctx, W, H, opts) {
+        const { title, imageEl, hasImage, answer, remaining, durationSec, revealed } =
+          opts;
+
+        ctx.fillStyle = "#020617";
+        ctx.fillRect(0, 0, W, H);
+        const glow = ctx.createRadialGradient(
+          W / 2,
+          H / 2,
+          0,
+          W / 2,
+          H / 2,
+          H * 0.6,
+        );
+        glow.addColorStop(0, "rgba(16,185,129,0.12)");
+        glow.addColorStop(1, "rgba(2,6,23,0)");
+        ctx.fillStyle = glow;
+        ctx.fillRect(0, 0, W, H);
+
+        const boxW = H * 0.62,
+          boxH = H * 0.62;
+        const boxX = (W - boxW) / 2,
+          boxY = H * 0.16;
+        ctx.save();
+        roundRectPath(ctx, boxX, boxY, boxW, boxH, 24);
+        ctx.clip();
+        ctx.fillStyle = "#0f172a";
+        ctx.fillRect(boxX, boxY, boxW, boxH);
+        if (hasImage) {
+          drawImageCover(ctx, imageEl, boxX, boxY, boxW, boxH);
+        } else {
+          ctx.fillStyle = "#475569";
+          ctx.font = "700 " + Math.round(H * 0.03) + "px Inter, sans-serif";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillText("Image introuvable", boxX + boxW / 2, boxY + boxH / 2);
+          ctx.textAlign = "left";
+        }
+        ctx.restore();
+        ctx.strokeStyle = "rgba(255,255,255,0.15)";
+        ctx.lineWidth = 2;
+        roundRectPath(ctx, boxX, boxY, boxW, boxH, 24);
+        ctx.stroke();
+
+        ctx.textBaseline = "middle";
+        ctx.font = "700 " + Math.round(H * 0.032) + "px Inter, sans-serif";
+        ctx.fillStyle = "rgba(2,6,23,0.85)";
+        roundRectPath(ctx, W * 0.03, H * 0.04, W * 0.55, H * 0.08, 14);
+        ctx.fill();
+        ctx.fillStyle = "#ef4444";
+        ctx.beginPath();
+        ctx.arc(W * 0.055, H * 0.08, H * 0.012, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = "#ffffff";
+        ctx.fillText(title.toUpperCase(), W * 0.08, H * 0.08);
+
+        if (revealed) {
+          const rbW = W * 0.62,
+            rbH = H * 0.15,
+            rbX = (W - rbW) / 2,
+            rbY = H * 0.68;
+          ctx.fillStyle = "rgba(15,23,42,0.92)";
+          roundRectPath(ctx, rbX, rbY, rbW, rbH, 18);
+          ctx.fill();
+          ctx.strokeStyle = "rgba(16,185,129,0.5)";
+          ctx.lineWidth = 2;
+          roundRectPath(ctx, rbX, rbY, rbW, rbH, 18);
+          ctx.stroke();
+          ctx.textAlign = "center";
+          ctx.fillStyle = "#34d399";
+          ctx.font = "800 " + Math.round(H * 0.02) + "px Inter, sans-serif";
+          ctx.fillText("RÉPONSE CORRECTE", W / 2, rbY + rbH * 0.3);
+          ctx.fillStyle = "#ffffff";
+          ctx.font = "900 " + Math.round(H * 0.05) + "px Inter, sans-serif";
+          ctx.fillText(answer.toUpperCase(), W / 2, rbY + rbH * 0.68);
+          ctx.textAlign = "left";
+        }
+
+        const barY = H * 0.88,
+          barW = W * 0.9,
+          barX = (W - barW) / 2,
+          barH = H * 0.035;
+        ctx.fillStyle = "#1e293b";
+        roundRectPath(ctx, barX, barY, barW, barH, barH / 2);
+        ctx.fill();
+        const pct = Math.max(0, remaining / durationSec);
+        ctx.fillStyle = "#34d399";
+        roundRectPath(ctx, barX, barY, barW * pct, barH, barH / 2);
+        ctx.fill();
+
+        ctx.font = "700 " + Math.round(H * 0.024) + "px Inter, sans-serif";
+        ctx.fillStyle = "#34d399";
+        ctx.textAlign = "right";
+        ctx.fillText(
+          Math.ceil(Math.max(0, remaining)) + "s",
+          barX + barW,
+          barY - H * 0.02,
+        );
+        ctx.textAlign = "left";
+      }
+
+      function writeWavString(view, offset, str) {
+        for (let i = 0; i < str.length; i++)
+          view.setUint8(offset + i, str.charCodeAt(i));
+      }
+
+      function encodeWav(audioBuffer) {
+        const numChannels = audioBuffer.numberOfChannels;
+        const sampleRate = audioBuffer.sampleRate;
+        const numFrames = audioBuffer.length;
+        const blockAlign = numChannels * 2;
+        const dataSize = numFrames * blockAlign;
+        const buffer = new ArrayBuffer(44 + dataSize);
+        const view = new DataView(buffer);
+
+        writeWavString(view, 0, "RIFF");
+        view.setUint32(4, 36 + dataSize, true);
+        writeWavString(view, 8, "WAVE");
+        writeWavString(view, 12, "fmt ");
+        view.setUint32(16, 16, true);
+        view.setUint16(20, 1, true);
+        view.setUint16(22, numChannels, true);
+        view.setUint32(24, sampleRate, true);
+        view.setUint32(28, sampleRate * blockAlign, true);
+        view.setUint16(32, blockAlign, true);
+        view.setUint16(34, 16, true);
+        writeWavString(view, 36, "data");
+        view.setUint32(40, dataSize, true);
+
+        const channelData = [];
+        for (let c = 0; c < numChannels; c++)
+          channelData.push(audioBuffer.getChannelData(c));
+
+        let offset = 44;
+        for (let i = 0; i < numFrames; i++) {
+          for (let c = 0; c < numChannels; c++) {
+            let sample = Math.max(-1, Math.min(1, channelData[c][i]));
+            sample = sample < 0 ? sample * 0x8000 : sample * 0x7fff;
+            view.setInt16(offset, sample, true);
+            offset += 2;
+          }
+        }
+        return new Blob([buffer], { type: "audio/wav" });
+      }
+
+      function scheduleBeepOffline(ctx, dest, freq, duration, startTime) {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "sine";
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0.15, startTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
+        osc.connect(gain);
+        gain.connect(dest);
+        osc.start(startTime);
+        osc.stop(startTime + duration);
+      }
+
+      function scheduleSuccessOffline(ctx, dest, startTime) {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "triangle";
+        osc.frequency.setValueAtTime(440, startTime);
+        osc.frequency.exponentialRampToValueAtTime(880, startTime + 0.3);
+        gain.gain.setValueAtTime(0.2, startTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, startTime + 0.4);
+        osc.connect(gain);
+        gain.connect(dest);
+        osc.start(startTime);
+        osc.stop(startTime + 0.4);
+      }
+
+      async function renderAudioTrack(durationSec, revealStart) {
+        const sampleRate = 44100;
+        const offlineCtx = new OfflineAudioContext(
+          2,
+          Math.ceil(durationSec * sampleRate),
+          sampleRate,
+        );
+        for (let s = 1; s < Math.ceil(durationSec); s++) {
+          scheduleBeepOffline(offlineCtx, offlineCtx.destination, 500, 0.05, s);
+        }
+        scheduleSuccessOffline(offlineCtx, offlineCtx.destination, revealStart);
+        const rendered = await offlineCtx.startRendering();
+        return encodeWav(rendered);
+      }
+
+      async function exportVideo() {
+        pauseQuiz();
+        exportVideoBtn.disabled = true;
+        setExportStatus("Préparation…");
+
+        const W = 960,
+          H = 540,
+          fps = 20;
+        const durationSec = countdownSeconds;
+        const totalFrames = Math.max(1, Math.round(durationSec * fps));
+        const revealFrames = Math.min(
+          totalFrames,
+          Math.max(4, Math.round(fps * 0.6)),
+        );
+        const revealStart = Math.max(0, durationSec - revealFrames / fps);
+        const writtenFrames = [];
+
+        try {
+          let imageEl = null,
+            hasImage = false;
+          if (question.image) {
+            try {
+              imageEl = await loadImageEl(question.image);
+              hasImage = true;
+            } catch (e) {
+              hasImage = false;
+            }
+          }
+
+          const canvas = document.createElement("canvas");
+          canvas.width = W;
+          canvas.height = H;
+          const ctx = canvas.getContext("2d");
+
+          const ffmpeg = await getFFmpeg();
+
+          for (let i = 0; i < totalFrames; i++) {
+            const t = i / fps;
+            const remaining = Math.max(0, durationSec - t);
+            const revealed = t >= revealStart;
+
+            drawExportFrame(ctx, W, H, {
+              title: quizTitle,
+              imageEl,
+              hasImage,
+              answer: question.answer || "RÉPONSE",
+              remaining,
+              durationSec,
+              revealed,
+            });
+
+            let blob;
+            try {
+              blob = await new Promise((resolve, reject) => {
+                canvas.toBlob(
+                  (b) => (b ? resolve(b) : reject(new Error("blob_error"))),
+                  "image/jpeg",
+                  0.92,
+                );
+              });
+            } catch (e) {
+              throw new Error("blob_error");
+            }
+            const buf = new Uint8Array(await blob.arrayBuffer());
+            const name = "frame" + String(i + 1).padStart(4, "0") + ".jpg";
+            await ffmpeg.writeFile(name, buf);
+            writtenFrames.push(name);
+
+            if (i % 4 === 0) {
+              setExportStatus(
+                `Génération des images… ${Math.round((i / totalFrames) * 100)}%`,
+              );
+            }
+          }
+
+          setExportStatus("Génération du son…");
+          const wavBlob = await renderAudioTrack(durationSec, revealStart);
+          await ffmpeg.writeFile(
+            "audio.wav",
+            new Uint8Array(await wavBlob.arrayBuffer()),
+          );
+
+          setExportStatus("Encodage de la vidéo…");
+          await ffmpeg.exec([
+            "-y",
+            "-framerate",
+            String(fps),
+            "-i",
+            "frame%04d.jpg",
+            "-i",
+            "audio.wav",
+            "-c:v",
+            "libx264",
+            "-pix_fmt",
+            "yuv420p",
+            "-c:a",
+            "aac",
+            "-shortest",
+            "-movflags",
+            "+faststart",
+            "out.mp4",
+          ]);
+
+          const data = await ffmpeg.readFile("out.mp4");
+          const videoBlob = new Blob([data.buffer], { type: "video/mp4" });
+          const url = URL.createObjectURL(videoBlob);
+          const a = document.createElement("a");
+          a.href = url;
+          const safeName = (question.answer || "question")
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[̀-ͯ]/g, "")
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/^-+|-+$/g, "");
+          a.download = `quiz-${safeName || "question"}.mp4`;
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          setTimeout(() => URL.revokeObjectURL(url), 4000);
+
+          for (const name of writtenFrames) {
+            try {
+              await ffmpeg.deleteFile(name);
+            } catch (e) {}
+          }
+          try {
+            await ffmpeg.deleteFile("audio.wav");
+          } catch (e) {}
+          try {
+            await ffmpeg.deleteFile("out.mp4");
+          } catch (e) {}
+
+          setExportStatus("Vidéo téléchargée ✓");
+          setTimeout(() => setExportStatus(""), 3000);
+        } catch (err) {
+          console.error(err);
+          const detail = err && err.message ? ` (${err.message})` : "";
+          setExportStatus(`Échec de l'export vidéo.${detail}`, true);
+        }
+        exportVideoBtn.disabled = false;
+      }
+
+      exportVideoBtn.addEventListener("click", exportVideo);
+
+      // Export Custom Prompt Generator
+      exportPromptBtn.addEventListener("click", () => {
+        const promptText = `Crée un générateur interactif de Quiz Football en HTML, CSS et JavaScript responsive, pour une seule question à la fois.
+- Un panneau de configuration où l'utilisateur entre le titre du quiz ("${quizTitle}"), le temps du compte à rebours (${countdownSeconds} secondes), importe lui-même une image (upload local, pas d'URL) et saisit la réponse. Possibilité de télécharger cette séquence en vidéo MP4 de ${countdownSeconds} secondes.
+- Une zone d'affichage vidéo/animation au format 16:9 (style YouTube) avec :
+  1. Image nette (pas de flou) et le titre du quiz.
+  2. Un compte à rebours visuel (barre de progression animée).
+  3. Révélation automatique de la réponse à la fin du compte à rebours avec effet sonore synthétisé (AudioContext).
+  4. Redémarrage automatique de la question après 2,5 secondes d'affichage de la réponse.
+  5. Boutons de contrôle (Démarrer/Pause, Recommencer).
+- Style moderne, dynamique (thème sombre/gaming de football), typographie claire et effets visuels engageants.`;
+
+        promptTextarea.value = promptText;
+        promptModal.classList.remove("hidden");
+      });
+
+      closeModalBtn.addEventListener("click", () => {
+        promptModal.classList.add("hidden");
+      });
+
+      copyPromptModalBtn.addEventListener("click", () => {
+        promptTextarea.select();
+        document.execCommand("copy");
+        copyPromptModalBtn.innerHTML = `<i class="fa-solid fa-check"></i> Copié !`;
+        setTimeout(() => {
+          copyPromptModalBtn.innerHTML = `<i class="fa-solid fa-copy"></i> Copier dans le presse-papier`;
+        }, 2000);
+      });
+
+      // Initialization
+      window.onload = () => {
+        loadCurrentQuestion();
+        resetTimer();
+        updateExportLabel();
+      };
+    </script>
+  </body>
+</html>
