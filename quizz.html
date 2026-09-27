@@ -1114,13 +1114,8 @@
         ctx.save();
         ctx.scale(W / DW, H / DH);
 
-        // Fond + halo d'accent
+        // Fond : même couleur unie que le format 16:9, sans teinte ajoutée.
         ctx.fillStyle = colors.bg;
-        ctx.fillRect(0, 0, DW, DH);
-        const glow = ctx.createRadialGradient(540, 860, 0, 540, 860, 900);
-        glow.addColorStop(0, hexToRgba(colors.accent, 0.22));
-        glow.addColorStop(1, hexToRgba(colors.accent, 0));
-        ctx.fillStyle = glow;
         ctx.fillRect(0, 0, DW, DH);
 
         // Titre
@@ -1152,13 +1147,6 @@
           bw = 900,
           bh = 900;
         ctx.save();
-        ctx.shadowColor = hexToRgba(colors.accent, 0.55);
-        ctx.shadowBlur = 50;
-        roundRectPath(ctx, bx, by, bw, bh, 44);
-        ctx.fillStyle = "#0f172a";
-        ctx.fill();
-        ctx.restore();
-        ctx.save();
         roundRectPath(ctx, bx, by, bw, bh, 44);
         ctx.clip();
         ctx.fillStyle = "#0f172a";
@@ -1178,8 +1166,8 @@
         ctx.fillStyle = shade;
         ctx.fillRect(bx, by, bw, bh);
         ctx.restore();
-        ctx.strokeStyle = colors.accent;
-        ctx.lineWidth = 5;
+        ctx.strokeStyle = "rgba(255,255,255,0.15)";
+        ctx.lineWidth = 4;
         roundRectPath(ctx, bx, by, bw, bh, 44);
         ctx.stroke();
 
@@ -1197,13 +1185,9 @@
           const sc = 0.82 + 0.18 * e;
           ctx.scale(sc, sc);
           ctx.translate(-DW / 2, -(ry + rh / 2));
-          ctx.save();
-          ctx.shadowColor = hexToRgba(colors.accent, 0.6);
-          ctx.shadowBlur = 40;
           ctx.fillStyle = "rgba(15,23,42,0.96)";
           roundRectPath(ctx, rx, ry, rw, rh, 36);
           ctx.fill();
-          ctx.restore();
           ctx.strokeStyle = colors.accent;
           ctx.lineWidth = 5;
           roundRectPath(ctx, rx, ry, rw, rh, 36);
@@ -1364,13 +1348,20 @@
         return encodeWav(rendered);
       }
 
+      let isExporting = false;
       async function exportVideo() {
+        // Garde-fou : un seul export à la fois, même en cas de double clic.
+        if (isExporting) return;
+        isExporting = true;
         pauseQuiz();
         exportVideoBtn.disabled = true;
         setExportStatus("Préparation…");
 
-        const isReel = exportFormat === "reel";
-        const spec = FORMAT_SPECS[exportFormat];
+        // Le format est figé au moment du clic : changer de format pendant
+        // qu'un export est en cours n'affecte pas l'export déjà lancé.
+        const chosenFormat = exportFormat;
+        const isReel = chosenFormat === "reel";
+        const spec = FORMAT_SPECS[chosenFormat];
         const W = spec.w,
           H = spec.h,
           fps = spec.fps;
@@ -1525,6 +1516,7 @@
           setExportStatus(`Échec de l'export vidéo.${detail}`, true);
         }
         exportVideoBtn.disabled = false;
+        isExporting = false;
       }
 
       exportVideoBtn.addEventListener("click", exportVideo);
