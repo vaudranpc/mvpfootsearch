@@ -557,7 +557,7 @@
       // Formats d'export : dimensions, cadence et durée d'affichage de la réponse
       // (hold) ajoutée après le compte à rebours.
       const FORMAT_SPECS = {
-        landscape: { w: 960, h: 540, fps: 20, hold: 0 },
+        landscape: { w: 960, h: 540, fps: 20, hold: 2 },
         reel: { w: 1080, h: 1920, fps: 24, hold: 2.5 },
       };
       let exportFormat = "landscape";
@@ -723,12 +723,11 @@
       });
 
       function updateExportLabel() {
-        if (exportFormat === "reel") {
-          const total = countdownSeconds + FORMAT_SPECS.reel.hold;
-          exportVideoLabel.textContent = `Télécharger le Reel 9:16 (${total}s)`;
-        } else {
-          exportVideoLabel.textContent = `Télécharger en MP4 (${countdownSeconds}s)`;
-        }
+        const total = countdownSeconds + FORMAT_SPECS[exportFormat].hold;
+        exportVideoLabel.textContent =
+          exportFormat === "reel"
+            ? `Télécharger le Reel 9:16 (${total}s)`
+            : `Télécharger en MP4 (${total}s)`;
       }
 
       function setExportFormat(fmt, persist) {
@@ -747,7 +746,7 @@
         formatHint.textContent =
           fmt === "reel"
             ? "1080×1920 · 24 i/s · réponse affichée 2,5 s après le compte à rebours · contenu placé dans les zones sûres d'Instagram"
-            : "960×540 · 20 i/s · format horizontal YouTube";
+            : "960×540 · 20 i/s · réponse affichée 2 s après le compte à rebours · format horizontal YouTube";
         updateExportLabel();
         renderExportPreview();
         if (persist) {
@@ -1366,17 +1365,11 @@
           H = spec.h,
           fps = spec.fps;
         const durationSec = countdownSeconds; // compte à rebours
-        const totalSec = durationSec + spec.hold; // + réponse affichée (Reel)
+        const totalSec = durationSec + spec.hold; // + réponse affichée après le chrono
         const totalFrames = Math.max(1, Math.round(totalSec * fps));
-        const revealFrames = Math.min(
-          totalFrames,
-          Math.max(4, Math.round(fps * 0.6)),
-        );
-        // 16:9 : la réponse apparaît sur les 0,6 dernières secondes du chrono.
-        // Reel : elle apparaît à la fin du chrono et reste affichée.
-        const revealStart = isReel
-          ? durationSec
-          : Math.max(0, totalSec - revealFrames / fps);
+        // La réponse apparaît pile à la fin du chrono et reste affichée
+        // jusqu'à la fin de la vidéo (durée du "hold" du format).
+        const revealStart = durationSec;
         const writtenFrames = [];
 
         try {
