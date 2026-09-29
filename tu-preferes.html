@@ -1,0 +1,1480 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tu Préfères Studio</title>
+    <script src="header.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Fredoka:wght@500;600;700&family=Poppins:wght@700;800&family=Nunito:wght@800;900&family=Bungee&family=Inter:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #0f172a;
+        color: #f8fafc;
+      }
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #1e293b;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #475569;
+        border-radius: 4px;
+      }
+
+      .q-item.active {
+        border-color: #a78bfa;
+        background: rgba(167, 139, 250, 0.08);
+      }
+
+      .theme-tag {
+        font-size: 10px;
+        font-weight: 700;
+        padding: 1px 7px;
+        border-radius: 999px;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+      }
+      .theme-Humour {
+        background: rgba(250, 204, 21, 0.18);
+        color: #facc15;
+      }
+      .theme-Choquant {
+        background: rgba(248, 113, 113, 0.18);
+        color: #f87171;
+      }
+      .theme-Vie {
+        background: rgba(96, 165, 250, 0.18);
+        color: #60a5fa;
+      }
+      .theme-Impossible {
+        background: rgba(167, 139, 250, 0.18);
+        color: #a78bfa;
+      }
+
+      #photoAInput,
+      #photoBInput {
+        display: none;
+      }
+
+      /* ---- Dilemma video stage ---- */
+      :root {
+        --dilemma-bg: #45bcb1;
+        --dilemma-accent: #f97316;
+        --dilemma-text: #ffffff;
+        --dilemma-font: "Baloo 2", sans-serif;
+        --dilemma-title-weight: 800;
+        --dilemma-pill-weight: 800;
+        --title-size: 8.2cqw;
+        --card-scale: 1;
+        --pill-size: 2.1cqw;
+      }
+      #stage {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        max-height: 78vh;
+        margin: 0 auto;
+        overflow: hidden;
+        border-radius: 18px;
+        box-shadow: 0 20px 60px -20px rgba(0, 0, 0, 0.6);
+        background: var(--dilemma-bg);
+        font-family: var(--dilemma-font);
+        container-type: inline-size;
+        touch-action: none;
+      }
+
+      #stage .stage-glow {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          120% 55% at 50% 6%,
+          rgba(255, 255, 255, 0.38),
+          rgba(255, 255, 255, 0) 65%
+        );
+        pointer-events: none;
+      }
+
+      #stage .draggable {
+        position: absolute;
+        cursor: grab;
+        touch-action: none;
+        user-select: none;
+      }
+      #stage .draggable:active {
+        cursor: grabbing;
+      }
+      #stage .draggable:focus-visible {
+        outline: 2px solid #fff;
+        outline-offset: 3px;
+      }
+
+      #stage .stage-title {
+        transform: translate(-50%, -50%);
+        white-space: nowrap;
+        color: var(--dilemma-text);
+        font-weight: var(--dilemma-title-weight);
+        font-size: var(--title-size);
+        letter-spacing: 0.01em;
+        text-shadow:
+          0 3px 0 rgba(0, 40, 40, 0.25),
+          0 8px 18px rgba(0, 0, 0, 0.2);
+      }
+
+      #stage .card {
+        width: calc(37cqw * var(--card-scale));
+        aspect-ratio: 1.155;
+        background: #fff;
+        border-radius: 5%;
+        padding: 3.2%;
+        box-shadow: 0 14px 30px -10px rgba(0, 0, 0, 0.35);
+        display: flex;
+        flex-direction: column;
+      }
+      #stage .card.a {
+        transform: rotate(-3.5deg);
+      }
+      #stage .card.b {
+        transform: rotate(3.5deg);
+      }
+      #stage .card .photo {
+        position: relative;
+        flex: 0 0 80%;
+        border-radius: 8%;
+        background: #dbeafe;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #93a3b8;
+        font-size: 9cqw;
+        cursor: grab;
+        touch-action: none;
+      }
+      #stage .card .photo:active {
+        cursor: grabbing;
+      }
+      #stage .card .photo img {
+        position: absolute;
+        max-width: none;
+        display: none;
+        pointer-events: none;
+      }
+      #stage .card .photo.has-image i {
+        display: none;
+      }
+      #stage .card .pill {
+        flex: 1;
+        margin-top: 3%;
+        background: #fff;
+        border: 2px solid #eef1f6;
+        border-radius: 999px;
+        padding: 1% 4%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        text-align: center;
+        font-family: var(--dilemma-font);
+        font-weight: var(--dilemma-pill-weight);
+        color: #16213a;
+        font-size: var(--pill-size);
+        line-height: 1.15;
+        box-shadow: 0 6px 14px -6px rgba(0, 0, 0, 0.25);
+        pointer-events: none;
+      }
+
+      #stage .timerTrack {
+        position: absolute;
+        left: 6%;
+        right: 6%;
+        bottom: 4%;
+        height: 3.4%;
+        background: rgba(255, 255, 255, 0.55);
+        border-radius: 999px;
+        overflow: hidden;
+      }
+      #stage .timerFill {
+        height: 100%;
+        width: 100%;
+        background: var(--dilemma-accent);
+        border-radius: 999px;
+      }
+
+      .stage-hint {
+        text-align: center;
+        font-size: 12px;
+        color: #94a3b8;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen bg-slate-950 text-slate-100">
+    <div id="header-container" style="width: 100%"></div>
+
+    <header
+      class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50"
+    >
+      <div
+        class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between"
+      >
+        <div class="flex items-center gap-3">
+          <div
+            class="bg-gradient-to-tr from-violet-600 to-fuchsia-400 p-2.5 rounded-xl text-slate-950 font-black text-xl shadow-lg shadow-violet-500/20"
+          >
+            <i class="fa-solid fa-shuffle"></i>
+          </div>
+          <div>
+            <h1
+              class="font-extrabold text-lg sm:text-xl tracking-tight bg-gradient-to-r from-white via-slate-200 to-violet-300 bg-clip-text text-transparent"
+            >
+              Tu Préfères Studio
+            </h1>
+            <p class="text-xs text-slate-400">
+              Générateur de quiz dilemmes pour TikTok / Shorts / Reels
+            </p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main
+      class="max-w-7xl mx-auto w-full p-4 lg:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start"
+    >
+      <!-- Left: script + editor -->
+      <section
+        class="lg:col-span-5 bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-5"
+      >
+        <div>
+          <label class="block text-xs font-semibold text-slate-400 mb-1"
+            >Titre affiché</label
+          >
+          <input
+            type="text"
+            id="stageTitleInput"
+            value="Tu préfères...?"
+            class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-violet-500 transition"
+          />
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-400 mb-2"
+            >Couleurs</label
+          >
+          <div class="grid grid-cols-3 gap-2">
+            <div>
+              <label class="block text-[10px] text-slate-500 mb-1">Fond</label>
+              <input
+                type="color"
+                id="colorBgInput"
+                value="#45bcb1"
+                class="w-full h-9 bg-slate-950 border border-slate-800 rounded-lg cursor-pointer"
+              />
+            </div>
+            <div>
+              <label class="block text-[10px] text-slate-500 mb-1">Accent</label>
+              <input
+                type="color"
+                id="colorAccentInput"
+                value="#f97316"
+                class="w-full h-9 bg-slate-950 border border-slate-800 rounded-lg cursor-pointer"
+              />
+            </div>
+            <div>
+              <label class="block text-[10px] text-slate-500 mb-1">Texte</label>
+              <input
+                type="color"
+                id="colorTextInput"
+                value="#ffffff"
+                class="w-full h-9 bg-slate-950 border border-slate-800 rounded-lg cursor-pointer"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-3 border-t border-slate-800 space-y-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-1"
+              >Police</label
+            >
+            <select
+              id="fontSelect"
+              class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-violet-500 transition"
+            ></select>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1"
+                >Taille du titre</label
+              >
+              <input
+                type="range"
+                id="titleSizeRange"
+                min="4"
+                max="13"
+                step="0.2"
+                class="w-full accent-violet-500"
+              />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1"
+                >Taille des cartes</label
+              >
+              <input
+                type="range"
+                id="cardSizeRange"
+                min="0.6"
+                max="1.5"
+                step="0.05"
+                class="w-full accent-violet-500"
+              />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1"
+                >Taille du texte des questions</label
+              >
+              <input
+                type="range"
+                id="pillSizeRange"
+                min="1.2"
+                max="3.6"
+                step="0.1"
+                class="w-full accent-violet-500"
+              />
+            </div>
+          </div>
+          <button
+            id="resetLayoutBtn"
+            type="button"
+            class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold px-3 py-2 rounded-xl text-sm transition border border-slate-700"
+          >
+            <i class="fa-solid fa-arrows-to-dot"></i> Réinitialiser la mise en page
+          </button>
+        </div>
+
+        <div class="pt-3 border-t border-slate-800">
+          <div class="flex items-center justify-between mb-2">
+            <h2 class="text-sm font-bold text-slate-200 uppercase tracking-wider">
+              Script (<span id="questionCount">0</span> questions)
+            </h2>
+            <button
+              id="addQuestionBtn"
+              class="text-xs bg-slate-800 hover:bg-slate-700 text-violet-300 font-semibold px-3 py-1.5 rounded-lg border border-slate-700 transition flex items-center gap-1"
+            >
+              <i class="fa-solid fa-plus"></i> Ajouter
+            </button>
+          </div>
+          <div
+            id="questionsList"
+            class="space-y-2 max-h-[220px] overflow-y-auto pr-1"
+          ></div>
+        </div>
+
+        <div class="pt-3 border-t border-slate-800 space-y-4">
+          <h2 class="text-sm font-bold text-slate-200 uppercase tracking-wider">
+            Question sélectionnée
+          </h2>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1"
+                >Option A</label
+              >
+              <input
+                type="text"
+                id="optionAInput"
+                class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-violet-500 transition"
+              />
+              <button
+                id="photoAChooseBtn"
+                type="button"
+                class="mt-2 w-full bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold px-2 py-2 rounded-lg text-xs transition border border-slate-700 flex items-center justify-center gap-1.5"
+              >
+                <i class="fa-solid fa-upload"></i> Photo A
+              </button>
+              <input type="file" id="photoAInput" accept="image/*" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1"
+                >Option B</label
+              >
+              <input
+                type="text"
+                id="optionBInput"
+                class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-violet-500 transition"
+              />
+              <button
+                id="photoBChooseBtn"
+                type="button"
+                class="mt-2 w-full bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold px-2 py-2 rounded-lg text-xs transition border border-slate-700 flex items-center justify-center gap-1.5"
+              >
+                <i class="fa-solid fa-upload"></i> Photo B
+              </button>
+              <input type="file" id="photoBInput" accept="image/*" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1"
+                >Thème / Ambiance</label
+              >
+              <select
+                id="themeSelect"
+                class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-violet-500 transition"
+              >
+                <option>Humour</option>
+                <option>Choquant</option>
+                <option>Vie quotidienne</option>
+                <option>Impossible</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 mb-1"
+                >Timer (sec)</label
+              >
+              <input
+                type="number"
+                id="timerInput"
+                min="2"
+                max="15"
+                class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-violet-500 transition"
+              />
+            </div>
+          </div>
+
+          <button
+            id="deleteQuestionBtn"
+            class="w-full bg-slate-800 hover:bg-red-500/20 text-slate-300 hover:text-red-400 font-semibold px-3 py-2 rounded-xl text-sm transition border border-slate-700"
+          >
+            <i class="fa-solid fa-trash"></i> Supprimer cette question
+          </button>
+        </div>
+
+        <div class="pt-3 border-t border-slate-800 space-y-2">
+          <button
+            id="exportVideoBtn"
+            class="w-full bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white font-extrabold px-4 py-2.5 rounded-xl text-sm transition flex items-center justify-center gap-2 shadow-lg active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <i class="fa-solid fa-file-video"></i>
+            <span id="exportVideoLabel">Télécharger cette question en MP4</span>
+          </button>
+          <div id="exportStatus" class="text-xs text-slate-400 hidden"></div>
+          <p class="text-[11px] text-slate-500">
+            Télécharge uniquement la question sélectionnée dans la liste
+            ci-dessus, sous forme d'une vidéo indépendante.
+          </p>
+        </div>
+      </section>
+
+      <!-- Right: preview player -->
+      <section class="lg:col-span-7 space-y-4">
+        <div id="stage">
+          <div class="stage-glow"></div>
+          <div class="stage-title draggable" id="stageTitle" tabindex="0">Tu préfères...?</div>
+          <div class="card a draggable" id="cardA" tabindex="0">
+            <div class="photo" id="photoABox">
+              <img id="photoAImg" alt="" />
+              <i class="fa-solid fa-image" id="photoAIcon"></i>
+            </div>
+            <div class="pill" id="pillA">Option A</div>
+          </div>
+          <div class="card b draggable" id="cardB" tabindex="0">
+            <div class="photo" id="photoBBox">
+              <img id="photoBImg" alt="" />
+              <i class="fa-solid fa-image" id="photoBIcon"></i>
+            </div>
+            <div class="pill" id="pillB">Option B</div>
+          </div>
+          <div class="timerTrack">
+            <div class="timerFill" id="stageTimerFill"></div>
+          </div>
+        </div>
+        <p class="stage-hint">
+          Glissez le titre ou les cartes sur l'aperçu pour les repositionner.
+        </p>
+
+        <div
+          class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-wrap items-center justify-between gap-3 shadow-lg"
+        >
+          <div class="flex items-center gap-2">
+            <button
+              id="startPauseBtn"
+              class="bg-violet-500 hover:bg-violet-400 text-slate-950 font-extrabold px-5 py-2.5 rounded-xl transition flex items-center gap-2 shadow-lg active:scale-95"
+            >
+              <i class="fa-solid fa-play" id="startPauseIcon"></i>
+              <span id="startPauseLabel">Lancer l'aperçu</span>
+            </button>
+            <button
+              id="restartBtn"
+              class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold p-2.5 rounded-xl transition border border-slate-700 active:scale-95"
+              title="Recommencer"
+            >
+              <i class="fa-solid fa-rotate-left"></i>
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const DEFAULT_QUESTIONS = [
+        { optionA: "Ne plus jamais manger de fromage", optionB: "Ne plus jamais manger de chocolat", theme: "Impossible", timer: 5 },
+        { optionA: "Que tout le monde lise tes recherches Google", optionB: "Que tout le monde lise tes messages privés", theme: "Choquant", timer: 5 },
+        { optionA: "Péter bruyamment à chaque fois que tu ris", optionB: "Roter à chaque fois que tu éternues", theme: "Humour", timer: 5 },
+        { optionA: "Avoir internet ultra lent à vie", optionB: "Ne plus jamais avoir de wifi gratuit dehors", theme: "Vie quotidienne", timer: 5 },
+        { optionA: "Vivre sans musique pour toujours", optionB: "Vivre sans réseaux sociaux pour toujours", theme: "Impossible", timer: 5 },
+        { optionA: "Que ton pire ennemi lise ton journal intime", optionB: "Que ta famille voie tout ton historique", theme: "Choquant", timer: 5 },
+        { optionA: "Avoir une voix aiguë à vie", optionB: "Avoir un rire hyper bizarre à vie", theme: "Humour", timer: 5 },
+        { optionA: "Toujours être en retard partout", optionB: "Toujours être 1h en avance partout", theme: "Vie quotidienne", timer: 5 },
+        { optionA: "Ne plus jamais dormir dans ton lit", optionB: "Ne plus jamais manger ton plat préféré", theme: "Impossible", timer: 5 },
+        { optionA: "Embrasser un inconnu devant tout le monde", optionB: "Danser seul devant toute l'école", theme: "Choquant", timer: 5 },
+        { optionA: "Nourriture coincée dans les dents toute la journée", optionB: "Papier toilette collé à la chaussure toute la journée", theme: "Humour", timer: 5 },
+        { optionA: "Un téléphone qui n'a jamais de batterie", optionB: "Un téléphone qui n'a jamais de son", theme: "Vie quotidienne", timer: 5 },
+      ];
+
+      let questions = DEFAULT_QUESTIONS.map((q, i) => ({
+        id: i + 1,
+        optionA: q.optionA,
+        optionB: q.optionB,
+        theme: q.theme,
+        timer: q.timer,
+        imageA: null,
+        imageB: null,
+        imageAPos: { x: 50, y: 50 },
+        imageBPos: { x: 50, y: 50 },
+      }));
+      let currentIndex = 0;
+      let stageTitle = "Tu préfères...?";
+      let dilemmaColors = { bg: "#45bcb1", accent: "#f97316", text: "#ffffff" };
+
+      const FONTS = [
+        { label: "Baloo 2", css: "'Baloo 2', sans-serif", canvas: '"Baloo 2"', titleWeight: 800, pillWeight: 800 },
+        { label: "Fredoka", css: "'Fredoka', sans-serif", canvas: '"Fredoka"', titleWeight: 700, pillWeight: 600 },
+        { label: "Poppins", css: "'Poppins', sans-serif", canvas: "Poppins", titleWeight: 800, pillWeight: 700 },
+        { label: "Nunito", css: "'Nunito', sans-serif", canvas: "Nunito", titleWeight: 900, pillWeight: 800 },
+        { label: "Bungee", css: "'Bungee', sans-serif", canvas: "Bungee", titleWeight: 400, pillWeight: 400 },
+      ];
+      let fontIndex = 0;
+
+      const CARD_ASPECT = 1.155; // width / height, tuned for the 16:9 landscape frame
+      const DEFAULT_LAYOUT = {
+        title: { x: 50, y: 10, size: 6.2 },
+        cardA: { x: 9, y: 17 },
+        cardB: { x: 50.5, y: 17 },
+        cardScale: 1,
+        pillSize: 2.1,
+      };
+      let layout = JSON.parse(JSON.stringify(DEFAULT_LAYOUT));
+
+      const EXPORT_W = 1280, EXPORT_H = 720; // format unique YouTube 16:9
+
+      let isRunning = false;
+      let playIndex = 0;
+      let playElapsed = 0;
+      let playTimer = null;
+      let audioCtx = null;
+
+      const stageTitleInput = document.getElementById("stageTitleInput");
+      const colorBgInput = document.getElementById("colorBgInput");
+      const colorAccentInput = document.getElementById("colorAccentInput");
+      const colorTextInput = document.getElementById("colorTextInput");
+      const fontSelect = document.getElementById("fontSelect");
+      const titleSizeRange = document.getElementById("titleSizeRange");
+      const cardSizeRange = document.getElementById("cardSizeRange");
+      const pillSizeRange = document.getElementById("pillSizeRange");
+      const resetLayoutBtn = document.getElementById("resetLayoutBtn");
+      const questionsList = document.getElementById("questionsList");
+      const questionCount = document.getElementById("questionCount");
+      const addQuestionBtn = document.getElementById("addQuestionBtn");
+      const optionAInput = document.getElementById("optionAInput");
+      const optionBInput = document.getElementById("optionBInput");
+      const themeSelect = document.getElementById("themeSelect");
+      const timerInput = document.getElementById("timerInput");
+      const deleteQuestionBtn = document.getElementById("deleteQuestionBtn");
+      const photoAChooseBtn = document.getElementById("photoAChooseBtn");
+      const photoBChooseBtn = document.getElementById("photoBChooseBtn");
+      const photoAInput = document.getElementById("photoAInput");
+      const photoBInput = document.getElementById("photoBInput");
+
+      const stageTitleEl = document.getElementById("stageTitle");
+      const cardAEl = document.getElementById("cardA");
+      const cardBEl = document.getElementById("cardB");
+      const photoABox = document.getElementById("photoABox");
+      const photoBBox = document.getElementById("photoBBox");
+      const photoAImg = document.getElementById("photoAImg");
+      const photoBImg = document.getElementById("photoBImg");
+      const pillA = document.getElementById("pillA");
+      const pillB = document.getElementById("pillB");
+      const stageTimerFill = document.getElementById("stageTimerFill");
+
+      const startPauseBtn = document.getElementById("startPauseBtn");
+      const startPauseIcon = document.getElementById("startPauseIcon");
+      const startPauseLabel = document.getElementById("startPauseLabel");
+      const restartBtn = document.getElementById("restartBtn");
+
+      const exportVideoBtn = document.getElementById("exportVideoBtn");
+      const exportStatus = document.getElementById("exportStatus");
+
+      function setExportStatus(msg, isError) {
+        exportStatus.textContent = msg;
+        exportStatus.classList.toggle("hidden", !msg);
+        exportStatus.classList.toggle("text-red-400", !!isError);
+        exportStatus.classList.toggle("text-slate-400", !isError);
+      }
+
+      function renderQuestionsList() {
+        questionsList.innerHTML = "";
+        questionCount.textContent = questions.length;
+        questions.forEach((q, i) => {
+          const el = document.createElement("div");
+          el.className =
+            "q-item p-2.5 rounded-lg bg-slate-950 border border-slate-800 cursor-pointer transition" +
+            (i === currentIndex ? " active" : "");
+          el.innerHTML = `
+            <div class="flex items-center justify-between gap-2 mb-1">
+              <span class="text-xs font-bold text-slate-400">Q${i + 1}</span>
+              <span class="theme-tag theme-${q.theme.split(" ")[0]}">${q.theme}</span>
+            </div>
+            <p class="text-xs text-slate-200 truncate">${q.optionA} <span class="text-slate-500">vs</span> ${q.optionB}</p>
+          `;
+          el.addEventListener("click", () => selectQuestion(i));
+          questionsList.appendChild(el);
+        });
+      }
+
+      function selectQuestion(i) {
+        currentIndex = Math.max(0, Math.min(questions.length - 1, i));
+        renderQuestionsList();
+        loadEditor();
+        renderStage(questions[currentIndex], currentIndex, 0);
+        updateExportLabel();
+      }
+
+      function updateExportLabel() {
+        const q = questions[currentIndex];
+        const exportVideoLabel = document.getElementById("exportVideoLabel");
+        if (q && exportVideoLabel) {
+          exportVideoLabel.textContent = `Télécharger cette question en MP4 (${q.timer}s)`;
+        }
+      }
+
+      function loadEditor() {
+        const q = questions[currentIndex];
+        if (!q) return;
+        optionAInput.value = q.optionA;
+        optionBInput.value = q.optionB;
+        themeSelect.value = q.theme;
+        timerInput.value = q.timer;
+      }
+
+      addQuestionBtn.addEventListener("click", () => {
+        questions.push({
+          id: Date.now(),
+          optionA: "Nouvelle option A",
+          optionB: "Nouvelle option B",
+          theme: "Humour",
+          timer: 5,
+          imageA: null,
+          imageB: null,
+          imageAPos: { x: 50, y: 50 },
+          imageBPos: { x: 50, y: 50 },
+        });
+        selectQuestion(questions.length - 1);
+      });
+
+      deleteQuestionBtn.addEventListener("click", () => {
+        if (questions.length <= 1) return;
+        questions.splice(currentIndex, 1);
+        selectQuestion(Math.min(currentIndex, questions.length - 1));
+      });
+
+      optionAInput.addEventListener("input", () => {
+        questions[currentIndex].optionA = optionAInput.value;
+        renderQuestionsList();
+        renderStage(questions[currentIndex], currentIndex, 0);
+      });
+      optionBInput.addEventListener("input", () => {
+        questions[currentIndex].optionB = optionBInput.value;
+        renderQuestionsList();
+        renderStage(questions[currentIndex], currentIndex, 0);
+      });
+      themeSelect.addEventListener("change", () => {
+        questions[currentIndex].theme = themeSelect.value;
+        renderQuestionsList();
+      });
+      timerInput.addEventListener("change", () => {
+        questions[currentIndex].timer = Math.max(2, parseInt(timerInput.value) || 5);
+        timerInput.value = questions[currentIndex].timer;
+        updateExportLabel();
+      });
+
+      photoAChooseBtn.addEventListener("click", () => photoAInput.click());
+      photoBChooseBtn.addEventListener("click", () => photoBInput.click());
+      photoAInput.addEventListener("change", () => {
+        const f = photoAInput.files && photoAInput.files[0];
+        if (!f) return;
+        const r = new FileReader();
+        r.onload = () => {
+          questions[currentIndex].imageA = r.result;
+          questions[currentIndex].imageAPos = { x: 50, y: 50 };
+          renderStage(questions[currentIndex], currentIndex, 0);
+        };
+        r.readAsDataURL(f);
+      });
+      photoBInput.addEventListener("change", () => {
+        const f = photoBInput.files && photoBInput.files[0];
+        if (!f) return;
+        const r = new FileReader();
+        r.onload = () => {
+          questions[currentIndex].imageB = r.result;
+          questions[currentIndex].imageBPos = { x: 50, y: 50 };
+          renderStage(questions[currentIndex], currentIndex, 0);
+        };
+        r.readAsDataURL(f);
+      });
+
+      stageTitleInput.addEventListener("input", () => {
+        stageTitle = stageTitleInput.value || "Tu préfères...?";
+        stageTitleEl.textContent = stageTitle;
+      });
+      function applyDilemmaColors() {
+        const root = document.documentElement.style;
+        root.setProperty("--dilemma-bg", dilemmaColors.bg);
+        root.setProperty("--dilemma-accent", dilemmaColors.accent);
+        root.setProperty("--dilemma-text", dilemmaColors.text);
+      }
+      colorBgInput.addEventListener("input", (e) => {
+        dilemmaColors.bg = e.target.value;
+        applyDilemmaColors();
+      });
+      colorAccentInput.addEventListener("input", (e) => {
+        dilemmaColors.accent = e.target.value;
+        applyDilemmaColors();
+      });
+      colorTextInput.addEventListener("input", (e) => {
+        dilemmaColors.text = e.target.value;
+        applyDilemmaColors();
+      });
+
+      // ---- Layout: font, sizes, drag & drop positions ----
+      FONTS.forEach((f, i) => {
+        const opt = document.createElement("option");
+        opt.value = i;
+        opt.textContent = f.label;
+        fontSelect.appendChild(opt);
+      });
+
+      function applyLayout() {
+        const root = document.documentElement.style;
+        const font = FONTS[fontIndex];
+        root.setProperty("--dilemma-font", font.css);
+        root.setProperty("--dilemma-title-weight", font.titleWeight);
+        root.setProperty("--dilemma-pill-weight", font.pillWeight);
+        root.setProperty("--title-size", layout.title.size + "cqw");
+        root.setProperty("--card-scale", layout.cardScale);
+        root.setProperty("--pill-size", layout.pillSize + "cqw");
+
+        stageTitleEl.style.left = layout.title.x + "%";
+        stageTitleEl.style.top = layout.title.y + "%";
+        cardAEl.style.left = layout.cardA.x + "%";
+        cardAEl.style.top = layout.cardA.y + "%";
+        cardBEl.style.left = layout.cardB.x + "%";
+        cardBEl.style.top = layout.cardB.y + "%";
+
+        fontSelect.value = fontIndex;
+        titleSizeRange.value = layout.title.size;
+        cardSizeRange.value = layout.cardScale;
+        pillSizeRange.value = layout.pillSize;
+
+        fitPillText(pillA);
+        fitPillText(pillB);
+      }
+
+      fontSelect.addEventListener("change", () => {
+        fontIndex = Number(fontSelect.value);
+        applyLayout();
+      });
+      titleSizeRange.addEventListener("input", () => {
+        layout.title.size = Number(titleSizeRange.value);
+        applyLayout();
+      });
+      cardSizeRange.addEventListener("input", () => {
+        layout.cardScale = Number(cardSizeRange.value);
+        applyLayout();
+      });
+      pillSizeRange.addEventListener("input", () => {
+        layout.pillSize = Number(pillSizeRange.value);
+        applyLayout();
+      });
+      resetLayoutBtn.addEventListener("click", () => {
+        layout = JSON.parse(JSON.stringify(DEFAULT_LAYOUT));
+        applyLayout();
+      });
+
+      function makeDraggable(el, key, anchorCenter) {
+        let dragging = false;
+        let startX = 0, startY = 0, startPos = { x: 0, y: 0 };
+
+        el.addEventListener("pointerdown", (ev) => {
+          dragging = true;
+          el.setPointerCapture(ev.pointerId);
+          startX = ev.clientX;
+          startY = ev.clientY;
+          startPos = { x: layout[key].x, y: layout[key].y };
+          ev.preventDefault();
+        });
+
+        el.addEventListener("pointermove", (ev) => {
+          if (!dragging) return;
+          const rect = stageEl.getBoundingClientRect();
+          const dxPct = ((ev.clientX - startX) / rect.width) * 100;
+          const dyPct = ((ev.clientY - startY) / rect.height) * 100;
+          layout[key].x = Math.max(0, Math.min(100, startPos.x + dxPct));
+          layout[key].y = Math.max(0, Math.min(100, startPos.y + dyPct));
+          el.style.left = layout[key].x + "%";
+          el.style.top = layout[key].y + "%";
+        });
+
+        function end(ev) {
+          if (!dragging) return;
+          dragging = false;
+          try { el.releasePointerCapture(ev.pointerId); } catch (e) {}
+        }
+        el.addEventListener("pointerup", end);
+        el.addEventListener("pointercancel", end);
+
+        el.addEventListener("keydown", (ev) => {
+          const step = ev.shiftKey ? 3 : 1;
+          const pos = layout[key];
+          if (ev.key === "ArrowLeft") pos.x -= step;
+          else if (ev.key === "ArrowRight") pos.x += step;
+          else if (ev.key === "ArrowUp") pos.y -= step;
+          else if (ev.key === "ArrowDown") pos.y += step;
+          else return;
+          ev.preventDefault();
+          pos.x = Math.max(0, Math.min(100, pos.x));
+          pos.y = Math.max(0, Math.min(100, pos.y));
+          el.style.left = pos.x + "%";
+          el.style.top = pos.y + "%";
+        });
+      }
+      makeDraggable(stageTitleEl, "title");
+      makeDraggable(cardAEl, "cardA");
+      makeDraggable(cardBEl, "cardB");
+
+      // ---- Drag-to-pan the photo inside its card (fixed slight over-zoom
+      // so panning has room in both directions regardless of photo shape) ----
+      const PHOTO_SCALE = 1.15;
+
+      function computeMetrics(imgW, imgH, destW, destH, scaleMult) {
+        const baseScale = Math.max(destW / imgW, destH / imgH);
+        const scale = baseScale * scaleMult;
+        const dispW = imgW * scale, dispH = imgH * scale;
+        return {
+          scale, dispW, dispH,
+          maxOffX: Math.max(0, dispW - destW),
+          maxOffY: Math.max(0, dispH - destH),
+        };
+      }
+
+      function layoutPhotoBox(boxEl, imgEl, pos) {
+        if (!pos || imgEl.style.display === "none") return;
+        const rect = boxEl.getBoundingClientRect();
+        const iw = imgEl.naturalWidth, ih = imgEl.naturalHeight;
+        if (!rect.width || !rect.height || !iw || !ih) return;
+        const m = computeMetrics(iw, ih, rect.width, rect.height, PHOTO_SCALE);
+        const offX = m.maxOffX * (pos.x / 100);
+        const offY = m.maxOffY * (pos.y / 100);
+        imgEl.style.width = m.dispW + "px";
+        imgEl.style.height = m.dispH + "px";
+        imgEl.style.left = -offX + "px";
+        imgEl.style.top = -offY + "px";
+      }
+
+      function setupPhotoPan(boxEl, imgEl, getPos) {
+        let dragging = false;
+        let startX = 0, startY = 0, startLeft = 0, startTop = 0, metrics = null;
+
+        boxEl.addEventListener("pointerdown", (ev) => {
+          const pos = getPos();
+          if (!pos || imgEl.style.display === "none") return;
+          const rect = boxEl.getBoundingClientRect();
+          const iw = imgEl.naturalWidth, ih = imgEl.naturalHeight;
+          if (!iw || !ih) return;
+          metrics = computeMetrics(iw, ih, rect.width, rect.height, PHOTO_SCALE);
+          dragging = true;
+          boxEl.setPointerCapture(ev.pointerId);
+          startX = ev.clientX;
+          startY = ev.clientY;
+          startLeft = parseFloat(imgEl.style.left) || 0;
+          startTop = parseFloat(imgEl.style.top) || 0;
+          ev.preventDefault();
+          ev.stopPropagation();
+        });
+
+        boxEl.addEventListener("pointermove", (ev) => {
+          if (!dragging) return;
+          ev.stopPropagation();
+          const pos = getPos();
+          const dx = ev.clientX - startX;
+          const dy = ev.clientY - startY;
+          const newLeft = Math.max(-metrics.maxOffX, Math.min(0, startLeft + dx));
+          const newTop = Math.max(-metrics.maxOffY, Math.min(0, startTop + dy));
+          imgEl.style.left = newLeft + "px";
+          imgEl.style.top = newTop + "px";
+          pos.x = metrics.maxOffX > 0 ? (-newLeft / metrics.maxOffX) * 100 : 50;
+          pos.y = metrics.maxOffY > 0 ? (-newTop / metrics.maxOffY) * 100 : 50;
+        });
+
+        function end(ev) {
+          if (!dragging) return;
+          dragging = false;
+          try { boxEl.releasePointerCapture(ev.pointerId); } catch (e) {}
+        }
+        boxEl.addEventListener("pointerup", end);
+        boxEl.addEventListener("pointercancel", end);
+      }
+
+      setupPhotoPan(photoABox, photoAImg, () => questions[currentIndex].imageAPos);
+      setupPhotoPan(photoBBox, photoBImg, () => questions[currentIndex].imageBPos);
+
+      photoAImg.addEventListener("load", () =>
+        layoutPhotoBox(photoABox, photoAImg, questions[currentIndex].imageAPos),
+      );
+      photoBImg.addEventListener("load", () =>
+        layoutPhotoBox(photoBBox, photoBImg, questions[currentIndex].imageBPos),
+      );
+
+      if (window.ResizeObserver) {
+        new ResizeObserver(() =>
+          layoutPhotoBox(photoABox, photoAImg, questions[currentIndex].imageAPos),
+        ).observe(cardAEl);
+        new ResizeObserver(() =>
+          layoutPhotoBox(photoBBox, photoBImg, questions[currentIndex].imageBPos),
+        ).observe(cardBEl);
+      }
+
+      const stageEl = document.getElementById("stage");
+
+      function setCardPhoto(box, img, dataUrl, hasClass) {
+        if (dataUrl) {
+          img.src = dataUrl;
+          img.style.display = "block";
+          box.classList.add("has-image");
+        } else {
+          img.style.display = "none";
+          box.classList.remove("has-image");
+        }
+      }
+
+      // La taille de pastille choisie par l'utilisateur est une préférence :
+      // si le texte déborde à cette taille, on la réduit localement pour ce
+      // texte précis (sans toucher au réglage global), afin que l'aperçu
+      // corresponde toujours à ce que produit l'export vidéo.
+      function fitPillText(pillEl) {
+        const stageWidth = stageEl.getBoundingClientRect().width;
+        if (!stageWidth) return;
+        let sizePx = stageWidth * (layout.pillSize / 100);
+        pillEl.style.fontSize = sizePx + "px";
+        let guard = 0;
+        while (pillEl.scrollHeight > pillEl.clientHeight + 1 && sizePx > 8 && guard < 40) {
+          sizePx *= 0.94;
+          pillEl.style.fontSize = sizePx + "px";
+          guard++;
+        }
+      }
+
+      function renderStage(q, index, elapsedPct) {
+        if (!q) return;
+        pillA.textContent = q.optionA;
+        pillB.textContent = q.optionB;
+        fitPillText(pillA);
+        fitPillText(pillB);
+        setCardPhoto(photoABox, photoAImg, q.imageA);
+        setCardPhoto(photoBBox, photoBImg, q.imageB);
+        layoutPhotoBox(photoABox, photoAImg, q.imageAPos);
+        layoutPhotoBox(photoBBox, photoBImg, q.imageBPos);
+        stageTimerFill.style.width = Math.max(0, 100 - elapsedPct * 100) + "%";
+      }
+
+      // ---- Live preview playback (loops through all questions) ----
+      function initAudio() {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      function playTick() {
+        try {
+          if (!audioCtx) return;
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = "sine";
+          osc.frequency.value = 500;
+          gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start();
+          osc.stop(audioCtx.currentTime + 0.05);
+        } catch (e) {}
+      }
+      function playPop() {
+        try {
+          if (!audioCtx) return;
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = "triangle";
+          osc.frequency.setValueAtTime(300, audioCtx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(650, audioCtx.currentTime + 0.15);
+          gain.gain.setValueAtTime(0.18, audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.2);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start();
+          osc.stop(audioCtx.currentTime + 0.2);
+        } catch (e) {}
+      }
+
+      function startPreview() {
+        initAudio();
+        isRunning = true;
+        startPauseIcon.className = "fa-solid fa-pause";
+        startPauseLabel.textContent = "Pause";
+        let lastSecond = -1;
+        if (playTimer) clearInterval(playTimer);
+        playTimer = setInterval(() => {
+          playElapsed += 0.1;
+          const q = questions[playIndex];
+          const pct = playElapsed / q.timer;
+          const wholeSec = Math.floor(playElapsed);
+          if (wholeSec !== lastSecond && wholeSec > 0 && playElapsed < q.timer) {
+            playTick();
+            lastSecond = wholeSec;
+          }
+          if (pct >= 1) {
+            playPop();
+            playIndex = (playIndex + 1) % questions.length;
+            playElapsed = 0;
+            lastSecond = -1;
+            selectQuestion(playIndex);
+          } else {
+            renderStage(q, playIndex, pct);
+          }
+        }, 100);
+      }
+      function pausePreview() {
+        isRunning = false;
+        startPauseIcon.className = "fa-solid fa-play";
+        startPauseLabel.textContent = "Lancer l'aperçu";
+        if (playTimer) clearInterval(playTimer);
+      }
+      startPauseBtn.addEventListener("click", () => {
+        if (isRunning) pausePreview();
+        else startPreview();
+      });
+      restartBtn.addEventListener("click", () => {
+        pausePreview();
+        playIndex = 0;
+        playElapsed = 0;
+        selectQuestion(0);
+      });
+
+      // ---- MP4 export (ffmpeg.wasm: PNG frame sequence + rendered audio) ----
+      function loadScriptOnce(src) {
+        return new Promise((resolve, reject) => {
+          if (document.querySelector(`script[src="${src}"]`)) {
+            resolve();
+            return;
+          }
+          const s = document.createElement("script");
+          s.src = src;
+          s.onload = () => resolve();
+          s.onerror = () => reject(new Error("Échec du chargement de " + src));
+          document.head.appendChild(s);
+        });
+      }
+
+      let ffmpegInstance = null;
+      async function getFFmpeg() {
+        if (ffmpegInstance) return ffmpegInstance;
+        setExportStatus("Chargement du moteur vidéo (une seule fois, ~25 Mo)…");
+        await loadScriptOnce("https://unpkg.com/@ffmpeg/util@0.12.1/dist/umd/index.js");
+        await loadScriptOnce("https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/umd/ffmpeg.js");
+        const { FFmpeg } = FFmpegWASM;
+        const ffmpeg = new FFmpeg();
+        // classWorkerURL forces a module-type worker, so the core build must be
+        // the ESM build (has `export default`), not the UMD build.
+        const baseURL = "https://unpkg.com/@ffmpeg/core@0.12.10/dist/esm";
+        const ffmpegBaseURL = "https://unpkg.com/@ffmpeg/ffmpeg@0.12.10/dist/umd";
+        ffmpeg.on("progress", ({ progress }) => {
+          const pct = Math.max(0, Math.min(100, Math.round(progress * 100)));
+          setExportStatus(`Encodage de la vidéo… ${pct}%`);
+        });
+        await ffmpeg.load({
+          coreURL: await FFmpegUtil.toBlobURL(`${baseURL}/ffmpeg-core.js`, "text/javascript"),
+          wasmURL: await FFmpegUtil.toBlobURL(`${baseURL}/ffmpeg-core.wasm`, "application/wasm"),
+          classWorkerURL: await FFmpegUtil.toBlobURL(`${ffmpegBaseURL}/814.ffmpeg.js`, "text/javascript"),
+        });
+        ffmpegInstance = ffmpeg;
+        return ffmpeg;
+      }
+
+      function roundRectPath(ctx, x, y, w, h, r) {
+        ctx.beginPath();
+        ctx.moveTo(x + r, y);
+        ctx.arcTo(x + w, y, x + w, y + h, r);
+        ctx.arcTo(x + w, y + h, x, y + h, r);
+        ctx.arcTo(x, y + h, x, y, r);
+        ctx.arcTo(x, y, x + w, y, r);
+        ctx.closePath();
+      }
+
+      function loadImageEl(dataUrl) {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.onload = () => resolve(img);
+          img.onerror = () => reject(new Error("image_error"));
+          img.src = dataUrl;
+        });
+      }
+
+      function wrapLines(ctx, text, maxWidth) {
+        const words = text.split(" ");
+        const lines = [];
+        let line = "";
+        for (const w of words) {
+          const test = line ? line + " " + w : w;
+          if (ctx.measureText(test).width > maxWidth && line) {
+            lines.push(line);
+            line = w;
+          } else {
+            line = test;
+          }
+        }
+        if (line) lines.push(line);
+        return lines;
+      }
+
+      function drawDilemmaFrame(ctx, W, H, opts) {
+        const { title, optionA, optionB, imgA, imgB, imageAPos, imageBPos, pct } = opts;
+        const colors = dilemmaColors;
+        const font = FONTS[fontIndex];
+
+        // Background
+        ctx.fillStyle = colors.bg;
+        ctx.fillRect(0, 0, W, H);
+        const glow = ctx.createRadialGradient(W * 0.5, H * 0.06, W * 0.1, W * 0.5, H * 0.06, H * 0.6);
+        glow.addColorStop(0, "rgba(255,255,255,0.38)");
+        glow.addColorStop(1, "rgba(255,255,255,0)");
+        ctx.fillStyle = glow;
+        ctx.fillRect(0, 0, W, H);
+
+        // Title (center-anchored at layout.title.x/y, matching the draggable preview)
+        const titleX = W * (layout.title.x / 100);
+        const titleY = H * (layout.title.y / 100);
+        const titleSizePx = W * (layout.title.size / 100);
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.font = font.titleWeight + " " + Math.round(titleSizePx) + "px " + font.canvas;
+        ctx.fillStyle = "rgba(0,40,40,0.22)";
+        ctx.fillText(title.toUpperCase(), titleX, titleY + titleSizePx * 0.05);
+        ctx.fillStyle = colors.text;
+        ctx.fillText(title.toUpperCase(), titleX, titleY);
+
+        // Cards (top-left anchored at layout.cardA/cardB.x/y)
+        const cardW = W * 0.37 * layout.cardScale;
+        const cardsH = cardW / CARD_ASPECT;
+
+        function drawCard(cx, cy, img, text, rotateDeg, pos) {
+          ctx.save();
+          ctx.translate(cx + cardW / 2, cy + cardsH / 2);
+          ctx.rotate((rotateDeg * Math.PI) / 180);
+          ctx.translate(-cardW / 2, -cardsH / 2);
+
+          ctx.fillStyle = "#ffffff";
+          roundRectPath(ctx, 0, 0, cardW, cardsH, cardW * 0.07);
+          ctx.shadowColor = "rgba(0,0,0,0.35)";
+          ctx.shadowBlur = W * 0.02;
+          ctx.shadowOffsetY = H * 0.01;
+          ctx.fill();
+          ctx.shadowColor = "transparent";
+
+          const pad = cardW * 0.07;
+          const innerH = cardsH - pad * 2;
+          const photoH = innerH * 0.8; // la photo occupe 80% de la carte
+          const gap = pad * 0.4;
+          const pillH = innerH - photoH - gap;
+          const photoY = pad;
+
+          ctx.save();
+          roundRectPath(ctx, pad, photoY, cardW - pad * 2, photoH, cardW * 0.05);
+          ctx.clip();
+          ctx.fillStyle = "#dbeafe";
+          ctx.fillRect(pad, photoY, cardW - pad * 2, photoH);
+          if (img) {
+            const destW = cardW - pad * 2;
+            const p = pos || { x: 50, y: 50 };
+            const m = computeMetrics(img.naturalWidth, img.naturalHeight, destW, photoH, PHOTO_SCALE);
+            const offX = m.maxOffX * (p.x / 100);
+            const offY = m.maxOffY * (p.y / 100);
+            const sx = offX / m.scale, sy = offY / m.scale;
+            const sw = destW / m.scale, sh = photoH / m.scale;
+            ctx.drawImage(img, sx, sy, sw, sh, pad, photoY, destW, photoH);
+          } else {
+            ctx.fillStyle = "#93a3b8";
+            ctx.font = "700 " + Math.round(cardW * 0.14) + "px Inter, sans-serif";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText("?", pad + (cardW - pad * 2) / 2, photoY + photoH / 2);
+          }
+          ctx.restore();
+
+          const pillY = photoY + photoH + gap;
+          ctx.fillStyle = "#ffffff";
+          roundRectPath(ctx, pad, pillY, cardW - pad * 2, pillH, pillH / 2);
+          ctx.fill();
+          ctx.strokeStyle = "#eef1f6";
+          ctx.lineWidth = 2;
+          ctx.stroke();
+
+          ctx.fillStyle = "#16213a";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          let fontSize = W * (layout.pillSize / 100);
+          ctx.font = font.pillWeight + " " + Math.round(fontSize) + "px " + font.canvas;
+          let lines = wrapLines(ctx, text, cardW - pad * 3);
+          let lineH = fontSize * 1.12;
+          while (
+            (lines.length > 3 || lineH * lines.length > pillH * 0.88) &&
+            fontSize > cardW * 0.026
+          ) {
+            fontSize *= 0.9;
+            ctx.font = font.pillWeight + " " + Math.round(fontSize) + "px " + font.canvas;
+            lines = wrapLines(ctx, text, cardW - pad * 3);
+            lineH = fontSize * 1.12;
+          }
+          const startY = pillY + pillH / 2 - (lineH * (lines.length - 1)) / 2;
+          lines.forEach((line, i) => {
+            ctx.fillText(line, cardW / 2, startY + i * lineH);
+          });
+
+          ctx.restore();
+        }
+
+        drawCard(W * (layout.cardA.x / 100), H * (layout.cardA.y / 100), imgA, optionA, -3.5, imageAPos);
+        drawCard(W * (layout.cardB.x / 100), H * (layout.cardB.y / 100), imgB, optionB, 3.5, imageBPos);
+
+        // Timer bar
+        const barX = W * 0.06, barY = H * 0.94, barW = W * 0.88, barH = H * 0.017;
+        ctx.fillStyle = "rgba(255,255,255,0.5)";
+        roundRectPath(ctx, barX, barY, barW, barH, barH / 2);
+        ctx.fill();
+        const fillW = Math.max(0, barW * (1 - pct));
+        ctx.fillStyle = colors.accent;
+        roundRectPath(ctx, barX, barY, fillW, barH, barH / 2);
+        ctx.fill();
+      }
+
+      function writeWavString(view, offset, str) {
+        for (let i = 0; i < str.length; i++) view.setUint8(offset + i, str.charCodeAt(i));
+      }
+
+      function encodeWav(audioBuffer) {
+        const numChannels = audioBuffer.numberOfChannels;
+        const sampleRate = audioBuffer.sampleRate;
+        const numFrames = audioBuffer.length;
+        const blockAlign = numChannels * 2;
+        const dataSize = numFrames * blockAlign;
+        const buffer = new ArrayBuffer(44 + dataSize);
+        const view = new DataView(buffer);
+        writeWavString(view, 0, "RIFF");
+        view.setUint32(4, 36 + dataSize, true);
+        writeWavString(view, 8, "WAVE");
+        writeWavString(view, 12, "fmt ");
+        view.setUint32(16, 16, true);
+        view.setUint16(20, 1, true);
+        view.setUint16(22, numChannels, true);
+        view.setUint32(24, sampleRate, true);
+        view.setUint32(28, sampleRate * blockAlign, true);
+        view.setUint16(32, blockAlign, true);
+        view.setUint16(34, 16, true);
+        writeWavString(view, 36, "data");
+        view.setUint32(40, dataSize, true);
+        const channelData = [];
+        for (let c = 0; c < numChannels; c++) channelData.push(audioBuffer.getChannelData(c));
+        let offset = 44;
+        for (let i = 0; i < numFrames; i++) {
+          for (let c = 0; c < numChannels; c++) {
+            let sample = Math.max(-1, Math.min(1, channelData[c][i]));
+            sample = sample < 0 ? sample * 0x8000 : sample * 0x7fff;
+            view.setInt16(offset, sample, true);
+            offset += 2;
+          }
+        }
+        return new Blob([buffer], { type: "audio/wav" });
+      }
+
+      function scheduleTickOffline(ctx, dest, startTime) {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "sine";
+        osc.frequency.value = 500;
+        gain.gain.setValueAtTime(0.12, startTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, startTime + 0.05);
+        osc.connect(gain);
+        gain.connect(dest);
+        osc.start(startTime);
+        osc.stop(startTime + 0.05);
+      }
+      function schedulePopOffline(ctx, dest, startTime) {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "triangle";
+        osc.frequency.setValueAtTime(300, startTime);
+        osc.frequency.exponentialRampToValueAtTime(650, startTime + 0.15);
+        gain.gain.setValueAtTime(0.18, startTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, startTime + 0.2);
+        osc.connect(gain);
+        gain.connect(dest);
+        osc.start(startTime);
+        osc.stop(startTime + 0.2);
+      }
+
+      async function renderAudioTrack(segments, totalDuration) {
+        const sampleRate = 44100;
+        const offlineCtx = new OfflineAudioContext(2, Math.ceil(totalDuration * sampleRate), sampleRate);
+        let t = 0;
+        segments.forEach((durSec, i) => {
+          for (let s = 1; s < Math.ceil(durSec); s++) {
+            scheduleTickOffline(offlineCtx, offlineCtx.destination, t + s);
+          }
+          t += durSec;
+          if (i < segments.length - 1) {
+            schedulePopOffline(offlineCtx, offlineCtx.destination, t - 0.05);
+          }
+        });
+        const rendered = await offlineCtx.startRendering();
+        return encodeWav(rendered);
+      }
+
+      // Exporte uniquement la question actuellement sélectionnée (une vidéo
+      // par dilemme, téléchargée directement par le navigateur).
+      async function exportVideo() {
+        pausePreview();
+        exportVideoBtn.disabled = true;
+        setExportStatus("Préparation…");
+
+        const W = EXPORT_W, H = EXPORT_H, fps = 20;
+        const q = questions[currentIndex];
+
+        try {
+          setExportStatus("Chargement des polices…");
+          try {
+            const f = FONTS[fontIndex];
+            await Promise.all([
+              document.fonts.load(`${f.titleWeight} 90px ${f.canvas}`),
+              document.fonts.load(`${f.pillWeight} 60px ${f.canvas}`),
+            ]);
+            await document.fonts.ready;
+          } catch (e) {}
+
+          setExportStatus("Chargement des photos…");
+          let imgA = null, imgB = null;
+          if (q.imageA) { try { imgA = await loadImageEl(q.imageA); } catch (e) {} }
+          if (q.imageB) { try { imgB = await loadImageEl(q.imageB); } catch (e) {} }
+
+          const canvas = document.createElement("canvas");
+          canvas.width = W; canvas.height = H;
+          const ctx = canvas.getContext("2d");
+
+          const ffmpeg = await getFFmpeg();
+          const writtenFrames = [];
+          const qFrames = Math.max(1, Math.round(q.timer * fps));
+
+          for (let f = 0; f < qFrames; f++) {
+            const pct = f / qFrames;
+            drawDilemmaFrame(ctx, W, H, {
+              title: stageTitle,
+              optionA: q.optionA, optionB: q.optionB, imgA, imgB,
+              imageAPos: q.imageAPos, imageBPos: q.imageBPos, pct,
+            });
+
+            const blob = await new Promise((resolve, reject) => {
+              canvas.toBlob((b) => (b ? resolve(b) : reject(new Error("blob_error"))), "image/jpeg", 0.9);
+            });
+            const buf = new Uint8Array(await blob.arrayBuffer());
+            const name = "frame" + String(f + 1).padStart(5, "0") + ".jpg";
+            await ffmpeg.writeFile(name, buf);
+            writtenFrames.push(name);
+
+            if (f % 4 === 0) {
+              setExportStatus(`Génération des images… ${Math.round((f / qFrames) * 100)}%`);
+            }
+          }
+
+          setExportStatus("Génération du son…");
+          const wavBlob = await renderAudioTrack([q.timer], q.timer);
+          await ffmpeg.writeFile("audio.wav", new Uint8Array(await wavBlob.arrayBuffer()));
+
+          setExportStatus("Encodage de la vidéo…");
+          await ffmpeg.exec([
+            "-y", "-framerate", String(fps), "-i", "frame%05d.jpg",
+            "-i", "audio.wav",
+            "-c:v", "libx264", "-pix_fmt", "yuv420p", "-c:a", "aac",
+            "-shortest", "-movflags", "+faststart", "out.mp4",
+          ]);
+
+          const data = await ffmpeg.readFile("out.mp4");
+          const videoBlob = new Blob([data.buffer], { type: "video/mp4" });
+          const url = URL.createObjectURL(videoBlob);
+          const a = document.createElement("a");
+          a.href = url;
+          const safeName = (q.optionA || "question")
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[̀-ͯ]/g, "")
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/^-+|-+$/g, "");
+          a.download = `tu-preferes-${safeName || "question"}.mp4`;
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          setTimeout(() => URL.revokeObjectURL(url), 4000);
+
+          for (const name of writtenFrames) { try { await ffmpeg.deleteFile(name); } catch (e) {} }
+          try { await ffmpeg.deleteFile("audio.wav"); } catch (e) {}
+          try { await ffmpeg.deleteFile("out.mp4"); } catch (e) {}
+
+          setExportStatus("Vidéo téléchargée ✓");
+          setTimeout(() => setExportStatus(""), 3000);
+        } catch (err) {
+          console.error(err);
+          const detail = err && err.message ? ` (${err.message})` : "";
+          setExportStatus(`Échec de l'export vidéo.${detail}`, true);
+        }
+        exportVideoBtn.disabled = false;
+      }
+
+      exportVideoBtn.addEventListener("click", exportVideo);
+
+      window.onload = () => {
+        renderQuestionsList();
+        loadEditor();
+        renderStage(questions[0], 0, 0);
+        updateExportLabel();
+        applyDilemmaColors();
+        applyLayout();
+      };
+    </script>
+  </body>
+</html>
