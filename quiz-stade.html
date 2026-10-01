@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Quiz Stade — Studio vidéo foot</title>
+<script src="header.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mp4-muxer@5.2.2/build/mp4-muxer.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #07120c; --panel: #0e1d15; --panel2: #13271c; --line: #1f3a2a;
+    --text: #e8f5ec; --muted: #8fb09b; --accent: #2ee07a; --gold: #ffc53d; --danger: #ff5a5a;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font-family: Montserrat, system-ui, sans-serif; }
+  header.top { display: flex; align-items: center; gap: 14px; padding: 16px 20px; border-bottom: 1px solid var(--line);
+    background: linear-gradient(90deg, #0b2416, #07120c); position: sticky; top: 0; z-index: 5; }
+  header.top h1 { font-family: Anton, Impact, sans-serif; letter-spacing: 1px; font-size: 26px; margin: 0; font-weight: 400; }
+  header.top h1 span { color: var(--accent); }
+  header.top .tag { font-size: 12px; color: var(--muted); }
+  .wrap { display: grid; grid-template-columns: minmax(340px, 480px) 1fr; gap: 18px; padding: 18px; max-width: 1700px; margin: 0 auto; }
+  @media (max-width: 1000px) { .wrap { grid-template-columns: 1fr; padding: 12px; } .stage { order: -1; } }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 14px; margin-bottom: 14px; }
+  .panel h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent); margin: 0 0 12px; display: flex; align-items: center; gap: 8px; }
+  label { display: block; font-size: 11px; font-weight: 700; color: var(--muted); margin: 8px 0 4px; text-transform: uppercase; letter-spacing: .6px; }
+  input[type=text], input[type=number], textarea, select {
+    width: 100%; background: #081109; color: var(--text); border: 1px solid var(--line); border-radius: 8px;
+    padding: 8px 10px; font: inherit; font-size: 14px; }
+  textarea { resize: vertical; min-height: 54px; }
+  input:focus, textarea:focus, select:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  button { font: inherit; cursor: pointer; border-radius: 9px; border: 1px solid var(--line); background: var(--panel2); color: var(--text);
+    padding: 8px 12px; font-weight: 700; font-size: 13px; transition: transform .08s, background .15s; }
+  button:hover { background: #1b3526; }
+  button:active { transform: scale(.97); }
+  button.primary { background: var(--accent); color: #032010; border-color: var(--accent); }
+  button.primary:hover { background: #5cf19a; }
+  button.gold { background: var(--gold); color: #2b1d00; border-color: var(--gold); }
+  button.gold:hover { background: #ffd66e; }
+  button.ghost { background: transparent; }
+  button.small { padding: 4px 8px; font-size: 12px; }
+  button:disabled { opacity: .5; cursor: not-allowed; }
+  .btns { display: flex; flex-wrap: wrap; gap: 8px; }
+  .themes { display: grid; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 8px; }
+  .theme { border-radius: 10px; padding: 0; overflow: hidden; border: 2px solid transparent; text-align: left; background: none; }
+  .theme.on { border-color: var(--gold); }
+  .theme .sw { height: 42px; }
+  .theme .nm { font-size: 11px; padding: 5px 7px; background: #081109; }
+  .seg { display: flex; border: 1px solid var(--line); border-radius: 9px; overflow: hidden; }
+  .seg button { flex: 1; border: 0; border-radius: 0; background: transparent; }
+  .seg button.on { background: var(--accent); color: #032010; }
+  .check { display: flex; align-items: center; gap: 8px; font-size: 13px; margin: 6px 0; color: var(--text); text-transform: none; letter-spacing: 0; font-weight: 600; }
+  .check input { accent-color: var(--accent); width: 16px; height: 16px; }
+  .q { background: var(--panel2); border: 1px solid var(--line); border-radius: 12px; padding: 10px; margin-bottom: 10px; }
+  .q.sel { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold) inset; }
+  .q .qh { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
+  .q .num { font-family: Anton, Impact; font-size: 20px; color: var(--gold); min-width: 34px; }
+  .q .qh .sp { flex: 1; }
+  .q .grip { cursor: grab; color: var(--muted); font-size: 20px; padding: 0 4px; user-select: none; }
+  .q.dragging { opacity: .4; }
+  .q.drop-before { box-shadow: 0 -3px 0 var(--gold); }
+  .q.drop-after { box-shadow: 0 3px 0 var(--gold); }
+  .ans { display: grid; grid-template-columns: 28px 1fr 28px; gap: 6px; align-items: center; margin-top: 5px; }
+  .ans .L { font-weight: 900; text-align: center; color: var(--muted); }
+  .ans input[type=radio] { accent-color: var(--accent); width: 18px; height: 18px; }
+  .ans.good input[type=text] { border-color: var(--accent); }
+  .imgrow { display: flex; gap: 8px; align-items: center; margin-top: 8px; flex-wrap: wrap; }
+  .imgrow img { height: 40px; border-radius: 6px; }
+  .stage { position: sticky; top: 100px; align-self: start; }
+  .canvasBox { background: #000; border-radius: 14px; overflow: hidden; border: 1px solid var(--line); display: flex; justify-content: center; }
+  canvas#view { display: block; max-width: 100%; max-height: 68vh; height: auto; }
+  .transport { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
+  .transport input[type=range] { flex: 1; accent-color: var(--accent); }
+  .time { font-variant-numeric: tabular-nums; font-size: 13px; color: var(--muted); min-width: 110px; text-align: right; }
+  .progress { height: 10px; background: #081109; border-radius: 99px; overflow: hidden; border: 1px solid var(--line); margin-top: 10px; display: none; }
+  .progress > div { height: 100%; width: 0; background: linear-gradient(90deg, var(--accent), var(--gold)); transition: width .1s; }
+  .status { font-size: 12px; color: var(--muted); margin-top: 6px; min-height: 16px; }
+  .hint { font-size: 12px; color: var(--muted); line-height: 1.45; }
+  code { background: #081109; padding: 1px 5px; border-radius: 4px; }
+  dialog { background: var(--panel); color: var(--text); border: 1px solid var(--line); border-radius: 14px; width: min(640px, 94vw); }
+  dialog::backdrop { background: rgba(0,0,0,.6); }
+</style>
+</head>
+<body>
+<div id="header-container"></div>
+
+<header class="top">
+  <div style="font-size:30px">⚽</div>
+  <div>
+    <h1>QUIZ <span>STADE</span></h1>
+    <div class="tag">Générateur de vidéos quiz football — export MP4 avec sons (sifflet, chrono, foule)</div>
+  </div>
+</header>
+
+<div class="wrap">
+  <!-- ============ EDITOR ============ -->
+  <div>
+    <div class="panel">
+      <h2>🎲 Surprends-moi</h2>
+      <div class="row">
+        <div>
+          <label>Catégorie</label>
+          <select id="bankCat"></select>
+        </div>
+        <div>
+          <label>Nb de questions</label>
+          <input type="number" id="bankN" value="10" min="1" max="40" />
+        </div>
+      </div>
+      <div class="btns" style="margin-top:10px">
+        <button class="gold" id="btnSurprise">🎲 Générer un quiz surprise</button>
+        <button id="btnAddBank">+ Ajouter 1 question aléatoire</button>
+      </div>
+      <div class="hint" style="margin-top:8px">Pioche dans une banque de questions foot (Mondial, Ligue des champions, CAN, joueurs, clubs…), mélange les réponses et choisit un thème au hasard.</div>
+    </div>
+
+    <div class="panel">
+      <h2>🎬 Vidéo</h2>
+      <label>Titre (intro)</label>
+      <input type="text" id="title" />
+      <label>Sous-titre</label>
+      <input type="text" id="subtitle" />
+      <div class="row">
+        <div><label>Pseudo / chaîne</label><input type="text" id="handle" /></div>
+        <div><label>Logo (optionnel)</label><input type="file" id="logoFile" accept="image/*" /></div>
+      </div>
+
+      <label>Thème</label>
+      <div class="themes" id="themes"></div>
+
+      <label>Format</label>
+      <div class="seg" id="formats">
+        <button data-f="16:9">16:9 YouTube</button>
+        <button data-f="9:16">9:16 Shorts/TikTok</button>
+        <button data-f="1:1">1:1 Insta</button>
+      </div>
+
+      <div class="row3">
+        <div><label>Chrono (s)</label><input type="number" id="timer" min="3" max="30" /></div>
+        <div><label>Réponse (s)</label><input type="number" id="reveal" min="1.5" max="10" step="0.5" /></div>
+        <div><label>FPS</label><select id="fps"><option>30</option><option>60</option></select></div>
+      </div>
+
+      <div class="row" style="margin-top:6px">
+        <label class="check"><input type="checkbox" id="showIntro" /> Intro</label>
+        <label class="check"><input type="checkbox" id="showOutro" /> Outro « ton score ? »</label>
+        <label class="check"><input type="checkbox" id="showCounter" /> Compteur 3/10</label>
+        <label class="check"><input type="checkbox" id="showConfetti" /> Confettis ⚽</label>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>🔊 Son</h2>
+      <div class="row">
+        <label class="check"><input type="checkbox" id="sndSfx" /> Tic-tac + ding</label>
+        <label class="check"><input type="checkbox" id="sndWhistle" /> Sifflet d'arbitre</label>
+        <label class="check"><input type="checkbox" id="sndCrowd" /> Foule qui exulte</label>
+        <label class="check"><input type="checkbox" id="sndBeat" /> Beat « stade »</label>
+      </div>
+      <label>Musique de fond (mp3/wav, optionnel)</label>
+      <input type="file" id="musicFile" accept="audio/*" />
+      <label>Volume musique / beat</label>
+      <input type="range" id="musicVol" min="0" max="1" step="0.05" style="width:100%;accent-color:var(--accent)" />
+    </div>
+
+    <div class="panel">
+      <h2>❓ Questions <span id="qCount" style="color:var(--muted)"></span></h2>
+      <div id="qList"></div>
+      <div class="btns">
+        <button class="primary" id="btnAdd">+ Nouvelle question</button>
+        <button id="btnImportText">📋 Coller du texte</button>
+        <button id="btnJsonOut">💾 Sauver JSON</button>
+        <button id="btnJsonIn">📂 Ouvrir JSON</button>
+        <button class="ghost" id="btnClear">🗑 Tout vider</button>
+        <input type="file" id="jsonFile" accept=".json" hidden />
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ STAGE ============ -->
+  <div class="stage">
+    <div class="canvasBox"><canvas id="view" width="1920" height="1080" tabindex="0"></canvas></div>
+    <div class="transport">
+      <button id="btnPlay" class="primary" style="min-width:92px">▶ Lecture</button>
+      <input type="range" id="scrub" min="0" max="1000" value="0" />
+      <div class="time" id="timeLbl">0:00 / 0:00</div>
+      <button id="btnResetPos" class="small" title="Remettre tous les éléments de ce format à leur place">↺ Positions</button>
+    </div>
+    <div class="hint" style="margin-top:6px">✋ Glisse les éléments dans l'aperçu pour les déplacer (aimant au centre, <b>Maj</b> pour le désactiver). Flèches du clavier pour ajuster au pixel, double-clic pour remettre un élément à sa place. Les positions sont propres à chaque format.</div>
+    <div class="panel" style="margin-top:12px">
+      <h2>📥 Export MP4</h2>
+      <div class="row">
+        <div>
+          <label>Contenu</label>
+          <select id="exportScope">
+            <option value="all">Vidéo complète</option>
+            <option value="one">Question sélectionnée seule (short)</option>
+            <option value="each">Chaque question → 1 MP4</option>
+          </select>
+        </div>
+        <div>
+          <label>Qualité</label>
+          <select id="quality">
+            <option value="8">Standard (8 Mb/s)</option>
+            <option value="14" selected>Haute (14 Mb/s)</option>
+            <option value="4">Légère (4 Mb/s)</option>
+          </select>
+        </div>
+      </div>
+      <div class="btns" style="margin-top:12px">
+        <button class="gold" id="btnExport" style="flex:1;font-size:15px;padding:12px">⬇ Télécharger en MP4</button>
+        <button id="btnCancel" style="display:none">Annuler</button>
+      </div>
+      <div class="progress" id="prog"><div></div></div>
+      <div class="status" id="status"></div>
+      <div class="hint" id="support"></div>
+    </div>
+  </div>
+</div>
+
+<dialog id="dlgText">
+  <h3 style="margin-top:0">Coller des questions</h3>
+  <div class="hint">Une question par ligne. Sépare les réponses par <code>|</code> et mets une <code>*</code> devant la bonne.
+    Optionnel : <code>&gt;&gt; explication</code> à la fin.<br/>
+    Exemple : <code>Qui a gagné le Mondial 2018 ? | *France | Croatie | Belgique | Angleterre &gt;&gt; 4-2 en finale</code></div>
+  <textarea id="bulkText" style="min-height:200px;margin-top:10px"></textarea>
+  <div class="btns" style="margin-top:10px;justify-content:flex-end">
+    <button id="bulkCancel">Annuler</button>
+    <button id="bulkReplace">Remplacer</button>
+    <button class="primary" id="bulkAppend">Ajouter</button>
+  </div>
+</dialog>
+
+<script>
+/* =====================================================================
+   QUESTION BANK
+   ===================================================================== */
+const BANK = {
+  mondial: { name: "Coupe du monde", qs: [
+    ["Quel pays a remporté la Coupe du monde 2022 ?", ["Argentine", "France", "Croatie", "Maroc"], "Victoire aux tirs au but contre la France (3-3, 4-2 t.a.b.)."],
+    ["Combien de Coupes du monde le Brésil a-t-il remportées ?", ["5", "4", "3", "6"], "1958, 1962, 1970, 1994 et 2002."],
+    ["Qui a inscrit un triplé en finale de la Coupe du monde 2022 ?", ["Kylian Mbappé", "Lionel Messi", "Julián Álvarez", "Olivier Giroud"], "Le deuxième triplé en finale après Geoff Hurst en 1966."],
+    ["Quel pays a organisé la Coupe du monde 2010 ?", ["Afrique du Sud", "Brésil", "Allemagne", "Japon"], "La première Coupe du monde sur le sol africain."],
+    ["Quelle sélection africaine a atteint les demi-finales en 2022 ?", ["Maroc", "Sénégal", "Cameroun", "Ghana"], "Une première historique pour une nation africaine."],
+    ["Qui est le meilleur buteur de l'histoire de la Coupe du monde ?", ["Miroslav Klose", "Ronaldo", "Pelé", "Gerd Müller"], "16 buts entre 2002 et 2014."],
+    ["En quelle année la France a-t-elle gagné sa première Coupe du monde ?", ["1998", "2006", "1984", "2002"], "3-0 contre le Brésil au Stade de France."],
+    ["Combien de pays ont co-organisé la Coupe du monde 2026 ?", ["3", "1", "2", "4"], "États-Unis, Canada et Mexique."],
+    ["Qui a marqué « la main de Dieu » en 1986 ?", ["Diego Maradona", "Pelé", "Michel Platini", "Gary Lineker"], "Contre l'Angleterre en quart de finale."],
+    ["Sur quel joueur Zidane a-t-il donné un coup de tête en finale 2006 ?", ["Marco Materazzi", "Fabio Cannavaro", "Gianluigi Buffon", "Andrea Pirlo"], "Zidane est expulsé lors de son dernier match."],
+    ["Qui était le sélectionneur de la France championne du monde 2018 ?", ["Didier Deschamps", "Zinédine Zidane", "Laurent Blanc", "Raymond Domenech"], "Deschamps l'avait déjà gagnée comme joueur en 1998."],
+  ]},
+  ldc: { name: "Ligue des champions", qs: [
+    ["Quel club a remporté le plus de Ligues des champions ?", ["Real Madrid", "AC Milan", "Liverpool", "Bayern Munich"], "Le Real domine l'histoire de la compétition."],
+    ["Quel club français a gagné la Ligue des champions en 1993 ?", ["Marseille", "PSG", "Monaco", "Lyon"], "1-0 contre l'AC Milan, but de Basile Boli."],
+    ["Quel club a remporté la Ligue des champions 2025 ?", ["Paris Saint-Germain", "Inter Milan", "Arsenal", "Barcelone"], "Victoire écrasante 5-0 contre l'Inter à Munich."],
+    ["Qui est le meilleur buteur de l'histoire de la Ligue des champions ?", ["Cristiano Ronaldo", "Lionel Messi", "Robert Lewandowski", "Karim Benzema"], "Plus de 140 buts dans la compétition."],
+    ["Quel Ivoirien a marqué le tir au but décisif de la finale 2012 ?", ["Didier Drogba", "Yaya Touré", "Salomon Kalou", "Gervinho"], "Chelsea bat le Bayern chez lui, à Munich."],
+    ["Quelle musique retentit avant chaque match de Ligue des champions ?", ["Un hymne inspiré de Haendel", "We Are the Champions", "Seven Nation Army", "L'Hymne à la joie"], "Composé par Tony Britten en 1992."],
+  ]},
+  joueurs: { name: "Joueurs", qs: [
+    ["Combien de Ballons d'Or Lionel Messi a-t-il remportés ?", ["8", "7", "6", "5"], "Un record absolu."],
+    ["Qui a remporté le Ballon d'Or 2025 ?", ["Ousmane Dembélé", "Lamine Yamal", "Vitinha", "Mohamed Salah"], "Après une saison historique avec le PSG."],
+    ["Quel joueur est surnommé « La Pulga » ?", ["Lionel Messi", "Neymar", "Luis Suárez", "Sergio Agüero"], "« La puce » en espagnol."],
+    ["Dans quel club Kylian Mbappé a-t-il débuté chez les pros ?", ["AS Monaco", "PSG", "Real Madrid", "Olympique Lyonnais"], "Il y débute à 16 ans en 2015."],
+    ["Quelle est la nationalité d'Erling Haaland ?", ["Norvégienne", "Suédoise", "Danoise", "Islandaise"], "Né à Leeds, il a choisi la Norvège."],
+    ["Quel pays Mohamed Salah représente-t-il ?", ["Égypte", "Maroc", "Tunisie", "Algérie"], "Surnommé « le Pharaon »."],
+    ["Quel joueur a coûté 222 millions d'euros en 2017 ?", ["Neymar", "Kylian Mbappé", "Philippe Coutinho", "João Félix"], "Le transfert le plus cher de l'histoire."],
+    ["Quel club Lionel Messi a-t-il rejoint en 2023 ?", ["Inter Miami", "Al-Hilal", "Barcelone", "LA Galaxy"], "Il a gagné la Leagues Cup dès sa première saison."],
+    ["Combien de Coupes du monde Pelé a-t-il remportées ?", ["3", "2", "1", "4"], "1958, 1962 et 1970."],
+    ["Quel joueur est surnommé « CR7 » ?", ["Cristiano Ronaldo", "Carlos Rodríguez", "Christian Ronaldo", "Cristian Romero"], "C comme Cristiano, R comme Ronaldo, 7 son numéro."],
+  ]},
+  afrique: { name: "Afrique & CAN", qs: [
+    ["Quel est le seul Africain vainqueur du Ballon d'Or ?", ["George Weah", "Samuel Eto'o", "Didier Drogba", "Roger Milla"], "En 1995, avec l'AC Milan."],
+    ["Quel pays a remporté la CAN 2023 (jouée en 2024) ?", ["Côte d'Ivoire", "Nigeria", "Sénégal", "Afrique du Sud"], "À domicile, 2-1 contre le Nigeria en finale."],
+    ["Quel pays détient le record de titres en CAN ?", ["Égypte", "Cameroun", "Ghana", "Nigeria"], "Les Pharaons sont les rois du continent."],
+    ["Quel pays a gagné sa première CAN en 2022 ?", ["Sénégal", "Maroc", "Algérie", "Égypte"], "Aux tirs au but contre l'Égypte."],
+    ["Quel est le surnom actuel de la sélection du Bénin ?", ["Les Guépards", "Les Écureuils", "Les Aigles", "Les Lions"], "Les « Écureuils » ont été rebaptisés en 2020."],
+    ["Quelle sélection est surnommée « les Lions Indomptables » ?", ["Cameroun", "Sénégal", "Maroc", "Ghana"], "À ne pas confondre avec les Lions de la Teranga (Sénégal)."],
+    ["Quel est le surnom de l'équipe du Nigeria ?", ["Super Eagles", "Black Stars", "Les Fennecs", "Bafana Bafana"], "Les Black Stars, c'est le Ghana."],
+    ["Quel pays représente Sadio Mané ?", ["Sénégal", "Guinée", "Mali", "Gambie"], "Il a été élu joueur africain de l'année en 2019 et 2022."],
+    ["Quel pays surnomme son équipe « les Fennecs » ?", ["Algérie", "Tunisie", "Maroc", "Mauritanie"], "Le fennec est un petit renard du désert."],
+  ]},
+  clubs: { name: "Clubs & stades", qs: [
+    ["Quel club est surnommé « les Gunners » ?", ["Arsenal", "Chelsea", "Tottenham", "West Ham"], "À cause de ses origines dans une usine d'armement."],
+    ["Comment s'appelle le stade du FC Barcelone ?", ["Camp Nou", "Santiago Bernabéu", "Mestalla", "Metropolitano"], "Le plus grand stade d'Europe."],
+    ["Quel club joue à Anfield ?", ["Liverpool", "Everton", "Manchester City", "Manchester United"], "« You'll Never Walk Alone »."],
+    ["Quel est le surnom de la Juventus ?", ["La Vieille Dame", "Les Rossoneri", "Les Nerazzurri", "La Louve"], "« La Vecchia Signora »."],
+    ["Quel club a remporté le plus de titres de Ligue 1 ?", ["PSG", "Saint-Étienne", "Marseille", "Lyon"], "Paris a dépassé les 10 titres des Verts."],
+    ["Dans quel pays se trouve l'Ajax ?", ["Pays-Bas", "Belgique", "Allemagne", "Danemark"], "Le club d'Amsterdam, champion d'Europe 4 fois."],
+    ["Quel club a remporté la Premier League 2024-2025 ?", ["Liverpool", "Arsenal", "Manchester City", "Chelsea"], "Le 20e titre de champion d'Angleterre des Reds."],
+    ["Quel pays a remporté l'Euro 2024 ?", ["Espagne", "Angleterre", "France", "Allemagne"], "Un 4e Euro record pour la Roja."],
+  ]},
+  regles: { name: "Règles du jeu", qs: [
+    ["À quelle distance du but se trouve le point de penalty ?", ["11 mètres", "9 mètres", "12 mètres", "16,5 mètres"], "Soit 12 yards."],
+    ["Combien de joueurs par équipe sur le terrain ?", ["11", "10", "12", "9"], "Gardien compris."],
+    ["Combien de points vaut une victoire en championnat ?", ["3", "2", "1", "4"], "Depuis 1994-1995 en France."],
+    ["Quel carton entraîne une expulsion directe ?", ["Rouge", "Jaune", "Bleu", "Blanc"], "Deux jaunes = un rouge."],
+    ["Combien de temps dure une mi-temps ?", ["45 minutes", "40 minutes", "30 minutes", "50 minutes"], "Plus le temps additionnel."],
+  ]},
+  vraifaux: { name: "Vrai ou faux", qs: [
+    ["Le Portugal a déjà gagné une Coupe du monde.", ["Faux", "Vrai"], "Mais il a gagné l'Euro 2016 et 2 Ligues des nations."],
+    ["Lionel Messi a gagné la Coupe du monde.", ["Vrai", "Faux"], "En 2022 au Qatar."],
+    ["Un gardien peut marquer un but.", ["Vrai", "Faux"], "Rogério Ceni en a marqué plus de 130 !"],
+    ["Le Maroc a organisé une Coupe du monde.", ["Faux", "Vrai"], "Mais il co-organisera celle de 2030."],
+    ["La Coupe du monde a lieu tous les 4 ans.", ["Vrai", "Faux"], "Depuis 1930, sauf en 1942 et 1946."],
+  ]},
+};
+
+/* =====================================================================
+   THEMES
+   ===================================================================== */
+const THEMES = {
+  stade: {
+    name: "Stade de nuit", swatch: "linear-gradient(135deg,#0c3b1f,#1a7a3c)",
+    font: "Anton", qColor: "#ffffff", accent: "#ffd23f",
+    pill: "rgba(8,30,16,.82)", pillBorder: "rgba(255,255,255,.35)", pillText: "#ffffff",
+    letterBg: "#ffd23f", letterText: "#0b2a14", good: "#1fd26b", bad: "#e8404a",
+    timerRing: "#ffd23f", timerBg: "#0b2a14", timerText: "#ffffff",
+  },
+  culture: {
+    name: "Culture violet", swatch: "linear-gradient(135deg,#2f1c86,#4629b0)",
+    font: "Montserrat", qColor: "#ffffff", accent: "#f5b82e",
+    pill: "#ffffff", pillBorder: "rgba(0,0,0,.0)", pillText: "#16103a",
+    letterBg: "transparent", letterText: "#3a1fa8", good: "#22c55e", bad: "#ef4444",
+    timerRing: "#f5b82e", timerBg: "#ffffff", timerText: "#111111",
+  },
+  hero: {
+    name: "Hero orange", swatch: "linear-gradient(135deg,#ff6a13,#ff8c2e)",
+    font: "Montserrat", qColor: "#ffffff", accent: "#ffffff",
+    pill: "rgba(255,255,255,.38)", pillBorder: "rgba(255,255,255,.0)", pillText: "#5a1a00",
+    letterBg: "#ff3b3b", letterText: "#ffffff", good: "#34c11d", bad: "#ff3b3b",
+    timerRing: "#ff2d7a", timerBg: "#ff2d7a", timerText: "#ffffff",
+  },
+  ucl: {
+    name: "Nuit étoilée", swatch: "linear-gradient(135deg,#050b2e,#10267a)",
+    font: "Montserrat", qColor: "#ffffff", accent: "#d9b45a",
+    pill: "rgba(18,34,110,.8)", pillBorder: "rgba(217,180,90,.7)", pillText: "#ffffff",
+    letterBg: "#d9b45a", letterText: "#07103a", good: "#1ed760", bad: "#e5484d",
+    timerRing: "#d9b45a", timerBg: "#07103a", timerText: "#ffffff",
+  },
+  or: {
+    name: "Ballon d'Or", swatch: "linear-gradient(135deg,#111,#8a6a1d)",
+    font: "Anton", qColor: "#ffe7a3", accent: "#e8c15a",
+    pill: "rgba(20,16,8,.85)", pillBorder: "#e8c15a", pillText: "#fff4d6",
+    letterBg: "#e8c15a", letterText: "#1a1204", good: "#3ddc84", bad: "#d9534f",
+    timerRing: "#e8c15a", timerBg: "#1a1204", timerText: "#ffe7a3",
+  },
+  afrique: {
+    name: "Soleil d'Afrique", swatch: "linear-gradient(135deg,#0a7a3b,#f2c200,#d7261e)",
+    font: "Anton", qColor: "#ffffff", accent: "#f2c200",
+    pill: "rgba(0,0,0,.55)", pillBorder: "#f2c200", pillText: "#ffffff",
+    letterBg: "#d7261e", letterText: "#ffffff", good: "#16c060", bad: "#d7261e",
+    timerRing: "#f2c200", timerBg: "#0a4d27", timerText: "#ffffff",
+  },
+};
+
+/* =====================================================================
+   STATE
+   ===================================================================== */
+const FORMATS = { "16:9": [1920, 1080], "9:16": [1080, 1920], "1:1": [1080, 1080] };
+const LETTERS = ["A", "B", "C", "D"];
+const images = new Map();   // key -> HTMLImageElement (not persisted in JSON)
+let logoImg = null, musicBuffer = null;
+
+const DEFAULT = {
+  title: "10 QUESTIONS FOOT",
+  subtitle: "Seras-tu capable d'avoir 10/10 ? ⚽",
+  handle: "@mvpfoot",
+  theme: "stade", format: "16:9", timer: 10, reveal: 3, fps: 30,
+  showIntro: true, showOutro: true, showCounter: true, showConfetti: true,
+  sndSfx: true, sndWhistle: true, sndCrowd: true, sndBeat: false, musicVol: 0.35,
+  questions: [],
+  sel: 0,
+  offsets: {},   // format -> element key -> {x, y} as fraction of W/H
+};
+let S = load() || JSON.parse(JSON.stringify(DEFAULT));
+
+function load() {
+  try { const s = localStorage.getItem("quizStade.v1"); if (s) return Object.assign(JSON.parse(JSON.stringify(DEFAULT)), JSON.parse(s)); } catch (e) {}
+  return null;
+}
+function save() {
+  try { localStorage.setItem("quizStade.v1", JSON.stringify(S)); } catch (e) {}
+}
+
+const uid = () => Math.random().toString(36).slice(2, 9);
+function shuffle(a) { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+function fromBank(entry) {
+  const [q, answers, expl] = entry;
+  const correctText = answers[0];
+  const isTF = answers.length === 2 && answers.includes("Vrai");
+  const order = isTF ? ["Vrai", "Faux"] : shuffle(answers);
+  return { id: uid(), q, answers: order, correct: order.indexOf(correctText), expl: expl || "", timer: null, img: null, pixel: false };
+}
+function pickFromBank(cat, n) {
+  let pool = [];
+  for (const [k, c] of Object.entries(BANK)) if (cat === "all" || cat === k) pool.push(...c.qs);
+  const used = new Set(S.questions.map((q) => q.q));
+  const fresh = pool.filter((e) => !used.has(e[0]));
+  return shuffle(fresh.length >= n ? fresh : pool).slice(0, n).map(fromBank);
+}
+
+/* =====================================================================
+   TIMELINE
+   ===================================================================== */
+const INTRO = 3.2, OUTRO = 4.5, ENTER = 1.1, EXIT = 0.45;
+function qDur(q) { return ENTER + (q.timer || S.timer) + S.reveal + (q.expl ? 1.2 : 0) + EXIT; }
+
+function buildTimeline(qs, opts = {}) {
+  const segs = []; let t = 0;
+  const intro = opts.intro ?? S.showIntro, outro = opts.outro ?? S.showOutro;
+  if (intro) { segs.push({ type: "intro", start: t, dur: INTRO }); t += INTRO; }
+  qs.forEach((q, i) => { const d = qDur(q); segs.push({ type: "q", q, idx: opts.idxOffset != null ? opts.idxOffset + i : i, start: t, dur: d }); t += d; });
+  if (outro) { segs.push({ type: "outro", start: t, dur: OUTRO }); t += OUTRO; }
+  return { segs, total: Math.max(t, 0.5), count: opts.count ?? qs.length };
+}
+
+/* =====================================================================
+   DRAW HELPERS
+   ===================================================================== */
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const lerp = (a, b, t) => a + (b - a) * t;
+const easeOut = (t) => 1 - Math.pow(1 - clamp(t), 3);
+const easeIn = (t) => Math.pow(clamp(t), 3);
+const easeBack = (t) => { t = clamp(t); const c = 1.9; return 1 + (c + 1) * Math.pow(t - 1, 3) + c * Math.pow(t - 1, 2); };
+function rng(seed) { return () => { seed |= 0; seed = (seed + 0x6d2b79f5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+
+function rr(ctx, x, y, w, h, r) {
+  r = Math.min(r, h / 2, w / 2);
+  ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
+}
+function fontStr(th, size, weight = 900) {
+  return th.font === "Anton" ? `${size}px Anton, Impact, sans-serif` : `${weight} ${size}px Montserrat, Arial, sans-serif`;
+}
+function wrap(ctx, text, maxW) {
+  const words = String(text).replace(/ ([?!:;»])/g, "\u00a0$1").replace(/« /g, "«\u00a0").split(/ +/); const lines = []; let line = "";
+  for (const w of words) {
+    const test = line ? line + " " + w : w;
+    if (ctx.measureText(test).width > maxW && line) { lines.push(line); line = w; } else line = test;
+  }
+  if (line) lines.push(line);
+  return lines;
+}
+/** Fit text into box: returns {lines, size}. */
+function fit(ctx, th, text, maxW, maxH, maxSize, minSize, weight, lh = 1.15) {
+  for (let s = maxSize; s >= minSize; s -= 2) {
+    ctx.font = fontStr(th, s, weight);
+    const lines = wrap(ctx, text, maxW);
+    const widest = Math.max(...lines.map((l) => ctx.measureText(l).width));
+    if (lines.length * s * lh <= maxH && widest <= maxW) return { lines, size: s };
+  }
+  ctx.font = fontStr(th, minSize, weight);
+  return { lines: wrap(ctx, text, maxW), size: minSize };
+}
+function drawLines(ctx, th, fitRes, cx, cy, color, weight, lh = 1.15, shadow = true) {
+  const { lines, size } = fitRes;
+  ctx.font = fontStr(th, size, weight); ctx.fillStyle = color; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+  if (shadow) { ctx.shadowColor = "rgba(0,0,0,.35)"; ctx.shadowBlur = size * 0.2; ctx.shadowOffsetY = size * 0.06; }
+  const h = lines.length * size * lh; let y = cy - h / 2 + (size * lh) / 2;
+  for (const l of lines) { ctx.fillText(l, cx, y); y += size * lh; }
+  ctx.shadowColor = "transparent"; ctx.shadowBlur = 0; ctx.shadowOffsetY = 0;
+}
+function drawImageCover(ctx, img, x, y, w, h, pixel = 1) {
+  const r = Math.max(w / img.width, h / img.height); const iw = img.width * r, ih = img.height * r;
+  const sx = (iw - w) / 2 / r, sy = (ih - h) / 2 / r, sw = w / r, sh = h / r;
+  if (pixel <= 1) { ctx.drawImage(img, sx, sy, sw, sh, x, y, w, h); return; }
+  const tw = Math.max(2, Math.round(w / pixel)), th = Math.max(2, Math.round(h / pixel));
+  const off = drawImageCover._c || (drawImageCover._c = document.createElement("canvas"));
+  off.width = tw; off.height = th; const o = off.getContext("2d"); o.imageSmoothingEnabled = true;
+  o.drawImage(img, sx, sy, sw, sh, 0, 0, tw, th);
+  ctx.save(); ctx.imageSmoothingEnabled = false; ctx.drawImage(off, 0, 0, tw, th, x, y, w, h); ctx.restore();
+}
+
+/* ---------------- BACKGROUNDS ---------------- */
+function drawBackground(ctx, W, H, th, key, t) {
+  const U = Math.min(W, H) / 1080;
+  if (key === "stade") {
+    const g = ctx.createLinearGradient(0, 0, 0, H); g.addColorStop(0, "#04150a"); g.addColorStop(0.45, "#0d4a23"); g.addColorStop(1, "#146b31");
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+    // mowed stripes in perspective
+    ctx.save(); const horizon = H * 0.28;
+    for (let i = -12; i < 12; i++) {
+      if (i % 2) continue; ctx.beginPath();
+      const x0 = W / 2 + i * W * 0.05, x1 = W / 2 + (i + 1) * W * 0.05, xb0 = W / 2 + i * W * 0.2, xb1 = W / 2 + (i + 1) * W * 0.2;
+      ctx.moveTo(x0, horizon); ctx.lineTo(x1, horizon); ctx.lineTo(xb1, H); ctx.lineTo(xb0, H); ctx.closePath();
+      ctx.fillStyle = "rgba(255,255,255,.035)"; ctx.fill();
+    }
+    // pitch lines
+    ctx.strokeStyle = "rgba(255,255,255,.12)"; ctx.lineWidth = 4 * U;
+    ctx.beginPath(); ctx.ellipse(W / 2, H * 0.78, W * 0.22, H * 0.09, 0, 0, Math.PI * 2); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0, H * 0.78); ctx.lineTo(W, H * 0.78); ctx.stroke();
+    ctx.restore();
+    // floodlights
+    for (const [fx, ph] of [[W * 0.08, 0], [W * 0.92, 1.7]]) {
+      const pulse = 0.85 + 0.15 * Math.sin(t * 1.3 + ph);
+      const rg = ctx.createRadialGradient(fx, 0, 0, fx, 0, H * 0.9);
+      rg.addColorStop(0, `rgba(255,255,230,${0.35 * pulse})`); rg.addColorStop(0.4, `rgba(255,255,220,${0.08 * pulse})`); rg.addColorStop(1, "rgba(255,255,220,0)");
+      ctx.fillStyle = rg; ctx.fillRect(0, 0, W, H);
+    }
+    // haze particles
+    const R = rng(7);
+    for (let i = 0; i < 40; i++) {
+      const x = (R() * W + t * 12 * U * (0.5 + R())) % W, y = R() * H * 0.6; const a = 0.15 + 0.25 * Math.sin(t * 2 + i);
+      ctx.fillStyle = `rgba(255,255,230,${Math.max(0, a) * 0.5})`; ctx.beginPath(); ctx.arc(x, y, (1.5 + R() * 3) * U, 0, 7); ctx.fill();
+    }
+  } else if (key === "culture") {
+    ctx.fillStyle = "#2f1c86"; ctx.fillRect(0, 0, W, H);
+    const rg = ctx.createRadialGradient(W / 2, H * 0.4, 0, W / 2, H * 0.4, Math.max(W, H) * 0.7);
+    rg.addColorStop(0, "rgba(90,60,210,.55)"); rg.addColorStop(1, "rgba(20,10,70,.4)"); ctx.fillStyle = rg; ctx.fillRect(0, 0, W, H);
+    ctx.save(); ctx.font = `900 ${260 * U}px Montserrat`; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    const R = rng(3);
+    for (let i = 0; i < 9; i++) {
+      const x = R() * W, y = R() * H, rot = (R() - 0.5) + Math.sin(t * 0.6 + i) * 0.08, s = 0.4 + R() * 0.9;
+      ctx.save(); ctx.translate(x, y + Math.sin(t * 0.8 + i) * 12 * U); ctx.rotate(rot); ctx.scale(s, s);
+      ctx.fillStyle = "rgba(120,90,255,.18)"; ctx.fillText(i % 3 ? "?" : "⚽", 0, 0); ctx.restore();
+    }
+    ctx.restore();
+  } else if (key === "hero") {
+    const g = ctx.createLinearGradient(0, 0, 0, H); g.addColorStop(0, "#ff6a10"); g.addColorStop(1, "#ff8a2a");
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = "rgba(255,200,120,.22)";
+    const R = rng(11);
+    for (let i = 0; i < 22; i++) {
+      const s = (50 + R() * 50) * U, x = ((R() * W + t * 20 * U) % (W + 200 * U)) - 100 * U, y = R() * H;
+      ctx.beginPath(); ctx.arc(x, y, s * 0.55, Math.PI, 0); ctx.arc(x + s * 0.55, y, s * 0.4, Math.PI, 0); ctx.arc(x - s * 0.5, y + s * 0.05, s * 0.35, Math.PI, 0);
+      ctx.rect(x - s * 0.85, y, s * 1.8, s * 0.12); ctx.fill();
+    }
+  } else if (key === "ucl") {
+    const rg = ctx.createRadialGradient(W / 2, H * 0.35, 0, W / 2, H * 0.35, Math.max(W, H) * 0.8);
+    rg.addColorStop(0, "#1a3aa8"); rg.addColorStop(0.55, "#0a1654"); rg.addColorStop(1, "#030824"); ctx.fillStyle = rg; ctx.fillRect(0, 0, W, H);
+    const R = rng(5);
+    for (let i = 0; i < 90; i++) {
+      const x = R() * W, y = R() * H, s = (2 + R() * 7) * U, tw = 0.4 + 0.6 * Math.abs(Math.sin(t * (0.8 + R()) + i));
+      star(ctx, x, y, s, `rgba(255,255,255,${0.15 + 0.5 * tw * R()})`);
+    }
+    // big star ball
+    ctx.save(); ctx.globalAlpha = 0.08; ctx.translate(W * 0.85, H * 0.8); ctx.rotate(t * 0.1);
+    for (let i = 0; i < 8; i++) { ctx.rotate(Math.PI / 4); star(ctx, 170 * U, 0, 60 * U, "#fff"); }
+    ctx.restore();
+  } else if (key === "or") {
+    const rg = ctx.createRadialGradient(W / 2, H * 0.3, 0, W / 2, H * 0.3, Math.max(W, H) * 0.8);
+    rg.addColorStop(0, "#3a2c0c"); rg.addColorStop(0.6, "#120d04"); rg.addColorStop(1, "#050402"); ctx.fillStyle = rg; ctx.fillRect(0, 0, W, H);
+    ctx.save(); ctx.translate(W / 2, H * 0.3); ctx.rotate(t * 0.05);
+    for (let i = 0; i < 24; i++) {
+      ctx.rotate(Math.PI / 12); const gr = ctx.createLinearGradient(0, 0, Math.max(W, H), 0);
+      gr.addColorStop(0, "rgba(232,193,90,.10)"); gr.addColorStop(1, "rgba(232,193,90,0)");
+      ctx.fillStyle = gr; ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(Math.max(W, H), -40 * U); ctx.lineTo(Math.max(W, H), 40 * U); ctx.closePath(); ctx.fill();
+    }
+    ctx.restore();
+    const R = rng(9);
+    for (let i = 0; i < 50; i++) {
+      const x = R() * W, y = (R() * H - t * 30 * U * (0.3 + R()) + H * 10) % H;
+      ctx.fillStyle = `rgba(255,215,120,${0.2 + 0.4 * R()})`; ctx.beginPath(); ctx.arc(x, y, (1 + R() * 3) * U, 0, 7); ctx.fill();
+    }
+  } else if (key === "afrique") {
+    const g = ctx.createLinearGradient(0, 0, W, H); g.addColorStop(0, "#073d20"); g.addColorStop(1, "#0a6a35");
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+    // sun rays
+    ctx.save(); ctx.translate(W / 2, H * 1.05); ctx.rotate(t * 0.04);
+    for (let i = 0; i < 18; i++) {
+      ctx.rotate(Math.PI / 9); ctx.fillStyle = i % 2 ? "rgba(242,194,0,.07)" : "rgba(215,38,30,.06)";
+      ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(Math.max(W, H) * 1.3, -90 * U); ctx.lineTo(Math.max(W, H) * 1.3, 90 * U); ctx.closePath(); ctx.fill();
+    }
+    ctx.restore();
+    // kente-like band
+    const bh = 18 * U; const cols = ["#f2c200", "#d7261e", "#111", "#16a34a"];
+    for (let x = 0, i = 0; x < W; x += 40 * U, i++) { ctx.fillStyle = cols[i % 4]; ctx.fillRect(x, H - bh, 40 * U, bh); ctx.fillRect(W - x - 40 * U, 0, 40 * U, bh * 0.6); }
+  }
+}
+function star(ctx, x, y, r, color) {
+  ctx.fillStyle = color; ctx.beginPath();
+  for (let i = 0; i < 10; i++) { const a = (i * Math.PI) / 5 - Math.PI / 2, rad = i % 2 ? r * 0.45 : r; ctx.lineTo(x + Math.cos(a) * rad, y + Math.sin(a) * rad); }
+  ctx.closePath(); ctx.fill();
+}
+
+/* ---------------- FOOTBALL ICON ---------------- */
+function drawBall(ctx, x, y, r, rot) {
+  ctx.save(); ctx.translate(x, y); ctx.rotate(rot);
+  ctx.fillStyle = "#fff"; ctx.beginPath(); ctx.arc(0, 0, r, 0, 7); ctx.fill();
+  ctx.save(); ctx.clip();
+  ctx.fillStyle = "#111";
+  const pent = (cx, cy, s) => { ctx.beginPath(); for (let i = 0; i < 5; i++) { const a = (i * 2 * Math.PI) / 5 - Math.PI / 2; ctx.lineTo(cx + Math.cos(a) * s, cy + Math.sin(a) * s); } ctx.closePath(); ctx.fill(); };
+  pent(0, 0, r * 0.36);
+  for (let i = 0; i < 5; i++) { const a = (i * 2 * Math.PI) / 5 - Math.PI / 2; pent(Math.cos(a) * r * 0.95, Math.sin(a) * r * 0.95, r * 0.3); }
+  ctx.strokeStyle = "#111"; ctx.lineWidth = r * 0.05;
+  for (let i = 0; i < 5; i++) { const a = (i * 2 * Math.PI) / 5 - Math.PI / 2; ctx.beginPath(); ctx.moveTo(Math.cos(a) * r * 0.36, Math.sin(a) * r * 0.36); ctx.lineTo(Math.cos(a) * r * 0.7, Math.sin(a) * r * 0.7); ctx.stroke(); }
+  ctx.restore();
+  const sh = ctx.createRadialGradient(-r * 0.35, -r * 0.4, r * 0.1, 0, 0, r);
+  sh.addColorStop(0, "rgba(255,255,255,.35)"); sh.addColorStop(1, "rgba(0,0,0,.35)");
+  ctx.fillStyle = sh; ctx.beginPath(); ctx.arc(0, 0, r, 0, 7); ctx.fill();
+  ctx.restore();
+}
+
+/* ---------------- TIMER ---------------- */
+function drawTimer(ctx, th, cx, cy, r, remain, total, a, U) {
+  if (a <= 0) return;
+  ctx.save(); ctx.globalAlpha = a;
+  const frac = clamp(remain / total);
+  const urgent = remain <= 3 && remain > 0;
+  const beat = urgent ? 1 + 0.08 * Math.max(0, Math.cos((remain % 1) * Math.PI * 2)) : 1;
+  ctx.translate(cx, cy); ctx.scale(beat, beat);
+  ctx.shadowColor = "rgba(0,0,0,.35)"; ctx.shadowBlur = 20 * U;
+  ctx.fillStyle = th.timerBg; ctx.beginPath(); ctx.arc(0, 0, r, 0, 7); ctx.fill(); ctx.shadowBlur = 0;
+  ctx.lineWidth = r * 0.16; ctx.strokeStyle = "rgba(0,0,0,.18)"; ctx.beginPath(); ctx.arc(0, 0, r * 0.88, 0, 7); ctx.stroke();
+  ctx.strokeStyle = urgent ? th.bad : th.timerRing; ctx.lineCap = "round";
+  ctx.beginPath(); ctx.arc(0, 0, r * 0.88, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * frac); ctx.stroke();
+  ctx.fillStyle = urgent ? th.bad : th.timerText; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+  ctx.font = `900 ${r * 0.95}px Montserrat, Arial`;
+  ctx.fillText(String(Math.max(0, Math.ceil(remain - 1e-6))), 0, r * 0.05);
+  ctx.restore();
+}
+
+/* =====================================================================
+   SCENES
+   ===================================================================== */
+function layout(W, H, hasImg) {
+  const U = Math.min(W, H) / 1080, land = W > H * 1.2, port = H > W * 1.2;
+  const m = 60 * U;
+  if (land) {
+    const top = { x: m + 170 * U, y: 50 * U, w: W - 2 * (m + 170 * U), h: 230 * U };
+    const timer = { x: W - m - 90 * U, y: 50 * U + 110 * U, r: 95 * U };
+    const counter = { x: m + 60 * U, y: 50 * U + 110 * U };
+    if (hasImg) {
+      const img = { x: m, y: 320 * U, w: W * 0.44, h: H - 320 * U - 90 * U };
+      const ax = img.x + img.w + 60 * U, aw = W - ax - m;
+      return { U, top, timer, counter, img, answers: (n) => stack(ax, 330 * U, aw, H - 330 * U - 110 * U, n, 26 * U) };
+    }
+    return { U, top, timer, counter, answers: (n) => grid(m, 360 * U, W - 2 * m, H - 360 * U - 120 * U, n, 50 * U, 42 * U) };
+  }
+  // portrait / square
+  const sq = !port;
+  const timer = { x: W / 2, y: (sq ? 110 : 250) * U, r: (sq ? 75 : 105) * U };
+  const counter = { x: m + 60 * U, y: (sq ? 110 : 250) * U };
+  const top = { x: m, y: (sq ? 200 : 380) * U, w: W - 2 * m, h: (sq ? 200 : 330) * U };
+  let y = top.y + top.h + 30 * U;
+  let img = null;
+  if (hasImg) { const ih = sq ? 0 : 560 * U; if (ih) { img = { x: m + 40 * U, y, w: W - 2 * m - 80 * U, h: ih }; y += ih + 40 * U; } }
+  const bottom = H - (sq ? 175 : 230) * U;
+  return { U, top, timer, counter, img, answers: (n) => stack(m, y, W - 2 * m, bottom - y, n, (sq ? 18 : 28) * U, (sq ? 120 : 150) * U) };
+}
+function stack(x, y, w, h, n, gap, maxH = 170) {
+  const ph = Math.min(maxH, (h - gap * (n - 1)) / n); const tot = ph * n + gap * (n - 1); const y0 = y + (h - tot) / 2;
+  return Array.from({ length: n }, (_, i) => ({ x, y: y0 + i * (ph + gap), w, h: ph }));
+}
+function grid(x, y, w, h, n, gx, gy) {
+  const cols = 2, rows = Math.ceil(n / 2); const pw = (w - gx) / 2; const ph = Math.min(210 * (w / 1800), (h - gy * (rows - 1)) / rows);
+  const tot = ph * rows + gy * (rows - 1); const y0 = y + (h - tot) / 2;
+  return Array.from({ length: n }, (_, i) => {
+    const r = Math.floor(i / cols), c = i % cols; const last = n % 2 === 1 && i === n - 1;
+    return { x: last ? x + (w - pw) / 2 : x + c * (pw + gx), y: y0 + r * (ph + gy), w: pw, h: ph };
+  });
+}
+
+/* ---------------- DRAGGABLE POSITIONS ---------------- */
+let HB = null; // hit boxes collected while drawing the preview (null during export)
+function off(key, W, H) {
+  const v = (S.offsets && S.offsets[S.format] && S.offsets[S.format][key]) || { x: 0, y: 0 };
+  return { x: v.x * W, y: v.y * H };
+}
+function hit(key, x, y, w, h) { if (HB) HB.push({ key, x, y, w, h }); }
+function textBox(ctx, fitRes, lh) { return { w: Math.max(...fitRes.lines.map((l) => ctx.measureText(l).width)), h: fitRes.lines.length * fitRes.size * lh }; }
+
+let handleHide = 0;
+function drawHandle(ctx, W, H, th, U, a) {
+  if (!S.handle && !logoImg) return;
+  a *= 1 - handleHide; if (a <= 0.01) return;
+  ctx.save(); ctx.globalAlpha = a * 0.9;
+  const o = off("handle", W, H);
+  const port = H > W * 1.2; const y = (port ? H - 110 * U : H - 50 * U) + o.y; let x = 40 * U + o.x; const x0 = x;
+  if (logoImg) { const s = 64 * U; ctx.drawImage(logoImg, x, y - s / 2, s * (logoImg.width / logoImg.height), s); x += s * (logoImg.width / logoImg.height) + 14 * U; }
+  if (S.handle) { ctx.font = `800 ${34 * U}px Montserrat`; ctx.fillStyle = "#fff"; ctx.textAlign = "left"; ctx.textBaseline = "middle";
+    ctx.shadowColor = "rgba(0,0,0,.5)"; ctx.shadowBlur = 8 * U; ctx.fillText(S.handle, x, y); x += ctx.measureText(S.handle).width; }
+  hit("handle", x0 - 10 * U, y - 38 * U, x - x0 + 20 * U, 76 * U);
+  ctx.restore();
+}
+
+function drawIntro(ctx, W, H, th, lt, dur, total) {
+  const U = Math.min(W, H) / 1080; const port = H > W * 1.2;
+  const out = easeIn((lt - (dur - 0.4)) / 0.4);
+  ctx.save(); ctx.globalAlpha = 1 - out;
+  // ball kicked in
+  const bt = easeOut(lt / 0.9);
+  const by = lerp(-200 * U, H * (port ? 0.3 : 0.26), bt) + Math.abs(Math.sin(lt * 5)) * -25 * U * (1 - clamp(lt / 2));
+  const ob = off("ball", W, H), br = (port ? 120 : 95) * U;
+  drawBall(ctx, W / 2 + ob.x, by + ob.y, br, lt * 4);
+  hit("ball", W / 2 + ob.x - br, H * (port ? 0.3 : 0.26) + ob.y - br, br * 2, br * 2);
+  // title
+  const s = easeBack((lt - 0.35) / 0.55);
+  const otl = off("title", W, H), tx = W / 2 + otl.x, ty = H * (port ? 0.5 : 0.53) + otl.y;
+  ctx.save(); ctx.translate(tx, ty); ctx.scale(s, s);
+  const f = fit(ctx, th, S.title || "QUIZ FOOT", W * 0.86, H * 0.28, 170 * U, 40 * U, 900, 1.05);
+  drawLines(ctx, th, f, 0, 0, th.accent, 900, 1.05);
+  const tb = textBox(ctx, f, 1.05); hit("title", tx - tb.w / 2, ty - tb.h / 2, tb.w, tb.h);
+  ctx.restore();
+  const st = clamp((lt - 0.9) / 0.4);
+  ctx.globalAlpha = (1 - out) * st;
+  const f2 = fit(ctx, { font: "Montserrat" }, S.subtitle || "", W * 0.8, H * 0.12, 58 * U, 26 * U, 800);
+  const osb = off("subtitle", W, H), sy = H * (port ? 0.66 : 0.74) + osb.y;
+  drawLines(ctx, { font: "Montserrat" }, f2, W / 2 + osb.x, sy + (1 - st) * 30 * U, th.qColor, 800);
+  if (S.subtitle) { const sb = textBox(ctx, f2, 1.15); hit("subtitle", W / 2 + osb.x - sb.w / 2, sy - sb.h / 2, sb.w, sb.h); }
+  // pill: N questions • X s
+  ctx.font = `800 ${32 * U}px Montserrat`; const txt = `${total} QUESTION${total > 1 ? "S" : ""}  •  ${S.timer} SECONDES`;
+  const opl = off("pill", W, H);
+  const tw = ctx.measureText(txt).width + 60 * U, py = H * (port ? 0.76 : 0.87) + opl.y, px = W / 2 + opl.x;
+  ctx.fillStyle = "rgba(0,0,0,.35)"; rr(ctx, px - tw / 2, py - 32 * U, tw, 64 * U, 32 * U); ctx.fill();
+  ctx.fillStyle = "#fff"; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText(txt, px, py);
+  hit("pill", px - tw / 2, py - 32 * U, tw, 64 * U);
+  ctx.restore();
+}
+
+function drawOutro(ctx, W, H, th, lt, dur, total) {
+  const U = Math.min(W, H) / 1080; const port = H > W * 1.2;
+  const a = easeOut(lt / 0.5);
+  ctx.save(); ctx.globalAlpha = a;
+  const s = easeBack(lt / 0.6);
+  ctx.save(); ctx.translate(W / 2, H * (port ? 0.3 : 0.28)); ctx.scale(s, s);
+  const f = fit(ctx, th, "ALORS, TON SCORE ?", W * 0.86, H * 0.2, 140 * U, 40 * U, 900, 1.05);
+  drawLines(ctx, th, f, 0, 0, th.accent, 900, 1.05); ctx.restore();
+  // score slot machine
+  ctx.font = `900 ${(port ? 220 : 200) * U}px Montserrat`; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+  ctx.fillStyle = "#fff"; ctx.shadowColor = "rgba(0,0,0,.4)"; ctx.shadowBlur = 20 * U;
+  ctx.fillText(`?/${total}`, W / 2, H * (port ? 0.48 : 0.52)); ctx.shadowBlur = 0;
+  const ft = { font: "Montserrat" };
+  const f2 = fit(ctx, ft, "Écris ton score en commentaire 👇", W * 0.84, 140 * U, 56 * U, 26 * U, 800);
+  drawLines(ctx, ft, f2, W / 2, H * (port ? 0.62 : 0.72), th.qColor, 800);
+  // subscribe button
+  const bt = clamp((lt - 1.2) / 0.4); const pulse = 1 + 0.05 * Math.sin(lt * 7) * bt;
+  ctx.save(); ctx.globalAlpha = a * bt; ctx.translate(W / 2, H * (port ? 0.74 : 0.86)); ctx.scale(pulse, pulse);
+  ctx.font = `900 ${44 * U}px Montserrat`; const lbl = "🔔 ABONNE-TOI"; const bw = ctx.measureText(lbl).width + 90 * U, bh = 96 * U;
+  ctx.fillStyle = "#ff0033"; ctx.shadowColor = "rgba(0,0,0,.4)"; ctx.shadowBlur = 20 * U; rr(ctx, -bw / 2, -bh / 2, bw, bh, bh / 2); ctx.fill(); ctx.shadowBlur = 0;
+  ctx.fillStyle = "#fff"; ctx.fillText(lbl, 0, 2 * U); ctx.restore();
+  ctx.restore();
+}
+
+function drawQuestion(ctx, W, H, th, seg, lt, count) {
+  const q = seg.q; const U = Math.min(W, H) / 1080;
+  const T = q.timer || S.timer; const img = q.img && images.get(q.img);
+  const L = layout(W, H, !!img);
+  const oc = off("counter", W, H), oq = off("question", W, H), ot = off("timer", W, H), oi = off("image", W, H), oa = off("answers", W, H), oe = off("explain", W, H);
+  L.counter = { x: L.counter.x + oc.x, y: L.counter.y + oc.y };
+  L.top = { ...L.top, x: L.top.x + oq.x, y: L.top.y + oq.y };
+  L.timer = { ...L.timer, x: L.timer.x + ot.x, y: L.timer.y + ot.y };
+  if (L.img) L.img = { ...L.img, x: L.img.x + oi.x, y: L.img.y + oi.y };
+  const tCount = lt - ENTER; const tReveal = lt - ENTER - T; const tExit = lt - (seg.dur - EXIT);
+  const exitA = 1 - easeIn(tExit / EXIT);
+  const n = q.answers.length;
+
+  ctx.save(); ctx.globalAlpha = exitA;
+
+  // counter (like 3/10)
+  if (S.showCounter) {
+    const a = easeOut(lt / 0.4); ctx.save(); ctx.globalAlpha = exitA * a;
+    const { x, y } = L.counter; const sz = (H > W * 1.2 ? 64 : 58) * U;
+    ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.font = `900 ${sz}px Montserrat`;
+    ctx.fillStyle = th.accent; ctx.fillText(String(seg.idx + 1), x, y - sz * 0.55);
+    ctx.fillStyle = th.qColor; ctx.fillRect(x - sz * 0.6, y - 3 * U, sz * 1.2, 6 * U);
+    ctx.globalAlpha *= 0.7; ctx.fillText(String(count), x, y + sz * 0.55);
+    ctx.restore(); hit("counter", x - sz * 0.8, y - sz * 1.15, sz * 1.6, sz * 2.3);
+  }
+
+  // question text
+  const qa = easeOut(lt / 0.5); const qs = lerp(0.85, 1, easeBack(lt / 0.5));
+  ctx.save(); ctx.globalAlpha = exitA * qa;
+  const top = L.top; ctx.translate(top.x + top.w / 2, top.y + top.h / 2); ctx.scale(qs, qs);
+  const fq = fit(ctx, th, q.q || "…", top.w, top.h, (th.font === "Anton" ? 96 : 76) * U, 30 * U, 900, 1.12);
+  drawLines(ctx, th, fq, 0, 0, th.qColor, 900, 1.12);
+  const qb = textBox(ctx, fq, 1.12); ctx.restore();
+  hit("question", top.x + top.w / 2 - qb.w / 2, top.y + top.h / 2 - qb.h / 2, qb.w, qb.h);
+
+  // timer
+  const remain = tCount < 0 ? T : Math.max(0, T - tCount);
+  const ta = easeOut((lt - 0.2) / 0.4) * (tReveal > 0 ? 1 - clamp(tReveal / 0.35) : 1);
+  const tr = L.timer; drawTimer(ctx, th, tr.x, tr.y, tr.r * (tReveal > 0 ? 1 + 0.3 * clamp(tReveal / 0.35) : 1), remain, T, ta * exitA, U);
+  if (ta > 0.05) hit("timer", tr.x - tr.r, tr.y - tr.r, tr.r * 2, tr.r * 2);
+
+  // image
+  if (img && L.img) {
+    const ia = easeOut((lt - 0.2) / 0.5); const box = L.img;
+    const pix = q.pixel ? (tReveal >= 0 ? 1 : lerp(70, 6, clamp(tCount / T)) * U * (tCount < 0 ? 1 : 1)) : 1;
+    ctx.save(); ctx.globalAlpha = exitA * ia;
+    const sc = lerp(0.9, 1, easeBack((lt - 0.2) / 0.5)); const cx = box.x + box.w / 2, cy = box.y + box.h / 2;
+    ctx.translate(cx, cy); ctx.scale(sc, sc); ctx.translate(-cx, -cy);
+    ctx.shadowColor = "rgba(0,0,0,.4)"; ctx.shadowBlur = 30 * U; ctx.fillStyle = "#fff";
+    rr(ctx, box.x - 10 * U, box.y - 10 * U, box.w + 20 * U, box.h + 20 * U, 30 * U); ctx.fill(); ctx.shadowBlur = 0;
+    ctx.save(); rr(ctx, box.x, box.y, box.w, box.h, 22 * U); ctx.clip();
+    drawImageCover(ctx, img, box.x, box.y, box.w, box.h, pix);
+    // un-pixel flash on reveal
+    if (q.pixel && tReveal >= 0 && tReveal < 0.4) { ctx.fillStyle = `rgba(255,255,255,${0.7 * (1 - tReveal / 0.4)})`; ctx.fillRect(box.x, box.y, box.w, box.h); }
+    ctx.restore(); ctx.restore();
+    hit("image", box.x, box.y, box.w, box.h);
+  }
+
+  // answers
+  const boxes = L.answers(n).map((b) => ({ ...b, x: b.x + oa.x, y: b.y + oa.y }));
+  if (boxes.length) { const x0 = Math.min(...boxes.map((b) => b.x)), y0 = Math.min(...boxes.map((b) => b.y));
+    hit("answers", x0, y0, Math.max(...boxes.map((b) => b.x + b.w)) - x0, Math.max(...boxes.map((b) => b.y + b.h)) - y0); }
+  const port = H > W * 1.2;
+  boxes.forEach((b, i) => {
+    const appear = lt - (0.45 + i * 0.13);
+    if (appear <= 0) return;
+    const pa = easeOut(appear / 0.35); const ps = easeBack(appear / 0.4);
+    const isGood = i === q.correct; const rv = tReveal >= 0; const rt = clamp(tReveal / 0.35);
+    let alpha = pa, scale = lerp(0.6, 1, ps), fill = th.pill, txt = th.pillText, lbg = th.letterBg, lfg = th.letterText, border = th.pillBorder;
+    if (rv) {
+      if (isGood) {
+        const pulse = 1 + 0.06 * Math.sin(clamp(tReveal / 0.5) * Math.PI) + 0.015 * Math.sin(tReveal * 6);
+        scale *= pulse; fill = mix(th.pill, th.good, rt); txt = rt > 0.5 ? "#ffffff" : txt; lbg = "#ffffff"; lfg = th.good; border = "#ffffff";
+      } else { alpha *= lerp(1, 0.35, rt); }
+    }
+    ctx.save(); ctx.globalAlpha = exitA * alpha;
+    const cx = b.x + b.w / 2, cy = b.y + b.h / 2; ctx.translate(cx, cy); ctx.scale(scale, scale); ctx.translate(-cx, -cy);
+    ctx.shadowColor = "rgba(0,0,0,.28)"; ctx.shadowBlur = 24 * U; ctx.shadowOffsetY = 8 * U;
+    ctx.fillStyle = fill; rr(ctx, b.x, b.y, b.w, b.h, b.h / 2); ctx.fill();
+    ctx.shadowColor = "transparent";
+    if (border && !border.endsWith(",.0)")) { ctx.lineWidth = 4 * U; ctx.strokeStyle = border; ctx.stroke(); }
+    if (rv && isGood) { ctx.save(); ctx.globalAlpha *= 0.6 * (1 - clamp(tReveal / 0.8)); ctx.lineWidth = 12 * U; ctx.strokeStyle = th.good; rr(ctx, b.x - 14 * U * rt, b.y - 14 * U * rt, b.w + 28 * U * rt, b.h + 28 * U * rt, b.h / 2 + 14 * U); ctx.stroke(); ctx.restore(); }
+    // letter bubble
+    const lr = b.h * 0.36, lx = b.x + b.h * 0.52, ly = cy;
+    if (lbg !== "transparent") { ctx.fillStyle = lbg; ctx.beginPath(); ctx.arc(lx, ly, lr, 0, 7); ctx.fill(); }
+    ctx.fillStyle = lfg; ctx.font = `900 ${lr * 1.15}px Montserrat`; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    ctx.fillText(rv && isGood ? "✓" : LETTERS[i], lx, ly + lr * 0.05);
+    // text
+    const tx0 = b.x + b.h * 1.05, tw = b.w - b.h * 1.05 - b.h * 0.45;
+    const fa = fit(ctx, { font: "Montserrat" }, q.answers[i] || "", tw, b.h * 0.8, (port ? 58 : 54) * U * (b.h / (150 * U)) ** 0.3, 20 * U, 800);
+    ctx.save(); ctx.font = fontStr({ font: "Montserrat" }, fa.size, 800); ctx.fillStyle = txt; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    const lh = fa.size * 1.1; let y = cy - (fa.lines.length * lh) / 2 + lh / 2;
+    const center = tx0 + tw / 2;
+    for (const l of fa.lines) { ctx.fillText(l, center, y); y += lh; }
+    ctx.restore();
+    ctx.restore();
+  });
+
+  // confetti from correct answer
+  if (S.showConfetti && tReveal >= 0 && tReveal < 2.6) {
+    const b = boxes[q.correct]; if (b) confetti(ctx, b.x + b.w / 2, b.y + b.h / 2, tReveal, U, seg.idx + 1, th);
+  }
+
+  // explanation banner
+  if (q.expl && tReveal > 0.6) {
+    const et = tReveal - 0.6; const ea = easeOut(et / 0.4); handleHide = ea * exitA;
+    const bw = Math.min(W - 80 * U, 1500 * U); const bh = (port ? 200 : 130) * U;
+    const bx = (W - bw) / 2 + oe.x; const by = H - bh - (port ? 60 : 24) * U + (1 - ea) * 60 * U + oe.y;
+    hit("explain", bx, by, bw, bh);
+    ctx.save(); ctx.globalAlpha = exitA * ea;
+    ctx.fillStyle = "rgba(0,0,0,.72)"; rr(ctx, bx, by, bw, bh, 26 * U); ctx.fill();
+    ctx.fillStyle = th.accent; rr(ctx, bx, by, 14 * U, bh, 7 * U); ctx.fill();
+    ctx.font = `900 ${28 * U}px Montserrat`; ctx.fillStyle = th.accent; ctx.textAlign = "left"; ctx.textBaseline = "top";
+    ctx.fillText("💡 LE SAVAIS-TU ?", bx + 40 * U, by + 18 * U);
+    const fe = fit(ctx, { font: "Montserrat" }, q.expl, bw - 80 * U, bh - 70 * U, 40 * U, 20 * U, 700);
+    ctx.font = fontStr({ font: "Montserrat" }, fe.size, 700); ctx.fillStyle = "#fff"; ctx.textBaseline = "middle";
+    let y = by + 58 * U + (bh - 70 * U) / 2 - (fe.lines.length * fe.size * 1.15) / 2 + (fe.size * 1.15) / 2;
+    for (const l of fe.lines) { ctx.fillText(l, bx + 40 * U, y); y += fe.size * 1.15; }
+    ctx.restore();
+  }
+  ctx.restore();
+}
+function mix(a, b, t) {
+  const pa = parseColor(a), pb = parseColor(b);
+  return `rgba(${Math.round(lerp(pa[0], pb[0], t))},${Math.round(lerp(pa[1], pb[1], t))},${Math.round(lerp(pa[2], pb[2], t))},${lerp(pa[3], pb[3], t)})`;
+}
+function parseColor(c) {
+  if (c.startsWith("#")) { const h = c.length === 4 ? c.slice(1).split("").map((x) => x + x).join("") : c.slice(1); return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16), 1]; }
+  const m = c.match(/[\d.]+/g).map(Number); return [m[0], m[1], m[2], m[3] ?? 1];
+}
+function confetti(ctx, x, y, t, U, seed, th) {
+  const R = rng(seed * 97); const cols = [th.accent, th.good, "#ffffff", "#ff4d8d", "#4dc3ff"];
+  for (let i = 0; i < 70; i++) {
+    const ang = -Math.PI / 2 + (R() - 0.5) * 2.6, sp = (500 + R() * 900) * U; const g = 1500 * U;
+    const px = x + Math.cos(ang) * sp * t, py = y + Math.sin(ang) * sp * t + 0.5 * g * t * t;
+    const a = 1 - clamp((t - 1.6) / 1); const rot = t * (4 + R() * 8); const s = (10 + R() * 14) * U;
+    ctx.save(); ctx.globalAlpha *= a; ctx.translate(px, py); ctx.rotate(rot);
+    if (i % 9 === 0) drawBall(ctx, 0, 0, s * 1.1, rot);
+    else { ctx.fillStyle = cols[i % cols.length]; ctx.fillRect(-s / 2, -s / 4, s, s / 2); }
+    ctx.restore();
+  }
+}
+
+/** Render one frame at global time t for the given timeline. */
+function renderFrame(ctx, W, H, tl, t) {
+  const th = THEMES[S.theme] || THEMES.stade;
+  drawBackground(ctx, W, H, th, S.theme, t);
+  const seg = tl.segs.find((s) => t >= s.start && t < s.start + s.dur) || tl.segs[tl.segs.length - 1];
+  if (!seg) { const U = Math.min(W, H) / 1080; drawLines(ctx, th, fit(ctx, th, "Ajoute des questions ⚽", W * 0.8, H * 0.3, 90 * U, 30 * U, 900), W / 2, H / 2, th.qColor, 900); return; }
+  const lt = clamp(t - seg.start, 0, seg.dur - 1e-4);
+  handleHide = 0;
+  if (seg.type === "intro") drawIntro(ctx, W, H, th, lt, seg.dur, tl.count);
+  else if (seg.type === "outro") drawOutro(ctx, W, H, th, lt, seg.dur, tl.count);
+  else drawQuestion(ctx, W, H, th, seg, lt, tl.count);
+  drawHandle(ctx, W, H, th, Math.min(W, H) / 1080, 1);
+}
+
+/* =====================================================================
+   AUDIO (synthesised with OfflineAudioContext → deterministic)
+   ===================================================================== */
+const SR = 48000;
+function noiseBuffer(ac, secs) {
+  const b = ac.createBuffer(1, Math.ceil(secs * ac.sampleRate), ac.sampleRate); const d = b.getChannelData(0);
+  let s = 12345; for (let i = 0; i < d.length; i++) { s = (s * 16807) % 2147483647; d[i] = (s / 2147483647) * 2 - 1; }
+  return b;
+}
+function env(g, t, a, peak, d, sustain = 0) { g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(peak, t + a); g.gain.exponentialRampToValueAtTime(Math.max(0.0001, sustain), t + a + d); }
+function tone(ac, out, t, freq, dur, vol, type = "sine", freqEnd) {
+  const o = ac.createOscillator(), g = ac.createGain(); o.type = type; o.frequency.setValueAtTime(freq, t);
+  if (freqEnd) o.frequency.exponentialRampToValueAtTime(freqEnd, t + dur);
+  env(g, t, 0.005, vol, dur); o.connect(g).connect(out); o.start(t); o.stop(t + dur + 0.05);
+}
+function tick(ac, out, t, urgent) { tone(ac, out, t, urgent ? 1760 : 1200, 0.06, urgent ? 0.35 : 0.2, "square"); tone(ac, out, t + 0.0, urgent ? 880 : 600, 0.04, 0.15, "triangle"); }
+function ding(ac, out, t) { [[1318.5, 0.35], [1975.5, 0.25], [2637, 0.12]].forEach(([f, v], i) => tone(ac, out, t + i * 0.07, f, 1.4, v)); tone(ac, out, t, 659, 0.8, 0.25, "triangle"); }
+function whoosh(ac, out, nb, t) {
+  const s = ac.createBufferSource(); s.buffer = nb; const f = ac.createBiquadFilter(); f.type = "bandpass"; f.Q.value = 1.4;
+  f.frequency.setValueAtTime(300, t); f.frequency.exponentialRampToValueAtTime(3500, t + 0.35);
+  const g = ac.createGain(); g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(0.35, t + 0.15); g.gain.exponentialRampToValueAtTime(0.001, t + 0.45);
+  s.connect(f).connect(g).connect(out); s.start(t, Math.random()); s.stop(t + 0.5);
+}
+function pop(ac, out, t) { tone(ac, out, t, 520, 0.09, 0.22, "sine", 1100); }
+function whistle(ac, out, t, dur) {
+  const o = ac.createOscillator(); o.type = "sine"; o.frequency.value = 2900;
+  const lfo = ac.createOscillator(); lfo.frequency.value = 38; const lg = ac.createGain(); lg.gain.value = 180; lfo.connect(lg).connect(o.frequency);
+  const o2 = ac.createOscillator(); o2.type = "triangle"; o2.frequency.value = 2900 * 1.5; lg.connect(o2.frequency);
+  const g = ac.createGain(); g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(0.28, t + 0.03); g.gain.setValueAtTime(0.28, t + dur - 0.06); g.gain.linearRampToValueAtTime(0.0001, t + dur);
+  const g2 = ac.createGain(); g2.gain.value = 0.25; o2.connect(g2).connect(g);
+  o.connect(g).connect(out); [o, o2, lfo].forEach((x) => { x.start(t); x.stop(t + dur + 0.02); });
+}
+function crowd(ac, out, nb, t, dur, vol) {
+  // band-limited noise with a slow swell + fast "voices" modulation
+  for (const [fq, q, v] of [[500, 0.7, 1], [1200, 1.2, 0.6], [2400, 2, 0.25]]) {
+    const s = ac.createBufferSource(); s.buffer = nb; s.loop = true;
+    const f = ac.createBiquadFilter(); f.type = "bandpass"; f.frequency.value = fq; f.Q.value = q;
+    const g = ac.createGain(); g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(vol * v, t + 0.25);
+    g.gain.setValueAtTime(vol * v, t + dur * 0.4); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    const am = ac.createOscillator(); am.frequency.value = 5 + fq / 400; const amg = ac.createGain(); amg.gain.value = vol * v * 0.3; am.connect(amg).connect(g.gain);
+    s.connect(f).connect(g).connect(out); s.start(t, (fq % 7) * 0.1); s.stop(t + dur); am.start(t); am.stop(t + dur);
+  }
+}
+function beat(ac, out, nb, t0, t1, vol) {
+  const bpm = 118, spb = 60 / bpm;
+  for (let t = t0, i = 0; t < t1; t += spb / 2, i++) {
+    if (i % 2 === 0) { // kick
+      const o = ac.createOscillator(), g = ac.createGain(); o.frequency.setValueAtTime(140, t); o.frequency.exponentialRampToValueAtTime(45, t + 0.18);
+      env(g, t, 0.003, 0.9 * vol, 0.25); o.connect(g).connect(out); o.start(t); o.stop(t + 0.3);
+    }
+    if (i % 4 === 2) { // clap (stadium clap)
+      const s = ac.createBufferSource(); s.buffer = nb; const f = ac.createBiquadFilter(); f.type = "bandpass"; f.frequency.value = 1500; f.Q.value = 0.8;
+      const g = ac.createGain(); env(g, t, 0.002, 0.7 * vol, 0.15); s.connect(f).connect(g).connect(out); s.start(t, (i % 13) * 0.05); s.stop(t + 0.2);
+    }
+    // hat
+    const s = ac.createBufferSource(); s.buffer = nb; const f = ac.createBiquadFilter(); f.type = "highpass"; f.frequency.value = 7000;
+    const g = ac.createGain(); env(g, t, 0.001, 0.18 * vol, 0.04); s.connect(f).connect(g).connect(out); s.start(t, (i % 17) * 0.03); s.stop(t + 0.06);
+    // bass pulse on beats
+    if (i % 8 === 0) { const notes = [55, 55, 65.4, 49]; tone(ac, out, t, notes[(i / 8) % 4], spb * 3.5, 0.35 * vol, "triangle"); }
+  }
+}
+
+async function renderAudio(tl) {
+  const len = Math.ceil(tl.total * SR);
+  const ac = new OfflineAudioContext(2, len, SR);
+  const master = ac.createDynamicsCompressor(); master.threshold.value = -12; master.ratio.value = 4; master.connect(ac.destination);
+  const sfx = ac.createGain(); sfx.gain.value = 0.9; sfx.connect(master);
+  const nb = noiseBuffer(ac, 3);
+  // background
+  if (musicBuffer) {
+    const src = ac.createBufferSource(); src.buffer = musicBuffer; src.loop = true; const g = ac.createGain();
+    g.gain.setValueAtTime(S.musicVol, 0); g.gain.setValueAtTime(S.musicVol, Math.max(0, tl.total - 1.5)); g.gain.linearRampToValueAtTime(0.0001, tl.total);
+    src.connect(g).connect(master); src.start(0);
+  } else if (S.sndBeat) { const g = ac.createGain(); g.gain.value = 1; g.connect(master); beat(ac, g, nb, 0, tl.total - 0.5, S.musicVol); }
+
+  for (const seg of tl.segs) {
+    const t0 = seg.start;
+    if (seg.type === "intro") {
+      if (S.sndSfx) whoosh(ac, sfx, nb, t0 + 0.05);
+      if (S.sndWhistle) whistle(ac, sfx, t0 + 1.0, 0.7);
+      if (S.sndCrowd) crowd(ac, sfx, nb, t0 + 0.8, 2.2, 0.25);
+    } else if (seg.type === "outro") {
+      if (S.sndWhistle) { whistle(ac, sfx, t0 + 0.2, 0.35); whistle(ac, sfx, t0 + 0.7, 0.35); whistle(ac, sfx, t0 + 1.2, 1.0); }
+      if (S.sndCrowd) crowd(ac, sfx, nb, t0 + 1.0, 3.2, 0.35);
+    } else {
+      const q = seg.q; const T = q.timer || S.timer;
+      if (S.sndSfx) {
+        whoosh(ac, sfx, nb, t0);
+        q.answers.forEach((_, i) => pop(ac, sfx, t0 + 0.45 + i * 0.13 + 0.05));
+        for (let k = 0; k < T; k++) tick(ac, sfx, t0 + ENTER + k, T - k <= 3);
+        ding(ac, sfx, t0 + ENTER + T);
+      }
+      if (S.sndWhistle && !S.sndSfx) whistle(ac, sfx, t0 + ENTER + T, 0.5);
+      if (S.sndCrowd) crowd(ac, sfx, nb, t0 + ENTER + T + 0.05, Math.min(2.6, S.reveal + 0.8), 0.45);
+    }
+  }
+  return ac.startRendering();
+}
+
+/* =====================================================================
+   PREVIEW PLAYER
+   ===================================================================== */
+const view = document.getElementById("view"); const vctx = view.getContext("2d");
+let TL = null, playing = false, playT = 0, playStart = 0, liveAC = null, liveSrc = null, audioCache = null, audioDirty = true;
+
+function previewTimeline() { return buildTimeline(S.questions); }
+function resize() { const [w, h] = FORMATS[S.format]; if (view.width !== w || view.height !== h) { view.width = w; view.height = h; } }
+function draw() {
+  resize(); TL = previewTimeline();
+  HB = []; renderFrame(vctx, view.width, view.height, TL, playT); hitBoxes = HB; HB = null;
+  drawOverlay(); updateTime();
+}
+
+/* ---- drag & drop of elements on the preview ---- */
+const LABELS = { counter: "Compteur", question: "Question", timer: "Chrono", image: "Image", answers: "Réponses", explain: "Le savais-tu",
+  handle: "Pseudo / logo", ball: "Ballon", title: "Titre", subtitle: "Sous-titre", pill: "Infos" };
+let hitBoxes = [], hoverKey = null, overCanvas = false, drag = null, guides = [], selKey = null;
+function drawOverlay() {
+  if (playing || (!overCanvas && !drag)) return;
+  const W = view.width, U = Math.min(W, view.height) / 1080, px = W / view.clientWidth;
+  vctx.save();
+  for (const b of hitBoxes) {
+    const on = b.key === (drag ? drag.key : hoverKey) || b.key === selKey;
+    vctx.setLineDash(on ? [] : [10 * px, 8 * px]); vctx.lineWidth = (on ? 3 : 1.5) * px;
+    vctx.strokeStyle = on ? "#ffc53d" : "rgba(255,255,255,.55)"; vctx.strokeRect(b.x, b.y, b.w, b.h);
+    if (on) {
+      const lbl = LABELS[b.key] || b.key; vctx.font = `800 ${13 * px}px Montserrat`; const lw = vctx.measureText(lbl).width + 14 * px;
+      const ly = b.y > 24 * px ? b.y - 22 * px : b.y + b.h;
+      vctx.fillStyle = "#ffc53d"; vctx.fillRect(b.x, ly, lw, 22 * px);
+      vctx.fillStyle = "#2b1d00"; vctx.textBaseline = "middle"; vctx.textAlign = "left"; vctx.fillText(lbl, b.x + 7 * px, ly + 11 * px);
+    }
+  }
+  vctx.setLineDash([]); vctx.strokeStyle = "#ff3df2"; vctx.lineWidth = 2 * px;
+  for (const g of guides) { vctx.beginPath(); if (g.x != null) { vctx.moveTo(g.x, 0); vctx.lineTo(g.x, view.height); } else { vctx.moveTo(0, g.y); vctx.lineTo(W, g.y); } vctx.stroke(); }
+  vctx.restore(); void U;
+}
+function canvasPoint(e) { const r = view.getBoundingClientRect(); return { x: (e.clientX - r.left) * (view.width / r.width), y: (e.clientY - r.top) * (view.height / r.height) }; }
+function boxAt(p) { for (let i = hitBoxes.length - 1; i >= 0; i--) { const b = hitBoxes[i]; if (p.x >= b.x && p.x <= b.x + b.w && p.y >= b.y && p.y <= b.y + b.h) return b; } return null; }
+function getOff(key) { const f = (S.offsets[S.format] ||= {}); return (f[key] ||= { x: 0, y: 0 }); }
+view.addEventListener("pointerdown", (e) => {
+  const p = canvasPoint(e); const b = boxAt(p); if (!b) { selKey = null; draw(); return; }
+  if (playing) pause();
+  const o = getOff(b.key); drag = { key: b.key, p0: p, o0: { ...o }, box: { ...b } }; selKey = b.key;
+  view.setPointerCapture(e.pointerId); view.style.cursor = "grabbing"; e.preventDefault();
+});
+view.addEventListener("pointermove", (e) => {
+  const p = canvasPoint(e); const W = view.width, H = view.height;
+  if (!drag) { const b = boxAt(p); const k = b ? b.key : null; view.style.cursor = b ? "grab" : "default"; if (k !== hoverKey) { hoverKey = k; draw(); } return; }
+  let dx = p.x - drag.p0.x, dy = p.y - drag.p0.y; guides = [];
+  if (!e.shiftKey) { // snap: canvas centre + original position (Maj = pas d'aimant)
+    const thr = 10 * (W / view.clientWidth); const b = drag.box;
+    const cx = b.x + b.w / 2 + dx, cy = b.y + b.h / 2 + dy;
+    const ox = (drag.o0.x * W + dx), oy = (drag.o0.y * H + dy);
+    if (Math.abs(cx - W / 2) < thr) { dx += W / 2 - cx; guides.push({ x: W / 2 }); }
+    else if (Math.abs(ox) < thr) { dx -= ox; guides.push({ x: b.x + b.w / 2 - drag.o0.x * W }); }
+    if (Math.abs(cy - H / 2) < thr) { dy += H / 2 - cy; guides.push({ y: H / 2 }); }
+    else if (Math.abs(oy) < thr) { dy -= oy; guides.push({ y: b.y + b.h / 2 - drag.o0.y * H }); }
+  }
+  const o = getOff(drag.key); o.x = drag.o0.x + dx / W; o.y = drag.o0.y + dy / H; draw();
+});
+function endDrag() { if (!drag) return; drag = null; guides = []; view.style.cursor = "grab"; save(); draw(); }
+view.addEventListener("pointerup", endDrag); view.addEventListener("pointercancel", endDrag);
+view.addEventListener("pointerenter", () => { overCanvas = true; if (!playing) draw(); });
+view.addEventListener("pointerleave", () => { overCanvas = false; hoverKey = null; if (!drag && !playing) draw(); });
+view.addEventListener("dblclick", (e) => { const b = boxAt(canvasPoint(e)); if (b && S.offsets[S.format]) { delete S.offsets[S.format][b.key]; save(); draw(); } });
+view.addEventListener("keydown", (e) => {
+  if (!selKey || !e.key.startsWith("Arrow")) return; e.preventDefault();
+  const step = e.shiftKey ? 10 : 1; const o = getOff(selKey);
+  if (e.key === "ArrowLeft") o.x -= step / view.width; if (e.key === "ArrowRight") o.x += step / view.width;
+  if (e.key === "ArrowUp") o.y -= step / view.height; if (e.key === "ArrowDown") o.y += step / view.height;
+  save(); draw();
+});
+function fmt(s) { s = Math.max(0, s); return `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`; }
+function updateTime() {
+  document.getElementById("timeLbl").textContent = `${fmt(playT)} / ${fmt(TL.total)}`;
+  if (!scrubbing) document.getElementById("scrub").value = String(Math.round((playT / TL.total) * 1000));
+}
+async function play() {
+  TL = previewTimeline(); if (playT >= TL.total - 0.05) playT = 0;
+  playing = true; document.getElementById("btnPlay").textContent = "⏸ Pause";
+  try {
+    if (audioDirty || !audioCache) { audioCache = await renderAudio(TL); audioDirty = false; }
+    liveAC = liveAC || new AudioContext(); await liveAC.resume();
+    liveSrc = liveAC.createBufferSource(); liveSrc.buffer = audioCache; liveSrc.connect(liveAC.destination);
+    liveSrc.start(0, Math.min(playT, audioCache.duration - 0.01));
+    playStart = liveAC.currentTime - playT;
+  } catch (e) { console.warn(e); liveAC = null; playStart = performance.now() / 1000 - playT; }
+  if (!playing) return stopAudio();
+  requestAnimationFrame(loop);
+}
+function now() { return liveAC && liveSrc ? liveAC.currentTime : performance.now() / 1000; }
+function loop() {
+  if (!playing) return;
+  playT = now() - playStart;
+  if (playT >= TL.total) { playT = TL.total; pause(); draw(); return; }
+  draw(); requestAnimationFrame(loop);
+}
+function stopAudio() { try { liveSrc && liveSrc.stop(); } catch (e) {} liveSrc = null; }
+function pause() { playing = false; stopAudio(); document.getElementById("btnPlay").textContent = "▶ Lecture"; }
+let scrubbing = false;
+const scrub = document.getElementById("scrub");
+scrub.addEventListener("input", () => { scrubbing = true; const was = playing; if (was) pause(); playT = (scrub.value / 1000) * TL.total; draw(); scrubbing = false; });
+document.getElementById("btnPlay").onclick = () => (playing ? pause() : play());
+function seekToQuestion(i) {
+  const seg = TL && TL.segs.find((s) => s.type === "q" && s.idx === i);
+  if (seg) { if (playing) pause(); playT = seg.start + ENTER + (seg.q.timer || S.timer) * 0.5; draw(); }
+}
+
+/* =====================================================================
+   EXPORT (WebCodecs + mp4-muxer)
+   ===================================================================== */
+document.getElementById("btnResetPos").onclick = () => { S.offsets[S.format] = {}; selKey = null; save(); draw(); };
+let cancelFlag = false;
+const statusEl = document.getElementById("status"), progEl = document.getElementById("prog");
+function setProg(p, msg) { progEl.style.display = "block"; progEl.firstElementChild.style.width = `${Math.round(p * 100)}%`; if (msg) statusEl.textContent = msg; }
+
+async function pickVideoCodec(w, h, fps, bitrate) {
+  for (const codec of ["avc1.640033", "avc1.640028", "avc1.4d0033", "avc1.4d0028", "avc1.42003e", "avc1.42002a"]) {
+    const cfg = { codec, width: w, height: h, bitrate, framerate: fps, avc: { format: "avc" } };
+    try { const r = await VideoEncoder.isConfigSupported(cfg); if (r.supported) return cfg; } catch (e) {}
+  }
+  return null;
+}
+async function pickAudioCodec() {
+  if (!("AudioEncoder" in window)) return null;
+  for (const [codec, muxCodec] of [["mp4a.40.2", "aac"], ["opus", "opus"]]) {
+    const cfg = { codec, sampleRate: SR, numberOfChannels: 2, bitrate: 160000 };
+    try { const r = await AudioEncoder.isConfigSupported(cfg); if (r.supported) return { cfg, muxCodec }; } catch (e) {}
+  }
+  return null;
+}
+
+async function encodeMp4(tl, filename, label) {
+  const [W, H] = FORMATS[S.format]; const fps = +S.fps; const bitrate = +document.getElementById("quality").value * 1e6;
+  const vcfg = await pickVideoCodec(W, H, fps, bitrate);
+  if (!vcfg) throw new Error("Ton navigateur ne sait pas encoder en H.264. Utilise Chrome, Edge ou Safari récent.");
+  const acodec = await pickAudioCodec();
+  const hasAudio = !!acodec && (S.sndSfx || S.sndWhistle || S.sndCrowd || S.sndBeat || musicBuffer);
+
+  const muxer = new Mp4Muxer.Muxer({
+    target: new Mp4Muxer.ArrayBufferTarget(),
+    video: { codec: "avc", width: W, height: H, frameRate: fps },
+    audio: hasAudio ? { codec: acodec.muxCodec, numberOfChannels: 2, sampleRate: SR } : undefined,
+    fastStart: "in-memory", firstTimestampBehavior: "offset",
+  });
+  let encErr = null;
+  const venc = new VideoEncoder({ output: (c, m) => muxer.addVideoChunk(c, m), error: (e) => (encErr = e) });
+  venc.configure(vcfg);
+
+  // audio first (fast)
+  if (hasAudio) {
+    setProg(0, `${label}Mixage audio…`);
+    const buf = await renderAudio(tl);
+    const aenc = new AudioEncoder({ output: (c, m) => muxer.addAudioChunk(c, m), error: (e) => (encErr = e) });
+    aenc.configure(acodec.cfg);
+    const L = buf.getChannelData(0), R = buf.getChannelData(1); const CH = 1024 * 4;
+    for (let i = 0; i < buf.length; i += CH) {
+      const n = Math.min(CH, buf.length - i); const data = new Float32Array(n * 2); data.set(L.subarray(i, i + n), 0); data.set(R.subarray(i, i + n), n);
+      const ad = new AudioData({ format: "f32-planar", sampleRate: SR, numberOfFrames: n, numberOfChannels: 2, timestamp: Math.round((i / SR) * 1e6), data });
+      aenc.encode(ad); ad.close();
+    }
+    await aenc.flush(); aenc.close();
+  }
+
+  const off = document.createElement("canvas"); off.width = W; off.height = H; const octx = off.getContext("2d");
+  const frames = Math.ceil(tl.total * fps); const dur = 1e6 / fps; const t0 = performance.now();
+  for (let i = 0; i < frames; i++) {
+    if (cancelFlag) { venc.close(); throw new Error("Export annulé."); }
+    if (encErr) throw encErr;
+    renderFrame(octx, W, H, tl, i / fps);
+    const vf = new VideoFrame(off, { timestamp: Math.round(i * dur), duration: Math.round(dur) });
+    venc.encode(vf, { keyFrame: i % (fps * 2) === 0 }); vf.close();
+    while (venc.encodeQueueSize > 6) await new Promise((r) => setTimeout(r, 1));
+    if (i % 10 === 0) {
+      const el = (performance.now() - t0) / 1000, eta = (el / (i + 1)) * (frames - i - 1);
+      setProg(i / frames, `${label}Image ${i + 1}/${frames} — reste ~${Math.ceil(eta)} s`);
+      await new Promise((r) => setTimeout(r, 0));
+    }
+  }
+  await venc.flush(); venc.close();
+  if (encErr) throw encErr;
+  muxer.finalize();
+  const blob = new Blob([muxer.target.buffer], { type: "video/mp4" });
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = filename; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 60000);
+  return { size: blob.size, hasAudio };
+}
+
+const slug = (s) => (s || "quiz").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40) || "quiz";
+
+document.getElementById("btnExport").onclick = async () => {
+  if (!S.questions.length) { statusEl.textContent = "Ajoute au moins une question."; return; }
+  if (!("VideoEncoder" in window)) { statusEl.textContent = "Export MP4 indisponible : utilise Chrome, Edge ou Safari 17+."; return; }
+  pause(); cancelFlag = false;
+  const btn = document.getElementById("btnExport"), cancel = document.getElementById("btnCancel");
+  btn.disabled = true; cancel.style.display = "";
+  const scope = document.getElementById("exportScope").value; const total = S.questions.length;
+  try {
+    await document.fonts.ready;
+    const jobs = [];
+    if (scope === "all") jobs.push({ tl: buildTimeline(S.questions), name: `${slug(S.title)}-${S.format.replace(":", "x")}.mp4` });
+    else if (scope === "one") { const i = clamp(S.sel, 0, total - 1); jobs.push({ tl: buildTimeline([S.questions[i]], { intro: false, outro: false, idxOffset: i, count: total }), name: `${slug(S.title)}-q${i + 1}.mp4` }); }
+    else S.questions.forEach((q, i) => jobs.push({ tl: buildTimeline([q], { intro: false, outro: false, idxOffset: i, count: total }), name: `${slug(S.title)}-q${i + 1}.mp4` }));
+    let last;
+    for (let j = 0; j < jobs.length; j++) {
+      last = await encodeMp4(jobs[j].tl, jobs[j].name, jobs.length > 1 ? `[${j + 1}/${jobs.length}] ` : "");
+    }
+    setProg(1, `✅ Terminé ! ${jobs.length > 1 ? jobs.length + " vidéos" : (last.size / 1e6).toFixed(1) + " Mo"}${last.hasAudio ? "" : " (sans son : encodeur audio indisponible dans ce navigateur)"}`);
+  } catch (e) { console.error(e); statusEl.textContent = "❌ " + (e.message || e); }
+  btn.disabled = false; cancel.style.display = "none";
+};
+document.getElementById("btnCancel").onclick = () => (cancelFlag = true);
+
+/* =====================================================================
+   EDITOR UI
+   ===================================================================== */
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+function changed(audio = true) { if (audio) audioDirty = true; save(); if (!playing) draw(); }
+
+function bindSettings() {
+  for (const k of ["title", "subtitle", "handle"]) { $(k).value = S[k]; $(k).oninput = () => { S[k] = $(k).value; changed(false); }; }
+  for (const k of ["timer", "reveal"]) { $(k).value = S[k]; $(k).onchange = () => { S[k] = clamp(+$(k).value || DEFAULT[k], 1.5, 30); $(k).value = S[k]; changed(); }; }
+  $("fps").value = String(S.fps); $("fps").onchange = () => { S.fps = +$("fps").value; save(); };
+  for (const k of ["showIntro", "showOutro", "showCounter", "showConfetti", "sndSfx", "sndWhistle", "sndCrowd", "sndBeat"]) {
+    $(k).checked = !!S[k]; $(k).onchange = () => { S[k] = $(k).checked; changed(); };
+  }
+  $("musicVol").value = S.musicVol; $("musicVol").oninput = () => { S.musicVol = +$("musicVol").value; changed(); };
+  // themes
+  $("themes").innerHTML = Object.entries(THEMES).map(([k, t]) => `<button class="theme ${k === S.theme ? "on" : ""}" data-k="${k}"><div class="sw" style="background:${t.swatch}"></div><div class="nm">${t.name}</div></button>`).join("");
+  $("themes").querySelectorAll(".theme").forEach((b) => (b.onclick = () => { S.theme = b.dataset.k; bindSettings(); changed(false); }));
+  $("formats").querySelectorAll("button").forEach((b) => { b.classList.toggle("on", b.dataset.f === S.format); b.onclick = () => { S.format = b.dataset.f; bindSettings(); changed(false); }; });
+  $("bankCat").innerHTML = `<option value="all">Tout mélanger</option>` + Object.entries(BANK).map(([k, c]) => `<option value="${k}">${c.name} (${c.qs.length})</option>`).join("");
+}
+
+function renderList() {
+  $("qCount").textContent = `(${S.questions.length})`;
+  $("qList").innerHTML = S.questions.map((q, i) => `
+    <div class="q ${i === S.sel ? "sel" : ""}" data-i="${i}">
+      <div class="qh">
+        <span class="grip" draggable="true" title="Glisser pour déplacer">⠿</span>
+        <span class="num">${i + 1}</span>
+        <button class="small ghost" data-act="see" title="Voir dans l'aperçu">👁</button>
+        <span class="sp"></span>
+        <button class="small ghost" data-act="up" title="Monter">↑</button>
+        <button class="small ghost" data-act="down" title="Descendre">↓</button>
+        <button class="small ghost" data-act="dup" title="Dupliquer">⧉</button>
+        <button class="small ghost" data-act="del" title="Supprimer">✕</button>
+      </div>
+      <textarea data-f="q" placeholder="Ta question…">${esc(q.q)}</textarea>
+      ${q.answers.map((a, j) => `
+        <div class="ans ${j === q.correct ? "good" : ""}">
+          <span class="L">${LETTERS[j]}</span>
+          <input type="text" data-f="a" data-j="${j}" value="${esc(a)}" placeholder="Réponse ${LETTERS[j]}" />
+          <input type="radio" name="c${q.id}" data-f="c" data-j="${j}" ${j === q.correct ? "checked" : ""} title="Bonne réponse" />
+        </div>`).join("")}
+      <div class="btns" style="margin-top:6px">
+        ${q.answers.length < 4 ? `<button class="small" data-act="addA">+ réponse</button>` : ""}
+        ${q.answers.length > 2 ? `<button class="small ghost" data-act="rmA">− réponse</button>` : ""}
+        <button class="small ghost" data-act="shuf">🔀 mélanger</button>
+      </div>
+      <label>Le savais-tu ? (optionnel)</label>
+      <input type="text" data-f="expl" value="${esc(q.expl)}" placeholder="Petite anecdote affichée après la réponse" />
+      <div class="imgrow">
+        <label style="margin:0">Image</label>
+        <input type="file" accept="image/*" data-f="img" style="max-width:190px" />
+        ${q.img && images.get(q.img) ? `<img src="${images.get(q.img).src}" /><button class="small ghost" data-act="rmImg">retirer</button>` : q.img ? `<span class="hint">(image à recharger)</span>` : ""}
+        <label class="check" style="margin:0"><input type="checkbox" data-f="pixel" ${q.pixel ? "checked" : ""}/> Image mystère pixelisée</label>
+      </div>
+      <div class="row" style="margin-top:4px"><div><label>Chrono perso (s)</label><input type="number" data-f="timer" min="3" max="30" value="${q.timer || ""}" placeholder="${S.timer}" /></div></div>
+    </div>`).join("");
+}
+
+$("qList").addEventListener("input", (e) => {
+  const el = e.target; const card = el.closest(".q"); if (!card) return; const i = +card.dataset.i; const q = S.questions[i]; const f = el.dataset.f;
+  if (f === "q") q.q = el.value; else if (f === "a") q.answers[+el.dataset.j] = el.value; else if (f === "expl") { q.expl = el.value; audioDirty = true; }
+  else return;
+  S.sel = i; changed(f === "expl");
+});
+$("qList").addEventListener("change", (e) => {
+  const el = e.target; const card = el.closest(".q"); if (!card) return; const i = +card.dataset.i; const q = S.questions[i]; const f = el.dataset.f;
+  if (f === "c") { q.correct = +el.dataset.j; renderList(); }
+  else if (f === "pixel") q.pixel = el.checked;
+  else if (f === "timer") { q.timer = el.value ? clamp(+el.value, 3, 30) : null; }
+  else if (f === "img" && el.files[0]) {
+    const key = uid(); const img = new Image(); img.onload = () => { images.set(key, img); q.img = key; renderList(); changed(); seekToQuestion(i); }; img.src = URL.createObjectURL(el.files[0]); return;
+  } else return;
+  S.sel = i; changed();
+});
+let dragIdx = null;
+$("qList").addEventListener("dragstart", (e) => {
+  const card = e.target.closest(".q"); if (!card || !e.target.classList.contains("grip")) return;
+  dragIdx = +card.dataset.i; card.classList.add("dragging");
+  e.dataTransfer.effectAllowed = "move"; e.dataTransfer.setData("text/plain", String(dragIdx)); e.dataTransfer.setDragImage(card, 20, 20);
+});
+function dropTarget(e) {
+  const card = e.target.closest(".q"); if (!card) return null; const r = card.getBoundingClientRect();
+  return { card, i: +card.dataset.i, after: e.clientY > r.top + r.height / 2 };
+}
+function clearDropMarks() { $("qList").querySelectorAll(".q").forEach((c) => c.classList.remove("drop-before", "drop-after")); }
+$("qList").addEventListener("dragover", (e) => {
+  if (dragIdx == null) return; const t = dropTarget(e); if (!t) return; e.preventDefault();
+  clearDropMarks(); t.card.classList.add(t.after ? "drop-after" : "drop-before");
+});
+$("qList").addEventListener("drop", (e) => {
+  if (dragIdx == null) return; const t = dropTarget(e); if (!t) return; e.preventDefault();
+  let to = t.i + (t.after ? 1 : 0); if (dragIdx < to) to--;
+  const [q] = S.questions.splice(dragIdx, 1); S.questions.splice(to, 0, q); S.sel = to; dragIdx = null;
+  renderList(); changed();
+});
+$("qList").addEventListener("dragend", () => { dragIdx = null; clearDropMarks(); $("qList").querySelectorAll(".dragging").forEach((c) => c.classList.remove("dragging")); });
+
+$("qList").addEventListener("click", (e) => {
+  const card = e.target.closest(".q"); if (!card) return; const i = +card.dataset.i;
+  const act = e.target.closest("[data-act]")?.dataset.act;
+  if (S.sel !== i) { S.sel = i; card.parentElement.querySelectorAll(".q").forEach((c) => c.classList.toggle("sel", +c.dataset.i === i)); }
+  if (!act) return;
+  const qs = S.questions; const q = qs[i];
+  if (act === "see") { seekToQuestion(i); return; }
+  if (act === "del") { qs.splice(i, 1); S.sel = Math.max(0, i - 1); }
+  if (act === "dup") { qs.splice(i + 1, 0, { ...JSON.parse(JSON.stringify(q)), id: uid() }); S.sel = i + 1; }
+  if (act === "up" && i > 0) { [qs[i - 1], qs[i]] = [qs[i], qs[i - 1]]; S.sel = i - 1; }
+  if (act === "down" && i < qs.length - 1) { [qs[i + 1], qs[i]] = [qs[i], qs[i + 1]]; S.sel = i + 1; }
+  if (act === "addA") q.answers.push("");
+  if (act === "rmA") { q.answers.pop(); if (q.correct >= q.answers.length) q.correct = 0; }
+  if (act === "shuf") { const c = q.answers[q.correct]; q.answers = shuffle(q.answers); q.correct = q.answers.indexOf(c); }
+  if (act === "rmImg") q.img = null;
+  renderList(); changed(); if (["addA", "rmA", "shuf", "rmImg"].includes(act)) seekToQuestion(i);
+});
+
+$("btnAdd").onclick = () => { S.questions.push({ id: uid(), q: "", answers: ["", "", "", ""], correct: 0, expl: "", timer: null, img: null, pixel: false }); S.sel = S.questions.length - 1; renderList(); changed(); };
+$("btnAddBank").onclick = () => { const [q] = pickFromBank($("bankCat").value, 1); if (q) { S.questions.push(q); S.sel = S.questions.length - 1; renderList(); changed(); seekToQuestion(S.sel); } };
+$("btnSurprise").onclick = () => {
+  const n = clamp(+$("bankN").value || 10, 1, 40); const cat = $("bankCat").value;
+  S.questions = pickFromBank(cat, n);
+  const keys = Object.keys(THEMES); S.theme = cat === "afrique" && Math.random() < 0.6 ? "afrique" : keys[Math.floor(Math.random() * keys.length)];
+  const catName = cat === "all" ? "FOOT" : BANK[cat].name.toUpperCase();
+  const titles = [`${S.questions.length} QUESTIONS ${catName}`, `QUIZ ${catName} 🔥`, `ES-TU UN VRAI FAN ?`, `SPÉCIAL ${catName}`];
+  const subs = [`Seras-tu capable d'avoir ${S.questions.length}/${S.questions.length} ? ⚽`, "Seuls les vrais connaisseurs auront tout bon 🧠", "Teste tes connaissances foot ! ⏱", "Compte tes points et partage ton score 👇"];
+  S.title = titles[Math.floor(Math.random() * titles.length)]; S.subtitle = subs[Math.floor(Math.random() * subs.length)];
+  S.sel = 0; playT = 0; bindSettings(); renderList(); changed(); play();
+};
+$("btnClear").onclick = () => { if (confirm("Supprimer toutes les questions ?")) { S.questions = []; S.sel = 0; renderList(); changed(); } };
+
+// bulk text
+$("btnImportText").onclick = () => { $("bulkText").value = ""; $("dlgText").showModal(); };
+$("bulkCancel").onclick = () => $("dlgText").close();
+function parseBulk(txt) {
+  return txt.split("\n").map((l) => l.trim()).filter(Boolean).map((line) => {
+    let [main, expl] = line.split(">>"); const parts = main.split("|").map((s) => s.trim()).filter(Boolean);
+    const q = parts.shift() || ""; let correct = 0;
+    const answers = parts.slice(0, 4).map((a, i) => { if (a.startsWith("*")) { correct = i; return a.slice(1).trim(); } return a; });
+    while (answers.length < 2) answers.push("");
+    return { id: uid(), q, answers, correct, expl: (expl || "").trim(), timer: null, img: null, pixel: false };
+  });
+}
+$("bulkAppend").onclick = () => { S.questions.push(...parseBulk($("bulkText").value)); $("dlgText").close(); renderList(); changed(); };
+$("bulkReplace").onclick = () => { S.questions = parseBulk($("bulkText").value); S.sel = 0; $("dlgText").close(); renderList(); changed(); };
+
+// JSON
+$("btnJsonOut").onclick = () => {
+  const blob = new Blob([JSON.stringify(S, null, 2)], { type: "application/json" });
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `${slug(S.title)}.json`; a.click();
+};
+$("btnJsonIn").onclick = () => $("jsonFile").click();
+$("jsonFile").onchange = async () => {
+  const f = $("jsonFile").files[0]; if (!f) return;
+  try { S = Object.assign(JSON.parse(JSON.stringify(DEFAULT)), JSON.parse(await f.text())); bindSettings(); renderList(); changed(); }
+  catch (e) { alert("Fichier JSON invalide"); }
+  $("jsonFile").value = "";
+};
+
+// logo & music
+$("logoFile").onchange = () => { const f = $("logoFile").files[0]; if (!f) return; const img = new Image(); img.onload = () => { logoImg = img; changed(false); }; img.src = URL.createObjectURL(f); };
+$("musicFile").onchange = async () => {
+  const f = $("musicFile").files[0]; if (!f) { musicBuffer = null; changed(); return; }
+  try { const tmp = new OfflineAudioContext(2, SR, SR); musicBuffer = await tmp.decodeAudioData(await f.arrayBuffer()); statusEl.textContent = `🎵 Musique chargée (${fmt(musicBuffer.duration)})`; changed(); }
+  catch (e) { statusEl.textContent = "Impossible de lire ce fichier audio."; }
+};
+
+/* =====================================================================
+   INIT
+   ===================================================================== */
+(async function init() {
+  if (!S.questions.length) { S.questions = pickFromBank("all", 10); }
+  bindSettings(); renderList();
+  const sup = [];
+  if (!("VideoEncoder" in window)) sup.push("⚠️ Ce navigateur ne supporte pas WebCodecs : l'export MP4 nécessite Chrome, Edge ou Safari 17+.");
+  else if (!("AudioEncoder" in window)) sup.push("ℹ️ Pas d'encodeur audio ici : la vidéo sera exportée sans son (Chrome/Edge recommandés).");
+  else sup.push("✔ Encodage MP4 (H.264 + audio) directement dans ton navigateur, rien n'est envoyé en ligne. Les images ne sont pas enregistrées dans le JSON.");
+  $("support").textContent = sup.join(" ");
+  draw();
+  try { await document.fonts.load("900 40px Montserrat"); await document.fonts.load("40px Anton"); await document.fonts.load("800 40px Montserrat"); } catch (e) {}
+  playT = 0.9; draw();
+})();
+</script>
+</body>
+</html>
