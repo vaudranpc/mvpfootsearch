@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Studio MVP info — posts Instagram</title>
+<script src="header.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #07120c; --panel: #0e1d15; --panel2: #13271c; --line: #1f3a2a;
+    --text: #e8f5ec; --muted: #8fb09b; --accent: #2ee07a; --gold: #ffc53d;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font-family: Montserrat, system-ui, sans-serif; }
+  header.top { display: flex; align-items: center; gap: 14px; padding: 14px 20px; border-bottom: 1px solid var(--line);
+    background: linear-gradient(90deg, #0b2416, #07120c); }
+  header.top h1 { font-family: Anton, Impact, sans-serif; letter-spacing: 1px; font-size: 26px; margin: 0; font-weight: 400; }
+  header.top h1 span { color: var(--accent); }
+  header.top .tag { font-size: 12px; color: var(--muted); }
+  .wrap { display: grid; grid-template-columns: minmax(330px, 440px) 1fr; gap: 18px; padding: 18px; max-width: 1500px; margin: 0 auto; }
+  @media (max-width: 960px) { .wrap { grid-template-columns: 1fr; padding: 12px; } .stage { order: -1; position: static !important; } }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 14px; margin-bottom: 14px; }
+  .panel h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent); margin: 0 0 12px; }
+  label { display: block; font-size: 11px; font-weight: 700; color: var(--muted); margin: 10px 0 4px; text-transform: uppercase; letter-spacing: .6px; }
+  input[type=text], select, textarea { width: 100%; background: #081109; color: var(--text); border: 1px solid var(--line);
+    border-radius: 8px; padding: 8px 10px; font: inherit; font-size: 14px; }
+  textarea { resize: vertical; min-height: 90px; }
+  input[type=range] { width: 100%; accent-color: var(--accent); }
+  input[type=color] { width: 44px; height: 34px; border: 1px solid var(--line); border-radius: 8px; background: #081109; padding: 2px; }
+  input:focus, textarea:focus, select:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  button { font: inherit; cursor: pointer; border-radius: 9px; border: 1px solid var(--line); background: var(--panel2); color: var(--text);
+    padding: 8px 12px; font-weight: 700; font-size: 13px; }
+  button:hover { background: #1b3526; }
+  button.primary { background: var(--accent); color: #032010; border-color: var(--accent); }
+  button.gold { background: var(--gold); color: #2b1d00; border-color: var(--gold); }
+  button.small { padding: 4px 8px; font-size: 12px; }
+  .btns { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tpls { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .tpl { padding: 0; border: 2px solid transparent; border-radius: 10px; overflow: hidden; background: #081109; }
+  .tpl.on { border-color: var(--gold); }
+  .tpl canvas { display: block; width: 100%; height: auto; }
+  .tpl div { font-size: 11px; padding: 5px; }
+  .seg { display: flex; border: 1px solid var(--line); border-radius: 9px; overflow: hidden; }
+  .seg button { flex: 1; border: 0; border-radius: 0; background: transparent; }
+  .seg button.on { background: var(--accent); color: #032010; }
+  .check { display: flex; align-items: center; gap: 8px; font-size: 13px; margin: 8px 0; color: var(--text); text-transform: none; letter-spacing: 0; font-weight: 600; }
+  .check input { accent-color: var(--accent); width: 16px; height: 16px; }
+  .only { display: none; }
+  body[data-tpl=collage] .only.collage, body[data-tpl=quote] .only.quote, body[data-tpl=frame] .only.frame { display: block; }
+  .stage { position: sticky; top: 16px; align-self: start; }
+  .canvasBox { background: #000; border-radius: 14px; overflow: hidden; border: 1px solid var(--line); display: flex; justify-content: center; }
+  canvas#view { display: block; max-width: 100%; max-height: 78vh; width: auto; height: auto; touch-action: none; }
+  .canvasBox.drop { outline: 3px dashed var(--gold); outline-offset: -6px; }
+  .hint { font-size: 12px; color: var(--muted); line-height: 1.45; }
+  code { background: #081109; padding: 1px 5px; border-radius: 4px; }
+</style>
+</head>
+<body data-tpl="collage">
+<div id="header-container"></div>
+
+<header class="top">
+  <div style="font-size:30px">📸</div>
+  <div>
+    <h1>STUDIO <span>MVP INFO</span></h1>
+    <div class="tag">Collage polaroid, citation sur photo, cadre sur fond flouté — export PNG/JPG prêt pour Instagram</div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div>
+    <div class="panel">
+      <h2>Modèle</h2>
+      <div class="tpls" id="tpls"></div>
+      <label>Format</label>
+      <div class="seg" id="formats">
+        <button data-f="4:5">4:5 post</button>
+        <button data-f="1:1">1:1</button>
+        <button data-f="9:16">9:16 story</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Images</h2>
+      <label>Photo principale</label>
+      <input type="file" id="photoFile" accept="image/*" />
+      <div class="row">
+        <div><label>Logo (PNG)</label><input type="file" id="logoFile" accept="image/*" /></div>
+        <div><label>&nbsp;</label><label class="check" style="margin-top:4px"><input type="checkbox" id="showLogo" /> Afficher le logo</label></div>
+      </div>
+      <button class="small" id="btnLogoReset" style="margin-top:4px">Logo par défaut</button>
+      <label>Calque PNG par-dessus (mains détourées, sticker…)</label>
+      <div class="btns"><input type="file" id="overlayFile" accept="image/*" style="flex:1" /><button class="small" id="btnOverlayRm">Retirer</button></div>
+      <div class="row">
+        <div><label>Couleur d'accent</label><input type="color" id="accent" /></div>
+        <div><label>Couleur du texte</label><input type="color" id="textColor" /></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Texte</h2>
+      <textarea id="text" placeholder="Mets les mots en couleur entre *étoiles*"></textarea>
+      <div class="hint">Mets un mot entre <code>*étoiles*</code> pour le colorer. Un retour à la ligne force une nouvelle ligne.</div>
+      <div class="row">
+        <label class="check"><input type="checkbox" id="quotes" /> Guillemets “ ”</label>
+        <label class="check"><input type="checkbox" id="upper" /> Majuscules</label>
+      </div>
+      <label>Largeur du bloc</label><input type="range" id="textW" min="0.2" max="0.95" step="0.01" />
+    </div>
+
+    <div class="panel only collage">
+      <h2>Collage polaroid</h2>
+      <label>Colonnes</label><input type="range" id="cols" min="3" max="7" step="1" />
+      <label>Zone nette au centre (visage)</label><input type="range" id="clean" min="0" max="1" step="0.01" />
+      <label>Polaroids vides (cases sombres sur les bords, 0 = aucune)</label><input type="range" id="empty" min="0" max="0.8" step="0.01" />
+      <label>Désordre (rotation)</label><input type="range" id="chaos" min="0" max="2" step="0.05" />
+      <label>Taille du collage</label><input type="range" id="area" min="0.5" max="1" step="0.01" />
+      <div class="btns" style="margin-top:10px"><button id="btnShuffle">🎲 Mélanger les polaroids</button></div>
+      <label class="check"><input type="checkbox" id="border" /> Cadre couleur autour du post</label>
+    </div>
+
+    <div class="panel only quote">
+      <h2>Citation</h2>
+      <label>Assombrir derrière le texte</label><input type="range" id="shade" min="0" max="1" step="0.01" />
+      <label class="check"><input type="checkbox" id="borderQ" /> Cadre couleur autour du post</label>
+    </div>
+
+    <div class="panel only frame">
+      <h2>Cadre flouté</h2>
+      <label>Forme du cadre</label>
+      <select id="frameShape"><option value="1">Carré</option><option value="1.25">Portrait 4:5</option><option value="0.75">Paysage 4:3</option></select>
+      <label>Taille du cadre</label><input type="range" id="frameW" min="0.4" max="0.95" step="0.01" />
+      <label>Flou du fond</label><input type="range" id="blur" min="0" max="1" step="0.01" />
+      <label class="check"><input type="checkbox" id="arrow" /> Flèche « swipe » (carrousel)</label>
+      <div class="row">
+        <div><label>Filigrane</label><input type="text" id="watermark" /></div>
+        <div><label>&nbsp;</label><label class="check" style="margin-top:4px"><input type="checkbox" id="showWm" /> Afficher</label></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="canvasBox" id="box"><canvas id="view" width="1080" height="1350"></canvas></div>
+    <div class="hint" style="margin:8px 2px">✋ <b>Glisse</b> la photo, le texte, le logo ou le calque pour les déplacer. <b>Molette</b> (ou pincement sur trackpad) au-dessus d'un élément pour l'agrandir ou le réduire. Dans le modèle cadre, glisser dans le cadre bouge la photo du cadre, et glisser dehors bouge le fond. Tu peux aussi déposer une photo directement sur l'aperçu.</div>
+    <div class="btns">
+      <button class="gold" id="btnPng" style="flex:1;padding:12px;font-size:15px">⬇ Télécharger PNG</button>
+      <button id="btnJpg">JPG</button>
+      <button id="btnAll" title="Même photo, les 3 modèles">⬇ Les 3 modèles</button>
+      <button id="btnResetPos">↺ Positions</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   STATE
+   ===================================================================== */
+const FORMATS = { "4:5": [1080, 1350], "1:1": [1080, 1080], "9:16": [1080, 1920] };
+const TPLS = { collage: "Collage polaroid", quote: "Citation", frame: "Cadre flouté" };
+const POS = () => ({
+  collage: { photo: { dx: 0, dy: 0, z: 1 }, logo: { x: 0.5, y: 0.945, s: 0.075 }, text: { x: 0.5, y: 0.05, s: 0.07 }, overlay: { x: 0.6, y: 0.7, s: 0.6 } },
+  quote:   { photo: { dx: 0, dy: 0, z: 1 }, logo: { x: 0.9, y: 0.935, s: 0.09 }, text: { x: 0.04, y: 0.035, s: 0.118 }, overlay: { x: 0.6, y: 0.7, s: 0.6 } },
+  frame:   { photo: { dx: 0, dy: 0, z: 1.15 }, inner: { dx: 0, dy: 0, z: 1 }, logo: { x: 0.5, y: 0.785, s: 0.065 }, text: { x: 0.5, y: 0.06, s: 0.08 }, overlay: { x: 0.6, y: 0.7, s: 0.6 } },
+});
+const DEFAULT = {
+  v: 2, tpl: "collage", format: "4:5", accent: "#18d94a", textColor: "#ffffff", showLogo: true,
+  texts: { collage: "", quote: "Le corps *peut vaciller* mais l'amour de la *patrie reste*", frame: "" },
+  textW: { collage: 0.8, quote: 0.44, frame: 0.85 },
+  quotes: { collage: false, quote: true, frame: false }, upper: true,
+  cols: 4, clean: 0.55, empty: 0, chaos: 1, area: 0.72, seed: 7, border: true, borderQ: false,
+  shade: 0.55,
+  frameShape: "1", frameW: 0.67, blur: 0.6, arrow: true, watermark: "MVP INFO", showWm: true,
+  pos: POS(),
+};
+let S = load();
+function load() {
+  try { const s = JSON.parse(localStorage.getItem("mvpInfoStudio.v1")); if (s) { const d = JSON.parse(JSON.stringify(DEFAULT)); if (s.v !== 2) { s.v = 2; s.empty = 0; } return Object.assign(d, s, { pos: Object.assign(d.pos, s.pos || {}) }); } } catch (e) {}
+  return JSON.parse(JSON.stringify(DEFAULT));
+}
+function save() { try { localStorage.setItem("mvpInfoStudio.v1", JSON.stringify(S)); } catch (e) {} }
+
+let photo = null, logoImg = null, overlayImg = null;
+try { const l = localStorage.getItem("mvpInfoStudio.logo"); if (l) { const i = new Image(); i.onload = () => { logoImg = i; drawAll(); }; i.src = l; } } catch (e) {}
+
+/* =====================================================================
+   HELPERS
+   ===================================================================== */
+const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
+function rng(seed) { return () => { seed |= 0; seed = (seed + 0x6d2b79f5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+function rrPath(ctx, x, y, w, h, r) { r = Math.min(r, w / 2, h / 2); ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath(); }
+
+/** Draw the photo "cover"-fitted into box, with pan (dx, dy as fraction of box) and zoom. */
+function drawPhoto(ctx, box, p, src = photo) {
+  if (!src) {
+    const g = ctx.createLinearGradient(box.x, box.y, box.x + box.w, box.y + box.h);
+    g.addColorStop(0, "#14492a"); g.addColorStop(1, "#0a2216"); ctx.fillStyle = g; ctx.fillRect(box.x, box.y, box.w, box.h); return;
+  }
+  const iw = src.width, ih = src.height; const sc = Math.max(box.w / iw, box.h / ih) * p.z;
+  const dw = iw * sc, dh = ih * sc;
+  ctx.drawImage(src, box.x + (box.w - dw) / 2 + p.dx * box.w, box.y + (box.h - dh) / 2 + p.dy * box.h, dw, dh);
+}
+function placeholderText(ctx, W, H) {
+  if (photo) return;
+  ctx.save(); ctx.fillStyle = "rgba(255,255,255,.75)"; ctx.font = `800 ${W * 0.04}px Montserrat`; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+  ctx.fillText("📷 Dépose une photo ici", W / 2, H / 2); ctx.restore();
+}
+
+/* stone wall texture (collage background), cached per size */
+const stoneCache = {};
+function stone(W, H) {
+  const k = W + "x" + H; if (stoneCache[k]) return stoneCache[k];
+  const c = document.createElement("canvas"); c.width = W; c.height = H; const x = c.getContext("2d"); const R = rng(42);
+  const g = x.createLinearGradient(0, 0, W, H); g.addColorStop(0, "#1b2733"); g.addColorStop(1, "#111a23"); x.fillStyle = g; x.fillRect(0, 0, W, H);
+  for (let i = 0; i < 60; i++) {
+    const px = R() * W, py = R() * H, r = (0.05 + R() * 0.25) * W; const rust = R() < 0.3;
+    const rg = x.createRadialGradient(px, py, 0, px, py, r);
+    rg.addColorStop(0, rust ? "rgba(140,90,50,.22)" : R() < 0.5 ? "rgba(70,95,115,.25)" : "rgba(5,10,15,.35)"); rg.addColorStop(1, "rgba(0,0,0,0)");
+    x.fillStyle = rg; x.fillRect(0, 0, W, H);
+  }
+  // cracks
+  x.strokeStyle = "rgba(0,0,0,.35)"; x.lineWidth = Math.max(1, W / 600);
+  for (let i = 0; i < 7; i++) { let px = R() * W, py = R() * H; x.beginPath(); x.moveTo(px, py); for (let j = 0; j < 12; j++) { px += (R() - 0.5) * W * 0.08; py += R() * H * 0.05; x.lineTo(px, py); } x.stroke(); }
+  // grain
+  const id = x.getImageData(0, 0, W, H), d = id.data;
+  for (let i = 0; i < d.length; i += 4) { const n = (R() - 0.5) * 26; d[i] += n; d[i + 1] += n; d[i + 2] += n; }
+  x.putImageData(id, 0, 0);
+  return (stoneCache[k] = c);
+}
+
+/* blurred version of the photo (downscale/upscale works in every browser) */
+let blurCache = { src: null, amt: -1, c: null };
+function blurred(amt) {
+  if (!photo) return null;
+  if (blurCache.src === photo && blurCache.amt === amt) return blurCache.c;
+  const f = 1 + amt * 30; const w = Math.max(4, Math.round(photo.width / f)), h = Math.max(4, Math.round(photo.height / f));
+  let cur = photo, cw = photo.width, ch = photo.height;
+  while (cw / 2 > w) { cw = Math.round(cw / 2); ch = Math.round(ch / 2); const t = document.createElement("canvas"); t.width = cw; t.height = ch; t.getContext("2d").drawImage(cur, 0, 0, cw, ch); cur = t; }
+  const s = document.createElement("canvas"); s.width = w; s.height = h; s.getContext("2d").drawImage(cur, 0, 0, w, h);
+  const out = document.createElement("canvas"); out.width = Math.min(1600, photo.width); out.height = Math.round(out.width * photo.height / photo.width);
+  const o = out.getContext("2d"); o.imageSmoothingQuality = "high"; o.drawImage(s, 0, 0, out.width, out.height);
+  blurCache = { src: photo, amt, c: out }; return out;
+}
+
+/* default round badge when no logo uploaded */
+function drawLogo(ctx, cx, cy, size) {
+  if (logoImg) {
+    const r = Math.min(size / logoImg.width, size / logoImg.height); const w = logoImg.width * r, h = logoImg.height * r;
+    ctx.drawImage(logoImg, cx - w / 2, cy - h / 2, w, h); return { x: cx - w / 2, y: cy - h / 2, w, h };
+  }
+  const r = size / 2; ctx.save();
+  ctx.shadowColor = "rgba(0,0,0,.4)"; ctx.shadowBlur = r * 0.3;
+  ctx.fillStyle = "#fff"; ctx.beginPath(); ctx.arc(cx, cy, r, 0, 7); ctx.fill(); ctx.shadowBlur = 0;
+  ctx.lineWidth = r * 0.12; ctx.strokeStyle = S.accent; ctx.beginPath(); ctx.arc(cx, cy, r * 0.88, 0, 7); ctx.stroke();
+  ctx.fillStyle = "#0b2a14"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+  ctx.font = `${r * 0.78}px Anton, Impact`; ctx.fillText("MVP", cx, cy - r * 0.12);
+  ctx.font = `900 ${r * 0.26}px Montserrat`; ctx.fillStyle = S.accent; ctx.fillText("INFO", cx, cy + r * 0.42);
+  ctx.restore(); return { x: cx - r, y: cy - r, w: size, h: size };
+}
+
+/* rich text: *highlight*, manual line breaks, optional quotes */
+function layoutText(ctx, raw, fontPx, maxW, quotes, upper) {
+  let txt = (raw || "").trim(); if (!txt) return null;
+  if (upper) txt = txt.toUpperCase();
+  ctx.font = `${fontPx}px Anton, Impact, sans-serif`;
+  const lines = []; let hl = false;
+  txt.split("\n").forEach((para, pi, arr) => {
+    const words = para.split(/ +/).filter(Boolean).map((w) => {
+      const segs = []; let cur = "";
+      for (const ch of w) { if (ch === "*") { if (cur) segs.push({ t: cur, hl }); cur = ""; hl = !hl; } else cur += ch; }
+      if (cur) segs.push({ t: cur, hl }); return segs;
+    }).filter((s) => s.length);
+    let line = [], lw = 0; const space = ctx.measureText(" ").width;
+    for (const w of words) {
+      const ww = w.reduce((a, s) => a + ctx.measureText(s.t).width, 0);
+      if (line.length && lw + space + ww > maxW) { lines.push(line); line = []; lw = 0; }
+      lw += (line.length ? space : 0) + ww; line.push(w);
+    }
+    if (line.length) lines.push(line);
+  });
+  if (!lines.length) return null;
+  if (quotes) { lines[0][0].unshift({ t: "“ ", hl: false, q: true }); const last = lines[lines.length - 1]; last[last.length - 1].push({ t: " ”", hl: false, q: true }); }
+  const space = ctx.measureText(" ").width;
+  const widths = lines.map((l) => l.reduce((a, w, i) => a + (i ? space : 0) + w.reduce((b, s) => b + ctx.measureText(s.t).width, 0), 0));
+  return { lines, widths, space, lh: fontPx * 1.0, fontPx };
+}
+function drawText(ctx, W, H, tpl, align) {
+  const p = S.pos[tpl].text; const fontPx = p.s * W;
+  const L = layoutText(ctx, S.texts[tpl], fontPx, S.textW[tpl] * W, S.quotes[tpl], S.upper);
+  if (!L) return;
+  const x0 = p.x * W, y0 = p.y * H; const bw = Math.max(...L.widths), bh = L.lines.length * L.lh;
+  ctx.save(); ctx.font = `${fontPx}px Anton, Impact, sans-serif`; ctx.textBaseline = "top"; ctx.textAlign = "left";
+  ctx.shadowColor = "rgba(0,0,0,.45)"; ctx.shadowBlur = fontPx * 0.12; ctx.shadowOffsetY = fontPx * 0.03;
+  L.lines.forEach((line, i) => {
+    let x = align === "center" ? x0 - L.widths[i] / 2 : x0; const y = y0 + i * L.lh;
+    line.forEach((w, wi) => {
+      if (wi) x += L.space;
+      for (const s of w) { ctx.fillStyle = s.hl ? S.accent : S.textColor; ctx.fillText(s.t, x, y); x += ctx.measureText(s.t).width; }
+    });
+  });
+  ctx.restore();
+  hit("text", align === "center" ? x0 - bw / 2 : x0, y0, bw, bh);
+}
+function drawBorder(ctx, W, H) {
+  const b = W * 0.028; ctx.save();
+  const g = ctx.createLinearGradient(0, 0, W, H); g.addColorStop(0, shade(S.accent, -0.25)); g.addColorStop(0.5, S.accent); g.addColorStop(1, shade(S.accent, -0.3));
+  ctx.strokeStyle = g; ctx.lineWidth = b * 2; ctx.strokeRect(0, 0, W, H);
+  ctx.strokeStyle = "#fff"; ctx.lineWidth = W * 0.004; ctx.strokeRect(b + W * 0.002, b + W * 0.002, W - 2 * b - W * 0.004, H - 2 * b - W * 0.004);
+  ctx.restore();
+}
+function shade(hex, amt) {
+  const n = parseInt(hex.slice(1), 16); let r = n >> 16, g = (n >> 8) & 255, b = n & 255;
+  const f = (c) => Math.round(clamp(amt < 0 ? c * (1 + amt) : c + (255 - c) * amt, 0, 255));
+  return `rgb(${f(r)},${f(g)},${f(b)})`;
+}
+function drawOverlay(ctx, W, H, tpl) {
+  if (!overlayImg) return;
+  const p = S.pos[tpl].overlay; const w = p.s * W, h = w * overlayImg.height / overlayImg.width;
+  const x = p.x * W - w / 2, y = p.y * H - h / 2; ctx.drawImage(overlayImg, x, y, w, h); hit("overlay", x, y, w, h);
+}
+function drawLogoAt(ctx, W, H, tpl) {
+  if (!S.showLogo) return; const p = S.pos[tpl].logo; const b = drawLogo(ctx, p.x * W, p.y * H, p.s * W); hit("logo", b.x, b.y, b.w, b.h);
+}
+
+/* =====================================================================
+   TEMPLATES
+   ===================================================================== */
+function renderCollage(ctx, W, H) {
+  ctx.drawImage(stone(W, H), 0, 0);
+  const pos = S.pos.collage;
+  const aw = W * S.area, ah = Math.min(H * 0.86, aw * 1.3);
+  const A = { x: (W - aw) / 2, y: (H - ah) / 2 - H * 0.01, w: aw, h: ah };
+  const PB = { x: A.x - aw * 0.06, y: A.y - ah * 0.06, w: aw * 1.12, h: ah * 1.12 }; // photo box (slightly larger than the grid)
+  const cols = S.cols, cw = A.w / cols, rows = Math.max(2, Math.round(A.h / (cw * 1.12))), ch = A.h / rows;
+  const R = rng(S.seed); const base = ctx.getTransform();
+  const ccx = A.x + A.w / 2, ccy = A.y + A.h * 0.45;
+  const clean = [], pols = [];
+  for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+    const cx = A.x + (c + 0.5) * cw, cy = A.y + (r + 0.5) * ch;
+    const d = Math.hypot((cx - ccx) / (A.w * 0.5), (cy - ccy) / (A.h * 0.5));
+    const rnd = [R(), R(), R(), R(), R(), R()];
+    const edge = r === 0 || c === 0 || r === rows - 1 || c === cols - 1;
+    if (d < S.clean * 0.9) clean.push({ cx, cy });
+    else pols.push({ cx: cx + (rnd[0] - 0.5) * cw * 0.16 * S.chaos, cy: cy + (rnd[1] - 0.5) * ch * 0.14 * S.chaos,
+      rot: (rnd[2] - 0.5) * 0.12 * S.chaos, s: 1.04 + rnd[3] * 0.1, empty: edge && rnd[4] < S.empty, z: rnd[5] });
+  }
+  // seamless centre tiles, with thin cut lines
+  ctx.save(); ctx.shadowColor = "rgba(0,0,0,.5)"; ctx.shadowBlur = W * 0.02;
+  for (const t of clean) { ctx.fillStyle = "#000"; ctx.fillRect(t.cx - cw / 2, t.cy - ch / 2, cw, ch); }
+  ctx.restore();
+  for (const t of clean) {
+    ctx.save(); ctx.beginPath(); ctx.rect(t.cx - cw / 2, t.cy - ch / 2, cw, ch); ctx.clip(); drawPhoto(ctx, PB, pos.photo); ctx.restore();
+    ctx.strokeStyle = "rgba(0,0,0,.45)"; ctx.lineWidth = Math.max(1, W * 0.0015); ctx.strokeRect(t.cx - cw / 2, t.cy - ch / 2, cw, ch);
+  }
+  // polaroids on top, random z-order
+  pols.sort((a, b) => a.z - b.z);
+  for (const t of pols) {
+    const tw = cw * t.s, th = ch * t.s; const side = tw * 0.065, bottom = th * 0.17;
+    ctx.save(); ctx.translate(t.cx, t.cy); ctx.rotate(t.rot);
+    ctx.shadowColor = "rgba(0,0,0,.5)"; ctx.shadowBlur = W * 0.018; ctx.shadowOffsetY = W * 0.005;
+    const pg = ctx.createLinearGradient(-tw / 2, -th / 2, tw / 2, th / 2); pg.addColorStop(0, "#f1f5f8"); pg.addColorStop(1, "#d9e1e8");
+    ctx.fillStyle = pg; ctx.fillRect(-tw / 2, -th / 2, tw, th); ctx.shadowColor = "transparent";
+    const hx = -tw / 2 + side, hy = -th / 2 + side, hw = tw - 2 * side, hh = th - side - bottom;
+    ctx.save(); ctx.beginPath(); ctx.rect(hx, hy, hw, hh); ctx.clip();
+    if (t.empty) { const g = ctx.createLinearGradient(hx, hy, hx + hw, hy + hh); g.addColorStop(0, "#22364a"); g.addColorStop(1, "#0d1822"); ctx.fillStyle = g; ctx.fillRect(hx, hy, hw, hh); }
+    else { ctx.setTransform(base); drawPhoto(ctx, PB, pos.photo); }
+    ctx.restore();
+    ctx.strokeStyle = "rgba(0,0,0,.25)"; ctx.lineWidth = Math.max(1, W * 0.001); ctx.strokeRect(hx, hy, hw, hh);
+    ctx.restore();
+  }
+  hit("photo", A.x, A.y, A.w, A.h);
+  placeholderText(ctx, W, H);
+  drawText(ctx, W, H, "collage", "center");
+  drawOverlay(ctx, W, H, "collage");
+  drawLogoAt(ctx, W, H, "collage");
+  if (S.border) drawBorder(ctx, W, H);
+}
+
+function renderQuote(ctx, W, H) {
+  drawPhoto(ctx, { x: 0, y: 0, w: W, h: H }, S.pos.quote.photo); hit("photo", 0, 0, W, H);
+  placeholderText(ctx, W, H);
+  if (S.shade > 0) {
+    const a = S.shade;
+    let g = ctx.createLinearGradient(0, 0, W * 0.75, 0); g.addColorStop(0, `rgba(0,0,0,${0.75 * a})`); g.addColorStop(1, "rgba(0,0,0,0)");
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+    g = ctx.createLinearGradient(0, 0, 0, H * 0.55); g.addColorStop(0, `rgba(0,0,0,${0.5 * a})`); g.addColorStop(1, "rgba(0,0,0,0)");
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  }
+  drawText(ctx, W, H, "quote", "left");
+  drawOverlay(ctx, W, H, "quote");
+  drawLogoAt(ctx, W, H, "quote");
+  if (S.borderQ) drawBorder(ctx, W, H);
+}
+
+function frameRect(W, H) {
+  const w = S.frameW * W, h = Math.min(w * +S.frameShape, H * 0.78); return { x: (W - w) / 2, y: H * 0.47 - h / 2, w, h };
+}
+function renderFrame(ctx, W, H) {
+  const pos = S.pos.frame;
+  const bl = blurred(S.blur);
+  drawPhoto(ctx, { x: 0, y: 0, w: W, h: H }, pos.photo, S.blur > 0 ? bl : photo); hit("photo", 0, 0, W, H);
+  ctx.fillStyle = "rgba(0,0,0,.08)"; ctx.fillRect(0, 0, W, H);
+  const F = frameRect(W, H); const r = W * 0.045, bw = W * 0.02;
+  ctx.save(); ctx.shadowColor = "rgba(0,0,0,.45)"; ctx.shadowBlur = W * 0.04; ctx.fillStyle = S.accent;
+  rrPath(ctx, F.x - bw, F.y - bw, F.w + 2 * bw, F.h + 2 * bw, r + bw); ctx.fill(); ctx.restore();
+  ctx.save(); rrPath(ctx, F.x, F.y, F.w, F.h, r); ctx.clip(); drawPhoto(ctx, F, pos.inner); ctx.restore();
+  hit("inner", F.x, F.y, F.w, F.h);
+  placeholderText(ctx, W, H);
+  if (S.showWm && S.watermark) {
+    ctx.save(); ctx.globalAlpha = 0.45; ctx.fillStyle = "#fff"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    ctx.font = `${W * 0.06}px Anton, Impact`; ctx.fillText(S.watermark.toUpperCase(), W / 2, Math.min(H - W * 0.12, F.y + F.h + W * 0.17));
+    ctx.font = `${W * 0.028}px Anton, Impact`; ctx.globalAlpha = 0.6; ctx.fillText(S.watermark.toUpperCase(), F.x + F.w * 0.7, F.y + F.h * 0.88); ctx.restore();
+  }
+  if (S.arrow) {
+    const ax = W * 0.65, ay = H - W * 0.1; const s = W;
+    ctx.save(); ctx.strokeStyle = "#fff"; ctx.lineWidth = W * 0.006; ctx.lineCap = "round"; ctx.lineJoin = "round";
+    ctx.shadowColor = "rgba(0,0,0,.3)"; ctx.shadowBlur = W * 0.008;
+    ctx.beginPath(); ctx.moveTo(ax, ay);
+    ctx.bezierCurveTo(ax + s * 0.08, ay - s * 0.025, ax + s * 0.15, ay - s * 0.02, ax + s * 0.135, ay + s * 0.012);
+    ctx.bezierCurveTo(ax + s * 0.12, ay + s * 0.04, ax + s * 0.15, ay + s * 0.06, ax + s * 0.3, ay + s * 0.06);
+    ctx.stroke();
+    const ex = ax + s * 0.3, ey = ay + s * 0.06, hs = s * 0.022;
+    ctx.beginPath(); ctx.moveTo(ex - hs, ey - hs * 0.8); ctx.lineTo(ex, ey); ctx.lineTo(ex - hs, ey + hs * 0.8); ctx.stroke(); ctx.restore();
+  }
+  drawText(ctx, W, H, "frame", "center");
+  drawOverlay(ctx, W, H, "frame");
+  drawLogoAt(ctx, W, H, "frame");
+}
+
+const RENDER = { collage: renderCollage, quote: renderQuote, frame: renderFrame };
+let HB = null; function hit(key, x, y, w, h) { if (HB) HB.push({ key, x, y, w, h }); }
+function render(ctx, W, H, tpl) { ctx.save(); ctx.clearRect(0, 0, W, H); RENDER[tpl](ctx, W, H); ctx.restore(); }
+
+/* =====================================================================
+   PREVIEW + INTERACTION
+   ===================================================================== */
+const view = document.getElementById("view"), vctx = view.getContext("2d");
+let hitBoxes = [], hoverKey = null, over = false, drag = null;
+function draw() {
+  const [W, H] = FORMATS[S.format]; if (view.width !== W || view.height !== H) { view.width = W; view.height = H; }
+  HB = []; render(vctx, W, H, S.tpl); hitBoxes = HB; HB = null;
+  if (over || drag) {
+    const px = W / view.clientWidth; vctx.save();
+    for (const b of hitBoxes) {
+      if (b.key === "photo") continue; const on = b.key === (drag ? drag.key : hoverKey);
+      vctx.setLineDash(on ? [] : [8 * px, 6 * px]); vctx.lineWidth = (on ? 3 : 1.5) * px; vctx.strokeStyle = on ? "#ffc53d" : "rgba(255,255,255,.6)";
+      vctx.strokeRect(b.x, b.y, b.w, b.h);
+    }
+    vctx.restore();
+  }
+}
+let thumbTimer = null;
+function drawAll() { draw(); clearTimeout(thumbTimer); thumbTimer = setTimeout(drawThumbs, 120); }
+function drawThumbs() {
+  for (const k of Object.keys(TPLS)) {
+    const c = document.getElementById("th-" + k); if (!c) continue; const [W, H] = FORMATS[S.format];
+    c.width = 216; c.height = Math.round(216 * H / W); render(c.getContext("2d"), c.width, c.height, k);
+  }
+}
+function pt(e) { const r = view.getBoundingClientRect(); return { x: (e.clientX - r.left) * view.width / r.width, y: (e.clientY - r.top) * view.height / r.height }; }
+function boxAt(p) { for (let i = hitBoxes.length - 1; i >= 0; i--) { const b = hitBoxes[i]; if (p.x >= b.x && p.x <= b.x + b.w && p.y >= b.y && p.y <= b.y + b.h) return b; } return null; }
+function target(key) { const P = S.pos[S.tpl]; return key === "inner" ? P.inner : key === "photo" ? P.photo : P[key]; }
+
+view.addEventListener("pointerdown", (e) => {
+  const p = pt(e); const b = boxAt(p); if (!b) return;
+  const t = target(b.key); drag = { key: b.key, p0: p, t0: { ...t }, box: b };
+  view.setPointerCapture(e.pointerId); view.style.cursor = "grabbing"; e.preventDefault();
+});
+view.addEventListener("pointermove", (e) => {
+  const p = pt(e); const W = view.width, H = view.height;
+  if (!drag) { const b = boxAt(p); const k = b ? b.key : null; view.style.cursor = b ? "grab" : "default"; if (k !== hoverKey) { hoverKey = k; draw(); } return; }
+  const t = target(drag.key); const dx = p.x - drag.p0.x, dy = p.y - drag.p0.y;
+  if (drag.key === "photo" || drag.key === "inner") { t.dx = drag.t0.dx + dx / drag.box.w; t.dy = drag.t0.dy + dy / drag.box.h; }
+  else { t.x = drag.t0.x + dx / W; t.y = drag.t0.y + dy / H; }
+  draw();
+});
+function endDrag() { if (!drag) return; drag = null; view.style.cursor = "grab"; save(); drawAll(); }
+view.addEventListener("pointerup", endDrag); view.addEventListener("pointercancel", endDrag);
+view.addEventListener("pointerenter", () => { over = true; draw(); });
+view.addEventListener("pointerleave", () => { over = false; hoverKey = null; if (!drag) draw(); });
+view.addEventListener("wheel", (e) => {
+  const b = boxAt(pt(e)); if (!b) return; e.preventDefault();
+  const f = Math.exp(-e.deltaY * 0.0015); const t = target(b.key);
+  if (b.key === "photo" || b.key === "inner") t.z = clamp(t.z * f, 0.3, 6); else t.s = clamp(t.s * f, 0.02, 2);
+  save(); drawAll();
+}, { passive: false });
+
+// drop a photo onto the preview
+const box = document.getElementById("box");
+box.addEventListener("dragover", (e) => { e.preventDefault(); box.classList.add("drop"); });
+box.addEventListener("dragleave", () => box.classList.remove("drop"));
+box.addEventListener("drop", (e) => { e.preventDefault(); box.classList.remove("drop"); const f = e.dataTransfer.files[0]; if (f && f.type.startsWith("image/")) loadImage(f, (i) => { photo = i; drawAll(); }); });
+
+/* =====================================================================
+   UI BINDINGS
+   ===================================================================== */
+const $ = (id) => document.getElementById(id);
+function loadImage(file, cb) { const r = new FileReader(); r.onload = () => { const i = new Image(); i.onload = () => cb(i, r.result); i.src = r.result; }; r.readAsDataURL(file); }
+function changed() { save(); drawAll(); }
+
+function bind() {
+  document.body.dataset.tpl = S.tpl;
+  $("tpls").innerHTML = Object.entries(TPLS).map(([k, n]) => `<button class="tpl ${k === S.tpl ? "on" : ""}" data-k="${k}"><canvas id="th-${k}"></canvas><div>${n}</div></button>`).join("");
+  $("tpls").querySelectorAll(".tpl").forEach((b) => (b.onclick = () => { S.tpl = b.dataset.k; bind(); changed(); }));
+  $("formats").querySelectorAll("button").forEach((b) => { b.classList.toggle("on", b.dataset.f === S.format); b.onclick = () => { S.format = b.dataset.f; bind(); changed(); }; });
+  // per-template text fields
+  $("text").value = S.texts[S.tpl]; $("text").oninput = () => { S.texts[S.tpl] = $("text").value; changed(); };
+  $("quotes").checked = S.quotes[S.tpl]; $("quotes").onchange = () => { S.quotes[S.tpl] = $("quotes").checked; changed(); };
+  $("textW").value = S.textW[S.tpl]; $("textW").oninput = () => { S.textW[S.tpl] = +$("textW").value; changed(); };
+  // global fields
+  for (const k of ["accent", "textColor", "watermark"]) { $(k).value = S[k]; $(k).oninput = () => { S[k] = $(k).value; changed(); }; }
+  for (const k of ["showLogo", "upper", "border", "borderQ", "arrow", "showWm"]) { $(k).checked = !!S[k]; $(k).onchange = () => { S[k] = $(k).checked; changed(); }; }
+  for (const k of ["cols", "clean", "empty", "chaos", "area", "shade", "frameW", "blur"]) { $(k).value = S[k]; $(k).oninput = () => { S[k] = +$(k).value; changed(); }; }
+  $("frameShape").value = S.frameShape; $("frameShape").onchange = () => { S.frameShape = $("frameShape").value; changed(); };
+}
+$("photoFile").onchange = () => { const f = $("photoFile").files[0]; if (f) loadImage(f, (i) => { photo = i; drawAll(); }); };
+$("logoFile").onchange = () => { const f = $("logoFile").files[0]; if (f) loadImage(f, (i, url) => { logoImg = i; try { localStorage.setItem("mvpInfoStudio.logo", url); } catch (e) {} drawAll(); }); };
+$("btnLogoReset").onclick = () => { logoImg = null; try { localStorage.removeItem("mvpInfoStudio.logo"); } catch (e) {} $("logoFile").value = ""; drawAll(); };
+$("overlayFile").onchange = () => { const f = $("overlayFile").files[0]; if (f) loadImage(f, (i) => { overlayImg = i; drawAll(); }); };
+$("btnOverlayRm").onclick = () => { overlayImg = null; $("overlayFile").value = ""; drawAll(); };
+$("btnShuffle").onclick = () => { S.seed = Math.floor(Math.random() * 1e6); changed(); };
+$("btnResetPos").onclick = () => { S.pos[S.tpl] = POS()[S.tpl]; changed(); };
+
+/* =====================================================================
+   EXPORT
+   ===================================================================== */
+function exportTpl(tpl, type) {
+  const [W, H] = FORMATS[S.format]; const c = document.createElement("canvas"); c.width = W; c.height = H;
+  render(c.getContext("2d"), W, H, tpl);
+  const a = document.createElement("a"); a.download = `mvp-info-${tpl}-${S.format.replace(":", "x")}.${type === "image/png" ? "png" : "jpg"}`;
+  a.href = c.toDataURL(type, 0.93); document.body.appendChild(a); a.click(); a.remove();
+}
+$("btnPng").onclick = () => exportTpl(S.tpl, "image/png");
+$("btnJpg").onclick = () => exportTpl(S.tpl, "image/jpeg");
+$("btnAll").onclick = async () => { for (const k of Object.keys(TPLS)) { exportTpl(k, "image/png"); await new Promise((r) => setTimeout(r, 400)); } };
+
+bind(); drawAll();
+document.fonts.ready.then(drawAll);
+Promise.all([document.fonts.load("40px Anton"), document.fonts.load("900 40px Montserrat")]).then(drawAll, () => {});
+</script>
+</body>
+</html>
