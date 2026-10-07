@@ -173,6 +173,11 @@
         <label class="check"><input type="checkbox" id="showOutro" /> Outro « ton score ? »</label>
         <label class="check"><input type="checkbox" id="showCounter" /> Compteur 3/10</label>
         <label class="check"><input type="checkbox" id="showConfetti" /> Confettis ⚽</label>
+        <label class="check"><input type="checkbox" id="showSub" /> Fin « Abonne-toi »</label>
+      </div>
+      <div class="row">
+        <div><label>Message de fin</label><input type="text" id="subMsg" /></div>
+        <div><label>Durée fin (s)</label><input type="number" id="subDur" min="3" max="60" /></div>
       </div>
     </div>
 
@@ -184,7 +189,9 @@
         <label class="check"><input type="checkbox" id="sndCrowd" /> Foule qui exulte</label>
         <label class="check"><input type="checkbox" id="sndBeat" /> Beat « stade »</label>
       </div>
-      <label>Musique de fond (mp3/wav, optionnel)</label>
+      <label>Musique de fond</label>
+      <select id="musicTrack"></select>
+      <label>…ou importer un fichier (mp3/wav)</label>
       <input type="file" id="musicFile" accept="audio/*" />
       <label>Volume musique / beat</label>
       <input type="range" id="musicVol" min="0" max="1" step="0.05" style="width:100%;accent-color:var(--accent)" />
@@ -396,6 +403,8 @@ const DEFAULT = {
   theme: "stade", format: "16:9", timer: 10, reveal: 3, fps: 30,
   showIntro: true, showOutro: true, showCounter: true, showConfetti: true,
   sndSfx: true, sndWhistle: true, sndCrowd: true, sndBeat: false, musicVol: 0.35,
+  musicTrack: "asset/African Fella - Cumbia Deli.mp3",
+  showSub: true, subDur: 22, subMsg: "Abonne-toi pour plus de quiz foot !",
   bgMode: "theme", bgColor: "#0d4a23", bgBlur: 8, bgDim: 0.35,   // custom background ("theme" | "color" | "image")
   questions: [],
   sel: 0,
@@ -440,6 +449,7 @@ function buildTimeline(qs, opts = {}) {
   if (intro) { segs.push({ type: "intro", start: t, dur: INTRO }); t += INTRO; }
   qs.forEach((q, i) => { const d = qDur(q); segs.push({ type: "q", q, idx: opts.idxOffset != null ? opts.idxOffset + i : i, start: t, dur: d }); t += d; });
   if (outro) { segs.push({ type: "outro", start: t, dur: OUTRO }); t += OUTRO; }
+  if (opts.sub ?? S.showSub) { const d = clamp(+S.subDur || 22, 3, 60); segs.push({ type: "sub", start: t, dur: d }); t += d; }
   return { segs, total: Math.max(t, 0.5), count: opts.count ?? qs.length };
 }
 
@@ -790,6 +800,65 @@ function drawOutro(ctx, W, H, th, lt, dur, total) {
   ctx.restore();
 }
 
+/* ---------------- END SCREEN « ABONNE-TOI » ---------------- */
+const SUB_LEAD = 0.8, SUB_LOOP = 5.5, SUB_CLICK = 1.3; // cursor clicks the button every SUB_LOOP seconds
+function subClickTimes(dur) { const ts = []; for (let c = SUB_LEAD + SUB_CLICK; c < dur - 1; c += SUB_LOOP) ts.push(c); return ts; }
+function drawCursor(ctx, x, y, s) {
+  ctx.save(); ctx.translate(x, y); ctx.scale(s, s);
+  ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(0, 46); ctx.lineTo(11, 35); ctx.lineTo(19, 53); ctx.lineTo(27, 49); ctx.lineTo(19, 32); ctx.lineTo(34, 32); ctx.closePath();
+  ctx.fillStyle = "#fff"; ctx.shadowColor = "rgba(0,0,0,.45)"; ctx.shadowBlur = 8; ctx.fill(); ctx.shadowBlur = 0;
+  ctx.lineWidth = 3; ctx.strokeStyle = "#111"; ctx.lineJoin = "round"; ctx.stroke(); ctx.restore();
+}
+function drawSub(ctx, W, H, th, lt, dur) {
+  const U = Math.min(W, H) / 1080; const port = H > W * 1.2;
+  const a = easeOut(lt / 0.5) * (1 - easeIn((lt - (dur - 0.6)) / 0.6));
+  ctx.save(); ctx.globalAlpha = a;
+  // message
+  const s = easeBack(lt / 0.6);
+  ctx.save(); ctx.translate(W / 2, H * (port ? 0.28 : 0.24)); ctx.scale(s, s);
+  const f = fit(ctx, th, S.subMsg || "ABONNE-TOI !", W * 0.86, H * (port ? 0.22 : 0.26), 130 * U, 36 * U, 900, 1.08);
+  drawLines(ctx, th, f, 0, 0, th.accent, 900, 1.08); ctx.restore();
+  // button + cursor loop
+  const c = lt < SUB_LEAD ? -1 : (lt - SUB_LEAD) % SUB_LOOP;
+  const subbed = c >= SUB_CLICK && c < SUB_LOOP - 0.6;
+  const press = c >= SUB_CLICK - 0.1 && c < SUB_CLICK + 0.15 ? 0.92 : 1;
+  const bx = W / 2, by = H * (port ? 0.5 : 0.52);
+  const bIn = easeBack((lt - 0.3) / 0.5); const pulse = subbed ? 1 : 1 + 0.04 * Math.sin(lt * 6);
+  ctx.save(); ctx.translate(bx, by); ctx.scale(bIn * pulse * press, bIn * pulse * press);
+  ctx.font = `900 ${(port ? 64 : 58) * U}px Montserrat`; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+  const lbl = subbed ? "✓ ABONNÉ" : "ABONNE-TOI"; const bw = Math.max(ctx.measureText("ABONNE-TOI").width, ctx.measureText(lbl).width) + 130 * U, bh = (port ? 140 : 128) * U;
+  ctx.fillStyle = subbed ? "#3a3a3a" : "#ff0033"; ctx.shadowColor = "rgba(0,0,0,.45)"; ctx.shadowBlur = 30 * U; ctx.shadowOffsetY = 10 * U;
+  rr(ctx, -bw / 2, -bh / 2, bw, bh, bh / 2); ctx.fill(); ctx.shadowColor = "transparent";
+  ctx.fillStyle = "#fff"; ctx.fillText(lbl, 0, 3 * U);
+  // bell, rings after the click
+  const ring = subbed ? Math.sin((c - SUB_CLICK) * 22) * 0.35 * Math.max(0, 1 - (c - SUB_CLICK) / 1.2) : 0;
+  ctx.save(); ctx.translate(bw / 2 + 80 * U, 0); ctx.rotate(ring); ctx.font = `${80 * U}px sans-serif`; ctx.fillText("🔔", 0, 0); ctx.restore();
+  ctx.restore();
+  if (c >= 0 && c < SUB_LOOP - 0.3) { // cursor glides in, clicks, leaves
+    const tIn = easeOut(c / SUB_CLICK), tOut = easeIn((c - SUB_CLICK - 0.6) / 1.2);
+    const cx = lerp(W * 0.85, bx + 40 * U, tIn) + tOut * W * 0.3, cy = lerp(H * 0.95, by + 10 * U, tIn) + tOut * H * 0.25;
+    ctx.save(); ctx.globalAlpha = a * (1 - tOut); drawCursor(ctx, cx, cy, 1.6 * U * press); ctx.restore();
+  }
+  // like / comment / bell pills
+  const items = ["👍 LIKE", "💬 COMMENTE", "🔔 ACTIVE LA CLOCHE"];
+  ctx.font = `800 ${(port ? 40 : 34) * U}px Montserrat`;
+  const gap = 24 * U, ph = (port ? 84 : 72) * U, ws = items.map((t) => ctx.measureText(t).width + 56 * U);
+  const rows = port ? items.map((_, i) => [i]) : [[0, 1, 2]];
+  rows.forEach((row, r) => {
+    const tw = row.reduce((sum, i) => sum + ws[i], 0) + gap * (row.length - 1); let x = W / 2 - tw / 2;
+    const y = H * (port ? 0.66 : 0.74) + r * (ph + gap);
+    row.forEach((i) => {
+      const ap = easeBack((lt - 0.9 - i * 0.2) / 0.4); const w = ws[i];
+      ctx.save(); ctx.globalAlpha = a * clamp(ap); ctx.translate(x + w / 2, y + ph / 2); ctx.scale(ap, ap);
+      ctx.fillStyle = "rgba(0,0,0,.45)"; rr(ctx, -w / 2, -ph / 2, w, ph, ph / 2); ctx.fill();
+      ctx.lineWidth = 3 * U; ctx.strokeStyle = th.accent; ctx.stroke();
+      ctx.fillStyle = "#fff"; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText(items[i], 0, 2 * U);
+      ctx.restore(); x += w + gap;
+    });
+  });
+  ctx.restore();
+}
+
 function drawQuestion(ctx, W, H, th, seg, lt, count) {
   const q = seg.q; const U = Math.min(W, H) / 1080;
   const T = q.timer || S.timer; const img = q.img && images.get(q.img);
@@ -943,6 +1012,7 @@ function renderFrame(ctx, W, H, tl, t) {
   handleHide = 0;
   if (seg.type === "intro") drawIntro(ctx, W, H, th, lt, seg.dur, tl.count);
   else if (seg.type === "outro") drawOutro(ctx, W, H, th, lt, seg.dur, tl.count);
+  else if (seg.type === "sub") drawSub(ctx, W, H, th, lt, seg.dur);
   else drawQuestion(ctx, W, H, th, seg, lt, tl.count);
   drawHandle(ctx, W, H, th, Math.min(W, H) / 1080, 1);
 }
@@ -1031,6 +1101,8 @@ async function renderAudio(tl) {
     } else if (seg.type === "outro") {
       if (S.sndWhistle) { whistle(ac, sfx, t0 + 0.2, 0.35); whistle(ac, sfx, t0 + 0.7, 0.35); whistle(ac, sfx, t0 + 1.2, 1.0); }
       if (S.sndCrowd) crowd(ac, sfx, nb, t0 + 1.0, 3.2, 0.35);
+    } else if (seg.type === "sub") {
+      if (S.sndSfx) { whoosh(ac, sfx, nb, t0); for (const c of subClickTimes(seg.dur)) { pop(ac, sfx, t0 + c); ding(ac, sfx, t0 + c + 0.08); } }
     } else {
       const q = seg.q; const T = q.timer || S.timer;
       if (S.sndSfx) {
@@ -1248,8 +1320,8 @@ document.getElementById("btnExport").onclick = async () => {
     await document.fonts.ready;
     const jobs = [];
     if (scope === "all") jobs.push({ tl: buildTimeline(S.questions), name: `${slug(S.title)}-${S.format.replace(":", "x")}.mp4` });
-    else if (scope === "one") { const i = clamp(S.sel, 0, total - 1); jobs.push({ tl: buildTimeline([S.questions[i]], { intro: false, outro: false, idxOffset: i, count: total }), name: `${slug(S.title)}-q${i + 1}.mp4` }); }
-    else S.questions.forEach((q, i) => jobs.push({ tl: buildTimeline([q], { intro: false, outro: false, idxOffset: i, count: total }), name: `${slug(S.title)}-q${i + 1}.mp4` }));
+    else if (scope === "one") { const i = clamp(S.sel, 0, total - 1); jobs.push({ tl: buildTimeline([S.questions[i]], { intro: false, outro: false, sub: false, idxOffset: i, count: total }), name: `${slug(S.title)}-q${i + 1}.mp4` }); }
+    else S.questions.forEach((q, i) => jobs.push({ tl: buildTimeline([q], { intro: false, outro: false, sub: false, idxOffset: i, count: total }), name: `${slug(S.title)}-q${i + 1}.mp4` }));
     let last;
     for (let j = 0; j < jobs.length; j++) {
       last = await encodeMp4(jobs[j].tl, jobs[j].name, jobs.length > 1 ? `[${j + 1}/${jobs.length}] ` : "");
@@ -1271,7 +1343,12 @@ function bindSettings() {
   for (const k of ["title", "subtitle", "handle"]) { $(k).value = S[k]; $(k).oninput = () => { S[k] = $(k).value; changed(false); }; }
   for (const k of ["timer", "reveal"]) { $(k).value = S[k]; $(k).onchange = () => { S[k] = clamp(+$(k).value || DEFAULT[k], 1.5, 30); $(k).value = S[k]; changed(); }; }
   $("fps").value = String(S.fps); $("fps").onchange = () => { S.fps = +$("fps").value; save(); };
-  for (const k of ["showIntro", "showOutro", "showCounter", "showConfetti", "sndSfx", "sndWhistle", "sndCrowd", "sndBeat"]) {
+  $("subMsg").value = S.subMsg; $("subMsg").oninput = () => { S.subMsg = $("subMsg").value; changed(false); };
+  $("subDur").value = S.subDur; $("subDur").onchange = () => { S.subDur = clamp(+$("subDur").value || DEFAULT.subDur, 3, 60); $("subDur").value = S.subDur; changed(); };
+  $("musicTrack").innerHTML = `<option value="">Aucune (ou beat « stade »)</option>` + TRACKS.map((p) => `<option value="${esc(p)}">${esc(p.replace(/^asset\//, "").replace(/\.\w+$/, ""))}</option>`).join("")
+    + (musicFileName ? `<option value="__file">📁 ${esc(musicFileName)}</option>` : "");
+  $("musicTrack").value = S.musicTrack; $("musicTrack").onchange = () => { S.musicTrack = $("musicTrack").value; save(); loadTrack(S.musicTrack); };
+  for (const k of ["showIntro", "showOutro", "showCounter", "showConfetti", "showSub", "sndSfx", "sndWhistle", "sndCrowd", "sndBeat"]) {
     $(k).checked = !!S[k]; $(k).onchange = () => { S[k] = $(k).checked; changed(); };
   }
   $("musicVol").value = S.musicVol; $("musicVol").oninput = () => { S.musicVol = +$("musicVol").value; changed(); };
@@ -1441,7 +1518,7 @@ $("btnJsonOut").onclick = () => {
 $("btnJsonIn").onclick = () => $("jsonFile").click();
 $("jsonFile").onchange = async () => {
   const f = $("jsonFile").files[0]; if (!f) return;
-  try { S = Object.assign(JSON.parse(JSON.stringify(DEFAULT)), JSON.parse(await f.text())); bindSettings(); renderList(); changed(); }
+  try { S = Object.assign(JSON.parse(JSON.stringify(DEFAULT)), JSON.parse(await f.text())); if (S.musicTrack === "__file") S.musicTrack = ""; bindSettings(); renderList(); changed(); loadTrack(S.musicTrack); }
   catch (e) { alert("Fichier JSON invalide"); }
   $("jsonFile").value = "";
 };
@@ -1450,9 +1527,28 @@ $("jsonFile").onchange = async () => {
 $("logoFile").onchange = () => { const f = $("logoFile").files[0]; if (!f) return; const img = new Image(); img.onload = () => { logoImg = img; changed(false); }; img.src = URL.createObjectURL(f); };
 $("bgFile").onchange = () => { const f = $("bgFile").files[0]; if (!f) return; S.bgMode = "image"; setBgImage(URL.createObjectURL(f), true); $("bgFile").value = ""; };
 $("bgRemove").onclick = () => { bgImg = null; bgImgId++; try { localStorage.removeItem(BG_KEY); } catch (e) {} renderBgUI(); changed(false); };
+const TRACKS = [
+  "asset/African Fella - Cumbia Deli.mp3",
+  "asset/Burbank Late Nights - Squadda B.mp3",
+  "asset/OSA Dress Code - Squadda B.mp3",
+  "asset/Planet zoid - Patrick Patrikios.mp3",
+];
+let musicFileName = null;
+async function loadTrack(src) {
+  if (src === "__file") return;
+  if (!src) { musicBuffer = null; changed(); return; }
+  statusEl.textContent = "🎵 Chargement de la musique…";
+  try {
+    const res = await fetch(encodeURI(src)); if (!res.ok) throw new Error(res.status);
+    const buf = await new OfflineAudioContext(2, SR, SR).decodeAudioData(await res.arrayBuffer());
+    if (S.musicTrack !== src) return; // another track was picked meanwhile
+    musicBuffer = buf; statusEl.textContent = `🎵 Musique chargée (${fmt(buf.duration)})`; changed();
+  } catch (e) { statusEl.textContent = "Impossible de charger la musique (ouvre la page via le serveur local, pas en file://)."; }
+}
 $("musicFile").onchange = async () => {
-  const f = $("musicFile").files[0]; if (!f) { musicBuffer = null; changed(); return; }
-  try { const tmp = new OfflineAudioContext(2, SR, SR); musicBuffer = await tmp.decodeAudioData(await f.arrayBuffer()); statusEl.textContent = `🎵 Musique chargée (${fmt(musicBuffer.duration)})`; changed(); }
+  const f = $("musicFile").files[0]; if (!f) return;
+  try { const tmp = new OfflineAudioContext(2, SR, SR); musicBuffer = await tmp.decodeAudioData(await f.arrayBuffer());
+    musicFileName = f.name; S.musicTrack = "__file"; bindSettings(); statusEl.textContent = `🎵 Musique chargée (${fmt(musicBuffer.duration)})`; changed(); }
   catch (e) { statusEl.textContent = "Impossible de lire ce fichier audio."; }
 };
 
@@ -1461,7 +1557,9 @@ $("musicFile").onchange = async () => {
    ===================================================================== */
 (async function init() {
   if (!S.questions.length) { S.questions = pickFromBank("all", 10); }
+  if (S.musicTrack === "__file") S.musicTrack = DEFAULT.musicTrack; // imported files aren't kept across reloads
   bindSettings(); renderList();
+  loadTrack(S.musicTrack);
   try { const bg = localStorage.getItem(BG_KEY); if (bg) setBgImage(bg, false); } catch (e) {}
   const sup = [];
   if (!("VideoEncoder" in window)) sup.push("⚠️ Ce navigateur ne supporte pas WebCodecs : l'export MP4 nécessite Chrome, Edge ou Safari 17+.");
