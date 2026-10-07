@@ -52,6 +52,8 @@
   .seg { display: flex; border: 1px solid var(--line); border-radius: 9px; overflow: hidden; }
   .seg button { flex: 1; border: 0; border-radius: 0; background: transparent; }
   .seg button.on { background: var(--accent); color: #032010; }
+  .bgopt { display: none; margin-top: 4px; }
+  input[type=color] { width: 100%; height: 38px; padding: 2px; background: #081109; border: 1px solid var(--line); border-radius: 8px; cursor: pointer; }
   .check { display: flex; align-items: center; gap: 8px; font-size: 13px; margin: 6px 0; color: var(--text); text-transform: none; letter-spacing: 0; font-weight: 600; }
   .check input { accent-color: var(--accent); width: 16px; height: 16px; }
   .q { background: var(--panel2); border: 1px solid var(--line); border-radius: 12px; padding: 10px; margin-bottom: 10px; }
@@ -130,6 +132,28 @@
 
       <label>Thème</label>
       <div class="themes" id="themes"></div>
+
+      <label>Fond</label>
+      <div class="seg" id="bgModes">
+        <button data-m="theme">Thème animé</button>
+        <button data-m="color">Couleur</button>
+        <button data-m="image">Image</button>
+      </div>
+      <div id="bgColorBox" class="bgopt">
+        <label>Couleur du fond</label>
+        <input type="color" id="bgColor" />
+      </div>
+      <div id="bgImageBox" class="bgopt">
+        <div class="imgrow">
+          <input type="file" id="bgFile" accept="image/*" style="max-width:220px" />
+          <img id="bgThumb" alt="" style="display:none" />
+          <button class="small ghost" id="bgRemove" style="display:none">retirer</button>
+        </div>
+        <div class="row">
+          <div><label>Flou <span id="bgBlurVal"></span></label><input type="range" id="bgBlur" min="0" max="40" step="1" style="width:100%;accent-color:var(--accent)" /></div>
+          <div><label>Assombrir <span id="bgDimVal"></span></label><input type="range" id="bgDim" min="0" max="0.85" step="0.05" style="width:100%;accent-color:var(--accent)" /></div>
+        </div>
+      </div>
 
       <label>Format</label>
       <div class="seg" id="formats">
@@ -372,6 +396,7 @@ const DEFAULT = {
   theme: "stade", format: "16:9", timer: 10, reveal: 3, fps: 30,
   showIntro: true, showOutro: true, showCounter: true, showConfetti: true,
   sndSfx: true, sndWhistle: true, sndCrowd: true, sndBeat: false, musicVol: 0.35,
+  bgMode: "theme", bgColor: "#0d4a23", bgBlur: 8, bgDim: 0.35,   // custom background ("theme" | "color" | "image")
   questions: [],
   sel: 0,
   offsets: {},   // format -> element key -> {x, y} as fraction of W/H
@@ -571,6 +596,35 @@ function drawBackground(ctx, W, H, th, key, t) {
     for (let x = 0, i = 0; x < W; x += 40 * U, i++) { ctx.fillStyle = cols[i % 4]; ctx.fillRect(x, H - bh, 40 * U, bh); ctx.fillRect(W - x - 40 * U, 0, 40 * U, bh * 0.6); }
   }
 }
+/* ---------------- CUSTOM BACKGROUND (color / blurred image) ---------------- */
+const BG_KEY = "quizStade.bgImage";
+let bgImg = null, bgImgId = 0; const bgCache = { key: "", canvas: null };
+const canFilter = (() => { try { const c = document.createElement("canvas").getContext("2d"); c.filter = "blur(2px)"; return c.filter === "blur(2px)"; } catch (e) { return false; } })();
+function blurCover(o, img, W, H, blur) {
+  if (blur < 0.5) { drawImageCover(o, img, 0, 0, W, H); return; }
+  if (canFilter) { // overscan so the blur doesn't fade the edges
+    const pad = blur * 2; o.filter = `blur(${blur}px)`; drawImageCover(o, img, -pad, -pad, W + 2 * pad, H + 2 * pad); o.filter = "none"; return;
+  }
+  // fallback (no ctx.filter): downscale then upscale with smoothing
+  const k = Math.max(1, blur / 2), tw = Math.max(2, Math.round(W / k)), th = Math.max(2, Math.round(H / k));
+  const s = document.createElement("canvas"); s.width = tw; s.height = th; const so = s.getContext("2d"); so.imageSmoothingQuality = "high";
+  drawImageCover(so, img, 0, 0, tw, th);
+  o.imageSmoothingQuality = "high"; o.drawImage(s, 0, 0, W, H);
+}
+/** Draws the user background if one is set; returns false to fall back to the theme background. */
+function drawCustomBg(ctx, W, H) {
+  if (S.bgMode === "color") { ctx.fillStyle = S.bgColor; ctx.fillRect(0, 0, W, H); return true; }
+  if (S.bgMode !== "image" || !bgImg) return false;
+  const blur = S.bgBlur * (Math.min(W, H) / 1080), key = `${bgImgId}|${W}x${H}|${blur}`;
+  if (bgCache.key !== key) { // blur once, reuse every frame
+    const c = bgCache.canvas || (bgCache.canvas = document.createElement("canvas"));
+    c.width = W; c.height = H; blurCover(c.getContext("2d"), bgImg, W, H, blur); bgCache.key = key;
+  }
+  ctx.drawImage(bgCache.canvas, 0, 0);
+  if (S.bgDim > 0) { ctx.fillStyle = `rgba(0,0,0,${S.bgDim})`; ctx.fillRect(0, 0, W, H); }
+  return true;
+}
+
 function star(ctx, x, y, r, color) {
   ctx.fillStyle = color; ctx.beginPath();
   for (let i = 0; i < 10; i++) { const a = (i * Math.PI) / 5 - Math.PI / 2, rad = i % 2 ? r * 0.45 : r; ctx.lineTo(x + Math.cos(a) * rad, y + Math.sin(a) * rad); }
@@ -882,7 +936,7 @@ function confetti(ctx, x, y, t, U, seed, th) {
 /** Render one frame at global time t for the given timeline. */
 function renderFrame(ctx, W, H, tl, t) {
   const th = THEMES[S.theme] || THEMES.stade;
-  drawBackground(ctx, W, H, th, S.theme, t);
+  if (!drawCustomBg(ctx, W, H)) drawBackground(ctx, W, H, th, S.theme, t);
   const seg = tl.segs.find((s) => t >= s.start && t < s.start + s.dur) || tl.segs[tl.segs.length - 1];
   if (!seg) { const U = Math.min(W, H) / 1080; drawLines(ctx, th, fit(ctx, th, "Ajoute des questions ⚽", W * 0.8, H * 0.3, 90 * U, 30 * U, 900), W / 2, H / 2, th.qColor, 900); return; }
   const lt = clamp(t - seg.start, 0, seg.dur - 1e-4);
@@ -1224,8 +1278,35 @@ function bindSettings() {
   // themes
   $("themes").innerHTML = Object.entries(THEMES).map(([k, t]) => `<button class="theme ${k === S.theme ? "on" : ""}" data-k="${k}"><div class="sw" style="background:${t.swatch}"></div><div class="nm">${t.name}</div></button>`).join("");
   $("themes").querySelectorAll(".theme").forEach((b) => (b.onclick = () => { S.theme = b.dataset.k; bindSettings(); changed(false); }));
+  // custom background
+  $("bgModes").querySelectorAll("button").forEach((b) => { b.onclick = () => { S.bgMode = b.dataset.m; bindSettings(); changed(false); }; });
+  $("bgColor").value = S.bgColor; $("bgColor").oninput = () => { S.bgColor = $("bgColor").value; S.bgMode = "color"; renderBgUI(); changed(false); };
+  $("bgBlur").value = S.bgBlur; $("bgBlur").oninput = () => { S.bgBlur = +$("bgBlur").value; renderBgUI(); changed(false); };
+  $("bgDim").value = S.bgDim; $("bgDim").oninput = () => { S.bgDim = +$("bgDim").value; renderBgUI(); changed(false); };
+  renderBgUI();
   $("formats").querySelectorAll("button").forEach((b) => { b.classList.toggle("on", b.dataset.f === S.format); b.onclick = () => { S.format = b.dataset.f; bindSettings(); changed(false); }; });
   $("bankCat").innerHTML = `<option value="all">Tout mélanger</option>` + Object.entries(BANK).map(([k, c]) => `<option value="${k}">${c.name} (${c.qs.length})</option>`).join("");
+}
+
+function renderBgUI() {
+  $("bgModes").querySelectorAll("button").forEach((b) => b.classList.toggle("on", b.dataset.m === S.bgMode));
+  $("bgColorBox").style.display = S.bgMode === "color" ? "block" : "none";
+  $("bgImageBox").style.display = S.bgMode === "image" ? "block" : "none";
+  $("bgBlurVal").textContent = `(${S.bgBlur}px)`; $("bgDimVal").textContent = `(${Math.round(S.bgDim * 100)}%)`;
+  $("bgThumb").style.display = $("bgRemove").style.display = bgImg ? "" : "none";
+  if (bgImg) $("bgThumb").src = bgImg.src;
+}
+function setBgImage(src, persist) {
+  const img = new Image();
+  img.onload = () => {
+    if (persist) { // keep a compressed copy so the background survives a reload
+      const k = Math.min(1, 1920 / Math.max(img.width, img.height)), c = document.createElement("canvas");
+      c.width = Math.round(img.width * k); c.height = Math.round(img.height * k); c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+      try { localStorage.setItem(BG_KEY, c.toDataURL("image/jpeg", 0.88)); } catch (e) {}
+    }
+    bgImg = img; bgImgId++; renderBgUI(); changed(false);
+  };
+  img.src = src;
 }
 
 function renderList() {
@@ -1367,6 +1448,8 @@ $("jsonFile").onchange = async () => {
 
 // logo & music
 $("logoFile").onchange = () => { const f = $("logoFile").files[0]; if (!f) return; const img = new Image(); img.onload = () => { logoImg = img; changed(false); }; img.src = URL.createObjectURL(f); };
+$("bgFile").onchange = () => { const f = $("bgFile").files[0]; if (!f) return; S.bgMode = "image"; setBgImage(URL.createObjectURL(f), true); $("bgFile").value = ""; };
+$("bgRemove").onclick = () => { bgImg = null; bgImgId++; try { localStorage.removeItem(BG_KEY); } catch (e) {} renderBgUI(); changed(false); };
 $("musicFile").onchange = async () => {
   const f = $("musicFile").files[0]; if (!f) { musicBuffer = null; changed(); return; }
   try { const tmp = new OfflineAudioContext(2, SR, SR); musicBuffer = await tmp.decodeAudioData(await f.arrayBuffer()); statusEl.textContent = `🎵 Musique chargée (${fmt(musicBuffer.duration)})`; changed(); }
@@ -1379,6 +1462,7 @@ $("musicFile").onchange = async () => {
 (async function init() {
   if (!S.questions.length) { S.questions = pickFromBank("all", 10); }
   bindSettings(); renderList();
+  try { const bg = localStorage.getItem(BG_KEY); if (bg) setBgImage(bg, false); } catch (e) {}
   const sup = [];
   if (!("VideoEncoder" in window)) sup.push("⚠️ Ce navigateur ne supporte pas WebCodecs : l'export MP4 nécessite Chrome, Edge ou Safari 17+.");
   else if (!("AudioEncoder" in window)) sup.push("ℹ️ Pas d'encodeur audio ici : la vidéo sera exportée sans son (Chrome/Edge recommandés).");
