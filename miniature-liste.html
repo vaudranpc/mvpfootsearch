@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Miniature Foot — Générateur de miniatures YouTube</title>
+<script src="header.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&family=Fredoka:wght@700&family=Baloo+2:wght@800&family=Luckiest+Guy&family=Bangers&family=Anton&family=Bebas+Neue&family=Montserrat:wght@600;700;800;900&family=Permanent+Marker&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #07120c; --panel: #0e1d15; --panel2: #13271c; --line: #1f3a2a;
+    --text: #e8f5ec; --muted: #8fb09b; --accent: #2ee07a; --gold: #ffc53d; --danger: #ff5a5a;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font-family: Montserrat, system-ui, sans-serif; }
+  header.top { display: flex; align-items: center; gap: 14px; padding: 16px 20px; border-bottom: 1px solid var(--line);
+    background: linear-gradient(90deg, #0b2416, #07120c); }
+  header.top h1 { font-family: Anton, Impact, sans-serif; letter-spacing: 1px; font-size: 26px; margin: 0; font-weight: 400; }
+  header.top h1 span { color: var(--accent); }
+  header.top .tag { font-size: 12px; color: var(--muted); }
+  .wrap { display: grid; grid-template-columns: minmax(340px, 440px) 1fr; gap: 18px; padding: 18px; max-width: 1700px; margin: 0 auto; }
+  @media (max-width: 1000px) { .wrap { grid-template-columns: 1fr; padding: 12px; } .stage { order: -1; position: static !important; } }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 14px; margin-bottom: 14px; }
+  .panel h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent); margin: 0 0 12px; }
+  label { display: block; font-size: 11px; font-weight: 700; color: var(--muted); margin: 8px 0 4px; text-transform: uppercase; letter-spacing: .6px; }
+  label .val { color: var(--text); text-transform: none; letter-spacing: 0; }
+  input[type=text], input[type=number], textarea, select {
+    width: 100%; background: #081109; color: var(--text); border: 1px solid var(--line); border-radius: 8px;
+    padding: 8px 10px; font: inherit; font-size: 14px; }
+  textarea { resize: vertical; min-height: 54px; }
+  input:focus, textarea:focus, select:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+  input[type=range] { width: 100%; accent-color: var(--accent); }
+  input[type=color] { width: 100%; height: 38px; padding: 2px; background: #081109; border: 1px solid var(--line); border-radius: 8px; cursor: pointer; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  button { font: inherit; cursor: pointer; border-radius: 9px; border: 1px solid var(--line); background: var(--panel2); color: var(--text);
+    padding: 8px 12px; font-weight: 700; font-size: 13px; transition: transform .08s, background .15s; }
+  button:hover { background: #1b3526; }
+  button:active { transform: scale(.97); }
+  button.primary { background: var(--accent); color: #032010; border-color: var(--accent); }
+  button.primary:hover { background: #5cf19a; }
+  button.gold { background: var(--gold); color: #2b1d00; border-color: var(--gold); }
+  button.gold:hover { background: #ffd66e; }
+  button.ghost { background: transparent; }
+  button.small { padding: 4px 8px; font-size: 12px; }
+  button.danger { color: var(--danger); }
+  button:disabled { opacity: .5; cursor: not-allowed; }
+  .btns { display: flex; flex-wrap: wrap; gap: 8px; }
+  .check { display: flex; align-items: center; gap: 8px; font-size: 13px; margin: 6px 0; color: var(--text); text-transform: none; letter-spacing: 0; font-weight: 600; }
+  .check input { accent-color: var(--accent); width: 16px; height: 16px; }
+  .tpl { padding: 0; overflow: hidden; text-align: left; width: calc(33.33% - 6px); background: none; border: 2px solid var(--line); }
+  .tpl .sw { height: 54px; display: flex; align-items: center; justify-content: center; background: #05482f;
+    font-family: "Comic Neue", "Comic Sans MS", sans-serif; font-size: 17px; color: #f2f2fa; text-shadow: 0 0 2px #000, 0 0 2px #000; }
+  .tpl .nm { font-size: 11px; padding: 5px 7px; background: #081109; }
+  .layers { margin-top: 10px; display: flex; flex-direction: column; gap: 6px; }
+  .ly { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-radius: 10px; background: var(--panel2); border: 1px solid var(--line); cursor: pointer; }
+  .ly.on { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold) inset; }
+  .ly .ic { width: 34px; height: 34px; border-radius: 6px; background: #081109 center/contain no-repeat; display: flex; align-items: center; justify-content: center; font-size: 16px; flex: none; overflow: hidden; }
+  .ly .nm { flex: 1; font-size: 13px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ly button { padding: 2px 7px; }
+  .stage { position: sticky; top: 16px; align-self: start; }
+  .canvasBox { background: #000; border-radius: 14px; overflow: hidden; border: 1px solid var(--line); }
+  canvas#view { display: block; width: 100%; height: auto; touch-action: none; outline: none; }
+  .hint { font-size: 12px; color: var(--muted); line-height: 1.45; }
+  .status { font-size: 12px; color: var(--muted); margin-top: 6px; min-height: 16px; }
+  .imgrow { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .imgrow img { height: 48px; border-radius: 6px; background: repeating-conic-gradient(#222 0 25%, #333 0 50%) 0 0/12px 12px; }
+  .empty { color: var(--muted); font-size: 13px; }
+</style>
+</head>
+<body>
+<div id="header-container"></div>
+
+<header class="top">
+  <div style="font-size:30px">🖼️</div>
+  <div>
+    <h1>MINIATURE <span>FOOT</span></h1>
+    <div class="tag">Crée tes miniatures YouTube (style « La liste », « Transfert »…) — export PNG/JPG 1280×720</div>
+  </div>
+</header>
+
+<div class="wrap">
+  <!-- ============ EDITOR ============ -->
+  <div>
+    <div class="panel">
+      <h2>🧩 Modèle</h2>
+      <div class="btns" id="templates"></div>
+      <div class="hint" style="margin-top:8px">Un modèle place un titre, un drapeau et des emplacements photo. Clique un emplacement « 📷 » puis choisis une photo (ou double-clique dessus).</div>
+    </div>
+
+    <div class="panel">
+      <h2>🎨 Fond</h2>
+      <div class="row">
+        <div><label>Couleur</label><input type="color" id="bgColor" /></div>
+        <div><label>Image de fond (optionnel)</label><input type="file" id="bgFile" accept="image/*" /></div>
+      </div>
+      <div id="bgImgOpts" style="display:none">
+        <div class="row">
+          <div><label>Flou <span class="val" id="bgBlurVal"></span></label><input type="range" id="bgBlur" min="0" max="40" step="1" /></div>
+          <div><label>Assombrir <span class="val" id="bgDimVal"></span></label><input type="range" id="bgDim" min="0" max="0.85" step="0.05" /></div>
+        </div>
+        <button class="small ghost" id="bgRemove" style="margin-top:6px">Retirer l'image de fond</button>
+      </div>
+      <label class="check" style="margin-top:10px"><input type="checkbox" id="frame" /> Cadre autour de la miniature</label>
+      <div class="row">
+        <div><label>Couleur du cadre</label><input type="color" id="frameColor" /></div>
+        <div><label>Épaisseur <span class="val" id="frameWVal"></span></label><input type="range" id="frameW" min="1" max="30" step="1" /></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>🗂 Calques</h2>
+      <div class="btns">
+        <button class="primary" id="addText">+ Texte</button>
+        <button class="primary" id="addImage">+ Photo / PNG</button>
+        <button class="primary" id="addFlag">+ Drapeau</button>
+      </div>
+      <input type="file" id="imgFile" accept="image/*" hidden />
+      <div class="layers" id="layerList"></div>
+    </div>
+
+    <div class="panel" id="propsPanel">
+      <h2 id="propsTitle">✏️ Calque sélectionné</h2>
+      <div id="props"></div>
+    </div>
+  </div>
+
+  <!-- ============ STAGE ============ -->
+  <div class="stage">
+    <div class="canvasBox"><canvas id="view" width="1920" height="1080" tabindex="0"></canvas></div>
+    <div class="hint" style="margin-top:8px">✋ Clique un élément pour le sélectionner, glisse pour le déplacer (aimant au centre, <b>Maj</b> pour le désactiver),
+      tire le carré jaune ou utilise la molette pour le redimensionner. Flèches = déplacer au pixel, <b>Suppr</b> = supprimer, <b>Ctrl/⌘+Z</b> = annuler.
+      Tu peux aussi glisser-déposer ou coller (<b>Ctrl/⌘+V</b>) une image.</div>
+    <div class="panel" style="margin-top:12px">
+      <h2>📥 Export</h2>
+      <div class="row">
+        <div>
+          <label>Taille</label>
+          <select id="exSize">
+            <option value="1280x720">1280 × 720 (YouTube)</option>
+            <option value="1920x1080">1920 × 1080 (HD)</option>
+          </select>
+        </div>
+        <div>
+          <label>Format</label>
+          <select id="exFmt">
+            <option value="image/jpeg">JPG (léger, &lt; 2 Mo)</option>
+            <option value="image/png">PNG</option>
+          </select>
+        </div>
+      </div>
+      <div class="btns" style="margin-top:12px">
+        <button class="gold" id="btnExport" style="flex:1;font-size:15px;padding:12px">⬇ Télécharger la miniature</button>
+        <button id="btnCopy" title="Copier l'image dans le presse-papiers">📋 Copier</button>
+      </div>
+      <div class="btns" style="margin-top:8px">
+        <button class="small" id="btnSaveProj">💾 Sauver le projet</button>
+        <button class="small" id="btnLoadProj">📂 Ouvrir un projet</button>
+        <input type="file" id="projFile" accept=".json" hidden />
+      </div>
+      <div class="status" id="status"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   CONSTANTS
+   ===================================================================== */
+const W0 = 1280, H0 = 720;            // logical design size (every coordinate is in this space)
+const PREVIEW_S = 1.5;                 // preview canvas = 1920×1080 for a crisp display
+const FONTS = { "Comic Neue": 700, "Comic Sans MS": 700, "Fredoka": 700, "Baloo 2": 800, "Luckiest Guy": 400, "Bangers": 400,
+  "Anton": 400, "Bebas Neue": 400, "Montserrat": 900, "Permanent Marker": 400 };
+const fontCss = (f, size) => `${FONTS[f] ?? 700} ${size}px "${f}", "Comic Sans MS", sans-serif`;
+const BGR_URL = "https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.7.0/+esm";
+
+const $ = (id) => document.getElementById(id);
+const uid = () => Math.random().toString(36).slice(2, 10);
+const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
+const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const slug = (s) => (s || "miniature").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40) || "miniature";
+const newCanvas = (w, h) => { const c = document.createElement("canvas"); c.width = Math.max(1, Math.round(w)); c.height = Math.max(1, Math.round(h)); return c; };
+const toBlob = (c, type = "image/png", q) => new Promise((res) => c.toBlob(res, type, q));
+const loadImg = (src) => new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = src; });
+const blobToDataURL = (b) => new Promise((res) => { const r = new FileReader(); r.onload = () => res(r.result); r.readAsDataURL(b); });
+function setStatus(msg) { $("status").textContent = msg || ""; }
+
+/* =====================================================================
+   FLAGS
+   ===================================================================== */
+function star(ctx, cx, cy, r, color, rot = -Math.PI / 2) {
+  ctx.beginPath();
+  for (let i = 0; i < 10; i++) { const a = rot + (i * Math.PI) / 5, rad = i % 2 ? r * 0.382 : r; ctx.lineTo(cx + Math.cos(a) * rad, cy + Math.sin(a) * rad); }
+  ctx.closePath(); ctx.fillStyle = color; ctx.fill();
+}
+function crescent(ctx, cx, cy, R, r, dx, color) { // outer disc minus an offset inner disc
+  ctx.save(); ctx.beginPath(); ctx.rect(cx - R * 2, cy - R * 2, R * 4, R * 4); ctx.arc(cx + dx, cy, r, 0, Math.PI * 2, true); ctx.clip();
+  ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2); ctx.fillStyle = color; ctx.fill(); ctx.restore();
+}
+const FLAGS = {
+  ci: { name: "Côte d'Ivoire", v: ["#F77F00", "#FFFFFF", "#009E60"] },
+  benin: { name: "Bénin", draw(c, x, y, w, h) { c.fillStyle = "#FCD116"; c.fillRect(x, y, w, h / 2); c.fillStyle = "#E8112D"; c.fillRect(x, y + h / 2, w, h / 2); c.fillStyle = "#008751"; c.fillRect(x, y, w * 0.4, h); } },
+  senegal: { name: "Sénégal", v: ["#00853F", "#FDEF42", "#E31B23"], draw(c, x, y, w, h) { star(c, x + w / 2, y + h / 2, h * 0.17, "#00853F"); } },
+  cameroun: { name: "Cameroun", v: ["#007A5E", "#CE1126", "#FCD116"], draw(c, x, y, w, h) { star(c, x + w / 2, y + h / 2, h * 0.15, "#FCD116"); } },
+  mali: { name: "Mali", v: ["#14B53A", "#FCD116", "#CE1126"] },
+  guinee: { name: "Guinée", v: ["#CE1126", "#FCD116", "#009460"] },
+  burkina: { name: "Burkina Faso", h: ["#EF2B2D", "#009E49"], draw(c, x, y, w, h) { star(c, x + w / 2, y + h / 2, h * 0.16, "#FCD116"); } },
+  ghana: { name: "Ghana", h: ["#CE1126", "#FCD116", "#006B3F"], draw(c, x, y, w, h) { star(c, x + w / 2, y + h / 2, h * 0.15, "#000000"); } },
+  nigeria: { name: "Nigeria", v: ["#008751", "#FFFFFF", "#008751"] },
+  togo: { name: "Togo", h: ["#006A4E", "#FFCE00", "#006A4E", "#FFCE00", "#006A4E"], draw(c, x, y, w, h) { const s = h * 0.6; c.fillStyle = "#D21034"; c.fillRect(x, y, s, s); star(c, x + s / 2, y + s / 2, s * 0.32, "#FFFFFF"); } },
+  gabon: { name: "Gabon", h: ["#009E60", "#FCD116", "#3A75C4"] },
+  rdc: { name: "RD Congo", draw(c, x, y, w, h) {
+    c.fillStyle = "#007FFF"; c.fillRect(x, y, w, h);
+    c.save(); c.translate(x + w / 2, y + h / 2); c.rotate(-Math.atan2(h, w));
+    c.fillStyle = "#F7D618"; c.fillRect(-w, -h * 0.17, w * 2, h * 0.34); c.fillStyle = "#CE1021"; c.fillRect(-w, -h * 0.12, w * 2, h * 0.24); c.restore();
+    star(c, x + w * 0.16, y + h * 0.24, h * 0.15, "#F7D618"); } },
+  maroc: { name: "Maroc", draw(c, x, y, w, h) {
+    c.fillStyle = "#C1272D"; c.fillRect(x, y, w, h); const r = h * 0.22, cx = x + w / 2, cy = y + h / 2;
+    c.beginPath(); for (let i = 0; i <= 5; i++) { const a = -Math.PI / 2 + (i * 4 * Math.PI) / 5; c.lineTo(cx + Math.cos(a) * r, cy + Math.sin(a) * r); }
+    c.strokeStyle = "#006233"; c.lineWidth = h * 0.045; c.lineJoin = "miter"; c.stroke(); } },
+  algerie: { name: "Algérie", v: ["#006233", "#FFFFFF"], draw(c, x, y, w, h) {
+    crescent(c, x + w / 2, y + h / 2, h * 0.25, h * 0.2, h * 0.065, "#D21034"); star(c, x + w / 2 + h * 0.1, y + h / 2, h * 0.12, "#D21034", -Math.PI / 2 + 0.3); } },
+  tunisie: { name: "Tunisie", draw(c, x, y, w, h) {
+    c.fillStyle = "#E70013"; c.fillRect(x, y, w, h); c.beginPath(); c.arc(x + w / 2, y + h / 2, h * 0.25, 0, Math.PI * 2); c.fillStyle = "#fff"; c.fill();
+    crescent(c, x + w / 2, y + h / 2, h * 0.19, h * 0.155, h * 0.05, "#E70013"); star(c, x + w / 2 + h * 0.04, y + h / 2, h * 0.1, "#E70013", -Math.PI / 2 + 0.3); } },
+  egypte: { name: "Égypte", h: ["#CE1126", "#FFFFFF", "#000000"] },
+  france: { name: "France", v: ["#0055A4", "#FFFFFF", "#EF4135"] },
+  belgique: { name: "Belgique", v: ["#000000", "#FAE042", "#ED2939"] },
+  italie: { name: "Italie", v: ["#009246", "#FFFFFF", "#CE2B37"] },
+  allemagne: { name: "Allemagne", h: ["#000000", "#DD0000", "#FFCE00"] },
+  espagne: { name: "Espagne", draw(c, x, y, w, h) { c.fillStyle = "#AA151B"; c.fillRect(x, y, w, h); c.fillStyle = "#F1BF00"; c.fillRect(x, y + h / 4, w, h / 2); } },
+  angleterre: { name: "Angleterre", draw(c, x, y, w, h) { c.fillStyle = "#fff"; c.fillRect(x, y, w, h); c.fillStyle = "#CE1124"; c.fillRect(x + w / 2 - h * 0.1, y, h * 0.2, h); c.fillRect(x, y + h * 0.4, w, h * 0.2); } },
+  canada: { name: "Canada", draw(c, x, y, w, h) {
+    c.fillStyle = "#D80621"; c.fillRect(x, y, w, h); c.fillStyle = "#fff"; c.fillRect(x + w / 4, y, w / 2, h);
+    c.font = `${h * 0.55}px sans-serif`; c.textAlign = "center"; c.textBaseline = "middle"; c.fillText("🍁", x + w / 2, y + h / 2 + h * 0.03); } },
+  bresil: { name: "Brésil", draw(c, x, y, w, h) {
+    c.fillStyle = "#009C3B"; c.fillRect(x, y, w, h); c.beginPath(); c.moveTo(x + w * 0.08, y + h / 2); c.lineTo(x + w / 2, y + h * 0.1); c.lineTo(x + w * 0.92, y + h / 2); c.lineTo(x + w / 2, y + h * 0.9); c.closePath();
+    c.fillStyle = "#FFDF00"; c.fill(); c.beginPath(); c.arc(x + w / 2, y + h / 2, h * 0.23, 0, Math.PI * 2); c.fillStyle = "#002776"; c.fill(); } },
+  argentine: { name: "Argentine", h: ["#74ACDF", "#FFFFFF", "#74ACDF"], draw(c, x, y, w, h) { c.beginPath(); c.arc(x + w / 2, y + h / 2, h * 0.09, 0, Math.PI * 2); c.fillStyle = "#F6B40E"; c.fill(); } },
+  portugal: { name: "Portugal", draw(c, x, y, w, h) { c.fillStyle = "#DA291C"; c.fillRect(x, y, w, h); c.fillStyle = "#046A38"; c.fillRect(x, y, w * 0.4, h);
+    c.beginPath(); c.arc(x + w * 0.4, y + h / 2, h * 0.2, 0, Math.PI * 2); c.fillStyle = "#FFE900"; c.fill(); } },
+};
+function paintFlag(ctx, code, x, y, w, h) {
+  const F = FLAGS[code] || FLAGS.ci;
+  if (F.v) F.v.forEach((col, i) => { ctx.fillStyle = col; ctx.fillRect(x + (w * i) / F.v.length, y, w / F.v.length + 0.5, h); });
+  if (F.h) F.h.forEach((col, i) => { ctx.fillStyle = col; ctx.fillRect(x, y + (h * i) / F.h.length, w, h / F.h.length + 0.5); });
+  if (F.draw) F.draw(ctx, x, y, w, h);
+}
+
+/* =====================================================================
+   STATE
+   ===================================================================== */
+const mkText = (o) => ({ id: uid(), type: "text", x: 640, y: 360, size: 150, rot: 0, opacity: 1, shadow: false,
+  text: "Titre", font: "Comic Neue", color: "#f2f2fa", stroke: "#111111", strokeW: 5, ...o });
+const mkImage = (o) => ({ id: uid(), type: "image", x: 640, y: 420, size: 520, rot: 0, opacity: 1, shadow: false, flip: false,
+  img: null, outline: 0, outlineColor: "#ffffff", ...o });
+const mkFlag = (o) => ({ id: uid(), type: "flag", x: 640, y: 360, size: 240, rot: 0, opacity: 1, shadow: true, flip: false,
+  country: "ci", shape: "round", outline: 8, outlineColor: "#ffffff", ...o });
+const DEFAULT_BG = { color: "#05482f", frame: true, frameColor: "#111111", frameW: 6, img: null, blur: 0, dim: 0 };
+
+const TEMPLATES = {
+  liste: { name: "La liste", demo: "La liste", layers: () => [
+    mkImage({ x: 235, y: 400, size: 560 }),
+    mkText({ text: "La liste", x: 790, y: 190, size: 200 }),
+    mkFlag({ x: 760, y: 485, size: 270 }),
+  ] },
+  transfert: { name: "Transfert", demo: "Transfert", layers: () => [
+    mkText({ text: "Transfert", x: 560, y: 105, size: 175 }),
+    mkFlag({ x: 1140, y: 150, size: 210 }),
+    mkImage({ x: 185, y: 450, size: 560 }), mkImage({ x: 410, y: 450, size: 560 }),
+    mkImage({ x: 650, y: 450, size: 560 }), mkImage({ x: 1020, y: 450, size: 560 }),
+  ] },
+  top: { name: "Top 5", demo: "TOP 5", layers: () => [
+    mkText({ text: "TOP 5", x: 330, y: 200, size: 210 }),
+    mkText({ text: "des meilleurs\nbuteurs", x: 330, y: 470, size: 90 }),
+    mkImage({ x: 930, y: 400, size: 600 }),
+  ] },
+  vide: { name: "Vide", demo: "…", layers: () => [] },
+};
+
+const IMGS = new Map(); // image id -> HTMLImageElement (blobs persisted in IndexedDB)
+const BOX = new Map();  // layer id -> drawn extent {w, h, st?} (logical px), refreshed on each preview render
+let S = load() || { bg: { ...DEFAULT_BG }, layers: TEMPLATES.liste.layers(), sel: null };
+
+function load() {
+  try { const s = JSON.parse(localStorage.getItem("miniatureFoot.v1")); if (s && Array.isArray(s.layers)) { s.bg = { ...DEFAULT_BG, ...s.bg }; return s; } } catch (e) {}
+  return null;
+}
+function save() { try { localStorage.setItem("miniatureFoot.v1", JSON.stringify(S)); } catch (e) {} }
+
+// undo history (layout only — images are referenced by id)
+const HIST = []; let lastSnap = JSON.stringify(S);
+function commit() {
+  const snap = JSON.stringify(S); if (snap === lastSnap) return;
+  HIST.push(lastSnap); if (HIST.length > 60) HIST.shift(); lastSnap = snap; save();
+}
+function undo() { const prev = HIST.pop(); if (!prev) return; S = JSON.parse(prev); lastSnap = prev; save(); refresh(); }
+
+/* ---------------- IndexedDB image store ---------------- */
+const idb = (() => {
+  let p;
+  const db = () => (p ||= new Promise((res, rej) => {
+    const r = indexedDB.open("miniatureFoot", 1);
+    r.onupgradeneeded = () => r.result.createObjectStore("img"); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error);
+  }));
+  const tx = async (mode, fn) => { const d = await db(); return new Promise((res, rej) => {
+    const t = d.transaction("img", mode); const r = fn(t.objectStore("img")); t.oncomplete = () => res(r && r.result); t.onerror = () => rej(t.error); }); };
+  return { get: (k) => tx("readonly", (s) => s.get(k)), set: (k, v) => tx("readwrite", (s) => s.put(v, k)),
+    del: (k) => tx("readwrite", (s) => s.delete(k)), keys: () => tx("readonly", (s) => s.getAllKeys()) };
+})();
+
+/** Downscale huge images and trim transparent margins (so cut-out players get a tight box). */
+async function importBlob(blob) {
+  const src = await loadImg(URL.createObjectURL(blob));
+  const k = Math.min(1, 2000 / Math.max(src.width, src.height));
+  const c = newCanvas(src.width * k, src.height * k), x = c.getContext("2d"); x.drawImage(src, 0, 0, c.width, c.height);
+  let out = c, hasAlpha = false;
+  try {
+    const d = x.getImageData(0, 0, c.width, c.height).data; let x0 = c.width, y0 = c.height, x1 = -1, y1 = -1;
+    for (let y = 0; y < c.height; y++) for (let i = y * c.width * 4 + 3, xx = 0; xx < c.width; xx++, i += 4) {
+      if (d[i] < 255) hasAlpha = true;
+      if (d[i] > 8) { if (xx < x0) x0 = xx; if (xx > x1) x1 = xx; if (y < y0) y0 = y; if (y > y1) y1 = y; }
+    }
+    if (hasAlpha && x1 >= x0 && (x0 > 0 || y0 > 0 || x1 < c.width - 1 || y1 < c.height - 1)) {
+      out = newCanvas(x1 - x0 + 1, y1 - y0 + 1); out.getContext("2d").drawImage(c, -x0, -y0);
+    }
+  } catch (e) {}
+  const stored = out === c && k === 1 ? blob : await toBlob(out, hasAlpha ? "image/png" : "image/jpeg", 0.92);
+  const id = uid();
+  try { await idb.set(id, stored); } catch (e) {}
+  IMGS.set(id, await loadImg(URL.createObjectURL(stored)));
+  return id;
+}
+function usedImageIds() { const s = new Set(S.layers.filter((l) => l.img).map((l) => l.img)); if (S.bg.img) s.add(S.bg.img); return s; }
+
+/* =====================================================================
+   RENDER
+   ===================================================================== */
+function shadowOn(ctx, s) { ctx.shadowColor = "rgba(0,0,0,.55)"; ctx.shadowBlur = 26 * s; ctx.shadowOffsetX = 0; ctx.shadowOffsetY = 10 * s; }
+function shadowOff(ctx) { ctx.shadowColor = "transparent"; ctx.shadowBlur = 0; ctx.shadowOffsetY = 0; }
+function rr(ctx, x, y, w, h, r) {
+  r = Math.min(r, h / 2, w / 2); ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
+}
+function drawImageCover(ctx, img, x, y, w, h) {
+  const r = Math.max(w / img.width, h / img.height), sw = w / r, sh = h / r;
+  ctx.drawImage(img, (img.width - sw) / 2, (img.height - sh) / 2, sw, sh, x, y, w, h);
+}
+
+/* background image, blurred once and cached per output scale */
+const canFilter = (() => { try { const c = document.createElement("canvas").getContext("2d"); c.filter = "blur(2px)"; return c.filter === "blur(2px)"; } catch (e) { return false; } })();
+const bgCache = new Map();
+function bgCanvas(img, id, s) {
+  const blur = S.bg.blur * s, key = `${id}|${s}|${blur}`;
+  if (bgCache.has(key)) return bgCache.get(key);
+  const W = W0 * s, H = H0 * s, c = newCanvas(W, H), o = c.getContext("2d");
+  if (blur < 0.5) drawImageCover(o, img, 0, 0, W, H);
+  else if (canFilter) { const pad = blur * 2; o.filter = `blur(${blur}px)`; drawImageCover(o, img, -pad, -pad, W + 2 * pad, H + 2 * pad); o.filter = "none"; }
+  else { const k = Math.max(1, blur / 2), t = newCanvas(W / k, H / k); drawImageCover(t.getContext("2d"), img, 0, 0, t.width, t.height); o.imageSmoothingQuality = "high"; o.drawImage(t, 0, 0, W, H); }
+  if (bgCache.size > 6) bgCache.delete(bgCache.keys().next().value);
+  bgCache.set(key, c); return c;
+}
+
+/* image + "sticker" outline (dilated silhouette), cached */
+const stCache = new Map();
+function sticker(id, img, w, h, o, color, s) {
+  const key = `${id}|${Math.round(w * s)}|${Math.round(h * s)}|${o}|${color}`;
+  if (stCache.has(key)) return stCache.get(key);
+  const r = o * s, pad = Math.ceil(r) + 2, iw = w * s, ih = h * s;
+  const c = newCanvas(iw + pad * 2, ih + pad * 2), x = c.getContext("2d");
+  if (r > 0) {
+    for (const f of [1, 0.66, 0.33]) { const rad = r * f, n = Math.max(16, Math.ceil(rad * 1.5));
+      for (let i = 0; i < n; i++) { const a = (i / n) * Math.PI * 2; x.drawImage(img, pad + Math.cos(a) * rad, pad + Math.sin(a) * rad, iw, ih); } }
+    x.globalCompositeOperation = "source-in"; x.fillStyle = color; x.fillRect(0, 0, c.width, c.height); x.globalCompositeOperation = "source-over";
+  }
+  x.drawImage(img, pad, pad, iw, ih);
+  const st = { c, pad: pad / s, s };
+  if (stCache.size > 40) stCache.delete(stCache.keys().next().value);
+  stCache.set(key, st); return st;
+}
+
+function drawText(ctx, L, s) {
+  const lines = String(L.text || " ").split("\n");
+  ctx.font = fontCss(L.font, L.size); ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.lineJoin = "round"; ctx.miterLimit = 2;
+  const lh = L.size * 1.08, w = Math.max(1, ...lines.map((l) => ctx.measureText(l).width)), h = lines.length * lh;
+  lines.forEach((l, i) => {
+    const y = -h / 2 + lh * (i + 0.5);
+    if (L.shadow) shadowOn(ctx, s);
+    if (L.strokeW > 0) { ctx.lineWidth = L.strokeW * 2; ctx.strokeStyle = L.stroke; ctx.strokeText(l, 0, y); shadowOff(ctx); }
+    ctx.fillStyle = L.color; ctx.fillText(l, 0, y); shadowOff(ctx);
+  });
+  return { w: w + L.strokeW * 2, h: h + L.strokeW * 2 };
+}
+function flagPath(ctx, L, w, h) { ctx.beginPath(); if (L.shape === "circle") ctx.arc(0, 0, w / 2, 0, Math.PI * 2); else rr(ctx, -w / 2, -h / 2, w, h, L.shape === "round" ? h * 0.14 : 0); }
+function drawFlag(ctx, L, s) {
+  const w = L.size, h = L.shape === "circle" ? w : (w * 2) / 3;
+  if (L.shadow) shadowOn(ctx, s);
+  flagPath(ctx, L, w, h); ctx.fillStyle = L.outline > 0 ? L.outlineColor : "#000"; ctx.fill();
+  if (L.outline > 0) { ctx.lineWidth = L.outline * 2; ctx.lineJoin = "round"; ctx.strokeStyle = L.outlineColor; ctx.stroke(); }
+  shadowOff(ctx);
+  ctx.save(); flagPath(ctx, L, w, h); ctx.clip();
+  if (L.shape === "circle") paintFlag(ctx, L.country, -w * 0.75, -h / 2, w * 1.5, h); else paintFlag(ctx, L.country, -w / 2, -h / 2, w, h);
+  ctx.restore();
+  return { w: w + L.outline * 2, h: h + L.outline * 2 };
+}
+function drawImageLayer(ctx, L, s, preview) {
+  const img = L.img && IMGS.get(L.img);
+  if (!img) { // empty slot: only visible in the editor
+    const h = L.size, w = h * 0.72;
+    if (preview) {
+      ctx.fillStyle = "rgba(255,255,255,.07)"; rr(ctx, -w / 2, -h / 2, w, h, 24); ctx.fill();
+      ctx.setLineDash([14, 10]); ctx.lineWidth = 3; ctx.strokeStyle = "rgba(255,255,255,.55)"; ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = "rgba(255,255,255,.8)"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+      ctx.font = `${Math.min(70, w * 0.3)}px sans-serif`; ctx.fillText("📷", 0, -24);
+      ctx.font = `700 ${Math.max(13, Math.min(22, w * 0.07))}px Montserrat`; ctx.fillText("Double-clic", 0, 40); ctx.fillText("pour une photo", 0, 66);
+    }
+    return { w, h };
+  }
+  const h = L.size, w = (h * img.width) / img.height;
+  const st = sticker(L.img, img, w, h, L.outline, L.outlineColor, s);
+  if (L.flip) ctx.scale(-1, 1);
+  if (L.shadow) shadowOn(ctx, s);
+  ctx.drawImage(st.c, -w / 2 - st.pad, -h / 2 - st.pad, w + st.pad * 2, h + st.pad * 2);
+  shadowOff(ctx);
+  return { w: w + L.outline * 2, h: h + L.outline * 2, st, iw: w, ih: h };
+}
+function drawLayer(ctx, L, s, preview) {
+  ctx.save(); ctx.translate(L.x, L.y); ctx.rotate((L.rot * Math.PI) / 180); ctx.globalAlpha = L.opacity ?? 1;
+  let box;
+  if (L.type === "text") box = drawText(ctx, L, s);
+  else if (L.type === "flag") { if (L.flip) ctx.scale(-1, 1); box = drawFlag(ctx, L, s); }
+  else box = drawImageLayer(ctx, L, s, preview);
+  ctx.restore();
+  if (preview) BOX.set(L.id, box);
+}
+function render(ctx, s, preview) {
+  ctx.setTransform(s, 0, 0, s, 0, 0);
+  const B = S.bg; ctx.fillStyle = B.color; ctx.fillRect(0, 0, W0, H0);
+  const bimg = B.img && IMGS.get(B.img);
+  if (bimg) { ctx.drawImage(bgCanvas(bimg, B.img, s), 0, 0, W0, H0); if (B.dim > 0) { ctx.fillStyle = `rgba(0,0,0,${B.dim})`; ctx.fillRect(0, 0, W0, H0); } }
+  for (const L of S.layers) drawLayer(ctx, L, s, preview);
+  if (B.frame && B.frameW > 0) { ctx.strokeStyle = B.frameColor; ctx.lineWidth = B.frameW * 2; ctx.strokeRect(0, 0, W0, H0); }
+  if (preview) drawOverlay(ctx);
+}
+
+/* =====================================================================
+   PREVIEW + INTERACTION
+   ===================================================================== */
+const view = $("view"), vctx = view.getContext("2d");
+let drag = null, guides = [], hoverId = null;
+const sel = () => S.layers.find((l) => l.id === S.sel) || null;
+const pxk = () => W0 / (view.clientWidth || W0); // logical px per screen px
+
+function draw() { render(vctx, PREVIEW_S, true); }
+function drawOverlay(ctx) {
+  const k = pxk();
+  ctx.save(); ctx.strokeStyle = "#ff3df2"; ctx.lineWidth = 2 * k;
+  for (const g of guides) { ctx.beginPath(); if (g.x != null) { ctx.moveTo(g.x, 0); ctx.lineTo(g.x, H0); } else { ctx.moveTo(0, g.y); ctx.lineTo(W0, g.y); } ctx.stroke(); }
+  for (const L of S.layers) {
+    const on = L.id === S.sel, hov = L.id === hoverId; if (!on && !hov) continue;
+    const b = BOX.get(L.id); if (!b) continue;
+    ctx.save(); ctx.translate(L.x, L.y); ctx.rotate((L.rot * Math.PI) / 180);
+    ctx.setLineDash(on ? [] : [8 * k, 6 * k]); ctx.lineWidth = (on ? 2.5 : 1.5) * k; ctx.strokeStyle = on ? "#ffc53d" : "rgba(255,255,255,.7)";
+    ctx.strokeRect(-b.w / 2, -b.h / 2, b.w, b.h);
+    if (on) { const hs = 14 * k; ctx.setLineDash([]); ctx.fillStyle = "#ffc53d"; ctx.fillRect(b.w / 2 - hs / 2, b.h / 2 - hs / 2, hs, hs); ctx.strokeStyle = "#2b1d00"; ctx.lineWidth = 1.5 * k; ctx.strokeRect(b.w / 2 - hs / 2, b.h / 2 - hs / 2, hs, hs); }
+    ctx.restore();
+  }
+  ctx.restore();
+}
+function pt(e) { const r = view.getBoundingClientRect(); return { x: ((e.clientX - r.left) * W0) / r.width, y: ((e.clientY - r.top) * H0) / r.height }; }
+function local(L, p) { const a = (-L.rot * Math.PI) / 180, dx = p.x - L.x, dy = p.y - L.y; return { x: dx * Math.cos(a) - dy * Math.sin(a), y: dx * Math.sin(a) + dy * Math.cos(a) }; }
+function inBox(L, p) { const b = BOX.get(L.id); if (!b) return false; const l = local(L, p); return Math.abs(l.x) <= b.w / 2 && Math.abs(l.y) <= b.h / 2; }
+function opaqueAt(L, p) { // ignore clicks on transparent parts of cut-out photos
+  const b = BOX.get(L.id); if (!b || !b.st) return true;
+  const l = local(L, p), lx = L.flip ? -l.x : l.x;
+  const px = Math.floor((lx + b.iw / 2 + b.st.pad) * b.st.s), py = Math.floor((l.y + b.ih / 2 + b.st.pad) * b.st.s);
+  try { return b.st.c.getContext("2d").getImageData(px, py, 1, 1).data[3] > 25; } catch (e) { return true; }
+}
+function pick(p) {
+  for (let i = S.layers.length - 1; i >= 0; i--) { const L = S.layers[i]; if (inBox(L, p) && opaqueAt(L, p)) return L; }
+  const cur = sel(); if (cur && inBox(cur, p)) return cur;
+  for (let i = S.layers.length - 1; i >= 0; i--) if (inBox(S.layers[i], p)) return S.layers[i];
+  return null;
+}
+function onHandle(L, p) { const b = BOX.get(L.id); if (!b) return false; const l = local(L, p), t = 14 * pxk(); return Math.abs(l.x - b.w / 2) < t && Math.abs(l.y - b.h / 2) < t; }
+
+view.addEventListener("pointerdown", (e) => {
+  const p = pt(e); view.focus(); const cur = sel();
+  if (cur && onHandle(cur, p)) drag = { mode: "size", L: cur, d0: Math.hypot(p.x - cur.x, p.y - cur.y) || 1, s0: cur.size };
+  else {
+    const L = pick(p);
+    if (!L) { S.sel = null; refresh(); return; }
+    if (S.sel !== L.id) { S.sel = L.id; refresh(); }
+    drag = { mode: "move", L, p0: p, x0: L.x, y0: L.y };
+  }
+  view.setPointerCapture(e.pointerId); e.preventDefault();
+});
+view.addEventListener("pointermove", (e) => {
+  const p = pt(e);
+  if (!drag) {
+    const cur = sel(), h = cur && onHandle(cur, p) ? null : pick(p);
+    view.style.cursor = cur && onHandle(cur, p) ? "nwse-resize" : h ? "move" : "default";
+    const id = h ? h.id : null; if (id !== hoverId) { hoverId = id; draw(); } return;
+  }
+  const L = drag.L;
+  if (drag.mode === "size") { L.size = clamp(drag.s0 * (Math.hypot(p.x - L.x, p.y - L.y) / drag.d0), 10, 3000); }
+  else {
+    let x = drag.x0 + p.x - drag.p0.x, y = drag.y0 + p.y - drag.p0.y; guides = [];
+    if (!e.shiftKey) { const t = 8 * pxk(); if (Math.abs(x - W0 / 2) < t) { x = W0 / 2; guides.push({ x: W0 / 2 }); } if (Math.abs(y - H0 / 2) < t) { y = H0 / 2; guides.push({ y: H0 / 2 }); } }
+    L.x = Math.round(x); L.y = Math.round(y);
+  }
+  draw(); syncProps();
+});
+function endDrag() { if (!drag) return; drag = null; guides = []; draw(); commit(); }
+view.addEventListener("pointerup", endDrag); view.addEventListener("pointercancel", endDrag);
+view.addEventListener("pointerleave", () => { if (hoverId && !drag) { hoverId = null; draw(); } });
+view.addEventListener("dblclick", (e) => { const L = pick(pt(e)); if (L && L.type === "image") chooseImageFor(L); });
+let wheelT = 0;
+view.addEventListener("wheel", (e) => {
+  const L = sel(); if (!L || !inBox(L, pt(e))) return;
+  e.preventDefault(); L.size = clamp(L.size * Math.exp(-e.deltaY * 0.0015), 10, 3000); draw(); syncProps();
+  clearTimeout(wheelT); wheelT = setTimeout(commit, 400);
+}, { passive: false });
+view.addEventListener("keydown", (e) => {
+  const L = sel(); if (!L) return;
+  if (e.key.startsWith("Arrow")) {
+    e.preventDefault(); const st = e.shiftKey ? 10 : 1;
+    if (e.key === "ArrowLeft") L.x -= st; if (e.key === "ArrowRight") L.x += st; if (e.key === "ArrowUp") L.y -= st; if (e.key === "ArrowDown") L.y += st;
+    draw(); syncProps(); commit();
+  } else if (e.key === "Delete" || e.key === "Backspace") { e.preventDefault(); removeLayer(L); }
+  else if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "d") { e.preventDefault(); duplicate(L); }
+});
+document.addEventListener("keydown", (e) => {
+  const typing = /INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName);
+  if (!typing && (e.ctrlKey || e.metaKey) && !e.shiftKey && e.key.toLowerCase() === "z") { e.preventDefault(); undo(); }
+});
+// drop & paste images
+view.addEventListener("dragover", (e) => e.preventDefault());
+view.addEventListener("drop", async (e) => {
+  e.preventDefault(); const f = [...(e.dataTransfer?.files || [])].find((f) => f.type.startsWith("image/")); if (!f) return;
+  const p = pt(e), target = pick(p);
+  if (target && target.type === "image") { target.img = await importBlob(f); S.sel = target.id; }
+  else { const L = mkImage({ x: Math.round(p.x), y: Math.round(p.y), size: 480, img: await importBlob(f) }); S.layers.push(L); S.sel = L.id; }
+  commit(); refresh();
+});
+document.addEventListener("paste", async (e) => {
+  if (/INPUT|TEXTAREA/.test(document.activeElement?.tagName)) return;
+  const f = [...(e.clipboardData?.files || [])].find((f) => f.type.startsWith("image/")); if (!f) return;
+  e.preventDefault(); const cur = sel();
+  if (cur && cur.type === "image" && !cur.img) cur.img = await importBlob(f);
+  else { const L = mkImage({ size: 480, img: await importBlob(f) }); S.layers.push(L); S.sel = L.id; }
+  commit(); refresh();
+});
+
+/* =====================================================================
+   LAYERS PANEL
+   ===================================================================== */
+const layerName = (L) => L.type === "text" ? (L.text || "Texte").split("\n")[0] : L.type === "flag" ? `Drapeau · ${(FLAGS[L.country] || FLAGS.ci).name}` : L.img ? "Photo" : "📷 Emplacement photo (vide)";
+function layerIcon(L) {
+  if (L.type === "image" && L.img && IMGS.get(L.img)) return `<span class="ic" style="background-image:url('${IMGS.get(L.img).src}')"></span>`;
+  if (L.type === "flag") { const c = newCanvas(60, 40), x = c.getContext("2d"); paintFlag(x, L.country, 0, 0, 60, 40); return `<span class="ic" style="background-image:url('${c.toDataURL()}');background-size:cover"></span>`; }
+  return `<span class="ic">${L.type === "text" ? "🔤" : "📷"}</span>`;
+}
+function renderLayerList() {
+  const rows = S.layers.map((L, i) => ({ L, i })).reverse(); // top-most first
+  $("layerList").innerHTML = rows.length ? rows.map(({ L, i }) => `
+    <div class="ly ${L.id === S.sel ? "on" : ""}" data-id="${L.id}">
+      ${layerIcon(L)}<span class="nm">${esc(layerName(L))}</span>
+      <button class="small ghost" data-act="up" title="Mettre devant" ${i === S.layers.length - 1 ? "disabled" : ""}>↑</button>
+      <button class="small ghost" data-act="down" title="Mettre derrière" ${i === 0 ? "disabled" : ""}>↓</button>
+      <button class="small ghost" data-act="dup" title="Dupliquer">⧉</button>
+      <button class="small ghost danger" data-act="del" title="Supprimer">✕</button>
+    </div>`).join("") : `<div class="empty">Aucun calque — ajoute un texte, une photo ou un drapeau.</div>`;
+}
+$("layerList").addEventListener("click", (e) => {
+  const row = e.target.closest(".ly"); if (!row) return; const L = S.layers.find((l) => l.id === row.dataset.id); if (!L) return;
+  const act = e.target.closest("[data-act]")?.dataset.act; const i = S.layers.indexOf(L);
+  if (act === "up" && i < S.layers.length - 1) { [S.layers[i], S.layers[i + 1]] = [S.layers[i + 1], S.layers[i]]; }
+  else if (act === "down" && i > 0) { [S.layers[i], S.layers[i - 1]] = [S.layers[i - 1], S.layers[i]]; }
+  else if (act === "dup") return duplicate(L);
+  else if (act === "del") return removeLayer(L);
+  S.sel = L.id; commit(); refresh();
+});
+function duplicate(L) { const c = { ...JSON.parse(JSON.stringify(L)), id: uid(), x: L.x + 30, y: L.y + 30 }; S.layers.splice(S.layers.indexOf(L) + 1, 0, c); S.sel = c.id; commit(); refresh(); }
+function removeLayer(L) { S.layers = S.layers.filter((l) => l !== L); if (S.sel === L.id) S.sel = null; commit(); refresh(); }
+
+/* ---------------- selected layer properties ---------------- */
+const range = (k, label, min, max, step = 1) => `<div><label>${label} <span class="val" data-v="${k}"></span></label><input type="range" data-k="${k}" min="${min}" max="${max}" step="${step}" /></div>`;
+const color = (k, label) => `<div><label>${label}</label><input type="color" data-k="${k}" /></div>`;
+const check = (k, label) => `<label class="check"><input type="checkbox" data-k="${k}" /> ${label}</label>`;
+const UNITS = { size: "px", rot: "°", strokeW: "px", outline: "px" };
+function renderProps() {
+  const L = sel(); const box = $("props");
+  if (!L) { $("propsTitle").textContent = "✏️ Calque sélectionné"; box.innerHTML = `<div class="empty">Clique un élément dans l'aperçu (ou dans la liste des calques) pour le modifier.</div>`; return; }
+  let h = "";
+  if (L.type === "text") {
+    $("propsTitle").textContent = "🔤 Texte";
+    h = `<label>Texte (Entrée = nouvelle ligne)</label><textarea data-k="text">${esc(L.text)}</textarea>
+      <label>Police</label><select data-k="font">${Object.keys(FONTS).map((f) => `<option style="font-family:'${f}'">${f}</option>`).join("")}</select>
+      <div class="row">${color("color", "Couleur")}${color("stroke", "Contour")}</div>
+      <div class="row">${range("size", "Taille", 20, 400)}${range("strokeW", "Épaisseur contour", 0, 25)}</div>
+      <div class="row">${range("rot", "Rotation", -45, 45)}${range("opacity", "Opacité", 0.1, 1, 0.05)}</div>
+      ${check("shadow", "Ombre portée")}`;
+  } else if (L.type === "flag") {
+    $("propsTitle").textContent = "🏳️ Drapeau";
+    h = `<label>Pays</label><select data-k="country">${Object.entries(FLAGS).map(([k, f]) => `<option value="${k}">${f.name}</option>`).join("")}</select>
+      <label>Forme</label><select data-k="shape"><option value="round">Rectangle arrondi</option><option value="rect">Rectangle</option><option value="circle">Rond</option></select>
+      <div class="row">${range("size", "Taille", 40, 800)}${range("outline", "Contour", 0, 30)}</div>
+      <div class="row">${color("outlineColor", "Couleur contour")}${range("rot", "Rotation", -45, 45)}</div>
+      ${check("shadow", "Ombre portée")}
+      <div class="hint">Pour une carte du pays (comme dans « La liste »), ajoute plutôt un PNG de la carte avec « + Photo / PNG » et mets-lui un contour blanc.</div>`;
+  } else {
+    $("propsTitle").textContent = "🖼 Photo";
+    const img = L.img && IMGS.get(L.img);
+    h = `<div class="imgrow">${img ? `<img src="${img.src}" alt="" />` : ""}
+        <button data-act="choose">📁 ${img ? "Changer la photo" : "Choisir une photo"}</button>
+        ${img ? `<button class="gold" data-act="cut">✂️ Détourer (IA)</button>` : ""}</div>
+      <div class="status" id="cutStatus"></div>
+      <div class="row">${range("size", "Hauteur", 40, 1400)}${range("rot", "Rotation", -45, 45)}</div>
+      <div class="row">${range("outline", "Contour sticker", 0, 30)}${color("outlineColor", "Couleur contour")}</div>
+      ${range("opacity", "Opacité", 0.1, 1, 0.05)}
+      <div class="row">${check("flip", "Miroir ↔")}${check("shadow", "Ombre portée")}</div>
+      <div class="hint">Le détourage tourne dans ton navigateur (rien n'est envoyé) ; la 1re fois il télécharge un modèle d'environ 40 Mo.</div>`;
+  }
+  h += `<div class="btns" style="margin-top:12px">
+      <button class="small" data-act="cx">↔ Centrer</button><button class="small" data-act="front">⤒ Devant</button>
+      <button class="small" data-act="back">⤓ Derrière</button><button class="small" data-act="dup">⧉ Dupliquer</button>
+      <button class="small ghost danger" data-act="del">✕ Supprimer</button></div>`;
+  box.innerHTML = h; syncProps();
+}
+function syncProps() { // push layer values into the form (without rebuilding it)
+  const L = sel(); if (!L) return;
+  $("props").querySelectorAll("[data-k]").forEach((el) => {
+    const v = L[el.dataset.k]; if (el === document.activeElement && el.tagName === "TEXTAREA") return;
+    if (el.type === "checkbox") el.checked = !!v; else el.value = v;
+  });
+  $("props").querySelectorAll("[data-v]").forEach((el) => {
+    const k = el.dataset.v, v = L[k]; el.textContent = k === "opacity" ? `(${Math.round(v * 100)}%)` : `(${Math.round(v)}${UNITS[k] || ""})`;
+  });
+}
+$("props").addEventListener("input", (e) => {
+  const L = sel(), el = e.target, k = el.dataset.k; if (!L || !k) return;
+  L[k] = el.type === "checkbox" ? el.checked : el.type === "range" ? +el.value : el.value;
+  if (k === "font") document.fonts.load(fontCss(L.font, 60)).then(draw);
+  draw(); syncProps(); if (["text", "country"].includes(k)) renderLayerList();
+});
+$("props").addEventListener("change", () => commit());
+$("props").addEventListener("click", (e) => {
+  const L = sel(), act = e.target.closest("[data-act]")?.dataset.act; if (!L || !act) return;
+  const i = S.layers.indexOf(L);
+  if (act === "choose") return chooseImageFor(L);
+  if (act === "cut") return cutout(L, e.target);
+  if (act === "dup") return duplicate(L);
+  if (act === "del") return removeLayer(L);
+  if (act === "cx") L.x = W0 / 2;
+  if (act === "front") { S.layers.splice(i, 1); S.layers.push(L); }
+  if (act === "back") { S.layers.splice(i, 1); S.layers.unshift(L); }
+  commit(); refresh();
+});
+
+/* ---------------- images ---------------- */
+let pendingTarget = null;
+function chooseImageFor(L) { pendingTarget = L ? L.id : null; $("imgFile").value = ""; $("imgFile").click(); }
+$("imgFile").onchange = async () => {
+  const f = $("imgFile").files[0]; if (!f) return;
+  const id = await importBlob(f);
+  let L = S.layers.find((l) => l.id === pendingTarget);
+  if (L) L.img = id; else { L = mkImage({ size: 480, img: id }); S.layers.push(L); }
+  S.sel = L.id; pendingTarget = null; commit(); refresh();
+};
+
+let bgrMod = null;
+async function cutout(L, btn) {
+  const blob = await idb.get(L.img).catch(() => null) || await fetch(IMGS.get(L.img).src).then((r) => r.blob());
+  const st = $("cutStatus"); btn.disabled = true; st.textContent = "Chargement du détoureur…";
+  try {
+    bgrMod ||= await import(BGR_URL);
+    const removeBackground = bgrMod.removeBackground || bgrMod.default;
+    const out = await removeBackground(blob, {
+      output: { format: "image/png" },
+      progress: (key, cur, total) => { if (total) st.textContent = `Téléchargement du modèle IA… ${Math.round((cur / total) * 100)} %`; },
+    });
+    st.textContent = "Finalisation…";
+    L.img = await importBlob(out); commit(); refresh(); setStatus("✂️ Photo détourée !");
+  } catch (e) {
+    console.error(e); btn.disabled = false;
+    st.textContent = "❌ Le détourage a échoué. Tu peux détourer la photo sur remove.bg puis importer le PNG.";
+  }
+}
+
+/* =====================================================================
+   BACKGROUND PANEL + TEMPLATES
+   ===================================================================== */
+function bindBg() {
+  const B = S.bg;
+  $("bgColor").value = B.color; $("frame").checked = B.frame; $("frameColor").value = B.frameColor; $("frameW").value = B.frameW;
+  $("bgBlur").value = B.blur; $("bgDim").value = B.dim;
+  $("frameWVal").textContent = `(${B.frameW}px)`; $("bgBlurVal").textContent = `(${B.blur}px)`; $("bgDimVal").textContent = `(${Math.round(B.dim * 100)}%)`;
+  $("bgImgOpts").style.display = B.img && IMGS.get(B.img) ? "" : "none";
+}
+for (const [id, k, num] of [["bgColor", "color"], ["frameColor", "frameColor"], ["frameW", "frameW", 1], ["bgBlur", "blur", 1], ["bgDim", "dim", 1]]) {
+  $(id).addEventListener("input", () => { S.bg[k] = num ? +$(id).value : $(id).value; bindBg(); draw(); });
+  $(id).addEventListener("change", commit);
+}
+$("frame").onchange = () => { S.bg.frame = $("frame").checked; draw(); commit(); };
+$("bgFile").onchange = async () => { const f = $("bgFile").files[0]; if (!f) return; S.bg.img = await importBlob(f); $("bgFile").value = ""; bindBg(); draw(); commit(); };
+$("bgRemove").onclick = () => { S.bg.img = null; bindBg(); draw(); commit(); };
+
+$("templates").innerHTML = Object.entries(TEMPLATES).map(([k, t]) => `<button class="tpl" data-k="${k}"><div class="sw">${esc(t.demo)}</div><div class="nm">${esc(t.name)}</div></button>`).join("");
+$("templates").addEventListener("click", (e) => {
+  const b = e.target.closest(".tpl"); if (!b) return;
+  if (S.layers.some((l) => l.img || l.type === "text") && !confirm("Remplacer les calques actuels par ce modèle ?")) return;
+  S.layers = TEMPLATES[b.dataset.k].layers(); S.sel = null; commit(); refresh();
+});
+$("addText").onclick = () => { const L = mkText({ text: "Ton texte", size: 120 }); S.layers.push(L); S.sel = L.id; commit(); refresh(); };
+$("addFlag").onclick = () => { const L = mkFlag({ x: 1080, y: 160, size: 220 }); S.layers.push(L); S.sel = L.id; commit(); refresh(); };
+$("addImage").onclick = () => chooseImageFor(null);
+
+function refresh() { bindBg(); renderLayerList(); renderProps(); draw(); }
+
+/* =====================================================================
+   EXPORT / PROJECT
+   ===================================================================== */
+async function renderBlob() {
+  await document.fonts.ready;
+  const [w] = $("exSize").value.split("x").map(Number), s = w / W0;
+  const c = newCanvas(W0 * s, H0 * s); render(c.getContext("2d"), s, false);
+  const type = $("exFmt").value; return { blob: await toBlob(c, type, 0.92), type };
+}
+const fileTitle = () => { const t = S.layers.find((l) => l.type === "text"); return slug(t ? t.text : "miniature"); };
+$("btnExport").onclick = async () => {
+  const { blob, type } = await renderBlob();
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `${fileTitle()}.${type === "image/png" ? "png" : "jpg"}`;
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 60000);
+  const mb = blob.size / 1e6;
+  setStatus(`✅ Miniature exportée (${mb.toFixed(2)} Mo)${mb > 2 ? " — ⚠️ YouTube limite à 2 Mo : choisis JPG ou 1280×720." : ""}`);
+};
+$("btnCopy").onclick = async () => {
+  try {
+    const prev = $("exFmt").value; $("exFmt").value = "image/png"; const { blob } = await renderBlob(); $("exFmt").value = prev;
+    await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]); setStatus("📋 Miniature copiée dans le presse-papiers.");
+  } catch (e) { setStatus("Copie impossible dans ce navigateur — utilise Télécharger."); }
+};
+$("btnSaveProj").onclick = async () => {
+  const images = {};
+  for (const id of usedImageIds()) { const b = await idb.get(id).catch(() => null); if (b) images[id] = await blobToDataURL(b); }
+  const blob = new Blob([JSON.stringify({ app: "miniature-foot", v: 1, state: S, images })], { type: "application/json" });
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `${fileTitle()}-projet.json`; a.click();
+};
+$("btnLoadProj").onclick = () => $("projFile").click();
+$("projFile").onchange = async () => {
+  const f = $("projFile").files[0]; if (!f) return; $("projFile").value = "";
+  try {
+    const d = JSON.parse(await f.text()); if (!d.state || !Array.isArray(d.state.layers)) throw new Error();
+    for (const [id, url] of Object.entries(d.images || {})) {
+      const b = await (await fetch(url)).blob(); try { await idb.set(id, b); } catch (e) {} IMGS.set(id, await loadImg(URL.createObjectURL(b)));
+    }
+    S = { ...d.state, bg: { ...DEFAULT_BG, ...d.state.bg } }; commit(); refresh(); setStatus("📂 Projet chargé.");
+  } catch (e) { alert("Fichier projet invalide."); }
+};
+
+/* =====================================================================
+   INIT
+   ===================================================================== */
+(async function init() {
+  refresh();
+  try { // restore saved images, drop the ones no longer used
+    const used = usedImageIds();
+    for (const id of used) { const b = await idb.get(id); if (b) IMGS.set(id, await loadImg(URL.createObjectURL(b))); }
+    for (const k of await idb.keys()) if (!used.has(k)) idb.del(k);
+  } catch (e) {}
+  refresh();
+  try { await Promise.all(Object.keys(FONTS).filter((f) => f !== "Comic Sans MS").map((f) => document.fonts.load(fontCss(f, 60)))); } catch (e) {}
+  draw();
+  new ResizeObserver(() => draw()).observe(view);
+})();
+</script>
+</body>
+</html>
