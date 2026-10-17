@@ -52,9 +52,14 @@ body {
   word-break: break-word;
 }
 
+/* Cadre de l'aperçu : réduit #capture à la largeur de l'écran (export toujours en 960×540) */
+.capture-frame { width: 100%; max-width: 960px; overflow: hidden; }
+#capture { transform-origin: top left; }
+
 /* CONTROLES */
 .controls {
-  width: 960px;
+  width: 100%;
+  max-width: 960px;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -89,8 +94,10 @@ textarea, input, select {
   <span>Quote Generator</span>
 </div>
 
-<div id="capture">
-  <div class="preview-text" id="preview"></div>
+<div class="capture-frame">
+  <div id="capture">
+    <div class="preview-text" id="preview"></div>
+  </div>
 </div>
 
 <div class="controls">
@@ -156,7 +163,14 @@ fontWeight.addEventListener('change', render);
 dlBtn.addEventListener('click', async () => {
   const canvas = await html2canvas(document.getElementById('capture'), {
     scale: 2,
-    backgroundColor: '#000'
+    backgroundColor: '#000',
+    // l'export se fait sur une copie non réduite de l'aperçu
+    onclone: (doc) => {
+      doc.getElementById('capture').style.transform = 'none';
+      const frame = doc.querySelector('.capture-frame');
+      frame.style.overflow = 'visible';
+      frame.style.height = 'auto';
+    }
   });
 
   const link = document.createElement('a');
@@ -164,6 +178,16 @@ dlBtn.addEventListener('click', async () => {
   link.href = canvas.toDataURL();
   link.click();
 });
+
+/* Aperçu à la taille de l'écran */
+function fitCapture() {
+  const frame = document.querySelector('.capture-frame');
+  const s = Math.min(1, frame.clientWidth / 960);
+  document.getElementById('capture').style.transform = s < 1 ? `scale(${s})` : '';
+  frame.style.height = (540 * s) + 'px';
+}
+window.addEventListener('resize', fitCapture);
+fitCapture();
 
 render();
 </script>

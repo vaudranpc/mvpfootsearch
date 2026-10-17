@@ -133,6 +133,38 @@
     .site-dropdown-menu a:hover {
       background-color: #f2e4e4;
     }
+    /* Mobile : liens sur plusieurs lignes, sous-menus pleine largeur sous le menu */
+    @media (max-width: 760px) {
+      .site-nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 4px 6px;
+        padding: 8px;
+      }
+      .site-nav-link {
+        margin: 0;
+        padding: 8px 10px;
+        font-size: 0.95rem;
+      }
+      .site-dropdown {
+        position: static;
+      }
+      .site-dropdown-menu {
+        top: 100%;
+        left: 8px;
+        right: 8px;
+        transform: none;
+        min-width: 0;
+        margin-top: 2px;
+        max-height: 70vh;
+        overflow-y: auto;
+      }
+      .site-dropdown-menu a {
+        white-space: normal;
+        padding: 12px 15px;
+      }
+    }
   </style>
 
   <script>

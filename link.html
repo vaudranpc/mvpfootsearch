@@ -2,6 +2,7 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Générateur de visuels — MVP Studio</title>
     <style>
       :root {
@@ -43,6 +44,7 @@
         justify-content: flex-start;
         padding: 30px;
         gap: 16px;
+        min-width: 0; /* laisse le canvas rétrécir au lieu de déborder */
       }
       h1 {
         font-size: 17px;
@@ -184,6 +186,8 @@
       }
       .toolbar {
         display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
         gap: 10px;
         align-items: center;
       }
@@ -219,6 +223,23 @@
       }
       .swatch.sel {
         border-color: #fff;
+      }
+      /* ---------- MOBILE : panneau au-dessus, aperçu en dessous ---------- */
+      @media (max-width: 860px) {
+        body {
+          flex-direction: column;
+        }
+        aside {
+          width: 100%;
+          min-width: 0;
+          max-height: none;
+          overflow: visible;
+          border-right: none;
+          border-bottom: 1px solid var(--line);
+        }
+        main {
+          padding: 16px 12px;
+        }
       }
     </style>
     <script src="header.js"></script>

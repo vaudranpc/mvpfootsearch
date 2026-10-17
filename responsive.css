@@ -1,0 +1,46 @@
+/* =====================================================================
+   Règles responsive communes à tout le site (chargées par header.js).
+   Volontairement prudentes : rien ici ne touche aux images/canvas des
+   éditeurs (leur taille est gérée en JavaScript), seulement le cadre.
+   ===================================================================== */
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Le menu et le pied de page prennent toute la largeur, même quand le
+   <body> d'une page est en display:flex. */
+#header-container,
+#footer-container {
+  width: 100%;
+  max-width: 100%;
+  flex: 0 0 auto;
+  align-self: stretch;
+}
+
+/* Vidéos / contenus embarqués : jamais plus larges que l'écran */
+iframe,
+embed,
+object {
+  max-width: 100%;
+}
+
+/* Longs liens ou mots sans espace : retour à la ligne plutôt que débordement */
+p,
+li,
+td,
+th,
+h1,
+h2,
+h3 {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 600px) {
+  /* Bootstrap 4 : les gros boutons-liens restent lisibles mais plus compacts */
+  .btn-lg {
+    font-size: 1rem;
+    padding: 0.4rem 0.8rem;
+  }
+}

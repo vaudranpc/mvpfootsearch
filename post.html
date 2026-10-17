@@ -2,6 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Générateur d'overlay</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -109,7 +110,7 @@
     align-items:center;
     justify-content:center;
     padding:30px;
-    overflow:auto;
+    overflow:hidden; /* l'aperçu est réduit par transform : pas de barre de défilement fantôme */
   }
 
   #canvas{
@@ -213,6 +214,13 @@
     font-size:34px;
     color:#e2536a;
     letter-spacing:.02em;
+  }
+
+  /* ---------- MOBILE : aperçu en haut, panneau en dessous ---------- */
+  @media (max-width: 860px){
+    #app-body{flex-direction:column;}
+    #stage-wrap{order:-1;flex:none;width:100%;padding:12px;overflow:hidden;}
+    #panel{width:100%;height:auto;position:static;overflow:visible;}
   }
 </style>
 <script src="header.js"></script>
@@ -355,10 +363,11 @@ TOUTES NOS ASTUCES POUR CUISINER FACILEMENT !</div>
   function fitCanvas(){
     const wrap = document.getElementById('stage-wrap');
     const canvas = document.getElementById('canvas');
-    const scale = Math.min(
-      (wrap.clientWidth - 40) / 1920,
-      (wrap.clientHeight - 40) / 1080
-    );
+    wrap.style.height = ''; // mesurer la place réelle, pas la hauteur fixée au dernier appel
+    const narrow = window.matchMedia('(max-width: 860px)').matches;
+    const scale = narrow
+      ? (wrap.clientWidth - 24) / 1920
+      : Math.min((wrap.clientWidth - 40) / 1920, (wrap.clientHeight - 40) / 1080);
     canvas.style.transform = `scale(${scale})`;
     wrap.style.height = (1080*scale) + 'px';
   }

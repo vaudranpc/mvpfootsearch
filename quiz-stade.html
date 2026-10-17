@@ -21,7 +21,8 @@
   header.top h1 span { color: var(--accent); }
   header.top .tag { font-size: 12px; color: var(--muted); }
   .wrap { display: grid; grid-template-columns: minmax(340px, 480px) 1fr; gap: 18px; padding: 18px; max-width: 1700px; margin: 0 auto; }
-  @media (max-width: 1000px) { .wrap { grid-template-columns: 1fr; padding: 12px; } .stage { order: -1; } }
+  .wrap > * { min-width: 0; }
+  @media (max-width: 1000px) { .wrap { grid-template-columns: minmax(0, 1fr); padding: 12px; } .stage { order: -1; position: static !important; } }
   .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 14px; margin-bottom: 14px; }
   .panel h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent); margin: 0 0 12px; display: flex; align-items: center; gap: 8px; }
   label { display: block; font-size: 11px; font-weight: 700; color: var(--muted); margin: 8px 0 4px; text-transform: uppercase; letter-spacing: .6px; }
@@ -74,8 +75,8 @@
   .stage { position: sticky; top: 100px; align-self: start; }
   .canvasBox { background: #000; border-radius: 14px; overflow: hidden; border: 1px solid var(--line); display: flex; justify-content: center; }
   canvas#view { display: block; max-width: 100%; max-height: 68vh; height: auto; }
-  .transport { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
-  .transport input[type=range] { flex: 1; accent-color: var(--accent); }
+  .transport { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 10px; }
+  .transport input[type=range] { flex: 1 1 140px; min-width: 0; accent-color: var(--accent); }
   .time { font-variant-numeric: tabular-nums; font-size: 13px; color: var(--muted); min-width: 110px; text-align: right; }
   .progress { height: 10px; background: #081109; border-radius: 99px; overflow: hidden; border: 1px solid var(--line); margin-top: 10px; display: none; }
   .progress > div { height: 100%; width: 0; background: linear-gradient(90deg, var(--accent), var(--gold)); transition: width .1s; }

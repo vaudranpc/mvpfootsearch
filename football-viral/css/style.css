@@ -551,3 +551,25 @@ label.field-label:first-child {
     min-width: 260px;
   }
 }
+
+/* ---------- MOBILE : tout sur une colonne, la page défile normalement ---------- */
+@media (max-width: 900px) {
+  html,
+  body {
+    height: auto;
+  }
+  #layout {
+    flex-direction: column;
+  }
+  #sidebar {
+    width: 100%;
+    min-width: 0;
+    overflow: visible;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+  #main {
+    min-width: 0;
+    order: -1; /* aperçu au-dessus des réglages */
+  }
+}
