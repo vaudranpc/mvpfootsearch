@@ -151,6 +151,9 @@
           nom: "Observatoire Sportif De Côte d'Ivoire - Osci",
           lien: "https://www.facebook.com/OSCI13",
         },
+        { nom: "Yannick Tranlait", lien: "https://www.facebook.com/yann.ma.520" },
+        { nom: "Magate Officiel", lien: "https://www.facebook.com/magateofficiel" },
+        { nom: "Eza Boto", lien: "https://www.facebook.com/eza.boto" },
       ];
 
       const colors = [
@@ -183,6 +186,12 @@
       ];
 
       const container = document.getElementById("link-container");
+
+      // Tri alphabétique (NFKD : "𝐒𝐏𝐎𝐑𝐓 𝟐𝟐𝟓" est classé comme "SPORT 225", accents et majuscules ignorés)
+      const sortKey = (nom) => nom.normalize("NFKD").trim();
+      myArray.sort((a, b) =>
+        sortKey(a.nom).localeCompare(sortKey(b.nom), "fr", { sensitivity: "base", numeric: true })
+      );
 
       myArray.forEach(({ nom, lien }) => {
         const firstChar = nom.trim()[0].toLowerCase();
