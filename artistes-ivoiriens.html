@@ -29,6 +29,14 @@
       .artist .genre { font-size: 0.75rem; opacity: 0.85; display: block; font-weight: 400; }
       .artist .line { font-size: 0.78rem; color: #c9c9c9; margin: 4px 2px 0; line-height: 1.35; }
       .artist .src { font-size: 0.7rem; color: #8a8a8a; font-style: italic; }
+      .artist .btn.name { width: 100%; }
+      .artist .choices { display: flex; gap: 6px; margin-top: 6px; }
+      .artist .choices[hidden] { display: none; }
+      .artist .choices a { flex: 1; text-align: center; border-radius: 8px; padding: 7px 4px; font-size: 0.82rem; font-weight: 700; color: #fff; text-decoration: none; }
+      .artist .choices a:hover { filter: brightness(1.15); }
+      .artist .choices .fb { background: #1877f2; }
+      .artist .choices .x { background: #000; border: 1px solid #555; }
+      .artist .choices .listen { background: #333; }
       .artist .hot { display: inline-block; margin: 4px 2px 0; font-size: 0.78rem; color: #ffc53d; cursor: pointer; text-decoration: underline; background: none; border: 0; padding: 0; }
       .tier { font-weight: 900; font-size: 1.05rem; white-space: nowrap; }
       details.verify { max-width: 1100px; margin: 18px auto 0; text-align: left; background: #161616; border: 1px solid #2a2a2a; border-radius: 12px; padding: 12px 16px; }
@@ -163,10 +171,16 @@
         const line = a.classe && best
           ? `🎵 n°${best.rang} ${esc(best.source)} : ${esc(best.titre)}`
           : `⭐ ${fmtFans(a.fans_deezer || 0)} fans Deezer · hors classement cette semaine`;
+        const q = encodeURIComponent(a.nom);
         return `<div class="artist">
-            <a class="btn btn-primary btn-lg" href="${esc(a.lien)}" target="_blank" rel="noopener" style="background:${bg};color:${fg}">
+            <button type="button" class="btn btn-primary btn-lg name" style="background:${bg};color:${fg}" title="Rechercher ${esc(a.nom)} sur Facebook ou X">
               ${esc(a.nom)}<span class="genre">${esc(a.genre || "")}</span><span class="rank">#${a.rang}</span>
-            </a>
+            </button>
+            <div class="choices" hidden>
+              <a class="fb" href="https://www.facebook.com/search/top?q=${q}" target="_blank" rel="noopener">Facebook</a>
+              <a class="x" href="https://x.com/search?q=${q}&amp;f=live" target="_blank" rel="noopener">𝕏 Twitter</a>
+              <a class="listen" href="${esc(a.lien)}" target="_blank" rel="noopener">▶ Écouter</a>
+            </div>
             <div class="line">${line}</div>
             ${a.info ? `<div class="line">${esc(a.info)}${a.source ? ` <span class="src">— ${esc(a.source)}</span>` : ""}</div>` : ""}
             ${n ? `<button class="hot" data-artist="${esc(a.nom)}">📰 ${n} actu${n > 1 ? "s" : ""} récente${n > 1 ? "s" : ""}</button>` : ""}
@@ -212,6 +226,22 @@
         $("verifyList").innerHTML = v.map((a) => `<li><b>${esc(a.nom)}</b> — n°${a.titre.rang} ${esc(a.titre.source)} : ${esc(a.titre.titre)}</li>`).join("");
       }
       $("link-container").addEventListener("click", (e) => {
+        // clic sur le nom : ouvre / ferme le choix Facebook · X (un seul ouvert à la fois)
+        const name = e.target.closest(".name");
+        if (name) {
+          const box = name.nextElementSibling, open = box.hidden;
+          $("link-container").querySelectorAll(".choices").forEach((c) => (c.hidden = true));
+          box.hidden = !open;
+          return;
+        }
+        // lien choisi : on grise le nom pour se souvenir qu'on l'a déjà cherché
+        const link = e.target.closest(".choices a");
+        if (link) {
+          const btn = link.parentElement.previousElementSibling;
+          btn.style.backgroundColor = "#333";
+          btn.style.color = "#fff";
+          return;
+        }
         const b = e.target.closest(".hot");
         if (!b) return;
         newsArtist = b.dataset.artist;
