@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Artistes ivoiriens — Top Gbairai</title>
+    <!-- ✅ Bootstrap CSS CDN -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <script src="header.js"></script>
+    <link rel="stylesheet" href="x.css" />
+    <style>
+      .genres .btn { margin: 3px; border-radius: 99px; }
+      .genres .btn.active { background: #ffc53d; color: #111; border-color: #ffc53d; }
+      .artist { display: inline-block; vertical-align: top; margin: 5px; max-width: 320px; text-align: left; }
+      .artist .btn { display: block; border: none; color: #fff; text-align: left; white-space: normal; }
+      .artist .genre { font-size: 0.75rem; opacity: 0.85; display: block; font-weight: 400; }
+      .artist .note { font-size: 0.8rem; color: #c9c9c9; margin: 4px 2px 0; line-height: 1.35; }
+      .artist .src { font-size: 0.7rem; color: #8a8a8a; font-style: italic; }
+    </style>
+  </head>
+  <body class="text-center p-4">
+    <div id="header-container"></div>
+    <h1>Top Gbairai</h1>
+    <h2 class="mb-3">Les artistes ivoiriens du moment</h2>
+
+    <div class="genres mb-4" id="genres"></div>
+
+    <div class="table-responsive mx-auto" style="max-width: 1100px">
+      <table class="table table-bordered table-striped text-left align-middle">
+        <thead class="thead-dark">
+          <tr>
+            <th style="width: 90px" class="text-center">Lettre</th>
+            <th>Artistes</th>
+          </tr>
+        </thead>
+        <tbody id="link-container"></tbody>
+      </table>
+    </div>
+    <p class="small text-muted">Clique sur un artiste pour le rechercher sur Facebook.</p>
+    <div id="footer-container"></div>
+
+    <script>
+      // nom, genre, info (optionnelle), source de l'info (optionnelle)
+      const artistes = [
+        { nom: "Didi B", genre: "Rap", info: "Le leader du rap ivoirien, toujours présent dans les classements de 2026." },
+        { nom: "Himra", genre: "Rap", info: "2e en streaming en France et 2e sur YouTube. Son album Jeune & Riche a été certifié disque de diamant.", source: "Billboard" },
+        { nom: "Magic System", genre: "Zouglou", info: "Nouvel album Doni Doni défendu en tournée en 2026.", source: "RTBF" },
+        { nom: "KS Bloom", genre: "Gospel urbain", info: "N°1 sur YouTube en Côte d'Ivoire." },
+        { nom: "Serge Beynaud", genre: "Coupé-décalé", info: "Placé dans le top africain 2026." },
+        { nom: "Josey", genre: "Afro-pop", info: "Deux concerts pour la Saint-Valentin en février 2026, au Sofitel Hôtel Ivoire et au Palais de la Culture.", source: "RTI" },
+        { nom: "Tiken Jah Fakoly", genre: "Reggae" },
+        { nom: "Alpha Blondy", genre: "Reggae" },
+        { nom: "Tam Sir", genre: "Coupé-décalé / Afro" },
+        { nom: "Jeune Lion", genre: "Rap" },
+        { nom: "Suspect 95", genre: "Rap" },
+        { nom: "Kerozen DJ", genre: "Coupé-décalé" },
+        { nom: "Debordo Leekunfa", genre: "Coupé-décalé" },
+        { nom: "Fior 2 Bior", genre: "Coupé-décalé" },
+        { nom: "Bebi Philip", genre: "Afro-pop / Coupé-décalé" },
+        { nom: "Roseline Layo", genre: "Afro-pop / Tradi-moderne", info: "Distinguée aux Kundé 2026 au Burkina Faso.", source: "AllAfrica" },
+        { nom: "Team Paiya", genre: "Afro / Coupé-décalé" },
+        { nom: "Black K", genre: "Rap" },
+        { nom: "Lil Jay Bingerack", genre: "Rap" },
+        { nom: "Widgunz", genre: "Rap" },
+        { nom: "Safarel Obiang", genre: "Coupé-décalé" },
+        { nom: "Zoh Cataleya", genre: "Rap / Afro" },
+        { nom: "Yabongo Lova", genre: "Zouglou", info: "Concert géant à l'Hôtel de Ville de Bouaké le 14 juin 2026.", source: "RTI" },
+        { nom: "Ariel Sheney", genre: "Coupé-décalé" },
+        { nom: "Mix Premier", genre: "Zouglou" },
+        { nom: "Sindika", genre: "Rap" },
+        { nom: "Shado Chris", genre: "Coupé-décalé" },
+        { nom: "Philipayne", genre: "Rap" },
+        { nom: "Kajeem", genre: "Reggae / Hip-hop" },
+        { nom: "Meiway", genre: "Zoblazo", info: "Vétéran toujours sur scène." },
+      ];
+
+      // Mêmes couleurs par lettre que la page « Les pages Mvp »
+      const colors = [
+        "#e6194b", "#3cb44b", "#ffe119", "#4363d8", "#f58231", "#911eb4", "#46f0f0",
+        "#f032e6", "#bcf60c", "#fabebe", "#008080", "#317713", "#9a6324", "#fe45f4",
+        "#800000", "#8affc3", "#808000", "#ffd8b1", "#000075", "#808080", "#f34fff",
+        "#a9a9a9", "#000000", "#a52a2a", "#7fffd4", "#ff69b4",
+      ];
+      const lightColors = ["#ffe119", "#46f0f0", "#bcf60c", "#fabebe", "#8affc3", "#ffd8b1", "#7fffd4"];
+
+      const sortKey = (nom) => nom.normalize("NFKD").trim();
+      artistes.sort((a, b) =>
+        sortKey(a.nom).localeCompare(sortKey(b.nom), "fr", { sensitivity: "base", numeric: true })
+      );
+      const letterOf = (nom) => {
+        const c = sortKey(nom).replace(/[̀-ͯ]/g, "")[0]?.toUpperCase() || "#";
+        return /[A-Z]/.test(c) ? c : "#";
+      };
+      // « Coupé-décalé / Afro » compte dans « Coupé-décalé » et dans « Afro »
+      const genresOf = (a) => a.genre.split("/").map((g) => g.trim());
+      const allGenres = [...new Set(artistes.flatMap(genresOf))].sort((a, b) => a.localeCompare(b, "fr"));
+
+      const container = document.getElementById("link-container");
+      const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+      let currentGenre = null;
+
+      function render() {
+        container.innerHTML = "";
+        const list = currentGenre ? artistes.filter((a) => genresOf(a).includes(currentGenre)) : artistes;
+        const groups = new Map();
+        list.forEach((a) => {
+          const l = letterOf(a.nom);
+          if (!groups.has(l)) groups.set(l, []);
+          groups.get(l).push(a);
+        });
+        groups.forEach((items, letter) => {
+          const idx = letter.charCodeAt(0) - 65;
+          const color = idx >= 0 && idx < 26 ? colors[idx] : "#3a350d";
+          const text = lightColors.includes(color) ? "#111" : "#fff";
+          const row = document.createElement("tr");
+          row.innerHTML = `<th class="text-center align-middle"><span class="badge" style="background:${color};color:${text};font-size:1.4rem;min-width:48px">${letter}</span></th><td></td>`;
+          const cell = row.lastElementChild;
+          items.forEach((a) => {
+            const div = document.createElement("div");
+            div.className = "artist";
+            const url = "https://www.facebook.com/search/top?q=" + encodeURIComponent(a.nom);
+            div.innerHTML = `
+              <a class="btn btn-primary btn-lg" href="${url}" target="_blank" rel="noopener" style="background:${color};color:${text}">
+                ${esc(a.nom)}<span class="genre">${esc(a.genre)}</span>
+              </a>
+              ${a.info ? `<div class="note">${esc(a.info)}${a.source ? ` <span class="src">— ${esc(a.source)}</span>` : ""}</div>` : ""}`;
+            div.querySelector("a").addEventListener("click", function () {
+              this.style.backgroundColor = "#333";
+              this.style.color = "#fff";
+            });
+            cell.appendChild(div);
+          });
+          container.appendChild(row);
+        });
+      }
+
+      // Filtres par genre
+      const genresBox = document.getElementById("genres");
+      genresBox.innerHTML =
+        `<button class="btn btn-outline-light btn-sm active" data-g="">Tous (${artistes.length})</button>` +
+        allGenres.map((g) => `<button class="btn btn-outline-light btn-sm" data-g="${esc(g)}">${esc(g)} (${artistes.filter((a) => genresOf(a).includes(g)).length})</button>`).join("");
+      genresBox.addEventListener("click", (e) => {
+        const b = e.target.closest("button");
+        if (!b) return;
+        currentGenre = b.dataset.g || null;
+        genresBox.querySelectorAll("button").forEach((x) => x.classList.toggle("active", x === b));
+        render();
+      });
+
+      render();
+    </script>
+  </body>
+</html>
