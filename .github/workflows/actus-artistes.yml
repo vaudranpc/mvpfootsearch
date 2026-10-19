@@ -1,0 +1,37 @@
+# Cherche les actus (< 3 jours) des artistes de data/artistes.json et met à jour
+# data/artistes-actus.json, lu par la page artistes-ivoiriens.html.
+name: Actus artistes
+
+on:
+  schedule:
+    - cron: "17 */3 * * *" # toutes les 3 heures
+  workflow_dispatch: # bouton « Run workflow » dans l'onglet Actions = recherche immédiate
+
+permissions:
+  contents: write
+
+concurrency:
+  group: actus-artistes
+  cancel-in-progress: false
+
+jobs:
+  actus:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Chercher les actus
+        run: python3 scripts/actus_artistes.py
+
+      - name: Enregistrer s'il y a du nouveau
+        run: |
+          if git diff --quiet -- data/artistes-actus.json && [ -z "$(git status --porcelain -- data/artistes-actus.json)" ]; then
+            echo "Rien de nouveau."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/artistes-actus.json
+          git commit -m "Actus artistes : mise à jour automatique"
+          git pull --rebase
+          git push

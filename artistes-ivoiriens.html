@@ -14,6 +14,10 @@
     <script src="header.js"></script>
     <link rel="stylesheet" href="x.css" />
     <style>
+      .tabs { display: flex; justify-content: center; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; }
+      .tabs button { background: #1c1c1c; color: #ddd; border: 1px solid #333; border-radius: 99px; padding: 8px 18px; font-weight: 700; }
+      .tabs button.active { background: #ffc53d; color: #111; border-color: #ffc53d; }
+      .tabs .count { background: #e6194b; color: #fff; border-radius: 99px; padding: 1px 8px; font-size: 0.8rem; margin-left: 4px; }
       .genres .btn { margin: 3px; border-radius: 99px; }
       .genres .btn.active { background: #ffc53d; color: #111; border-color: #ffc53d; }
       .artist { display: inline-block; vertical-align: top; margin: 5px; max-width: 320px; text-align: left; }
@@ -21,6 +25,19 @@
       .artist .genre { font-size: 0.75rem; opacity: 0.85; display: block; font-weight: 400; }
       .artist .note { font-size: 0.8rem; color: #c9c9c9; margin: 4px 2px 0; line-height: 1.35; }
       .artist .src { font-size: 0.7rem; color: #8a8a8a; font-style: italic; }
+      .artist .hot { display: inline-block; margin: 4px 2px 0; font-size: 0.78rem; color: #ffc53d; cursor: pointer; text-decoration: underline; background: none; border: 0; padding: 0; }
+      .news-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center; margin-bottom: 14px; }
+      .news-bar select { max-width: 260px; }
+      .news-status { font-size: 0.85rem; color: #aaa; margin-bottom: 14px; }
+      .news { max-width: 820px; margin: 0 auto; text-align: left; }
+      .news-item { background: #161616; border: 1px solid #2a2a2a; border-radius: 12px; padding: 12px 14px; margin-bottom: 10px; }
+      .news-item a.t { color: #fff; font-weight: 700; font-size: 1.02rem; line-height: 1.35; display: block; }
+      .news-item a.t:hover { color: #ffc53d; text-decoration: none; }
+      .news-item .meta { font-size: 0.8rem; color: #999; margin-top: 6px; }
+      .news-item .who { display: inline-block; border-radius: 6px; padding: 1px 8px; font-size: 0.75rem; font-weight: 700; margin: 0 4px 6px 0; }
+      .empty { color: #999; padding: 30px 10px; }
+      .spin { display: inline-block; animation: spin 1s linear infinite; }
+      @keyframes spin { to { transform: rotate(360deg); } }
     </style>
   </head>
   <body class="text-center p-4">
@@ -28,56 +45,50 @@
     <h1>Top Gbairai</h1>
     <h2 class="mb-3">Les artistes ivoiriens du moment</h2>
 
-    <div class="genres mb-4" id="genres"></div>
-
-    <div class="table-responsive mx-auto" style="max-width: 1100px">
-      <table class="table table-bordered table-striped text-left align-middle">
-        <thead class="thead-dark">
-          <tr>
-            <th style="width: 90px" class="text-center">Lettre</th>
-            <th>Artistes</th>
-          </tr>
-        </thead>
-        <tbody id="link-container"></tbody>
-      </table>
+    <div class="tabs">
+      <button class="active" data-tab="artistes">🎤 Artistes</button>
+      <button data-tab="actus">📰 Actus (3 derniers jours) <span class="count" id="newsCount" hidden></span></button>
     </div>
-    <p class="small text-muted">Clique sur un artiste pour le rechercher sur Facebook.</p>
+
+    <!-- ============ ONGLET ARTISTES ============ -->
+    <section id="tab-artistes">
+      <div class="genres mb-4" id="genres"></div>
+      <div class="table-responsive mx-auto" style="max-width: 1100px">
+        <table class="table table-bordered table-striped text-left align-middle">
+          <thead class="thead-dark">
+            <tr>
+              <th style="width: 90px" class="text-center">Lettre</th>
+              <th>Artistes</th>
+            </tr>
+          </thead>
+          <tbody id="link-container"></tbody>
+        </table>
+      </div>
+      <p class="small text-muted">Clique sur un artiste pour le rechercher sur Facebook.</p>
+    </section>
+
+    <!-- ============ ONGLET ACTUS ============ -->
+    <section id="tab-actus" hidden>
+      <div class="news-bar">
+        <button class="btn btn-warning font-weight-bold" id="btnRefresh">🔄 Actualiser</button>
+        <select class="form-control form-control-sm" id="newsFilter"></select>
+      </div>
+      <div class="news-status" id="newsStatus"></div>
+      <div class="news" id="newsList"></div>
+      <p class="small text-muted mt-3">
+        Les actus sont cherchées automatiquement sur Google News toutes les 3 heures (articles de moins de 3 jours dont le titre cite l'artiste).<br />
+        Besoin d'une recherche tout de suite ?
+        <a href="https://github.com/vaudranpc/mvpfootsearch/actions/workflows/actus-artistes.yml" target="_blank" rel="noopener">Lance-la sur GitHub</a>
+        (bouton « Run workflow »), attends 1 à 2 minutes puis clique sur Actualiser.
+      </p>
+    </section>
+
     <div id="footer-container"></div>
 
     <script>
-      // nom, genre, info (optionnelle), source de l'info (optionnelle)
-      const artistes = [
-        { nom: "Didi B", genre: "Rap", info: "Le leader du rap ivoirien, toujours présent dans les classements de 2026." },
-        { nom: "Himra", genre: "Rap", info: "2e en streaming en France et 2e sur YouTube. Son album Jeune & Riche a été certifié disque de diamant.", source: "Billboard" },
-        { nom: "Magic System", genre: "Zouglou", info: "Nouvel album Doni Doni défendu en tournée en 2026.", source: "RTBF" },
-        { nom: "KS Bloom", genre: "Gospel urbain", info: "N°1 sur YouTube en Côte d'Ivoire." },
-        { nom: "Serge Beynaud", genre: "Coupé-décalé", info: "Placé dans le top africain 2026." },
-        { nom: "Josey", genre: "Afro-pop", info: "Deux concerts pour la Saint-Valentin en février 2026, au Sofitel Hôtel Ivoire et au Palais de la Culture.", source: "RTI" },
-        { nom: "Tiken Jah Fakoly", genre: "Reggae" },
-        { nom: "Alpha Blondy", genre: "Reggae" },
-        { nom: "Tam Sir", genre: "Coupé-décalé / Afro" },
-        { nom: "Jeune Lion", genre: "Rap" },
-        { nom: "Suspect 95", genre: "Rap" },
-        { nom: "Kerozen DJ", genre: "Coupé-décalé" },
-        { nom: "Debordo Leekunfa", genre: "Coupé-décalé" },
-        { nom: "Fior 2 Bior", genre: "Coupé-décalé" },
-        { nom: "Bebi Philip", genre: "Afro-pop / Coupé-décalé" },
-        { nom: "Roseline Layo", genre: "Afro-pop / Tradi-moderne", info: "Distinguée aux Kundé 2026 au Burkina Faso.", source: "AllAfrica" },
-        { nom: "Team Paiya", genre: "Afro / Coupé-décalé" },
-        { nom: "Black K", genre: "Rap" },
-        { nom: "Lil Jay Bingerack", genre: "Rap" },
-        { nom: "Widgunz", genre: "Rap" },
-        { nom: "Safarel Obiang", genre: "Coupé-décalé" },
-        { nom: "Zoh Cataleya", genre: "Rap / Afro" },
-        { nom: "Yabongo Lova", genre: "Zouglou", info: "Concert géant à l'Hôtel de Ville de Bouaké le 14 juin 2026.", source: "RTI" },
-        { nom: "Ariel Sheney", genre: "Coupé-décalé" },
-        { nom: "Mix Premier", genre: "Zouglou" },
-        { nom: "Sindika", genre: "Rap" },
-        { nom: "Shado Chris", genre: "Coupé-décalé" },
-        { nom: "Philipayne", genre: "Rap" },
-        { nom: "Kajeem", genre: "Reggae / Hip-hop" },
-        { nom: "Meiway", genre: "Zoblazo", info: "Vétéran toujours sur scène." },
-      ];
+      // La liste des artistes est dans data/artistes.json (partagée avec le script de recherche d'actus).
+      const RAW = "https://raw.githubusercontent.com/vaudranpc/mvpfootsearch/main/data/";
+      const WINDOW_H = 72;
 
       // Mêmes couleurs par lettre que la page « Les pages Mvp »
       const colors = [
@@ -88,23 +99,39 @@
       ];
       const lightColors = ["#ffe119", "#46f0f0", "#bcf60c", "#fabebe", "#8affc3", "#ffd8b1", "#7fffd4"];
 
+      const $ = (id) => document.getElementById(id);
+      const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
       const sortKey = (nom) => nom.normalize("NFKD").trim();
-      artistes.sort((a, b) =>
-        sortKey(a.nom).localeCompare(sortKey(b.nom), "fr", { sensitivity: "base", numeric: true })
-      );
       const letterOf = (nom) => {
         const c = sortKey(nom).replace(/[̀-ͯ]/g, "")[0]?.toUpperCase() || "#";
         return /[A-Z]/.test(c) ? c : "#";
       };
+      const colorOf = (nom) => {
+        const idx = letterOf(nom).charCodeAt(0) - 65;
+        const bg = idx >= 0 && idx < 26 ? colors[idx] : "#3a350d";
+        return { bg, fg: lightColors.includes(bg) ? "#111" : "#fff" };
+      };
       // « Coupé-décalé / Afro » compte dans « Coupé-décalé » et dans « Afro »
       const genresOf = (a) => a.genre.split("/").map((g) => g.trim());
-      const allGenres = [...new Set(artistes.flatMap(genresOf))].sort((a, b) => a.localeCompare(b, "fr"));
 
-      const container = document.getElementById("link-container");
-      const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-      let currentGenre = null;
+      /** Lit un JSON : d'abord sur GitHub (toujours la dernière version), sinon sur le site. */
+      async function getJSON(name, githubFirst) {
+        const urls = [RAW + name, "data/" + name].map((u) => u + "?t=" + Date.now());
+        if (!githubFirst) urls.reverse();
+        for (const url of urls) {
+          try {
+            const r = await fetch(url, { cache: "no-store" });
+            if (r.ok) return await r.json();
+          } catch (e) {}
+        }
+        throw new Error("introuvable : " + name);
+      }
 
-      function render() {
+      let artistes = [], news = {}, currentGenre = null, newsArtist = "";
+
+      /* ---------------- ONGLET ARTISTES ---------------- */
+      function renderArtists() {
+        const container = $("link-container");
         container.innerHTML = "";
         const list = currentGenre ? artistes.filter((a) => genresOf(a).includes(currentGenre)) : artistes;
         const groups = new Map();
@@ -114,45 +141,148 @@
           groups.get(l).push(a);
         });
         groups.forEach((items, letter) => {
-          const idx = letter.charCodeAt(0) - 65;
-          const color = idx >= 0 && idx < 26 ? colors[idx] : "#3a350d";
-          const text = lightColors.includes(color) ? "#111" : "#fff";
+          const { bg, fg } = colorOf(letter);
           const row = document.createElement("tr");
-          row.innerHTML = `<th class="text-center align-middle"><span class="badge" style="background:${color};color:${text};font-size:1.4rem;min-width:48px">${letter}</span></th><td></td>`;
+          row.innerHTML = `<th class="text-center align-middle"><span class="badge" style="background:${bg};color:${fg};font-size:1.4rem;min-width:48px">${letter}</span></th><td></td>`;
           const cell = row.lastElementChild;
           items.forEach((a) => {
             const div = document.createElement("div");
             div.className = "artist";
             const url = "https://www.facebook.com/search/top?q=" + encodeURIComponent(a.nom);
+            const n = (news[a.nom] || []).length;
             div.innerHTML = `
-              <a class="btn btn-primary btn-lg" href="${url}" target="_blank" rel="noopener" style="background:${color};color:${text}">
+              <a class="btn btn-primary btn-lg" href="${url}" target="_blank" rel="noopener" style="background:${bg};color:${fg}">
                 ${esc(a.nom)}<span class="genre">${esc(a.genre)}</span>
               </a>
-              ${a.info ? `<div class="note">${esc(a.info)}${a.source ? ` <span class="src">— ${esc(a.source)}</span>` : ""}</div>` : ""}`;
+              ${a.info ? `<div class="note">${esc(a.info)}${a.source ? ` <span class="src">— ${esc(a.source)}</span>` : ""}</div>` : ""}
+              ${n ? `<button class="hot" data-artist="${esc(a.nom)}">📰 ${n} actu${n > 1 ? "s" : ""} récente${n > 1 ? "s" : ""}</button>` : ""}`;
             div.querySelector("a").addEventListener("click", function () {
               this.style.backgroundColor = "#333";
               this.style.color = "#fff";
             });
             cell.appendChild(div);
           });
-          container.appendChild(row);
+          $("link-container").appendChild(row);
         });
       }
-
-      // Filtres par genre
-      const genresBox = document.getElementById("genres");
-      genresBox.innerHTML =
-        `<button class="btn btn-outline-light btn-sm active" data-g="">Tous (${artistes.length})</button>` +
-        allGenres.map((g) => `<button class="btn btn-outline-light btn-sm" data-g="${esc(g)}">${esc(g)} (${artistes.filter((a) => genresOf(a).includes(g)).length})</button>`).join("");
-      genresBox.addEventListener("click", (e) => {
+      $("link-container").addEventListener("click", (e) => {
+        const b = e.target.closest(".hot");
+        if (!b) return;
+        newsArtist = b.dataset.artist;
+        showTab("actus");
+      });
+      function renderGenres() {
+        const allGenres = [...new Set(artistes.flatMap(genresOf))].sort((a, b) => a.localeCompare(b, "fr"));
+        $("genres").innerHTML =
+          `<button class="btn btn-outline-light btn-sm active" data-g="">Tous (${artistes.length})</button>` +
+          allGenres.map((g) => `<button class="btn btn-outline-light btn-sm" data-g="${esc(g)}">${esc(g)} (${artistes.filter((a) => genresOf(a).includes(g)).length})</button>`).join("");
+      }
+      $("genres").addEventListener("click", (e) => {
         const b = e.target.closest("button");
         if (!b) return;
         currentGenre = b.dataset.g || null;
-        genresBox.querySelectorAll("button").forEach((x) => x.classList.toggle("active", x === b));
-        render();
+        $("genres").querySelectorAll("button").forEach((x) => x.classList.toggle("active", x === b));
+        renderArtists();
       });
 
-      render();
+      /* ---------------- ONGLET ACTUS ---------------- */
+      function ago(date) {
+        const min = Math.round((Date.now() - date) / 60000);
+        if (min < 60) return `il y a ${Math.max(1, min)} min`;
+        const h = Math.round(min / 60);
+        if (h < 24) return `il y a ${h} h`;
+        const d = Math.floor(h / 24);
+        return d === 1 ? "hier" : `il y a ${d} jours`;
+      }
+      const fmtDate = (d) => d.toLocaleString("fr-FR", { weekday: "short", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
+
+      /** Une ligne par article ; un article qui cite deux artistes n'apparaît qu'une fois, avec deux étiquettes. */
+      function articles() {
+        const limit = Date.now() - WINDOW_H * 3600e3;
+        const byLink = new Map();
+        for (const [nom, list] of Object.entries(news)) {
+          for (const a of list) {
+            const date = new Date(a.date);
+            if (date < limit) continue;
+            const key = a.lien || a.titre;
+            if (!byLink.has(key)) byLink.set(key, { ...a, date, artistes: [] });
+            byLink.get(key).artistes.push(nom);
+          }
+        }
+        return [...byLink.values()].sort((a, b) => b.date - a.date);
+      }
+      function renderNews() {
+        const all = articles();
+        const count = all.length;
+        $("newsCount").hidden = !count;
+        $("newsCount").textContent = count;
+        // filtre par artiste (seulement ceux qui ont des actus)
+        const withNews = artistes.map((a) => a.nom).filter((n) => all.some((x) => x.artistes.includes(n)));
+        if (newsArtist && !withNews.includes(newsArtist)) newsArtist = "";
+        $("newsFilter").innerHTML = `<option value="">Tous les artistes (${count})</option>` +
+          withNews.map((n) => `<option value="${esc(n)}">${esc(n)} (${all.filter((x) => x.artistes.includes(n)).length})</option>`).join("");
+        $("newsFilter").value = newsArtist;
+        const list = newsArtist ? all.filter((x) => x.artistes.includes(newsArtist)) : all;
+        $("newsList").innerHTML = list.length
+          ? list.map((a) => `
+            <div class="news-item">
+              ${a.artistes.map((n) => { const c = colorOf(n); return `<span class="who" style="background:${c.bg};color:${c.fg}">${esc(n)}</span>`; }).join("")}
+              <a class="t" href="${esc(a.lien)}" target="_blank" rel="noopener">${esc(a.titre)}</a>
+              <div class="meta">${esc(a.source || "Source inconnue")} · ${ago(a.date)} · ${fmtDate(a.date)}</div>
+            </div>`).join("")
+          : `<div class="empty">Aucune actu de moins de 3 jours${newsArtist ? " pour " + esc(newsArtist) : ""} pour le moment.</div>`;
+        renderArtists(); // met à jour les « 📰 N actus » sous les artistes
+      }
+      $("newsFilter").addEventListener("change", () => { newsArtist = $("newsFilter").value; renderNews(); });
+
+      async function refreshNews() {
+        const btn = $("btnRefresh");
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spin">🔄</span> Recherche…';
+        try {
+          const data = await getJSON("artistes-actus.json", true);
+          news = data.artistes || {};
+          const gen = new Date(data.genere);
+          $("newsStatus").textContent = `Dernière recherche avec du nouveau : ${ago(gen)} (${fmtDate(gen)}).` +
+            (data.erreurs && data.erreurs.length ? ` ⚠️ ${data.erreurs.length} artiste(s) n'ont pas pu être cherchés.` : "");
+        } catch (e) {
+          $("newsStatus").textContent = "❌ Impossible de charger les actus pour le moment. Réessaie dans quelques minutes.";
+        }
+        renderNews();
+        btn.disabled = false;
+        btn.textContent = "🔄 Actualiser";
+      }
+      $("btnRefresh").addEventListener("click", refreshNews);
+
+      /* ---------------- ONGLETS ---------------- */
+      function showTab(name) {
+        document.querySelectorAll(".tabs button").forEach((b) => b.classList.toggle("active", b.dataset.tab === name));
+        $("tab-artistes").hidden = name !== "artistes";
+        $("tab-actus").hidden = name !== "actus";
+        if (name === "actus") renderNews();
+        history.replaceState(null, "", name === "actus" ? "#actus" : location.pathname + location.search);
+      }
+      document.querySelector(".tabs").addEventListener("click", (e) => {
+        const b = e.target.closest("button[data-tab]");
+        if (!b) return;
+        if (b.dataset.tab === "actus") newsArtist = "";
+        showTab(b.dataset.tab);
+      });
+
+      /* ---------------- DÉMARRAGE ---------------- */
+      (async function init() {
+        try {
+          artistes = await getJSON("artistes.json", false);
+        } catch (e) {
+          $("link-container").innerHTML = `<tr><td colspan="2" class="empty">Impossible de charger la liste des artistes.</td></tr>`;
+          return;
+        }
+        artistes.sort((a, b) => sortKey(a.nom).localeCompare(sortKey(b.nom), "fr", { sensitivity: "base", numeric: true }));
+        renderGenres();
+        renderArtists();
+        if (location.hash === "#actus") showTab("actus");
+        refreshNews();
+      })();
     </script>
   </body>
 </html>
