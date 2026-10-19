@@ -1,9 +1,15 @@
 {
- "genere": "2026-10-19T02:56+00:00",
+ "genere": "2026-10-19T09:01+00:00",
  "fenetre_heures": 72,
  "erreurs": [],
  "artistes": {
   "Himra": [
+   {
+    "titre": "ELOW'N X HIMRA : DLM , LA RELIQUE SANGLANTE II OBELEKE REACTION",
+    "lien": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE9QakQtbnRLTHljcGtURFkyS09NcUNtUlBxTVoxRXZSRjhrX05Jcmo5SnlRQ0tBcEtSRGlaNkIxZU9WWEk1eFdGZkdWc042OFdxRWlYNHM5U1JMeE1F?oc=5",
+    "source": "YouTube",
+    "date": "2026-10-18T13:33+00:00"
+   },
    {
     "titre": "Fortune de Didi B et Himra : 2 diamants mais aucun chiffre",
     "lien": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE0zc0tZVG85b0dZaHlwdS1acTl6SEY1akNhZ0Y4U1hqTWRZaW5YQ3lYaWN6VXhLSWs3YnRzdkE1SXVKaENlYVFEaGo1TkpEdXFvYVpfcUJ4TkdqZl9UOVBucUQ4Sl8?oc=5",
@@ -64,8 +70,10 @@
     "date": "2026-10-18T18:14+00:00"
    }
   ],
+  "Adeba Konan": [],
   "Jeune Morty": [],
   "Sindika": [],
+  "Ste Milano": [],
   "Widgunz": [],
   "Magic System": [],
   "Alpha Blondy": [],
@@ -172,6 +180,12 @@
   "Zoh Cataleya": [],
   "Nash": [
    {
+    "titre": "C'est quoi la NASH, la maladie du soda ?",
+    "lien": "https://news.google.com/rss/articles/CBMiogFBVV95cUxPN1hrOGJzeVFGbUZfeXhXOUNDbkhNLUlVSlZkZVpSVlBDN2VCZUt4dlI5Y2p1bHVZZXROS1FmRWM2X3R2djZrSUg0Z0ctZkhyOEdTczFMa0dtWWMyS3hFWHljUEtEOWQyNl9nVzE2NE5PbE1lTGxyWU1BaVphTnJDVVNDdFlDNlljQ08yVG9sdGZYLWVfcFZpaGdOWlZFWW52OFE?oc=5",
+    "source": "Orange Actualités",
+    "date": "2026-10-19T03:17+00:00"
+   },
+   {
     "titre": "Londres | Stephen Nash prend la direction générale du Park Tower Knightsbridge, a Luxury Collection Hotel",
     "lien": "https://news.google.com/rss/articles/CBMikwFBVV95cUxNU3BiNG1IanQ3UzUzeEhUaVczZDdYc0F6SDdvdEhVY1V1TnMtTUZZemVHbnlJbk9WSFpIUFFudDUyZVZqckNvYTV3RXFpMXpwd0V5ZE8xdlZmNDdLMTU5ZG44bUhqdG5SY2dUSVBacWNnc0Y4bTcwZGpXbU51LThrY0RiVTZYaFNlRFBabXJGdVJNVUU?oc=5",
     "source": "La Tribune de l'Hôtellerie",
@@ -184,8 +198,6 @@
     "date": "2026-10-17T22:25+00:00"
    }
   ],
-  "Black K": [],
-  "Kerozen DJ": [],
-  "Fior 2 Bior": []
+  "Black K": []
  }
 }
