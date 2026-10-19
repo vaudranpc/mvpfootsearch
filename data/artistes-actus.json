@@ -1,16 +1,8 @@
 {
- "genere": "2026-10-19T02:34+00:00",
+ "genere": "2026-10-19T02:56+00:00",
  "fenetre_heures": 72,
  "erreurs": [],
  "artistes": {
-  "Didi B": [
-   {
-    "titre": "Fortune de Didi B et Himra : 2 diamants mais aucun chiffre",
-    "lien": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE0zc0tZVG85b0dZaHlwdS1acTl6SEY1akNhZ0Y4U1hqTWRZaW5YQ3lYaWN6VXhLSWs3YnRzdkE1SXVKaENlYVFEaGo1TkpEdXFvYVpfcUJ4TkdqZl9UOVBucUQ4Sl8?oc=5",
-    "source": "Afrique sur 7",
-    "date": "2026-10-16T15:20+00:00"
-   }
-  ],
   "Himra": [
    {
     "titre": "Fortune de Didi B et Himra : 2 diamants mais aucun chiffre",
@@ -19,7 +11,15 @@
     "date": "2026-10-16T15:20+00:00"
    }
   ],
-  "Magic System": [],
+  "døpelym": [],
+  "Didi B": [
+   {
+    "titre": "Fortune de Didi B et Himra : 2 diamants mais aucun chiffre",
+    "lien": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE0zc0tZVG85b0dZaHlwdS1acTl6SEY1akNhZ0Y4U1hqTWRZaW5YQ3lYaWN6VXhLSWs3YnRzdkE1SXVKaENlYVFEaGo1TkpEdXFvYVpfcUJ4TkdqZl9UOVBucUQ4Sl8?oc=5",
+    "source": "Afrique sur 7",
+    "date": "2026-10-16T15:20+00:00"
+   }
+  ],
   "KS Bloom": [
    {
     "titre": "KS Bloom présente son nouvel album « Youyou Oplus »",
@@ -28,8 +28,28 @@
     "date": "2026-10-18T21:17+00:00"
    }
   ],
-  "Serge Beynaud": [],
-  "Josey": [],
+  "Elow'n": [
+   {
+    "titre": "ELOW'N X HIMRA : DLM , LA RELIQUE SANGLANTE II OBELEKE REACTION",
+    "lien": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE9QakQtbnRLTHljcGtURFkyS09NcUNtUlBxTVoxRXZSRjhrX05Jcmo5SnlRQ0tBcEtSRGlaNkIxZU9WWEk1eFdGZkdWc042OFdxRWlYNHM5U1JMeE1F?oc=5",
+    "source": "YouTube",
+    "date": "2026-10-18T13:33+00:00"
+   },
+   {
+    "titre": "ELOW'N : BUZZ BIEN ORGANISÉ OU COÏNCIDENCE ??",
+    "lien": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5QdmxVeW10SHpzVHhfLXprN3liSE5BQmZEeklucFVqa3dpSXRfTjVpVThTZXQ3OVNLMnk5WWtTb1BfWkJIYXpiMDg4YzVnWmJ0aFZIVEZNYnRNaWdD?oc=5",
+    "source": "YouTube",
+    "date": "2026-10-17T11:24+00:00"
+   },
+   {
+    "titre": "Elow'n Ft. Boykito & Jojo le barbu - C'est remonté",
+    "lien": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFBoNlRFRkNOakxiTHVHU0RFREdTVFFqR0FyejUtUm5xWlM5cHVJV09aaFlCNmZEOHRKSUNZZFFoZER2X2JBNk5GclNhNktoRUh2UGVENldxUlJDbFBI?oc=5",
+    "source": "YouTube",
+    "date": "2026-10-16T16:01+00:00"
+   }
+  ],
+  "Philipayne": [],
+  "Suspect 95": [],
   "Tiken Jah Fakoly": [
    {
     "titre": "Tiken Jah Fakoly : \"J'ai voulu montrer que la source du reggae est en Afrique\"",
@@ -44,14 +64,30 @@
     "date": "2026-10-18T18:14+00:00"
    }
   ],
+  "Jeune Morty": [],
+  "Sindika": [],
+  "Widgunz": [],
+  "Magic System": [],
   "Alpha Blondy": [],
-  "Tam Sir": [],
-  "Jeune Lion": [],
-  "Suspect 95": [],
-  "Kerozen DJ": [],
-  "Debordo Leekunfa": [],
-  "Fior 2 Bior": [],
+  "DJ Arafat": [],
+  "Serge Beynaud": [],
+  "Kiff No Beat": [],
   "Bebi Philip": [],
+  "Josey": [],
+  "Ariel Sheney": [],
+  "Mix Premier": [],
+  "Jeune Lion": [],
+  "Meiway": [],
+  "Soum Bill": [],
+  "Shado Chris": [],
+  "Debordo Leekunfa": [],
+  "Molare": [],
+  "Tam Sir": [],
+  "Ismaël Isaac": [],
+  "Les Garagistes": [],
+  "Espoir 2000": [],
+  "Dobet Gnahoré": [],
+  "Safarel Obiang": [],
   "Roseline Layo": [
    {
     "titre": "Roseline Layo annonce « Divas » avec Angélique Kidjo pour le 27 novembre",
@@ -122,18 +158,34 @@
     "date": "2026-10-16T09:19+00:00"
    }
   ],
-  "Black K": [],
+  "DJ Kedjevara": [],
+  "Gadji Céli": [],
+  "Monique Séka": [],
   "Lil Jay Bingerack": [],
-  "Widgunz": [],
-  "Safarel Obiang": [],
-  "Zoh Cataleya": [],
   "Yabongo Lova": [],
-  "Ariel Sheney": [],
-  "Mix Premier": [],
-  "Sindika": [],
-  "Shado Chris": [],
-  "Philipayne": [],
+  "Aïcha Koné": [],
+  "Fadal Dey": [],
   "Kajeem": [],
-  "Meiway": []
+  "Nayanka Bell": [],
+  "Petit Yodé & L'Enfant Siro": [],
+  "Bamba Ami Sarah": [],
+  "Zoh Cataleya": [],
+  "Nash": [
+   {
+    "titre": "Londres | Stephen Nash prend la direction générale du Park Tower Knightsbridge, a Luxury Collection Hotel",
+    "lien": "https://news.google.com/rss/articles/CBMikwFBVV95cUxNU3BiNG1IanQ3UzUzeEhUaVczZDdYc0F6SDdvdEhVY1V1TnMtTUZZemVHbnlJbk9WSFpIUFFudDUyZVZqckNvYTV3RXFpMXpwd0V5ZE8xdlZmNDdLMTU5ZG44bUhqdG5SY2dUSVBacWNnc0Y4bTcwZGpXbU51LThrY0RiVTZYaFNlRFBabXJGdVJNVUU?oc=5",
+    "source": "La Tribune de l'Hôtellerie",
+    "date": "2026-10-18T19:19+00:00"
+   },
+   {
+    "titre": "Ted Nash European Quartet Feat à l'ECUJE de Paris 2027 | billets",
+    "lien": "https://news.google.com/rss/articles/CBMihgFBVV95cUxNTWY5bXYyV3hDMkhUOGtSSUVEZzRqUG5GQW10YXMxYWF1TWJkc01pLUszVFJtb3hvRi1HR1hmejJPM2RuSDN3MWNRa0ZDc04wQ3B1UXpUaVI5OHhBUEhjTVBVUFdlRHVQQVJzX2FLZ1VyaTk5YWtvYlZxT09lSHJ0MEdfUkNQZw?oc=5",
+    "source": "jds.fr",
+    "date": "2026-10-17T22:25+00:00"
+   }
+  ],
+  "Black K": [],
+  "Kerozen DJ": [],
+  "Fior 2 Bior": []
  }
 }
