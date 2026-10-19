@@ -1,11 +1,12 @@
-# Cherche les actus (< 3 jours) des artistes de data/artistes.json et met à jour
-# data/artistes-actus.json, lu par la page artistes-ivoiriens.html.
-name: Actus artistes
+# Toutes les 3 heures : top 50 des artistes ivoiriens (classements Apple Music + Deezer Côte d'Ivoire)
+# et leurs actus de moins de 3 jours -> data/top-artistes.json et data/artistes-actus.json,
+# lus par la page artistes-ivoiriens.html.
+name: Top artistes ivoiriens et actus
 
 on:
   schedule:
     - cron: "17 */3 * * *" # toutes les 3 heures
-  workflow_dispatch: # bouton « Run workflow » dans l'onglet Actions = recherche immédiate
+  workflow_dispatch: # bouton « Run workflow » dans l'onglet Actions = mise à jour immédiate
 
 permissions:
   contents: write
@@ -17,21 +18,23 @@ concurrency:
 jobs:
   actus:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
 
-      - name: Chercher les actus
+      - name: Calculer le top 50 et chercher les actus
         run: python3 scripts/actus_artistes.py
 
       - name: Enregistrer s'il y a du nouveau
         run: |
-          if git diff --quiet -- data/artistes-actus.json && [ -z "$(git status --porcelain -- data/artistes-actus.json)" ]; then
+          FICHIERS="data/top-artistes.json data/artistes-actus.json data/nationalites.json"
+          if [ -z "$(git status --porcelain -- $FICHIERS)" ]; then
             echo "Rien de nouveau."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/artistes-actus.json
-          git commit -m "Actus artistes : mise à jour automatique"
+          git add $FICHIERS
+          git commit -m "Top artistes et actus : mise à jour automatique"
           git pull --rebase
           git push

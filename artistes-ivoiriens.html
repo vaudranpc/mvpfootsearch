@@ -303,7 +303,7 @@
         if (n.status === "fulfilled") {
           news = n.value.artistes || {};
           newsGen = new Date(n.value.genere);
-          parts.push(`actus vérifiées ${ago(newsGen)}`);
+          parts.push(`actus mises à jour ${ago(newsGen)}`);
         } else parts.push("❌ actus indisponibles");
         $("status").textContent = parts.join(" · ") + ".";
         renderGenres();
