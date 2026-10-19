@@ -277,6 +277,11 @@ const TEMPLATES = {
     mkText({ text: "des meilleurs\nbuteurs", x: 330, y: 470, size: 90 }),
     mkImage({ x: 930, y: 400, size: 600 }),
   ] },
+  depart: { name: "Bon départ", demo: "bon départ", bg: "#5622a5", layers: () => [
+    mkText({ text: "bon départ", x: 600, y: 165, size: 190 }),
+    mkImage({ x: 340, y: 470, size: 420 }),
+    mkFlag({ x: 935, y: 460, size: 320 }),
+  ] },
   vide: { name: "Vide", demo: "…", layers: () => [] },
 };
 
@@ -708,11 +713,14 @@ $("frame").onchange = () => { S.bg.frame = $("frame").checked; draw(); commit();
 $("bgFile").onchange = async () => { const f = $("bgFile").files[0]; if (!f) return; S.bg.img = await importBlob(f); $("bgFile").value = ""; bindBg(); draw(); commit(); };
 $("bgRemove").onclick = () => { S.bg.img = null; bindBg(); draw(); commit(); };
 
-$("templates").innerHTML = Object.entries(TEMPLATES).map(([k, t]) => `<button class="tpl" data-k="${k}"><div class="sw">${esc(t.demo)}</div><div class="nm">${esc(t.name)}</div></button>`).join("");
+$("templates").innerHTML = Object.entries(TEMPLATES).map(([k, t]) => `<button class="tpl" data-k="${k}"><div class="sw" style="background:${t.bg || DEFAULT_BG.color}">${esc(t.demo)}</div><div class="nm">${esc(t.name)}</div></button>`).join("");
 $("templates").addEventListener("click", (e) => {
   const b = e.target.closest(".tpl"); if (!b) return;
   if (S.layers.some((l) => l.img || l.type === "text") && !confirm("Remplacer les calques actuels par ce modèle ?")) return;
-  S.layers = TEMPLATES[b.dataset.k].layers(); S.sel = null; commit(); refresh();
+  const t = TEMPLATES[b.dataset.k];
+  S.layers = t.layers(); S.sel = null;
+  S.bg.color = t.bg || DEFAULT_BG.color; // chaque modèle a sa couleur de fond (modifiable ensuite)
+  commit(); refresh();
 });
 $("addText").onclick = () => { const L = mkText({ text: "Ton texte", size: 120 }); S.layers.push(L); S.sel = L.id; commit(); refresh(); };
 $("addFlag").onclick = () => { const L = mkFlag({ x: 1080, y: 160, size: 220 }); S.layers.push(L); S.sel = L.id; commit(); refresh(); };
