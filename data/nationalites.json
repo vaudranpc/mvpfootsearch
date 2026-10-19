@@ -19,10 +19,20 @@
   "statut": null,
   "verifie": "2026-10-19T02:50+00:00"
  },
+ "adeba konan": {
+  "nom": "Adeba Konan",
+  "statut": "ivoirien",
+  "verifie": "2026-10-19T09:02+00:00"
+ },
  "ameka zrai": {
   "nom": "Ameka Zrai",
   "statut": null,
   "verifie": "2026-10-19T02:50+00:00"
+ },
+ "aretha franklin": {
+  "nom": "Aretha Franklin",
+  "statut": "autre",
+  "verifie": "2026-10-19T09:02+00:00"
  },
  "asake": {
   "nom": "Asake",
@@ -33,6 +43,11 @@
   "nom": "AsapJo",
   "statut": null,
   "verifie": "2026-10-19T02:50+00:00"
+ },
+ "astrid s": {
+  "nom": "Astrid S",
+  "statut": "autre",
+  "verifie": "2026-10-19T09:02+00:00"
  },
  "aya nakamura": {
   "nom": "Aya Nakamura",
@@ -69,6 +84,11 @@
   "statut": null,
   "verifie": "2026-10-19T02:50+00:00"
  },
+ "bnxn": {
+  "nom": "BNXN",
+  "statut": null,
+  "verifie": "2026-10-19T09:02+00:00"
+ },
  "booba": {
   "nom": "Booba",
   "statut": "autre",
@@ -83,6 +103,11 @@
   "nom": "CØCA",
   "statut": null,
   "verifie": "2026-10-19T02:50+00:00"
+ },
+ "da uzi": {
+  "nom": "DA Uzi",
+  "statut": "autre",
+  "verifie": "2026-10-19T09:02+00:00"
  },
  "dadju": {
   "nom": "Dadju",
@@ -189,6 +214,11 @@
   "statut": null,
   "verifie": "2026-10-19T02:50+00:00"
  },
+ "jarod gaoudi": {
+  "nom": "Jarod Gaoudi",
+  "statut": null,
+  "verifie": "2026-10-19T09:02+00:00"
+ },
  "jeune morty": {
   "nom": "Jeune Morty",
   "statut": "ivoirien",
@@ -219,6 +249,11 @@
   "statut": null,
   "verifie": "2026-10-19T02:50+00:00"
  },
+ "judikay": {
+  "nom": "Judikay",
+  "statut": "autre",
+  "verifie": "2026-10-19T09:02+00:00"
+ },
  "keblack": {
   "nom": "KeBlack",
   "statut": "autre",
@@ -239,10 +274,20 @@
   "statut": null,
   "verifie": "2026-10-19T02:50+00:00"
  },
+ "kommander samo": {
+  "nom": "KOMMANDER SAMO",
+  "statut": null,
+  "verifie": "2026-10-19T09:02+00:00"
+ },
  "krm": {
   "nom": "KRM",
   "statut": null,
   "verifie": "2026-10-19T02:50+00:00"
+ },
+ "kulturr": {
+  "nom": "kulturr",
+  "statut": null,
+  "verifie": "2026-10-19T09:02+00:00"
  },
  "kuluna": {
   "nom": "Kuluna",
@@ -293,6 +338,11 @@
   "nom": "M24",
   "statut": "autre",
   "verifie": "2026-10-19T02:50+00:00"
+ },
+ "marya ade": {
+  "nom": "Marya Ade",
+  "statut": null,
+  "verifie": "2026-10-19T09:02+00:00"
  },
  "maud elka": {
   "nom": "Maud Elka",
@@ -349,10 +399,20 @@
   "statut": null,
   "verifie": "2026-10-19T02:50+00:00"
  },
+ "prototype": {
+  "nom": "Prototype",
+  "statut": "autre",
+  "verifie": "2026-10-19T09:02+00:00"
+ },
  "rema": {
   "nom": "Rema",
   "statut": "autre",
   "verifie": "2026-10-19T02:50+00:00"
+ },
+ "rihanna": {
+  "nom": "Rihanna",
+  "statut": "autre",
+  "verifie": "2026-10-19T09:02+00:00"
  },
  "rnboi": {
   "nom": "RnBoi",
@@ -363,6 +423,16 @@
   "nom": "Rsko",
   "statut": "autre",
   "verifie": "2026-10-19T02:50+00:00"
+ },
+ "sativamusic": {
+  "nom": "SativaMusic",
+  "statut": null,
+  "verifie": "2026-10-19T09:02+00:00"
+ },
+ "scarionix": {
+  "nom": "SCARIONIX",
+  "statut": null,
+  "verifie": "2026-10-19T09:02+00:00"
  },
  "sdm": {
   "nom": "SDM",
@@ -389,6 +459,11 @@
   "statut": null,
   "verifie": "2026-10-19T02:50+00:00"
  },
+ "ste milano": {
+  "nom": "Ste Milano",
+  "statut": "ivoirien",
+  "verifie": "2026-10-19T09:02+00:00"
+ },
  "still fresh": {
   "nom": "Still Fresh",
   "statut": "autre",
@@ -403,6 +478,11 @@
   "nom": "THB",
   "statut": null,
   "verifie": "2026-10-19T02:50+00:00"
+ },
+ "the chainsmokers": {
+  "nom": "The Chainsmokers",
+  "statut": "autre",
+  "verifie": "2026-10-19T09:02+00:00"
  },
  "theodora": {
   "nom": "Theodora",
