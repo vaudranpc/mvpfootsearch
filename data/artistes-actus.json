@@ -1,5 +1,5 @@
 {
- "genere": "2026-10-19T22:26+00:00",
+ "genere": "2026-10-20T04:58+00:00",
  "fenetre_heures": 72,
  "erreurs": [],
  "artistes": {
@@ -43,8 +43,6 @@
   ],
   "Philipayne": [],
   "Suspect 95": [],
-  "Jeune Morty": [],
-  "Adeba Konan": [],
   "Tiken Jah Fakoly": [
    {
     "titre": "Tiken Jah Fakoly : \"J'ai voulu montrer que la source du reggae est en Afrique\"",
@@ -59,9 +57,25 @@
     "date": "2026-10-18T18:14+00:00"
    }
   ],
+  "Jeune Morty": [],
+  "Adeba Konan": [],
   "Sindika": [],
-  "Ste Milano": [],
   "Widgunz": [],
+  "Ste Milano": [],
+  "Jeune Lion": [
+   {
+    "titre": "Lamb - Ada Fass Promet Le Feu À Balla Gaye :“Tu Es Un Vieux Lion, Je Suis Un Jeune Lion Et Je Vais Te Battre Pour Aller Chercher La Couronne Royale” Wiwsport",
+    "lien": "https://news.google.com/rss/articles/CBMilgJBVV95cUxNaU0tT21hcnU1cVpla2l2MGxleHE0M09fWHI1Nk1xNlczcXZoa3FMeHBvSUpUUHpMR1pjeFRGVl8xSTRaYzhHTEJPZ0d3ZjE0WHJjanBxV2xySXE4dUZJX0dTRnBYRzBjQ0JIcDU4TGxBN2FNTWRhbzhFbWMyUk1wZEdqYnYzWjFBWHRLUHdLMEFtYTNYZGdjTEVxTk9SM3JQcmRhdWNUWHdjR202bmRhNXFScGIySGtUZFM3Ql9nVEJOV20zZHk5NkFxWGRkSlJlNWN4XzJVOVVtMlN5TkhQb3l5X1FVRDhzXzlqdzlXZVVTZGw1dnl3UTBuVkR3VHpYaGl5UU9mNjhEUnYzaVliMENLU19nZw?oc=5",
+    "source": "Menafn",
+    "date": "2026-10-19T12:33+00:00"
+   },
+   {
+    "titre": "Lamb - Ada Fass promet le feu à Balla Gaye : “Tu es un vieux Lion, je suis un jeune Lion et je vais te battre pour aller chercher la couronne royale”",
+    "lien": "https://news.google.com/rss/articles/CBMihgJBVV95cUxQbk5rNjZNVzFYMkVtbUhwd3I5Y0d2dFpkbzdwQ3gyYUxhckQ2TUVrRUpHSnMxNGl4cDE0anRaNTBzMFI2c3hFX3BQRXFoQzNfaGNuNFFza2tCRFQtbzJGZGxadVE4dV9iaUItWjNQNVJ1LUlFbnlqS2xoM1FrNXRTdXRIWnI1NnFWSlBOckNFanR2VDVkRG5KRHVxamsyMzhabWlXYkhsYjlLeGo5Zm8xLThvVDJtNnJyazBYLXpPTExid1BRVEMza0NHWGlRTHMzLW1VYXJGQ3Z0bENXODdkQ1N6M1ZNd0lveVZpRkljaHVSdXVmaG5ISDNXZE9pNFdvM2hSQ3VB?oc=5",
+    "source": "wiwsport",
+    "date": "2026-10-19T11:45+00:00"
+   }
+  ],
   "Magic System": [
    {
     "titre": "Magic System FC tient son premier partenaire",
@@ -91,20 +105,6 @@
   ],
   "Ariel Sheney": [],
   "Mix Premier": [],
-  "Jeune Lion": [
-   {
-    "titre": "Lamb - Ada Fass Promet Le Feu À Balla Gaye :“Tu Es Un Vieux Lion, Je Suis Un Jeune Lion Et Je Vais Te Battre Pour Aller Chercher La Couronne Royale” Wiwsport",
-    "lien": "https://news.google.com/rss/articles/CBMilgJBVV95cUxNaU0tT21hcnU1cVpla2l2MGxleHE0M09fWHI1Nk1xNlczcXZoa3FMeHBvSUpUUHpMR1pjeFRGVl8xSTRaYzhHTEJPZ0d3ZjE0WHJjanBxV2xySXE4dUZJX0dTRnBYRzBjQ0JIcDU4TGxBN2FNTWRhbzhFbWMyUk1wZEdqYnYzWjFBWHRLUHdLMEFtYTNYZGdjTEVxTk9SM3JQcmRhdWNUWHdjR202bmRhNXFScGIySGtUZFM3Ql9nVEJOV20zZHk5NkFxWGRkSlJlNWN4XzJVOVVtMlN5TkhQb3l5X1FVRDhzXzlqdzlXZVVTZGw1dnl3UTBuVkR3VHpYaGl5UU9mNjhEUnYzaVliMENLU19nZw?oc=5",
-    "source": "Menafn",
-    "date": "2026-10-19T12:33+00:00"
-   },
-   {
-    "titre": "Lamb - Ada Fass promet le feu à Balla Gaye : “Tu es un vieux Lion, je suis un jeune Lion et je vais te battre pour aller chercher la couronne royale”",
-    "lien": "https://news.google.com/rss/articles/CBMihgJBVV95cUxQbk5rNjZNVzFYMkVtbUhwd3I5Y0d2dFpkbzdwQ3gyYUxhckQ2TUVrRUpHSnMxNGl4cDE0anRaNTBzMFI2c3hFX3BQRXFoQzNfaGNuNFFza2tCRFQtbzJGZGxadVE4dV9iaUItWjNQNVJ1LUlFbnlqS2xoM1FrNXRTdXRIWnI1NnFWSlBOckNFanR2VDVkRG5KRHVxamsyMzhabWlXYkhsYjlLeGo5Zm8xLThvVDJtNnJyazBYLXpPTExid1BRVEMza0NHWGlRTHMzLW1VYXJGQ3Z0bENXODdkQ1N6M1ZNd0lveVZpRkljaHVSdXVmaG5ISDNXZE9pNFdvM2hSQ3VB?oc=5",
-    "source": "wiwsport",
-    "date": "2026-10-19T11:45+00:00"
-   }
-  ],
   "Meiway": [],
   "Soum Bill": [],
   "Shado Chris": [],
@@ -124,6 +124,12 @@
     "lien": "https://news.google.com/rss/articles/CBMipgFBVV95cUxPeUNyTDdzanFJQlIyWWpjMVJwbTBwX1ZBS1I2dHAyeEphU1k1Z1d4R0RtQmttRXlZWEdwbDFXdy1ac29ub3k2czNVVkVpUmxMVWV2cjdGdl9JYlg0LXVabXc3RDE2M09vTUZDa2p4X3hzNG9EcVE0U2lUSkRYazVmQVZVcGttWDlFbHFzMVgxdGdxVWhSaGhnNi0tUzRoZEtyMDV6RWJ3?oc=5",
     "source": "FratMat",
     "date": "2026-10-19T19:04+00:00"
+   },
+   {
+    "titre": "Roseline Layo – DIA",
+    "lien": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE1tcWhnQzdPcEtTU2oxaEdQUGdDSGsyQU5sTE5RaVNkdmJ6dlZNMHR4WlIxay12WF9PQjY1Uk1QSWhzeE5vUk95UUJ6OU81WTM1X1BTUGkyenVjOXJUclE?oc=5",
+    "source": "Sony Music Entertainment France",
+    "date": "2026-10-19T03:04+00:00"
    },
    {
     "titre": "Roseline Layo annonce « Divas » avec Angélique Kidjo pour le 27 novembre",
