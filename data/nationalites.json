@@ -29,6 +29,11 @@
   "statut": null,
   "verifie": "2026-10-19T02:50+00:00"
  },
+ "anyidons": {
+  "nom": "Anyidons",
+  "statut": null,
+  "verifie": "2026-10-20T11:47+00:00"
+ },
  "aretha franklin": {
   "nom": "Aretha Franklin",
   "statut": "autre",
@@ -48,6 +53,11 @@
   "nom": "Astrid S",
   "statut": "autre",
   "verifie": "2026-10-19T09:02+00:00"
+ },
+ "ava max": {
+  "nom": "Ava Max",
+  "statut": "autre",
+  "verifie": "2026-10-20T11:47+00:00"
  },
  "aya nakamura": {
   "nom": "Aya Nakamura",
@@ -79,6 +89,11 @@
   "statut": null,
   "verifie": "2026-10-19T02:50+00:00"
  },
+ "blaqbonez": {
+  "nom": "Blaqbonez",
+  "statut": "autre",
+  "verifie": "2026-10-20T11:47+00:00"
+ },
  "bne": {
   "nom": "Bné",
   "statut": null,
@@ -104,6 +119,11 @@
   "statut": null,
   "verifie": "2026-10-19T02:50+00:00"
  },
+ "consoul trainin": {
+  "nom": "Consoul Trainin",
+  "statut": null,
+  "verifie": "2026-10-20T11:47+00:00"
+ },
  "da uzi": {
   "nom": "DA Uzi",
   "statut": "autre",
@@ -123,6 +143,11 @@
   "nom": "David Okit",
   "statut": "autre",
   "verifie": "2026-10-19T02:50+00:00"
+ },
+ "davido": {
+  "nom": "Davido",
+  "statut": "autre",
+  "verifie": "2026-10-20T11:47+00:00"
  },
  "dj kerozen": {
   "nom": "DJ KEROZEN",
@@ -193,6 +218,11 @@
   "nom": "Gazo",
   "statut": "autre",
   "verifie": "2026-10-19T02:50+00:00"
+ },
+ "generation nerf": {
+  "nom": "Generation Nerf",
+  "statut": null,
+  "verifie": "2026-10-20T11:47+00:00"
  },
  "genezio": {
   "nom": "Genezio",
@@ -268,6 +298,11 @@
   "nom": "KAGE",
   "statut": null,
   "verifie": "2026-10-19T22:26+00:00"
+ },
+ "kcee": {
+  "nom": "KCee",
+  "statut": "autre",
+  "verifie": "2026-10-20T11:47+00:00"
  },
  "keblack": {
   "nom": "KeBlack",
@@ -374,6 +409,11 @@
   "statut": null,
   "verifie": "2026-10-19T02:50+00:00"
  },
+ "meryl": {
+  "nom": "Meryl",
+  "statut": "autre",
+  "verifie": "2026-10-20T11:47+00:00"
+ },
  "milky abreggor": {
   "nom": "MiLKY ABREGGOR",
   "statut": null,
@@ -409,6 +449,11 @@
   "statut": "autre",
   "verifie": "2026-10-19T02:50+00:00"
  },
+ "ovi nani": {
+  "nom": "OVI NANI",
+  "statut": null,
+  "verifie": "2026-10-20T11:47+00:00"
+ },
  "pluie et tonnerre de traxlab": {
   "nom": "Pluie et Tonnerre de TraxLab",
   "statut": null,
@@ -433,6 +478,11 @@
   "nom": "RnBoi",
   "statut": "autre",
   "verifie": "2026-10-19T02:50+00:00"
+ },
+ "ronisia": {
+  "nom": "Ronisia",
+  "statut": "autre",
+  "verifie": "2026-10-20T11:47+00:00"
  },
  "rsko": {
   "nom": "Rsko",
@@ -464,6 +514,11 @@
   "statut": "autre",
   "verifie": "2026-10-19T02:50+00:00"
  },
+ "shay": {
+  "nom": "Shay",
+  "statut": "autre",
+  "verifie": "2026-10-20T11:47+00:00"
+ },
  "sk 07": {
   "nom": "SK 07",
   "statut": null,
@@ -484,10 +539,20 @@
   "statut": "autre",
   "verifie": "2026-10-19T02:50+00:00"
  },
+ "tate mcrae": {
+  "nom": "Tate McRae",
+  "statut": "autre",
+  "verifie": "2026-10-20T11:47+00:00"
+ },
  "tayc": {
   "nom": "Tayc",
   "statut": "autre",
   "verifie": "2026-10-19T02:50+00:00"
+ },
+ "taylor swift": {
+  "nom": "Taylor Swift",
+  "statut": "autre",
+  "verifie": "2026-10-20T11:47+00:00"
  },
  "thb": {
   "nom": "THB",
@@ -498,6 +563,11 @@
   "nom": "The Chainsmokers",
   "statut": "autre",
   "verifie": "2026-10-19T09:02+00:00"
+ },
+ "the motans": {
+  "nom": "The Motans",
+  "statut": null,
+  "verifie": "2026-10-20T11:47+00:00"
  },
  "theodora": {
   "nom": "Theodora",
