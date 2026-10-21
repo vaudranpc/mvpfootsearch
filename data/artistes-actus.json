@@ -1,5 +1,5 @@
 {
- "genere": "2026-10-21T04:57+00:00",
+ "genere": "2026-10-21T11:59+00:00",
  "fenetre_heures": 72,
  "erreurs": [],
  "artistes": {
@@ -36,7 +36,15 @@
    }
   ],
   "Philipayne": [],
-  "Suspect 95": [],
+  "Suspect 95": [
+   {
+    "titre": "cambriolage ambassade d’Espagne à Dakar : les caméras conduisent à l’arrestation d’un suspect, 95 000 francs CFA dérobés",
+    "lien": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxPM2w4aXlRSURwaWxYQ0lQQm1rcUZLN081YnhuT2hZbG5LQTVRMjZxSmROOGRXbG1sYUs4c0pQVjdXdkVJNEJwbkxOVmU1aEVZaHVqUXVDU210enBtVXNOV0pERzZ4eGJpVnZ5Yk11dmFpeV9YZkxPZFhrZXBURUl1WEdBYlplNl9Yd01BSEJzTkJ2d0l5R3Z1UHFPU185ck5idHloZ0NNXzBGcWd6Y3lmaVgwcHkyUUtOemhFUko2VjdKNVNhcDd4X00zajhfdEJUbi1HcGwwREZCakc5V0FVWHBacmdaZTF4UEI3dg?oc=5",
+    "source": "DAKARACTU.COM",
+    "date": "2026-10-21T08:24+00:00"
+   }
+  ],
+  "Sindika": [],
   "Jeune Morty": [],
   "Tiken Jah Fakoly": [
    {
@@ -52,17 +60,7 @@
     "date": "2026-10-18T18:14+00:00"
    }
   ],
-  "Sindika": [],
   "Widgunz": [],
-  "Jeune Lion": [
-   {
-    "titre": "Lamb - Ada Fass promet le feu à Balla Gaye : “Tu es un vieux Lion, je suis un jeune Lion et je vais te battre pour aller chercher la couronne royale”",
-    "lien": "https://news.google.com/rss/articles/CBMihgJBVV95cUxQbk5rNjZNVzFYMkVtbUhwd3I5Y0d2dFpkbzdwQ3gyYUxhckQ2TUVrRUpHSnMxNGl4cDE0anRaNTBzMFI2c3hFX3BQRXFoQzNfaGNuNFFza2tCRFQtbzJGZGxadVE4dV9iaUItWjNQNVJ1LUlFbnlqS2xoM1FrNXRTdXRIWnI1NnFWSlBOckNFanR2VDVkRG5KRHVxamsyMzhabWlXYkhsYjlLeGo5Zm8xLThvVDJtNnJyazBYLXpPTExid1BRVEMza0NHWGlRTHMzLW1VYXJGQ3Z0bENXODdkQ1N6M1ZNd0lveVZpRkljaHVSdXVmaG5ISDNXZE9pNFdvM2hSQ3VB?oc=5",
-    "source": "wiwsport",
-    "date": "2026-10-19T11:45+00:00"
-   }
-  ],
-  "Ste Milano": [],
   "Magic System": [
    {
     "titre": "DU ZOUGLOU AUX PELOUSES : A’SALFO ACHÈTE UN CLUB ET LANCE L’AVENTURE MAGIC SYSTEM FC",
@@ -177,6 +175,15 @@
   ],
   "Black K": [],
   "Serge Beynaud": [],
-  "Kerozen DJ": []
+  "Jeune Lion": [
+   {
+    "titre": "Lamb - Ada Fass promet le feu à Balla Gaye : “Tu es un vieux Lion, je suis un jeune Lion et je vais te battre pour aller chercher la couronne royale”",
+    "lien": "https://news.google.com/rss/articles/CBMihgJBVV95cUxQbk5rNjZNVzFYMkVtbUhwd3I5Y0d2dFpkbzdwQ3gyYUxhckQ2TUVrRUpHSnMxNGl4cDE0anRaNTBzMFI2c3hFX3BQRXFoQzNfaGNuNFFza2tCRFQtbzJGZGxadVE4dV9iaUItWjNQNVJ1LUlFbnlqS2xoM1FrNXRTdXRIWnI1NnFWSlBOckNFanR2VDVkRG5KRHVxamsyMzhabWlXYkhsYjlLeGo5Zm8xLThvVDJtNnJyazBYLXpPTExid1BRVEMza0NHWGlRTHMzLW1VYXJGQ3Z0bENXODdkQ1N6M1ZNd0lveVZpRkljaHVSdXVmaG5ISDNXZE9pNFdvM2hSQ3VB?oc=5",
+    "source": "wiwsport",
+    "date": "2026-10-19T11:45+00:00"
+   }
+  ],
+  "Kerozen DJ": [],
+  "Fior 2 Bior": []
  }
 }

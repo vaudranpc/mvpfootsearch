@@ -1,4 +1,9 @@
 {
+ "4fourtee": {
+  "nom": "4fourtee",
+  "statut": null,
+  "verifie": "2026-10-21T11:59+00:00"
+ },
  "63kluf": {
   "nom": "63KLUF",
   "statut": null,
@@ -83,6 +88,11 @@
   "nom": "BabyDaiz",
   "statut": null,
   "verifie": "2026-10-19T02:50+00:00"
+ },
+ "bad bunny": {
+  "nom": "Bad Bunny",
+  "statut": "autre",
+  "verifie": "2026-10-21T11:59+00:00"
  },
  "bedry": {
   "nom": "Bedry",
@@ -244,6 +254,11 @@
   "statut": null,
   "verifie": "2026-10-19T02:50+00:00"
  },
+ "hmz": {
+  "nom": "Hmz",
+  "statut": null,
+  "verifie": "2026-10-21T11:59+00:00"
+ },
  "hoodbaby": {
   "nom": "Hoodbaby",
   "statut": null,
@@ -294,10 +309,20 @@
   "statut": "autre",
   "verifie": "2026-10-19T09:02+00:00"
  },
+ "kadirov mania": {
+  "nom": "Kadirov Mania",
+  "statut": null,
+  "verifie": "2026-10-21T11:59+00:00"
+ },
  "kage": {
   "nom": "KAGE",
   "statut": null,
   "verifie": "2026-10-19T22:26+00:00"
+ },
+ "karol g": {
+  "nom": "KAROL G",
+  "statut": "autre",
+  "verifie": "2026-10-21T11:59+00:00"
  },
  "kcee": {
   "nom": "KCee",
@@ -384,6 +409,11 @@
   "statut": "autre",
   "verifie": "2026-10-19T02:50+00:00"
  },
+ "lord samosa": {
+  "nom": "Lord Samosa",
+  "statut": null,
+  "verifie": "2026-10-21T11:59+00:00"
+ },
  "m24": {
   "nom": "M24",
   "statut": "autre",
@@ -424,6 +454,11 @@
   "statut": "autre",
   "verifie": "2026-10-19T02:50+00:00"
  },
+ "natasha st pier": {
+  "nom": "Natasha St-Pier",
+  "statut": "autre",
+  "verifie": "2026-10-21T11:59+00:00"
+ },
  "ninho": {
   "nom": "Ninho",
   "statut": "autre",
@@ -454,6 +489,11 @@
   "statut": null,
   "verifie": "2026-10-20T11:47+00:00"
  },
+ "paki chenzu": {
+  "nom": "Paki chenzu",
+  "statut": "autre",
+  "verifie": "2026-10-21T11:59+00:00"
+ },
  "pluie et tonnerre de traxlab": {
   "nom": "Pluie et Tonnerre de TraxLab",
   "statut": null,
@@ -463,6 +503,11 @@
   "nom": "Prototype",
   "statut": "autre",
   "verifie": "2026-10-19T09:02+00:00"
+ },
+ "rbib": {
+  "nom": "RBIB",
+  "statut": null,
+  "verifie": "2026-10-21T11:59+00:00"
  },
  "rema": {
   "nom": "Rema",
@@ -518,6 +563,11 @@
   "nom": "Shay",
   "statut": "autre",
   "verifie": "2026-10-20T11:47+00:00"
+ },
+ "singuila": {
+  "nom": "Singuila",
+  "statut": "autre",
+  "verifie": "2026-10-21T11:59+00:00"
  },
  "sk 07": {
   "nom": "SK 07",
