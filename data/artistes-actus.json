@@ -1,5 +1,5 @@
 {
- "genere": "2026-10-21T11:59+00:00",
+ "genere": "2026-10-21T17:19+00:00",
  "fenetre_heures": 72,
  "erreurs": [],
  "artistes": {
@@ -9,12 +9,6 @@
     "lien": "https://news.google.com/rss/articles/CBMisAFBVV95cUxNNElmOFFTQ1M3b1lESGh6YzF5ZkJjLXd2TFFGNEhjM0ZjbThDd09vNDdhR1J4Y202cjJmdGpfdFNTbHZiNjB4ZXZQQWh0dUx3bmpUVEdGVV8wSGVhZlNzeUVpc0V6YXpFZmZEcGd0S0tlYTIxTnU5bmJRaTFDNnZMazhWcjlQWlNKcE81SlZOOHpFUl9oS2ZRaklCNmUzYnAwbG1GbnN1X1BwWUVxSkNMMg?oc=5",
     "source": "Moov.Mg",
     "date": "2026-10-19T14:01+00:00"
-   },
-   {
-    "titre": "ELOW'N X HIMRA : DLM , LA RELIQUE SANGLANTE II OBELEKE REACTION",
-    "lien": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE9QakQtbnRLTHljcGtURFkyS09NcUNtUlBxTVoxRXZSRjhrX05Jcmo5SnlRQ0tBcEtSRGlaNkIxZU9WWEk1eFdGZkdWc042OFdxRWlYNHM5U1JMeE1F?oc=5",
-    "source": "YouTube",
-    "date": "2026-10-18T13:33+00:00"
    }
   ],
   "døpelym": [],
@@ -27,14 +21,7 @@
     "date": "2026-10-18T21:17+00:00"
    }
   ],
-  "Elow'n": [
-   {
-    "titre": "ELOW'N X HIMRA : DLM , LA RELIQUE SANGLANTE II OBELEKE REACTION",
-    "lien": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE9QakQtbnRLTHljcGtURFkyS09NcUNtUlBxTVoxRXZSRjhrX05Jcmo5SnlRQ0tBcEtSRGlaNkIxZU9WWEk1eFdGZkdWc042OFdxRWlYNHM5U1JMeE1F?oc=5",
-    "source": "YouTube",
-    "date": "2026-10-18T13:33+00:00"
-   }
-  ],
+  "Elow'n": [],
   "Philipayne": [],
   "Suspect 95": [
    {
@@ -52,15 +39,10 @@
     "lien": "https://news.google.com/rss/articles/CBMizAFBVV95cUxOX0x6N2pLblUxclhyejRhczNqdFhnZE85XzEyeGFndUhteXpYQ1VrZE9qVTItS0kteHl4V1VEMmtORWp2cTdYVjBid3VTQVpuQlFDRk9qZ1U1VV80TzJ1clFfZXM5dVdITXByN3puUU9uejZRZjAtVlkxendKOVd0eF9DZ3FsWTZzUmo1S0pfY2NuMnNYZjU4VXA4dXBld2tsU2I0OHpEVjVGNVg4Mnd4M3dkMFlvM1M3MjZXbEkwTS1KQnoyNEFPcDQ3d1A?oc=5",
     "source": "Orange Actualités",
     "date": "2026-10-18T23:34+00:00"
-   },
-   {
-    "titre": "CULTURE - \"Aucun pays africain ne pourra s'en sortir tout seul\", dit Tiken Jah Fakoly sur France 24",
-    "lien": "https://news.google.com/rss/articles/CBMi5wFBVV95cUxQUm1RZmFTYklUSHhqeTZSLUhZdFpUMzJRVmp5bDJBeUpCMERsR1ZMVzhDYVlDa2F5TzJUZ1d6QnB2U29TeGlNMTdUaXBTNjFzTU9ZR1hYc2FXanlVZ185OGRHdy1FVnNycVBqR255UUJkcHNIczNHSVR4VjVMUHZiYVdkMkhFS29lbUVZQ2Q1NzQ1aHlZYnBqczlMUVJfU0JQWE1vMlZnOHJuTmpEdlRtc2xRV0pvUTV6YkJKZ2MxeFVJMjRBMjNIMFE1cjZjNHpRVlVpVjBsU1o4aTRRUGFPdm1iTFlLN2s?oc=5",
-    "source": "Orange Actualités",
-    "date": "2026-10-18T18:14+00:00"
    }
   ],
   "Widgunz": [],
+  "Morijah": [],
   "Magic System": [
    {
     "titre": "DU ZOUGLOU AUX PELOUSES : A’SALFO ACHÈTE UN CLUB ET LANCE L’AVENTURE MAGIC SYSTEM FC",
@@ -90,6 +72,7 @@
    }
   ],
   "DJ Arafat": [],
+  "Serge Beynaud": [],
   "Kiff No Beat": [],
   "Bebi Philip": [],
   "Josey": [
@@ -147,12 +130,13 @@
   "Petit Yodé & L'Enfant Siro": [],
   "Bamba Ami Sarah": [],
   "Zoh Cataleya": [],
+  "Black K": [],
   "Nash": [
    {
     "titre": "Le retour de Kawhi, « une période passionnante » selon Steve Nash",
     "lien": "https://news.google.com/rss/articles/CBMitwFBVV95cUxPQ1RqRkR2WWw2TVlpdDEzT29vbUV3Ni1Bcy1Fd09MVkJxT0ZScV9GbWMtS201TVZJQ1pqczdUVjFGT19MNVBmT1VCanpka1BlRnplNlV3Q1VqWm5JbFpKWjhlb19YVFA5TkJvVV8zMGxSYXdVNTduNi1tMFVOVFczaWtZWkNEYmlmWTB4ejZxVG13d1hiNThsTUg3WmRnUGJROVZhM293cGx5WFVtNldQU0Z3Vkx6T3M?oc=5",
     "source": "RDS",
-    "date": "2026-10-20T18:08+00:00"
+    "date": "2026-10-20T18:09+00:00"
    },
    {
     "titre": "NBA – Un problème pour Victor Wembanyama et les Spurs selon Steve Nash",
@@ -173,8 +157,6 @@
     "date": "2026-10-18T19:19+00:00"
    }
   ],
-  "Black K": [],
-  "Serge Beynaud": [],
   "Jeune Lion": [
    {
     "titre": "Lamb - Ada Fass promet le feu à Balla Gaye : “Tu es un vieux Lion, je suis un jeune Lion et je vais te battre pour aller chercher la couronne royale”",
@@ -183,7 +165,6 @@
     "date": "2026-10-19T11:45+00:00"
    }
   ],
-  "Kerozen DJ": [],
-  "Fior 2 Bior": []
+  "Kerozen DJ": []
  }
 }
