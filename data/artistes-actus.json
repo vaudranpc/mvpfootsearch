@@ -1,5 +1,5 @@
 {
- "genere": "2026-10-20T21:42+00:00",
+ "genere": "2026-10-21T04:57+00:00",
  "fenetre_heures": 72,
  "erreurs": [],
  "artistes": {
@@ -37,6 +37,7 @@
   ],
   "Philipayne": [],
   "Suspect 95": [],
+  "Jeune Morty": [],
   "Tiken Jah Fakoly": [
    {
     "titre": "Tiken Jah Fakoly : \"J'ai voulu montrer que la source du reggae est en Afrique\"",
@@ -51,7 +52,8 @@
     "date": "2026-10-18T18:14+00:00"
    }
   ],
-  "Jeune Morty": [],
+  "Sindika": [],
+  "Widgunz": [],
   "Jeune Lion": [
    {
     "titre": "Lamb - Ada Fass promet le feu à Balla Gaye : “Tu es un vieux Lion, je suis un jeune Lion et je vais te battre pour aller chercher la couronne royale”",
@@ -60,15 +62,13 @@
     "date": "2026-10-19T11:45+00:00"
    }
   ],
-  "Sindika": [],
-  "Widgunz": [],
   "Ste Milano": [],
   "Magic System": [
    {
     "titre": "DU ZOUGLOU AUX PELOUSES : A’SALFO ACHÈTE UN CLUB ET LANCE L’AVENTURE MAGIC SYSTEM FC",
-    "lien": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNY0JXVG5Xc012d3JYVnoxTVFnenlSWFF2RmNsZkdFOGhwUHRsbURyNWpWaW03MzdZSmRIZ0tRN2cxckttTWcxZ2Q5cTBxVGF5WWQyVkxHRmVtWFJYS2h2bkxZNVhyQXpHRlRHR0Z2Qno3aEp3Mk1DTm1WbzdtcWNmQTg5X1BCblJtQ1dvQU5sbTdjLUxZSlBWcTNFZ2lNeDctNFNB0gGoAUFVX3lxTFBrb0JfMXVLdGtBU09mSkZVUG9kLTNScXFEbDRXb3dDbjZiOVVsOFk4am80VUMxSURoSFVJcUgtS2FmZmNTNEFwbzFIU2V1QkJHOGpGMGdQZ2VkMlNISlM4Um05TGkxYzVhOGtqNk5YalV2Wld2Vm11a2RQVm9naWlPS29XYkZvNXZEQjhQQVNCdjhlRy1sOTJIY3MwNDd6Mm42dmdfNjl6SA?oc=5",
+    "lien": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQa29CXzF1S3RrQVNPZkpGVVBvZC0zUnFxRGw0V293Q242YjlVbDhZOGpvNFVDMUlEaEhVSXFILUthZmZjUzRBcG8xSFNldUJCRzhqRjBnUGdlZDJTSEpTOFJtOUxpMWM1YThrajZOWGpVdlpXdlZtdWtkUFZvZ2lpT0tvV2JGbzV2REI4UEFTQnY4ZUctbDkySGNzMDQ3ejJuNnZnXzY5ekjSAagBQVVfeXFMUGtvQl8xdUt0a0FTT2ZKRlVQb2QtM1JxcURsNFdvd0NuNmI5VWw4WThqbzRVQzFJRGhIVUlxSC1LYWZmY1M0QXBvMUhTZXVCQkc4akYwZ1BnZWQyU0hKUzhSbTlMaTFjNWE4a2o2TlhqVXZaV3ZWbXVrZFBWb2dpaU9Lb1diRm81dkRCOFBBU0J2OGVHLWw5MkhjczA0N3oybjZ2Z182OXpI?oc=5",
     "source": "Mali 24",
-    "date": "2026-10-20T13:56+00:00"
+    "date": "2026-10-20T15:13+00:00"
    },
    {
     "titre": "A’Salfo ironise sur la défaite de Magic System FC",
@@ -173,12 +173,6 @@
     "lien": "https://news.google.com/rss/articles/CBMikwFBVV95cUxNU3BiNG1IanQ3UzUzeEhUaVczZDdYc0F6SDdvdEhVY1V1TnMtTUZZemVHbnlJbk9WSFpIUFFudDUyZVZqckNvYTV3RXFpMXpwd0V5ZE8xdlZmNDdLMTU5ZG44bUhqdG5SY2dUSVBacWNnc0Y4bTcwZGpXbU51LThrY0RiVTZYaFNlRFBabXJGdVJNVUU?oc=5",
     "source": "La Tribune de l'Hôtellerie",
     "date": "2026-10-18T19:19+00:00"
-   },
-   {
-    "titre": "Ted Nash European Quartet Feat à l'ECUJE de Paris 2027 | billets",
-    "lien": "https://news.google.com/rss/articles/CBMihgFBVV95cUxNTWY5bXYyV3hDMkhUOGtSSUVEZzRqUG5GQW10YXMxYWF1TWJkc01pLUszVFJtb3hvRi1HR1hmejJPM2RuSDN3MWNRa0ZDc04wQ3B1UXpUaVI5OHhBUEhjTVBVUFdlRHVQQVJzX2FLZ1VyaTk5YWtvYlZxT09lSHJ0MEdfUkNQZw?oc=5",
-    "source": "jds.fr",
-    "date": "2026-10-17T22:25+00:00"
    }
   ],
   "Black K": [],
