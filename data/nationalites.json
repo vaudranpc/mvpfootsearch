@@ -99,6 +99,11 @@
   "statut": null,
   "verifie": "2026-10-19T02:50+00:00"
  },
+ "bigflo": {
+  "nom": "Bigflo",
+  "statut": "autre",
+  "verifie": "2026-10-22T12:02+00:00"
+ },
  "blaqbonez": {
   "nom": "Blaqbonez",
   "statut": "autre",
@@ -124,6 +129,11 @@
   "statut": null,
   "verifie": "2026-10-19T02:50+00:00"
  },
+ "burna boy": {
+  "nom": "Burna Boy",
+  "statut": "autre",
+  "verifie": "2026-10-22T12:02+00:00"
+ },
  "cca": {
   "nom": "CØCA",
   "statut": null,
@@ -143,6 +153,11 @@
   "nom": "Dadju",
   "statut": "autre",
   "verifie": "2026-10-19T02:50+00:00"
+ },
+ "daft punk": {
+  "nom": "Daft Punk",
+  "statut": "autre",
+  "verifie": "2026-10-22T12:02+00:00"
  },
  "damso": {
   "nom": "Damso",
@@ -204,6 +219,11 @@
   "statut": "autre",
   "verifie": "2026-10-19T02:50+00:00"
  },
+ "faouzia": {
+  "nom": "Faouzia",
+  "statut": "autre",
+  "verifie": "2026-10-22T12:02+00:00"
+ },
  "fola": {
   "nom": "FOLA",
   "statut": null,
@@ -254,6 +274,16 @@
   "statut": null,
   "verifie": "2026-10-19T02:50+00:00"
  },
+ "guy2bezbar": {
+  "nom": "Guy2bezbar",
+  "statut": "autre",
+  "verifie": "2026-10-22T12:02+00:00"
+ },
+ "harry styles": {
+  "nom": "Harry Styles",
+  "statut": "autre",
+  "verifie": "2026-10-22T12:02+00:00"
+ },
  "hmz": {
   "nom": "Hmz",
   "statut": null,
@@ -263,6 +293,11 @@
   "nom": "Hoodbaby",
   "statut": null,
   "verifie": "2026-10-19T02:50+00:00"
+ },
+ "huntrill": {
+  "nom": "Huntrill",
+  "statut": null,
+  "verifie": "2026-10-22T12:02+00:00"
  },
  "jam$co": {
   "nom": "jam$co",
@@ -308,6 +343,11 @@
   "nom": "Judikay",
   "statut": "autre",
   "verifie": "2026-10-19T09:02+00:00"
+ },
+ "julian casablancas": {
+  "nom": "Julian Casablancas",
+  "statut": null,
+  "verifie": "2026-10-22T12:02+00:00"
  },
  "kadirov mania": {
   "nom": "Kadirov Mania",
@@ -404,6 +444,11 @@
   "statut": null,
   "verifie": "2026-10-19T02:50+00:00"
  },
+ "les leaders": {
+  "nom": "Les leaders",
+  "statut": null,
+  "verifie": "2026-10-22T12:02+00:00"
+ },
  "leto": {
   "nom": "Leto",
   "statut": "autre",
@@ -413,6 +458,11 @@
   "nom": "Lord Samosa",
   "statut": null,
   "verifie": "2026-10-21T11:59+00:00"
+ },
+ "lynothecosmoskid": {
+  "nom": "Lynothecosmoskid",
+  "statut": null,
+  "verifie": "2026-10-22T12:02+00:00"
  },
  "m24": {
   "nom": "M24",
@@ -459,6 +509,11 @@
   "statut": "ivoirien",
   "verifie": "2026-10-21T17:19+00:00"
  },
+ "multimelo": {
+  "nom": "Multimelo",
+  "statut": null,
+  "verifie": "2026-10-22T12:02+00:00"
+ },
  "natasha st pier": {
   "nom": "Natasha St-Pier",
   "statut": "autre",
@@ -474,6 +529,11 @@
   "statut": "autre",
   "verifie": "2026-10-19T02:50+00:00"
  },
+ "no pain no gain": {
+  "nom": "No Pain No Gain",
+  "statut": "autre",
+  "verifie": "2026-10-22T12:02+00:00"
+ },
  "nooche": {
   "nom": "Nooche",
   "statut": null,
@@ -483,6 +543,11 @@
   "nom": "OG Mahilet",
   "statut": null,
   "verifie": "2026-10-19T02:50+00:00"
+ },
+ "oli": {
+  "nom": "Oli",
+  "statut": null,
+  "verifie": "2026-10-22T12:02+00:00"
  },
  "omah lay": {
   "nom": "OMAH LAY",
@@ -514,6 +579,11 @@
   "statut": null,
   "verifie": "2026-10-21T11:59+00:00"
  },
+ "rbib archives": {
+  "nom": "RBIB archives.",
+  "statut": null,
+  "verifie": "2026-10-22T12:02+00:00"
+ },
  "rema": {
   "nom": "Rema",
   "statut": "autre",
@@ -538,6 +608,11 @@
   "nom": "Rsko",
   "statut": "autre",
   "verifie": "2026-10-19T02:50+00:00"
+ },
+ "s o the l": {
+  "nom": "S/o The L",
+  "statut": null,
+  "verifie": "2026-10-22T12:02+00:00"
  },
  "sativamusic": {
   "nom": "SativaMusic",
@@ -568,6 +643,11 @@
   "nom": "Shay",
   "statut": "autre",
   "verifie": "2026-10-20T11:47+00:00"
+ },
+ "shenseea": {
+  "nom": "Shenseea",
+  "statut": "autre",
+  "verifie": "2026-10-22T12:02+00:00"
  },
  "singuila": {
   "nom": "Singuila",

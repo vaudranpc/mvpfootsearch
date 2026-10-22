@@ -1,5 +1,5 @@
 {
- "genere": "2026-10-22T04:58+00:00",
+ "genere": "2026-10-22T12:01+00:00",
  "fenetre_heures": 72,
  "erreurs": [],
  "artistes": {
@@ -13,7 +13,14 @@
   ],
   "døpelym": [],
   "Didi B": [],
-  "KS Bloom": [],
+  "KS Bloom": [
+   {
+    "titre": "KS Bloom - Vlaga vlaga [ Clip officiel ]",
+    "lien": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE9EOHBNSUFWbDJXRTA3TUxqbm44bEJaQmpSOTFGTGUxc240QnUtcDdmQ2pRYkFzUHdKbkRJQzg0aUxpTE1MM1E4SnJWbmFWZnJSXzJfT0NqQWdFQWJ4?oc=5",
+    "source": "YouTube",
+    "date": "2026-10-20T18:00+00:00"
+   }
+  ],
   "Elow'n": [],
   "Philipayne": [],
   "Suspect 95": [
@@ -24,10 +31,10 @@
     "date": "2026-10-21T08:44+00:00"
    }
   ],
-  "Sindika": [],
   "Jeune Morty": [],
   "Tiken Jah Fakoly": [],
   "Widgunz": [],
+  "Sindika": [],
   "Magic System": [
    {
     "titre": "DU ZOUGLOU AUX PELOUSES : A’SALFO ACHÈTE UN CLUB ET LANCE L’AVENTURE MAGIC SYSTEM FC",
@@ -48,26 +55,12 @@
     "date": "2026-10-19T13:43+00:00"
    }
   ],
-  "Alpha Blondy": [
-   {
-    "titre": "Côte d’Ivoire : Le fils de l'artiste NST Cophie’s appelle son « Tonton » Alpha Blondy au secours",
-    "lien": "https://news.google.com/rss/articles/CBMiRkFVX3lxTE5nRF9XMzY0SVRLMnUyYlUteUV6SC01aHpFSkdraENHVXo3N0JyaTBtdXBzZ2NmbzFZUkQ5Z2ZqYnUwNF91T0E?oc=5",
-    "source": "afrik soir",
-    "date": "2026-10-19T09:40+00:00"
-   }
-  ],
+  "Alpha Blondy": [],
   "DJ Arafat": [],
   "Serge Beynaud": [],
   "Kiff No Beat": [],
   "Bebi Philip": [],
-  "Josey": [
-   {
-    "titre": "Josey : « J’ai parfois un pincement au cœur quand je pars travailler et que les enfants pleurent…",
-    "lien": "https://news.google.com/rss/articles/CBMitgFBVV95cUxORFJuN2dMbWkwMTdjWTZncFFMWFBIaXVPc1ZaWklRRUt5T0xNZkRfZy1tN0dKVHhVa1VpamhjdUViRUFGaEdLWXNuNmxqdlJhTEozNmU4VDlnMTNlX0dUalNDYlJtVC1ORXhqME9fM1VvYVVfTDU5Y1U3eTlENENEMWlGRlJJd3FQSTBCZThCWTJXbXJiUFRtOVZjQzBXQUhXazdQenhXaTNETVkzWlBySUtZdGY4QQ?oc=5",
-    "source": "afrik soir",
-    "date": "2026-10-19T09:42+00:00"
-   }
-  ],
+  "Josey": [],
   "Ariel Sheney": [],
   "Mix Premier": [],
   "Meiway": [
@@ -94,12 +87,6 @@
     "lien": "https://news.google.com/rss/articles/CBMipgFBVV95cUxPeUNyTDdzanFJQlIyWWpjMVJwbTBwX1ZBS1I2dHAyeEphU1k1Z1d4R0RtQmttRXlZWEdwbDFXdy1ac29ub3k2czNVVkVpUmxMVWV2cjdGdl9JYlg0LXVabXc3RDE2M09vTUZDa2p4X3hzNG9EcVE0U2lUSkRYazVmQVZVcGttWDlFbHFzMVgxdGdxVWhSaGhnNi0tUzRoZEtyMDV6RWJ3?oc=5",
     "source": "FratMat",
     "date": "2026-10-19T19:04+00:00"
-   },
-   {
-    "titre": "Roseline Layo convoque huit déesses d’Afrique et d’Europe",
-    "lien": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxQNHNrVDkwZzdhMU1Ib3VZRkpMa1NBTWZvamdRMGxpdkV2NS1Ybkg2Rk1uVzM0NW1Nbmt1dVc4TFJoOWM3WmVoWDBqX01SRnExN05seEFIak1hUW1WQUpSSmd1cGk3X3RJQk40LWpnRzJzalo3cnhRY1Rfdm5xU1VjUFFrT1NQblZ2aHZZ?oc=5",
-    "source": "PressReader",
-    "date": "2026-10-19T07:00+00:00"
    }
   ],
   "Team Paiya": [],
@@ -136,14 +123,7 @@
     "date": "2026-10-20T15:22+00:00"
    }
   ],
-  "Jeune Lion": [
-   {
-    "titre": "Lamb - Ada Fass promet le feu à Balla Gaye : “Tu es un vieux Lion, je suis un jeune Lion et je vais te battre pour aller chercher la couronne royale”",
-    "lien": "https://news.google.com/rss/articles/CBMihgJBVV95cUxQbk5rNjZNVzFYMkVtbUhwd3I5Y0d2dFpkbzdwQ3gyYUxhckQ2TUVrRUpHSnMxNGl4cDE0anRaNTBzMFI2c3hFX3BQRXFoQzNfaGNuNFFza2tCRFQtbzJGZGxadVE4dV9iaUItWjNQNVJ1LUlFbnlqS2xoM1FrNXRTdXRIWnI1NnFWSlBOckNFanR2VDVkRG5KRHVxamsyMzhabWlXYkhsYjlLeGo5Zm8xLThvVDJtNnJyazBYLXpPTExid1BRVEMza0NHWGlRTHMzLW1VYXJGQ3Z0bENXODdkQ1N6M1ZNd0lveVZpRkljaHVSdXVmaG5ISDNXZE9pNFdvM2hSQ3VB?oc=5",
-    "source": "wiwsport",
-    "date": "2026-10-19T11:45+00:00"
-   }
-  ],
+  "Jeune Lion": [],
   "Kerozen DJ": [],
   "Fior 2 Bior": []
  }
