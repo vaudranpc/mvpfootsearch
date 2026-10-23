@@ -1,5 +1,5 @@
 {
- "genere": "2026-10-23T04:59+00:00",
+ "genere": "2026-10-23T11:47+00:00",
  "fenetre_heures": 72,
  "erreurs": [],
  "artistes": {
@@ -25,10 +25,11 @@
    }
   ],
   "Jeune Morty": [],
-  "Tiken Jah Fakoly": [],
   "Sindika": [],
-  "Widgunz": [],
+  "Tiken Jah Fakoly": [],
+  "Ste Milano": [],
   "Jeune Lion": [],
+  "Widgunz": [],
   "Magic System": [
    {
     "titre": "Décès du frère jumeau d’A’Salfo : Yodé et Siro apportent leur soutien au leader de Magic System",
@@ -41,12 +42,6 @@
     "lien": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQa29CXzF1S3RrQVNPZkpGVVBvZC0zUnFxRGw0V293Q242YjlVbDhZOGpvNFVDMUlEaEhVSXFILUthZmZjUzRBcG8xSFNldUJCRzhqRjBnUGdlZDJTSEpTOFJtOUxpMWM1YThrajZOWGpVdlpXdlZtdWtkUFZvZ2lpT0tvV2JGbzV2REI4UEFTQnY4ZUctbDkySGNzMDQ3ejJuNnZnXzY5ekjSAagBQVVfeXFMUGtvQl8xdUt0a0FTT2ZKRlVQb2QtM1JxcURsNFdvd0NuNmI5VWw4WThqbzRVQzFJRGhIVUlxSC1LYWZmY1M0QXBvMUhTZXVCQkc4akYwZ1BnZWQyU0hKUzhSbTlMaTFjNWE4a2o2TlhqVXZaV3ZWbXVrZFBWb2dpaU9Lb1diRm81dkRCOFBBU0J2OGVHLWw5MkhjczA0N3oybjZ2Z182OXpI?oc=5",
     "source": "Mali 24",
     "date": "2026-10-20T15:13+00:00"
-   },
-   {
-    "titre": "A’Salfo ironise sur la défaite de Magic System FC",
-    "lien": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNSDVDc2VCaVdNOTJkcTZFeTRFOUVjSF8wbUpBRmFRa2xCemxraUJHb25IY21xSE54VDdHWUVUeTN2RVVvckIyZ0ZNZFU4c2U5OXNoWlhIQmE3VjFsWXFBUG9OMXgybDE5VjZ0LWV1T0lUUnc4RHZHdU9iYmNsZnVFNmxGeHBFbnZXdWxYdHJB?oc=5",
-    "source": "Mondialsport.ci",
-    "date": "2026-10-20T09:28+00:00"
    }
   ],
   "Alpha Blondy": [],
@@ -60,7 +55,6 @@
   "Meiway": [],
   "Soum Bill": [],
   "Shado Chris": [],
-  "Fior 2 Bior": [],
   "Debordo Leekunfa": [],
   "Molare": [],
   "Tam Sir": [],
@@ -75,15 +69,6 @@
   "Gadji Céli": [],
   "Monique Séka": [],
   "Lil Jay Bingerack": [],
-  "Yabongo Lova": [],
-  "Aïcha Koné": [],
-  "Fadal Dey": [],
-  "Kajeem": [],
-  "Nayanka Bell": [],
-  "Petit Yodé & L'Enfant Siro": [],
-  "Bamba Ami Sarah": [],
-  "Zoh Cataleya": [],
-  "Black K": [],
   "Nash": [
    {
     "titre": "Le retour de Kawhi, « une période passionnante » selon Steve Nash",
@@ -104,6 +89,15 @@
     "date": "2026-10-20T15:22+00:00"
    }
   ],
+  "Yabongo Lova": [],
+  "Aïcha Koné": [],
+  "Fadal Dey": [],
+  "Kajeem": [],
+  "Nayanka Bell": [],
+  "Petit Yodé & L'Enfant Siro": [],
+  "Bamba Ami Sarah": [],
+  "Zoh Cataleya": [],
+  "Black K": [],
   "Kerozen DJ": []
  }
 }
