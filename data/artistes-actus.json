@@ -1,11 +1,11 @@
 {
- "genere": "2026-10-23T11:47+00:00",
+ "genere": "2026-10-23T17:14+00:00",
  "fenetre_heures": 72,
  "erreurs": [],
  "artistes": {
   "Himra": [],
-  "døpelym": [],
   "Didi B": [],
+  "døpelym": [],
   "KS Bloom": [
    {
     "titre": "KS Bloom - Vlaga vlaga [ Clip officiel ]",
@@ -14,8 +14,8 @@
     "date": "2026-10-20T18:00+00:00"
    }
   ],
-  "Elow'n": [],
   "Philipayne": [],
+  "Elow'n": [],
   "Suspect 95": [
    {
     "titre": "cambriolage ambassade d’Espagne à Dakar : les caméras conduisent à l’arrestation d’un suspect, 95 000 francs CFA dérobés",
@@ -25,26 +25,26 @@
    }
   ],
   "Jeune Morty": [],
-  "Sindika": [],
   "Tiken Jah Fakoly": [],
+  "Sindika": [],
   "Ste Milano": [],
   "Jeune Lion": [],
-  "Widgunz": [],
   "Magic System": [
    {
     "titre": "Décès du frère jumeau d’A’Salfo : Yodé et Siro apportent leur soutien au leader de Magic System",
     "lien": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNUDFiRnBwS1Nqb1dzX0RhTGZpRDlDLTN3ajZvcUlsNVVRM3FWN1VJWjBMb19kb1Atc2E3Sl9WY3ZrMTJkY0pHaFhVTEY2UDV0bVQ5OVowbVV1bDcyMXJIbXZnc2FDVU5HamkyY2hHOS15R2tKYlN6TWFXUUdEQW51SnVKZWZIQVBhdzkyd2swc2ozbDNNY21NVmthRDB2SXNqWFRQM1Y1Vm5vY3MwT3ZkbWtFaUU?oc=5",
     "source": "afrik soir",
     "date": "2026-10-22T17:06+00:00"
-   },
-   {
-    "titre": "DU ZOUGLOU AUX PELOUSES : A’SALFO ACHÈTE UN CLUB ET LANCE L’AVENTURE MAGIC SYSTEM FC",
-    "lien": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQa29CXzF1S3RrQVNPZkpGVVBvZC0zUnFxRGw0V293Q242YjlVbDhZOGpvNFVDMUlEaEhVSXFILUthZmZjUzRBcG8xSFNldUJCRzhqRjBnUGdlZDJTSEpTOFJtOUxpMWM1YThrajZOWGpVdlpXdlZtdWtkUFZvZ2lpT0tvV2JGbzV2REI4UEFTQnY4ZUctbDkySGNzMDQ3ejJuNnZnXzY5ekjSAagBQVVfeXFMUGtvQl8xdUt0a0FTT2ZKRlVQb2QtM1JxcURsNFdvd0NuNmI5VWw4WThqbzRVQzFJRGhIVUlxSC1LYWZmY1M0QXBvMUhTZXVCQkc4akYwZ1BnZWQyU0hKUzhSbTlMaTFjNWE4a2o2TlhqVXZaV3ZWbXVrZFBWb2dpaU9Lb1diRm81dkRCOFBBU0J2OGVHLWw5MkhjczA0N3oybjZ2Z182OXpI?oc=5",
-    "source": "Mali 24",
-    "date": "2026-10-20T15:13+00:00"
    }
   ],
-  "Alpha Blondy": [],
+  "Alpha Blondy": [
+   {
+    "titre": "Alpha Blondy dénonce fermement les coups d’État à répétition au sein des pays de l’AES",
+    "lien": "https://news.google.com/rss/articles/CBMiygFBVV95cUxQMlFXbzVtUTZmSW5XcVVNdnh6dWtaQjhkMGFyYlhUU0dLNF9UZVNYeXZOVmFrUENNV0ZBRS1FSHVLdXp1WTBoT0NzWnZqU0ZXMW1qaGNLRmstbVVrZC13bEphWU9qYk54dzZicHpVWGplVWREV3hsZUFhNWZ5RkNFT0RUbEsxaGRCMkpENVJ5dkEyei1aM05mYXp2SERna0xVWU1BZUNUeUV3UkdDN0l3U05xUHdJT2p5Z2N2MVA0by1tNEhmc1U3QWFB?oc=5",
+    "source": "Linfodrome",
+    "date": "2026-10-23T12:23+00:00"
+   }
+  ],
   "DJ Arafat": [],
   "Serge Beynaud": [],
   "Kiff No Beat": [],
@@ -56,14 +56,23 @@
   "Soum Bill": [],
   "Shado Chris": [],
   "Debordo Leekunfa": [],
+  "Widgunz": [],
   "Molare": [],
+  "Black K": [],
   "Tam Sir": [],
   "Ismaël Isaac": [],
   "Les Garagistes": [],
   "Espoir 2000": [],
   "Dobet Gnahoré": [],
   "Safarel Obiang": [],
-  "Roseline Layo": [],
+  "Roseline Layo": [
+   {
+    "titre": "Aïcha Koné âge : à 69 ans, la diva chante avec Roseline Layo",
+    "lien": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE1KQlFzSDU4M0ZLRzhZXy1wa3pvVGdULUFscTY1c04zR0VWMUN4bFV2S3VjWl9td2d1SlFIZUpTSGtuay0yU3c3WU1oSW1neUVBV2VUeQ?oc=5",
+    "source": "Afrique sur 7",
+    "date": "2026-10-23T13:07+00:00"
+   }
+  ],
   "Team Paiya": [],
   "DJ Kedjevara": [],
   "Gadji Céli": [],
@@ -81,23 +90,23 @@
     "lien": "https://news.google.com/rss/articles/CBMisAFBVV95cUxOeGxQejk4S1hHUE96ZnJ2LVZsbFRqdXV5RnZscWVxd2JiZGVTY0VCYUlucDREdWZXOFliSTdYUmQ0QU9NUWJaRTd2Mk9zeDRjS2lpVHRiTktRbWYyQkp1MW50SGlkcHpGQnZUXzlORzJ0eXpxeTE4RWlYak85WUxMUWZ3dl9CTmtHWVV1UF9CcVgtdFpxUnFxSUJpN0ZMbC11RHpQdW5CY1BpQkZQX0JSTA?oc=5",
     "source": "Parlons Basket",
     "date": "2026-10-20T17:48+00:00"
-   },
-   {
-    "titre": "Phony, Crosby, Stills et Nash S01E02 : résumé",
-    "lien": "https://news.google.com/rss/articles/CBMirwFBVV95cUxQcUozbGd0WjJnSlVqdTNjYVBjbmRPZjYtdXlTNEhpZFNKMWw3Z0tqcW9RUDZscEtiengzWW9Odll3TTFFSDZDMFU1LXIwcGtJTElzaGkteUkxOGVZU1NSekREYTFRZXRvd0lmbGhDbkpic1ZPajk0Q2pFTGpqYkgtS0I4M3Jwc0tyM1pENFVYRS1DZHRqeTg4eURMT283d211aG5FU1NmM0Q0SWRHNnAw?oc=5",
-    "source": "Programme TV Ouest-France",
-    "date": "2026-10-20T15:22+00:00"
    }
   ],
   "Yabongo Lova": [],
-  "Aïcha Koné": [],
+  "Aïcha Koné": [
+   {
+    "titre": "Aïcha Koné âge : à 69 ans, la diva chante avec Roseline Layo",
+    "lien": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE1KQlFzSDU4M0ZLRzhZXy1wa3pvVGdULUFscTY1c04zR0VWMUN4bFV2S3VjWl9td2d1SlFIZUpTSGtuay0yU3c3WU1oSW1neUVBV2VUeQ?oc=5",
+    "source": "Afrique sur 7",
+    "date": "2026-10-23T13:07+00:00"
+   }
+  ],
   "Fadal Dey": [],
   "Kajeem": [],
   "Nayanka Bell": [],
   "Petit Yodé & L'Enfant Siro": [],
   "Bamba Ami Sarah": [],
   "Zoh Cataleya": [],
-  "Black K": [],
   "Kerozen DJ": []
  }
 }
