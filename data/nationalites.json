@@ -409,6 +409,11 @@
   "statut": "autre",
   "verifie": "2026-10-19T02:50+00:00"
  },
+ "l oiseau rare": {
+  "nom": "L'Oiseau Rare",
+  "statut": "autre",
+  "verifie": "2026-10-23T04:59+00:00"
+ },
  "l2b": {
   "nom": "L2B",
   "statut": "autre",
@@ -418,6 +423,11 @@
   "nom": "La B 7",
   "statut": null,
   "verifie": "2026-10-19T02:50+00:00"
+ },
+ "la b7": {
+  "nom": "La b7",
+  "statut": null,
+  "verifie": "2026-10-23T04:59+00:00"
  },
  "la feve": {
   "nom": "La Fève",
@@ -628,6 +638,11 @@
   "nom": "SDM",
   "statut": "autre",
   "verifie": "2026-10-19T02:50+00:00"
+ },
+ "sethlo": {
+  "nom": "sethlo",
+  "statut": null,
+  "verifie": "2026-10-23T04:59+00:00"
  },
  "seyi vibez": {
   "nom": "Seyi Vibez",

@@ -1,5 +1,5 @@
 {
- "genere": "2026-10-22T21:42+00:00",
+ "genere": "2026-10-23T04:59+00:00",
  "fenetre_heures": 72,
  "erreurs": [],
  "artistes": {
@@ -29,7 +29,6 @@
   "Sindika": [],
   "Widgunz": [],
   "Jeune Lion": [],
-  "Morijah": [],
   "Magic System": [
    {
     "titre": "Décès du frère jumeau d’A’Salfo : Yodé et Siro apportent leur soutien au leader de Magic System",
@@ -58,14 +57,7 @@
   "Josey": [],
   "Ariel Sheney": [],
   "Mix Premier": [],
-  "Meiway": [
-   {
-    "titre": "Allemagne - Diaspora: Meiway et ses danseuses á la soirée Feefee Haut-Nkam 2015",
-    "lien": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxOVXdoeTdiblg0YkpIMkJlSEkzU0xadVFhdWVZMk4tX0c0Tjhob2xSbUJXbnZNSnkzQWFXWl9yWUUtTGlzOWZrOGpNMm9vMm8zUlUxYTdLc3FHR3ZFN0JzX25mcHJ6Z0Q1QWE3T0QwblBISXAxQk5PNnVXYVU2MjNXSHF2TVhuUGxaZllhaUN1NTJGM0xpandNRGhwMmNway1UclNPNFltY1JNMjJoVTdUMFNCWGZqUlItSDZQWTVTV3VZbUtyN21fRXRQVzBTR1VJQmfSAdcBQVVfeXFMTk9BTEZjaFpPQlJGTVNzUHZRRDg2Y3k0VWlhbWlSRDhpZGJ1OHp4YUR2VFY1blRqWkpFYk5PazFVaVFBaHZKaXZGTGJiTUVUMEVqc2ZoZmdDQndZV1JkdERkdU1sSjFPQlVqdmtKeW8ydW1jbHdRRVltNGM0Y1ZXTXpiZjFDTGVRLVpuSFNpZGktTEVTNWE2anpzNWdPOWZnM1htWmJBOFg1Tm80SDJ2Zktwc3VrT1JFckhNWlV2LVR3Y1NmdTdscXgxUE1vaWFQdDlzVWNscFk?oc=5",
-    "source": "Camer.be",
-    "date": "2026-10-19T22:23+00:00"
-   }
-  ],
+  "Meiway": [],
   "Soum Bill": [],
   "Shado Chris": [],
   "Fior 2 Bior": [],
@@ -111,6 +103,7 @@
     "source": "Programme TV Ouest-France",
     "date": "2026-10-20T15:22+00:00"
    }
-  ]
+  ],
+  "Kerozen DJ": []
  }
 }
