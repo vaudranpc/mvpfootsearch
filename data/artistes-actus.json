@@ -1,19 +1,12 @@
 {
- "genere": "2026-10-23T17:14+00:00",
+ "genere": "2026-10-23T21:29+00:00",
  "fenetre_heures": 72,
  "erreurs": [],
  "artistes": {
   "Himra": [],
-  "Didi B": [],
   "døpelym": [],
-  "KS Bloom": [
-   {
-    "titre": "KS Bloom - Vlaga vlaga [ Clip officiel ]",
-    "lien": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE9EOHBNSUFWbDJXRTA3TUxqbm44bEJaQmpSOTFGTGUxc240QnUtcDdmQ2pRYkFzUHdKbkRJQzg0aUxpTE1MM1E4SnJWbmFWZnJSXzJfT0NqQWdFQWJ4?oc=5",
-    "source": "YouTube",
-    "date": "2026-10-20T18:00+00:00"
-   }
-  ],
+  "Didi B": [],
+  "KS Bloom": [],
   "Philipayne": [],
   "Elow'n": [],
   "Suspect 95": [
@@ -29,6 +22,7 @@
   "Sindika": [],
   "Ste Milano": [],
   "Jeune Lion": [],
+  "Widgunz": [],
   "Magic System": [
    {
     "titre": "Décès du frère jumeau d’A’Salfo : Yodé et Siro apportent leur soutien au leader de Magic System",
@@ -42,11 +36,18 @@
     "titre": "Alpha Blondy dénonce fermement les coups d’État à répétition au sein des pays de l’AES",
     "lien": "https://news.google.com/rss/articles/CBMiygFBVV95cUxQMlFXbzVtUTZmSW5XcVVNdnh6dWtaQjhkMGFyYlhUU0dLNF9UZVNYeXZOVmFrUENNV0ZBRS1FSHVLdXp1WTBoT0NzWnZqU0ZXMW1qaGNLRmstbVVrZC13bEphWU9qYk54dzZicHpVWGplVWREV3hsZUFhNWZ5RkNFT0RUbEsxaGRCMkpENVJ5dkEyei1aM05mYXp2SERna0xVWU1BZUNUeUV3UkdDN0l3U05xUHdJT2p5Z2N2MVA0by1tNEhmc1U3QWFB?oc=5",
     "source": "Linfodrome",
-    "date": "2026-10-23T12:23+00:00"
+    "date": "2026-10-23T12:54+00:00"
    }
   ],
   "DJ Arafat": [],
-  "Serge Beynaud": [],
+  "Serge Beynaud": [
+   {
+    "titre": "Serge Beynaud en concert live à Dakar le 12 décembre 2026 – Au Sénégal, le cœur du Sénégal",
+    "lien": "https://news.google.com/rss/articles/CBMimwFBVV95cUxPTE5wUmp5dXM1cmFpMXpIVHZMcmpMM21wd2pScGNJcnpITk5YdThOZXJjQWtvS2pXbDFmSTlZM1ljSWw1YUl3WjFvajdZVGRNaDdOZnZob1FfeGhTXzdNX2FReFdKUy1fX3FwM1ZNdC1XZXdpa0tmbGM4akZqU05DZnJqaTBtR04zR1dMVXBoQXdFSXpDY1RtVGY2bw?oc=5",
+    "source": "www.au-senegal.com",
+    "date": "2026-10-22T19:43+00:00"
+   }
+  ],
   "Kiff No Beat": [],
   "Bebi Philip": [],
   "Josey": [],
@@ -56,7 +57,6 @@
   "Soum Bill": [],
   "Shado Chris": [],
   "Debordo Leekunfa": [],
-  "Widgunz": [],
   "Molare": [],
   "Black K": [],
   "Tam Sir": [],
@@ -78,20 +78,7 @@
   "Gadji Céli": [],
   "Monique Séka": [],
   "Lil Jay Bingerack": [],
-  "Nash": [
-   {
-    "titre": "Le retour de Kawhi, « une période passionnante » selon Steve Nash",
-    "lien": "https://news.google.com/rss/articles/CBMitwFBVV95cUxPQ1RqRkR2WWw2TVlpdDEzT29vbUV3Ni1Bcy1Fd09MVkJxT0ZScV9GbWMtS201TVZJQ1pqczdUVjFGT19MNVBmT1VCanpka1BlRnplNlV3Q1VqWm5JbFpKWjhlb19YVFA5TkJvVV8zMGxSYXdVNTduNi1tMFVOVFczaWtZWkNEYmlmWTB4ejZxVG13d1hiNThsTUg3WmRnUGJROVZhM293cGx5WFVtNldQU0Z3Vkx6T3M?oc=5",
-    "source": "RDS",
-    "date": "2026-10-20T18:09+00:00"
-   },
-   {
-    "titre": "NBA – Un problème pour Victor Wembanyama et les Spurs selon Steve Nash",
-    "lien": "https://news.google.com/rss/articles/CBMisAFBVV95cUxOeGxQejk4S1hHUE96ZnJ2LVZsbFRqdXV5RnZscWVxd2JiZGVTY0VCYUlucDREdWZXOFliSTdYUmQ0QU9NUWJaRTd2Mk9zeDRjS2lpVHRiTktRbWYyQkp1MW50SGlkcHpGQnZUXzlORzJ0eXpxeTE4RWlYak85WUxMUWZ3dl9CTmtHWVV1UF9CcVgtdFpxUnFxSUJpN0ZMbC11RHpQdW5CY1BpQkZQX0JSTA?oc=5",
-    "source": "Parlons Basket",
-    "date": "2026-10-20T17:48+00:00"
-   }
-  ],
+  "Nash": [],
   "Yabongo Lova": [],
   "Aïcha Koné": [
    {
