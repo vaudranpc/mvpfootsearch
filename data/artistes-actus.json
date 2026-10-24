@@ -1,5 +1,5 @@
 {
- "genere": "2026-10-24T11:12+00:00",
+ "genere": "2026-10-24T16:02+00:00",
  "fenetre_heures": 72,
  "erreurs": [],
  "artistes": {
@@ -8,19 +8,26 @@
   "Didi B": [],
   "KS Bloom": [],
   "Philipayne": [],
-  "Elow'n": [],
-  "Suspect 95": [
+  "Elow'n": [
    {
-    "titre": "Cambriolage ambassade d’Espagne à Dakar: les caméras conduisent à l’arrestation d’un suspect, 95 000 francs CFA dérobés – DEKKBI.com",
-    "lien": "https://news.google.com/rss/articles/CBMiQEFVX3lxTE9lYkVpS2F0NHRBWkhhbzVLSzFMd0QteDNFTVBha0RNUWx2TUZCOEtKdmxzd01xaXloSWVOdGE0OE4?oc=5",
-    "source": "Home View Senegal",
-    "date": "2026-10-21T12:53+00:00"
+    "titre": "Elow'n - Dje (music video officiel)",
+    "lien": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE1VelZRTWFtdU9DZTBQZHlfajl3dEgyb213NHRlcmdxV1lDa3AzV25CMVFVTWI4dmZoQzR4YzhnOUtTQU1RcFdFampjZG1WVGFFd3pHWWZaRklBTlZK?oc=5",
+    "source": "YouTube",
+    "date": "2026-10-23T19:00+00:00"
    }
   ],
+  "Suspect 95": [],
   "Tiken Jah Fakoly": [],
   "Jeune Morty": [],
+  "Jeune Lion": [
+   {
+    "titre": "Ayyoub Bouaddi : son idole, son poste préféré… les confidences du jeune Lion de l’Atlas",
+    "lien": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNTjVOZ2VPdWVmeEpzb3drclZ0ZU5zRWFfVEdUa3VaSnBteURNd2lWZzRrbXg4Z09HNW9PcXVDaUlhNERKanhJU0J6NVVrR3lQTFJJbVVzMmVWZTA2MG9SSEpFS0pUekkyM0I3LWYxOGR4aVZFVGtaSDhMWTltQnVPUlN5RmIyaHJPMFQ1cXM4VEkwdmlqbGxVWnBzek9Xdlh4azVoUDNLbXZOZGFyRnM0LWE0QUI?oc=5",
+    "source": "Maroc Diplomatique",
+    "date": "2026-10-24T11:26+00:00"
+   }
+  ],
   "Sindika": [],
-  "Jeune Lion": [],
   "Widgunz": [],
   "Kiff No Beat": [],
   "Magic System": [
@@ -61,6 +68,7 @@
   "Meiway": [],
   "Soum Bill": [],
   "Shado Chris": [],
+  "Fior 2 Bior": [],
   "Debordo Leekunfa": [],
   "Molare": [],
   "Tam Sir": [],
@@ -99,7 +107,6 @@
   "Zoh Cataleya": [],
   "Black K": [],
   "Kerozen DJ": [],
-  "Fior 2 Bior": [],
   "Nash": []
  }
 }
