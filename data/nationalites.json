@@ -529,6 +529,11 @@
   "statut": null,
   "verifie": "2026-10-21T11:59+00:00"
  },
+ "lyfestyle corporation": {
+  "nom": "Lyfestyle Corporation",
+  "statut": null,
+  "verifie": "2026-10-24T04:44+00:00"
+ },
  "lynothecosmoskid": {
   "nom": "Lynothecosmoskid",
   "statut": null,
@@ -858,6 +863,11 @@
   "nom": "Werenoi",
   "statut": "autre",
   "verifie": "2026-10-19T02:50+00:00"
+ },
+ "yeat": {
+  "nom": "Yeat",
+  "statut": "autre",
+  "verifie": "2026-10-24T04:44+00:00"
  },
  "zinoleesky": {
   "nom": "Zinoleesky",
