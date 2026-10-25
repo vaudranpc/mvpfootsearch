@@ -1,9 +1,9 @@
 {
- "genere": "2026-10-25T20:56+00:00",
+ "genere": "2026-10-25T23:19+00:00",
  "classements": {
-  "Apple Music": "Sun, 25 Oct 2026 20:56:27 +0000",
-  "Apple Music albums": "Sun, 25 Oct 2026 20:56:29 +0000",
-  "Deezer": "2026-10-25T20:56+00:00"
+  "Apple Music": "Sun, 25 Oct 2026 23:19:39 +0000",
+  "Apple Music albums": "Sun, 25 Oct 2026 23:19:41 +0000",
+  "Deezer": "2026-10-25T23:19+00:00"
  },
  "source": "Apple Music (top morceaux + top albums) et Deezer (Top Ivory Coast), Côte d'Ivoire",
  "artistes": [
@@ -252,7 +252,7 @@
    "nom": "Alpha Blondy",
    "score": 0,
    "classe": false,
-   "fans_deezer": 743395,
+   "fans_deezer": 743396,
    "titres": [],
    "lien": "https://www.deezer.com/artist/714",
    "genre": "Reggae",
@@ -272,7 +272,7 @@
    "nom": "Serge Beynaud",
    "score": 0,
    "classe": false,
-   "fans_deezer": 117433,
+   "fans_deezer": 117434,
    "titres": [],
    "lien": "https://www.deezer.com/artist/895583",
    "info": "Placé dans le top africain 2026.",
@@ -303,7 +303,7 @@
    "nom": "Josey",
    "score": 0,
    "classe": false,
-   "fans_deezer": 71038,
+   "fans_deezer": 71039,
    "titres": [],
    "lien": "https://www.deezer.com/artist/1258943",
    "info": "Deux concerts pour la Saint-Valentin en février 2026, au Sofitel Hôtel Ivoire et au Palais de la Culture.",
@@ -468,7 +468,7 @@
    "nom": "Team Paiya",
    "score": 0,
    "classe": false,
-   "fans_deezer": 12478,
+   "fans_deezer": 12479,
    "titres": [],
    "lien": "https://www.deezer.com/artist/246149552",
    "genre": "Afro / Coupé-décalé",
