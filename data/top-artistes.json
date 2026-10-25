@@ -1,15 +1,15 @@
 {
- "genere": "2026-10-25T16:30+00:00",
+ "genere": "2026-10-25T20:56+00:00",
  "classements": {
-  "Apple Music": "Sun, 25 Oct 2026 16:31:28 +0000",
-  "Apple Music albums": "Sun, 25 Oct 2026 16:31:33 +0000",
-  "Deezer": "2026-10-25T16:31+00:00"
+  "Apple Music": "Sun, 25 Oct 2026 20:56:27 +0000",
+  "Apple Music albums": "Sun, 25 Oct 2026 20:56:29 +0000",
+  "Deezer": "2026-10-25T20:56+00:00"
  },
  "source": "Apple Music (top morceaux + top albums) et Deezer (Top Ivory Coast), Côte d'Ivoire",
  "artistes": [
   {
    "nom": "Himra",
-   "score": 3333,
+   "score": 3329,
    "classe": true,
    "titres": [
     {
@@ -36,11 +36,11 @@
   },
   {
    "nom": "døpelym",
-   "score": 416,
+   "score": 418,
    "classe": true,
    "titres": [
     {
-     "rang": 45,
+     "rang": 44,
      "titre": "Armageddon",
      "source": "Apple Music"
     },
@@ -50,7 +50,7 @@
      "source": "Apple Music"
     },
     {
-     "rang": 74,
+     "rang": 78,
      "titre": "Gangsta Bebe",
      "source": "Apple Music"
     }
@@ -65,18 +65,18 @@
    "classe": true,
    "titres": [
     {
-     "rang": 75,
+     "rang": 76,
      "titre": "Tout casser",
      "source": "Apple Music"
     },
     {
-     "rang": 88,
-     "titre": "Gaou la (feat. 6uff)",
+     "rang": 86,
+     "titre": "Good Vibes",
      "source": "Apple Music"
     },
     {
      "rang": 90,
-     "titre": "Good Vibes",
+     "titre": "Gaou la (feat. 6uff)",
      "source": "Apple Music"
     }
    ],
@@ -103,16 +103,16 @@
   },
   {
    "nom": "Philipayne",
-   "score": 84,
+   "score": 85,
    "classe": true,
    "titres": [
     {
-     "rang": 37,
+     "rang": 35,
      "titre": "N'TAXAIRE",
      "source": "Apple Music"
     },
     {
-     "rang": 81,
+     "rang": 82,
      "titre": "BIG POPPA",
      "source": "Apple Music albums"
     }
@@ -123,11 +123,11 @@
   },
   {
    "nom": "Suspect 95",
-   "score": 63,
+   "score": 62,
    "classe": true,
    "titres": [
     {
-     "rang": 38,
+     "rang": 39,
      "titre": "HÉ TCHAI (feat. Jojo le Barbu & Suspect 95)",
      "source": "Apple Music"
     }
@@ -138,11 +138,11 @@
   },
   {
    "nom": "Elow'n",
-   "score": 51,
+   "score": 50,
    "classe": true,
    "titres": [
     {
-     "rang": 50,
+     "rang": 51,
      "titre": "N'WOLÉ (2E Transformation)",
      "source": "Apple Music albums"
     }
@@ -153,11 +153,11 @@
   },
   {
    "nom": "Tiken Jah Fakoly",
-   "score": 42,
+   "score": 40,
    "classe": true,
    "titres": [
     {
-     "rang": 59,
+     "rang": 61,
      "titre": "Cours d'Histoire",
      "source": "Apple Music albums"
     }
@@ -168,11 +168,11 @@
   },
   {
    "nom": "Jeune Morty",
-   "score": 40,
+   "score": 39,
    "classe": true,
    "titres": [
     {
-     "rang": 61,
+     "rang": 62,
      "titre": "Eponyme",
      "source": "Apple Music albums"
     }
@@ -183,17 +183,22 @@
   },
   {
    "nom": "Sindika",
-   "score": 25,
+   "score": 31,
    "classe": true,
    "titres": [
     {
-     "rang": 91,
+     "rang": 88,
      "titre": "Nouchi in Paris (feat. TRK. & Ameka Zrai)",
      "source": "Apple Music"
     },
     {
      "rang": 86,
      "titre": "INVASION TOME II",
+     "source": "Apple Music albums"
+    },
+    {
+     "rang": 98,
+     "titre": "INVASION : TOME I",
      "source": "Apple Music albums"
     }
    ],
@@ -203,11 +208,11 @@
   },
   {
    "nom": "Widgunz",
-   "score": 14,
+   "score": 10,
    "classe": true,
    "titres": [
     {
-     "rang": 87,
+     "rang": 91,
      "titre": "VODY TROPICAL (feat. Widgunz)",
      "source": "Apple Music"
     }
@@ -218,11 +223,11 @@
   },
   {
    "nom": "Jeune Lion",
-   "score": 7,
+   "score": 6,
    "classe": true,
    "titres": [
     {
-     "rang": 94,
+     "rang": 95,
      "titre": "BABYLONE BRÛLE",
      "source": "Apple Music albums"
     }
@@ -235,7 +240,7 @@
    "nom": "Magic System",
    "score": 0,
    "classe": false,
-   "fans_deezer": 826162,
+   "fans_deezer": 826169,
    "titres": [],
    "lien": "https://www.deezer.com/artist/734",
    "info": "Nouvel album Doni Doni défendu en tournée en 2026.",
@@ -247,7 +252,7 @@
    "nom": "Alpha Blondy",
    "score": 0,
    "classe": false,
-   "fans_deezer": 743387,
+   "fans_deezer": 743395,
    "titres": [],
    "lien": "https://www.deezer.com/artist/714",
    "genre": "Reggae",
@@ -278,7 +283,7 @@
    "nom": "Kiff No Beat",
    "score": 0,
    "classe": false,
-   "fans_deezer": 110601,
+   "fans_deezer": 110603,
    "titres": [],
    "lien": "https://www.deezer.com/artist/5516905",
    "genre": "Rap",
@@ -298,7 +303,7 @@
    "nom": "Josey",
    "score": 0,
    "classe": false,
-   "fans_deezer": 71037,
+   "fans_deezer": 71038,
    "titres": [],
    "lien": "https://www.deezer.com/artist/1258943",
    "info": "Deux concerts pour la Saint-Valentin en février 2026, au Sofitel Hôtel Ivoire et au Palais de la Culture.",
@@ -351,7 +356,7 @@
    "nom": "Shado Chris",
    "score": 0,
    "classe": false,
-   "fans_deezer": 28180,
+   "fans_deezer": 28181,
    "titres": [],
    "lien": "https://www.deezer.com/artist/7642532",
    "genre": "Coupé-décalé",
@@ -361,7 +366,7 @@
    "nom": "Fior 2 Bior",
    "score": 0,
    "classe": false,
-   "fans_deezer": 27647,
+   "fans_deezer": 27650,
    "titres": [],
    "lien": "https://www.deezer.com/artist/74430452",
    "genre": "Coupé-décalé",
@@ -391,7 +396,7 @@
    "nom": "Tam Sir",
    "score": 0,
    "classe": false,
-   "fans_deezer": 17746,
+   "fans_deezer": 17747,
    "titres": [],
    "lien": "https://www.deezer.com/artist/14872317",
    "genre": "Coupé-décalé / Afro",
@@ -401,7 +406,7 @@
    "nom": "Ismaël Isaac",
    "score": 0,
    "classe": false,
-   "fans_deezer": 15958,
+   "fans_deezer": 15959,
    "titres": [],
    "lien": "https://www.deezer.com/artist/55407",
    "genre": "Reggae",
@@ -463,7 +468,7 @@
    "nom": "Team Paiya",
    "score": 0,
    "classe": false,
-   "fans_deezer": 12477,
+   "fans_deezer": 12478,
    "titres": [],
    "lien": "https://www.deezer.com/artist/246149552",
    "genre": "Afro / Coupé-décalé",
@@ -503,7 +508,7 @@
    "nom": "Lil Jay Bingerack",
    "score": 0,
    "classe": false,
-   "fans_deezer": 6772,
+   "fans_deezer": 6773,
    "titres": [],
    "lien": "https://www.deezer.com/artist/97178962",
    "genre": "Rap",
@@ -625,7 +630,7 @@
  "a_verifier": [
   {
    "nom": "AsapJo",
-   "score": 563,
+   "score": 551,
    "titre": {
     "rang": 1,
     "titre": "BIRDMAN & WEEZY (feat. Himra)",
@@ -634,25 +639,25 @@
   },
   {
    "nom": "TRK.",
-   "score": 468,
+   "score": 488,
    "titre": {
-    "rang": 39,
+    "rang": 34,
     "titre": "Deutsche Qualitat",
     "source": "Apple Music"
    }
   },
   {
    "nom": "Mauvais Djo",
-   "score": 466,
+   "score": 456,
    "titre": {
-    "rang": 22,
+    "rang": 23,
     "titre": "4",
     "source": "Apple Music"
    }
   },
   {
    "nom": "La B 7",
-   "score": 301,
+   "score": 304,
    "titre": {
     "rang": 16,
     "titre": "Accélération (feat. La B 7)",
@@ -661,18 +666,18 @@
   },
   {
    "nom": "jam$co",
-   "score": 197,
+   "score": 204,
    "titre": {
-    "rang": 71,
+    "rang": 65,
     "titre": "VIE D'ARTISTE",
     "source": "Apple Music"
    }
   },
   {
    "nom": "Ameka Zrai",
-   "score": 195,
+   "score": 199,
    "titre": {
-    "rang": 44,
+    "rang": 43,
     "titre": "Adriano",
     "source": "Apple Music"
    }
@@ -688,19 +693,10 @@
   },
   {
    "nom": "THB",
-   "score": 153,
+   "score": 162,
    "titre": {
-    "rang": 78,
+    "rang": 77,
     "titre": "BALADER",
-    "source": "Apple Music"
-   }
-  },
-  {
-   "nom": "Pluie et Tonnerre de TraxLab",
-   "score": 143,
-   "titre": {
-    "rang": 29,
-    "titre": "Bruits de Pluie et Vent (01)",
     "source": "Apple Music"
    }
   },
@@ -714,10 +710,28 @@
    }
   },
   {
-   "nom": "JP N'DA",
-   "score": 101,
+   "nom": "Pluie et Tonnerre de TraxLab",
+   "score": 121,
    "titre": {
-    "rang": 63,
+    "rang": 36,
+    "titre": "Bruits de Pluie et Vent (01)",
+    "source": "Apple Music"
+   }
+  },
+  {
+   "nom": "Lamoula$",
+   "score": 105,
+   "titre": {
+    "rang": 31,
+    "titre": "PRINCE MOULA$",
+    "source": "Apple Music albums"
+   }
+  },
+  {
+   "nom": "JP N'DA",
+   "score": 99,
+   "titre": {
+    "rang": 62,
     "titre": "DJOROBITER",
     "source": "Apple Music"
    }
@@ -741,15 +755,6 @@
    }
   },
   {
-   "nom": "Lamoula$",
-   "score": 92,
-   "titre": {
-    "rang": 31,
-    "titre": "PRINCE MOULA$",
-    "source": "Apple Music albums"
-   }
-  },
-  {
    "nom": "Theodora",
    "score": 89,
    "titre": {
@@ -759,38 +764,29 @@
    }
   },
   {
-   "nom": "TVLM",
+   "nom": "Bné",
    "score": 87,
    "titre": {
     "rang": 14,
+    "titre": "Vrai OG",
+    "source": "Apple Music"
+   }
+  },
+  {
+   "nom": "TVLM",
+   "score": 86,
+   "titre": {
+    "rang": 15,
     "titre": "Bottega",
     "source": "Apple Music"
    }
   },
   {
    "nom": "Nooche",
-   "score": 87,
+   "score": 86,
    "titre": {
-    "rang": 14,
+    "rang": 15,
     "titre": "Bottega",
-    "source": "Apple Music"
-   }
-  },
-  {
-   "nom": "BabyDaiz",
-   "score": 86,
-   "titre": {
-    "rang": 15,
-    "titre": "BITCH & MONEY",
-    "source": "Apple Music"
-   }
-  },
-  {
-   "nom": "Zlatan",
-   "score": 86,
-   "titre": {
-    "rang": 15,
-    "titre": "BITCH & MONEY",
     "source": "Apple Music"
    }
   },
@@ -804,15 +800,6 @@
    }
   },
   {
-   "nom": "OG Mahilet",
-   "score": 85,
-   "titre": {
-    "rang": 61,
-    "titre": "BAHI (feat. OG Mahilet)",
-    "source": "Apple Music"
-   }
-  },
-  {
    "nom": "Hoodbaby",
    "score": 85,
    "titre": {
@@ -822,26 +809,44 @@
    }
   },
   {
-   "nom": "Bné",
+   "nom": "BabyDaiz",
    "score": 84,
    "titre": {
     "rang": 17,
-    "titre": "Vrai OG",
+    "titre": "BITCH & MONEY",
+    "source": "Apple Music"
+   }
+  },
+  {
+   "nom": "Zlatan",
+   "score": 84,
+   "titre": {
+    "rang": 17,
+    "titre": "BITCH & MONEY",
+    "source": "Apple Music"
+   }
+  },
+  {
+   "nom": "OG Mahilet",
+   "score": 84,
+   "titre": {
+    "rang": 61,
+    "titre": "BAHI (feat. OG Mahilet)",
     "source": "Apple Music"
    }
   },
   {
    "nom": "Tino thebenzoboy",
-   "score": 82,
+   "score": 81,
    "titre": {
-    "rang": 51,
+    "rang": 52,
     "titre": "M.LINE",
     "source": "Apple Music"
    }
   },
   {
    "nom": "Wantché",
-   "score": 78,
+   "score": 79,
    "titre": {
     "rang": 61,
     "titre": "BAHI (feat. OG Mahilet)",
@@ -850,9 +855,9 @@
   },
   {
    "nom": "Jojo le Barbu",
-   "score": 67,
+   "score": 66,
    "titre": {
-    "rang": 38,
+    "rang": 39,
     "titre": "HÉ TCHAI (feat. Jojo le Barbu & Suspect 95)",
     "source": "Apple Music"
    }
@@ -867,30 +872,30 @@
    }
   },
   {
-   "nom": "6kohsly",
-   "score": 58,
+   "nom": "KRM",
+   "score": 60,
    "titre": {
-    "rang": 43,
+    "rang": 63,
+    "titre": "COCODY",
+    "source": "Apple Music"
+   }
+  },
+  {
+   "nom": "6kohsly",
+   "score": 55,
+   "titre": {
+    "rang": 46,
     "titre": "PAIN MUSIX",
     "source": "Apple Music albums"
    }
   },
   {
    "nom": "Greedbanks",
-   "score": 58,
+   "score": 55,
    "titre": {
-    "rang": 43,
+    "rang": 46,
     "titre": "PAIN MUSIX",
     "source": "Apple Music albums"
-   }
-  },
-  {
-   "nom": "Azazou Satelite",
-   "score": 56,
-   "titre": {
-    "rang": 72,
-    "titre": "Vedette",
-    "source": "Apple Music"
    }
   }
  ]
