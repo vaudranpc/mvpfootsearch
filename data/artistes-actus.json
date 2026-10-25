@@ -1,13 +1,21 @@
 {
- "genere": "2026-10-24T16:02+00:00",
+ "genere": "2026-10-25T16:30+00:00",
  "fenetre_heures": 72,
  "erreurs": [],
  "artistes": {
-  "Himra": [],
+  "Himra": [
+   {
+    "titre": "Himra et sa fille Eliyah : le papa rappeur vise 60 000 fans",
+    "lien": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTFBYRjhiYXE0QmUwQnRscGZOMmo2dGtLSTVWTVZwTGFLbkdDeXVCZWZHLUY1N1ZHZUljOTNFSktpMDJhT2duemlRUGpDWWZkVVk5RWRTVHlnVENsRVkzLWxrLTVoc285MFU?oc=5",
+    "source": "Afrique sur 7",
+    "date": "2026-10-25T14:57+00:00"
+   }
+  ],
   "døpelym": [],
   "Didi B": [],
   "KS Bloom": [],
   "Philipayne": [],
+  "Suspect 95": [],
   "Elow'n": [
    {
     "titre": "Elow'n - Dje (music video officiel)",
@@ -16,9 +24,10 @@
     "date": "2026-10-23T19:00+00:00"
    }
   ],
-  "Suspect 95": [],
   "Tiken Jah Fakoly": [],
   "Jeune Morty": [],
+  "Sindika": [],
+  "Widgunz": [],
   "Jeune Lion": [
    {
     "titre": "Ayyoub Bouaddi : son idole, son poste préféré… les confidences du jeune Lion de l’Atlas",
@@ -27,9 +36,6 @@
     "date": "2026-10-24T11:26+00:00"
    }
   ],
-  "Sindika": [],
-  "Widgunz": [],
-  "Kiff No Beat": [],
   "Magic System": [
    {
     "titre": "A’Salfo de Magic System en deuil : décès de son frère jumeau Issouf Traoré",
@@ -61,6 +67,7 @@
     "date": "2026-10-22T19:43+00:00"
    }
   ],
+  "Kiff No Beat": [],
   "Bebi Philip": [],
   "Josey": [],
   "Ariel Sheney": [],
@@ -78,6 +85,12 @@
   "Dobet Gnahoré": [],
   "Safarel Obiang": [],
   "Roseline Layo": [
+   {
+    "titre": "️ Samedi 24 octobre 2026 📍 Branges Châlon (71) [CULTURE] Festival 71 du Partage et de la Musique \"La femme au cœur de la culture\" avec Roseline LAYO 🇨🇮 en spectacle",
+    "lien": "https://news.google.com/rss/articles/CBMigAJBVV95cUxQT0tROEJtN2ZnSFNmNUR6SXVPSE5HeUFUbXBKY3NkQXZCRDYyMUt6aDVCZmRZRFRIaUJtbWFhaENKSVhTbVc5WTNzel9yTmVyT0dhdHNtVnd0aUVJN3ZfM0J0TnMzR1dmakR0RXljYnJXVTAzSTJ0TTBzTTNlTHpJTXdyOENDNUZyM0xLdk9OU25IZzRIU05BbE1tWGVOd2VVdjE5QlIybGpHcXFsOTNoZXpoaC1TU2JhU3JvUWI3Rm5qU3dkbk9QVWNyOTdxbWFGS1htSmhuaVBaeGpZRWx0bHgyem5MMUxqc2pYTExnV18wYm9uMWFubk9Cc2doS1lh?oc=5",
+    "source": "Ekodafrik.net",
+    "date": "2026-10-24T15:28+00:00"
+   },
    {
     "titre": "Aïcha Koné âge : à 69 ans, la diva chante avec Roseline Layo",
     "lien": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE1KQlFzSDU4M0ZLRzhZXy1wa3pvVGdULUFscTY1c04zR0VWMUN4bFV2S3VjWl9td2d1SlFIZUpTSGtuay0yU3c3WU1oSW1neUVBV2VUeQ?oc=5",
@@ -106,7 +119,7 @@
   "Bamba Ami Sarah": [],
   "Zoh Cataleya": [],
   "Black K": [],
-  "Kerozen DJ": [],
-  "Nash": []
+  "Nash": [],
+  "Kerozen DJ": []
  }
 }
