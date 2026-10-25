@@ -149,6 +149,11 @@
   "statut": null,
   "verifie": "2026-10-19T02:50+00:00"
  },
+ "chapito": {
+  "nom": "Chapito",
+  "statut": null,
+  "verifie": "2026-10-25T04:52+00:00"
+ },
  "consoul trainin": {
   "nom": "Consoul Trainin",
   "statut": null,
@@ -518,6 +523,11 @@
   "nom": "Lamoula$",
   "statut": null,
   "verifie": "2026-10-19T02:50+00:00"
+ },
+ "le couteau": {
+  "nom": "Le couteau",
+  "statut": null,
+  "verifie": "2026-10-25T04:52+00:00"
  },
  "les leaders": {
   "nom": "Les leaders",
