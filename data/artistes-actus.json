@@ -1,5 +1,5 @@
 {
- "genere": "2026-10-26T13:14+00:00",
+ "genere": "2026-10-26T20:34+00:00",
  "fenetre_heures": 72,
  "erreurs": [],
  "artistes": {
@@ -55,25 +55,10 @@
   "Philipayne": [],
   "Suspect 95": [],
   "Tiken Jah Fakoly": [],
-  "Elow'n": [
-   {
-    "titre": "Elow'n - Dje (music video officiel)",
-    "lien": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE1VelZRTWFtdU9DZTBQZHlfajl3dEgyb213NHRlcmdxV1lDa3AzV25CMVFVTWI4dmZoQzR4YzhnOUtTQU1RcFdFampjZG1WVGFFd3pHWWZaRklBTlZK?oc=5",
-    "source": "YouTube",
-    "date": "2026-10-23T19:00+00:00"
-   }
-  ],
+  "Elow'n": [],
   "Jeune Morty": [],
   "Josey": [],
   "Dydy Yeman": [],
-  "Sindika": [
-   {
-    "titre": "SINDIKA FT ALIEN IBOY - flocon cover ( ballon d'or ) audio officiel 2026",
-    "lien": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFB4YXhHOWx6V3NCa2NGNG1yMjlOYkdzTDFMSXlGdl9JVVZjMGZBMFJ2MUlfeG9xWWNBN1lLNndLNTBpTE1JdHZfUE9YakNxSGt3a3hhS1g3NG1BZmJH?oc=5",
-    "source": "YouTube",
-    "date": "2026-10-23T20:00+00:00"
-   }
-  ],
   "Serge Beynaud": [],
   "Jeune Lion": [
    {
@@ -83,8 +68,9 @@
     "date": "2026-10-24T11:26+00:00"
    }
   ],
-  "Team Paiya": [],
   "Widgunz": [],
+  "Team Paiya": [],
+  "Sindika": [],
   "Yabongo Lova": [],
   "Magic System": [
    {
@@ -110,7 +96,6 @@
   "Meiway": [],
   "Soum Bill": [],
   "Shado Chris": [],
-  "Fior 2 Bior": [],
   "Debordo Leekunfa": [],
   "Molare": [
    {
@@ -146,6 +131,7 @@
   "Bamba Ami Sarah": [],
   "Zoh Cataleya": [],
   "Black K": [],
-  "Kerozen DJ": []
+  "Kerozen DJ": [],
+  "Fior 2 Bior": []
  }
 }

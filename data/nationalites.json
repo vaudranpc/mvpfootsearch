@@ -282,7 +282,7 @@
  "fr2d": {
   "nom": "FR2D!",
   "statut": null,
-  "verifie": "2026-10-19T16:32+00:00"
+  "verifie": "2026-10-26T20:34+00:00"
  },
  "franglish": {
   "nom": "Franglish",
@@ -459,6 +459,11 @@
   "statut": "autre",
   "verifie": "2026-10-23T11:47+00:00"
  },
+ "koba lad": {
+  "nom": "Koba LaD",
+  "statut": "autre",
+  "verifie": "2026-10-26T20:34+00:00"
+ },
  "kodes": {
   "nom": "Kodes",
   "statut": "autre",
@@ -618,6 +623,11 @@
   "nom": "Meryl",
   "statut": "autre",
   "verifie": "2026-10-20T11:47+00:00"
+ },
+ "mhd": {
+  "nom": "MHD",
+  "statut": "autre",
+  "verifie": "2026-10-26T20:34+00:00"
  },
  "milky abreggor": {
   "nom": "MiLKY ABREGGOR",
