@@ -1,9 +1,15 @@
 {
- "genere": "2026-10-26T04:56+00:00",
+ "genere": "2026-10-26T13:14+00:00",
  "fenetre_heures": 72,
  "erreurs": [],
  "artistes": {
   "Himra": [
+   {
+    "titre": "Primud 2026 : sans Didi B, Himra peut-il garder le Primud d’or ?",
+    "lien": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE9PR0cxNlpScnZZVXhiSC1vcW5EckxCWVM0R25JX1VzdnVyU2lZUmZRRG5EZjVjTngyT0hFTmRiMnJoVkpKeGoycGtJWFRlZHdHT3FUTXRKbG82dVJtMlkzaFJB?oc=5",
+    "source": "Afrique sur 7",
+    "date": "2026-10-26T12:47+00:00"
+   },
    {
     "titre": "Fortune de Himra : 30 millions de FCFA et un pari à 60 000 places",
     "lien": "https://news.google.com/rss/articles/CBMiZkFVX3lxTFB0SUdtdUo3VUVxT0pIbnE5V3MxRmVYRlNqTkliVldpX29KZm9PX1BzOVEteThHeC1kSktsYnFWSUoyWjR0bG9DMjdpQ05uZnV5dDFsZUFBaGlQQ2hROG5nWE1aTGNVUQ?oc=5",
@@ -17,8 +23,27 @@
     "date": "2026-10-25T14:57+00:00"
    }
   ],
-  "døpelym": [],
+  "døpelym": [
+   {
+    "titre": "Døpelym en interview sur Les Propos du T",
+    "lien": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFBNOFpPQ00wamZZTHlsTUJORzhBUGNKZFNtb3I1cWhOTmlwS3BXT3p5QUpuV0k4UFZKcXBEd1VYTnJjWldKa0RQQjNjajdDaVVhU1RkdEZScVZDSjRG?oc=5",
+    "source": "YouTube",
+    "date": "2026-10-25T14:00+00:00"
+   }
+  ],
   "Didi B": [
+   {
+    "titre": "Primud 2026 : sans Didi B, Himra peut-il garder le Primud d’or ?",
+    "lien": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE9PR0cxNlpScnZZVXhiSC1vcW5EckxCWVM0R25JX1VzdnVyU2lZUmZRRG5EZjVjTngyT0hFTmRiMnJoVkpKeGoycGtJWFRlZHdHT3FUTXRKbG82dVJtMlkzaFJB?oc=5",
+    "source": "Afrique sur 7",
+    "date": "2026-10-26T12:47+00:00"
+   },
+   {
+    "titre": "Molare : « Didi B a refusé sa nomination, nous l’acceptons et la vie continue »",
+    "lien": "https://news.google.com/rss/articles/CBMimgFBVV95cUxOLW9wTTV0ZlpxRFNWOElzeVZOVUxtNW5rTjNTMmxhck4tM0NtMGhEa1Z2MlpzZFBfOVYxcHJLcFJTSFZGd3pUNERJSmR0SFItaV9PbGhmMmVJZjU0V21FSlAyTnk2UktVZVlOZ1VXNy1yZXhWeVdUS2dGXzlScjBYb2Q0ZzVPQ1RtVkE0UXRPTDRhTE9kcXJlalBn?oc=5",
+    "source": "afrik soir",
+    "date": "2026-10-26T11:33+00:00"
+   },
    {
     "titre": "Awards : Didi B décline sa nomination aux Primud 2026",
     "lien": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPbXVPRU9XTHJVRjJpWmdnejBEZjVBcU9aOGxZZ3VVOFN3Q3NKSGdfVDNPSXd4TDdOR1FrNmpGWmVXTWhmQWxienNiaUtCVE5rSE1ZdnFOdlU5VktrNW1COEJpQkZFN2Q4SnFjUDlSQk1kMVdfR2NBdzJSR19FUUVwbHpSVHpuRU9mX3ktOFpSYURJSDZxd2NTOQ?oc=5",
@@ -29,6 +54,7 @@
   "KS Bloom": [],
   "Philipayne": [],
   "Suspect 95": [],
+  "Tiken Jah Fakoly": [],
   "Elow'n": [
    {
     "titre": "Elow'n - Dje (music video officiel)",
@@ -37,8 +63,9 @@
     "date": "2026-10-23T19:00+00:00"
    }
   ],
-  "Tiken Jah Fakoly": [],
   "Jeune Morty": [],
+  "Josey": [],
+  "Dydy Yeman": [],
   "Sindika": [
    {
     "titre": "SINDIKA FT ALIEN IBOY - flocon cover ( ballon d'or ) audio officiel 2026",
@@ -47,6 +74,7 @@
     "date": "2026-10-23T20:00+00:00"
    }
   ],
+  "Serge Beynaud": [],
   "Jeune Lion": [
    {
     "titre": "Ayyoub Bouaddi : son idole, son poste préféré… les confidences du jeune Lion de l’Atlas",
@@ -55,7 +83,9 @@
     "date": "2026-10-24T11:26+00:00"
    }
   ],
+  "Team Paiya": [],
   "Widgunz": [],
+  "Yabongo Lova": [],
   "Magic System": [
    {
     "titre": "A’Salfo de Magic System en deuil : décès de son frère jumeau Issouf Traoré",
@@ -67,16 +97,14 @@
   "Alpha Blondy": [
    {
     "titre": "Alpha Blondy dénonce fermement les coups d’État à répétition au sein des pays de l’AES",
-    "lien": "https://news.google.com/rss/articles/CBMiygFBVV95cUxQMlFXbzVtUTZmSW5XcVVNdnh6dWtaQjhkMGFyYlhUU0dLNF9UZVNYeXZOVmFrUENNV0ZBRS1FSHVLdXp1WTBoT0NzWnZqU0ZXMW1qaGNLRmstbVVrZC13bEphWU9qYk54dzZicHpVWGplVWREV3hsZUFhNWZ5RkNFT0RUbEsxaGRCMkpENVJ5dkEyei1aM05mYXp2SERna0xVWU1BZUNUeUV3UkdDN0l3U05xUHdJT2p5Z2N2MVA0by1tNEhmc1U3QWFB?oc=5",
+    "lien": "https://news.google.com/rss/articles/CBMiygFBVV95cUxNMUhfdHJSSXYyN0pnSU9nLUtwT0JNR296VUZHWEY4TVl5UmhiTjRDb2R0cUkxYUl4N0Jkb3BiWlRLejZPOGFnWmY3MWpiQTU3N18tRV9FcExvOUpCWkEwcHg2YXg4cENGQVhVWHdXeGlqbF90cEtwcm9VQzREakZlNXZMNi1wa2VETTFZSmZaajZESU9JUGdjaXh0Tmt3WHpLVkF4V3lxd1NPXzlSV0ZIb2dEaDBEMUxJcDJvRnhGLV84T3dlWmtzdDVB?oc=5",
     "source": "Linfodrome",
-    "date": "2026-10-23T12:54+00:00"
+    "date": "2026-10-23T22:26+00:00"
    }
   ],
   "DJ Arafat": [],
-  "Serge Beynaud": [],
   "Kiff No Beat": [],
   "Bebi Philip": [],
-  "Josey": [],
   "Ariel Sheney": [],
   "Mix Premier": [],
   "Meiway": [],
@@ -84,7 +112,14 @@
   "Shado Chris": [],
   "Fior 2 Bior": [],
   "Debordo Leekunfa": [],
-  "Molare": [],
+  "Molare": [
+   {
+    "titre": "Molare : « Didi B a refusé sa nomination, nous l’acceptons et la vie continue »",
+    "lien": "https://news.google.com/rss/articles/CBMimgFBVV95cUxOLW9wTTV0ZlpxRFNWOElzeVZOVUxtNW5rTjNTMmxhck4tM0NtMGhEa1Z2MlpzZFBfOVYxcHJLcFJTSFZGd3pUNERJSmR0SFItaV9PbGhmMmVJZjU0V21FSlAyTnk2UktVZVlOZ1VXNy1yZXhWeVdUS2dGXzlScjBYb2Q0ZzVPQ1RtVkE0UXRPTDRhTE9kcXJlalBn?oc=5",
+    "source": "afrik soir",
+    "date": "2026-10-26T11:33+00:00"
+   }
+  ],
   "Tam Sir": [],
   "Ismaël Isaac": [],
   "Les Garagistes": [],
@@ -97,28 +132,13 @@
     "lien": "https://news.google.com/rss/articles/CBMigAJBVV95cUxQT0tROEJtN2ZnSFNmNUR6SXVPSE5HeUFUbXBKY3NkQXZCRDYyMUt6aDVCZmRZRFRIaUJtbWFhaENKSVhTbVc5WTNzel9yTmVyT0dhdHNtVnd0aUVJN3ZfM0J0TnMzR1dmakR0RXljYnJXVTAzSTJ0TTBzTTNlTHpJTXdyOENDNUZyM0xLdk9OU25IZzRIU05BbE1tWGVOd2VVdjE5QlIybGpHcXFsOTNoZXpoaC1TU2JhU3JvUWI3Rm5qU3dkbk9QVWNyOTdxbWFGS1htSmhuaVBaeGpZRWx0bHgyem5MMUxqc2pYTExnV18wYm9uMWFubk9Cc2doS1lh?oc=5",
     "source": "Ekodafrik.net",
     "date": "2026-10-24T15:28+00:00"
-   },
-   {
-    "titre": "Aïcha Koné âge : à 69 ans, la diva chante avec Roseline Layo",
-    "lien": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE1KQlFzSDU4M0ZLRzhZXy1wa3pvVGdULUFscTY1c04zR0VWMUN4bFV2S3VjWl9td2d1SlFIZUpTSGtuay0yU3c3WU1oSW1neUVBV2VUeQ?oc=5",
-    "source": "Afrique sur 7",
-    "date": "2026-10-23T13:07+00:00"
    }
   ],
-  "Team Paiya": [],
   "DJ Kedjevara": [],
   "Gadji Céli": [],
   "Monique Séka": [],
   "Lil Jay Bingerack": [],
-  "Yabongo Lova": [],
-  "Aïcha Koné": [
-   {
-    "titre": "Aïcha Koné âge : à 69 ans, la diva chante avec Roseline Layo",
-    "lien": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE1KQlFzSDU4M0ZLRzhZXy1wa3pvVGdULUFscTY1c04zR0VWMUN4bFV2S3VjWl9td2d1SlFIZUpTSGtuay0yU3c3WU1oSW1neUVBV2VUeQ?oc=5",
-    "source": "Afrique sur 7",
-    "date": "2026-10-23T13:07+00:00"
-   }
-  ],
+  "Aïcha Koné": [],
   "Fadal Dey": [],
   "Kajeem": [],
   "Nayanka Bell": [],
@@ -126,7 +146,6 @@
   "Bamba Ami Sarah": [],
   "Zoh Cataleya": [],
   "Black K": [],
-  "Nash": [],
   "Kerozen DJ": []
  }
 }
