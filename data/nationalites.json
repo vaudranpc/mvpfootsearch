@@ -289,6 +289,11 @@
   "statut": "autre",
   "verifie": "2026-10-19T02:50+00:00"
  },
+ "freeze corleone": {
+  "nom": "Freeze Corleone",
+  "statut": "autre",
+  "verifie": "2026-10-27T00:32+00:00"
+ },
  "freshlyground": {
   "nom": "Freshlyground",
   "statut": "autre",
@@ -317,7 +322,7 @@
  "goh dedi": {
   "nom": "Goh Dedi",
   "statut": null,
-  "verifie": "2026-10-19T16:32+00:00"
+  "verifie": "2026-10-27T00:32+00:00"
  },
  "greedbanks": {
   "nom": "Greedbanks",
@@ -437,7 +442,7 @@
  "kage": {
   "nom": "KAGE",
   "statut": null,
-  "verifie": "2026-10-19T22:26+00:00"
+  "verifie": "2026-10-27T00:32+00:00"
  },
  "karol g": {
   "nom": "KAROL G",

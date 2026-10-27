@@ -1,5 +1,5 @@
 {
- "genere": "2026-10-26T20:34+00:00",
+ "genere": "2026-10-27T00:31+00:00",
  "fenetre_heures": 72,
  "erreurs": [],
  "artistes": {
@@ -54,12 +54,11 @@
   "KS Bloom": [],
   "Philipayne": [],
   "Suspect 95": [],
-  "Tiken Jah Fakoly": [],
-  "Elow'n": [],
   "Jeune Morty": [],
   "Josey": [],
+  "Tiken Jah Fakoly": [],
+  "Elow'n": [],
   "Dydy Yeman": [],
-  "Serge Beynaud": [],
   "Jeune Lion": [
    {
     "titre": "Ayyoub Bouaddi : son idole, son poste préféré… les confidences du jeune Lion de l’Atlas",
@@ -69,6 +68,7 @@
    }
   ],
   "Widgunz": [],
+  "Serge Beynaud": [],
   "Team Paiya": [],
   "Sindika": [],
   "Yabongo Lova": [],
@@ -80,14 +80,7 @@
     "date": "2026-10-24T09:30+00:00"
    }
   ],
-  "Alpha Blondy": [
-   {
-    "titre": "Alpha Blondy dénonce fermement les coups d’État à répétition au sein des pays de l’AES",
-    "lien": "https://news.google.com/rss/articles/CBMiygFBVV95cUxNMUhfdHJSSXYyN0pnSU9nLUtwT0JNR296VUZHWEY4TVl5UmhiTjRDb2R0cUkxYUl4N0Jkb3BiWlRLejZPOGFnWmY3MWpiQTU3N18tRV9FcExvOUpCWkEwcHg2YXg4cENGQVhVWHdXeGlqbF90cEtwcm9VQzREakZlNXZMNi1wa2VETTFZSmZaajZESU9JUGdjaXh0Tmt3WHpLVkF4V3lxd1NPXzlSV0ZIb2dEaDBEMUxJcDJvRnhGLV84T3dlWmtzdDVB?oc=5",
-    "source": "Linfodrome",
-    "date": "2026-10-23T22:26+00:00"
-   }
-  ],
+  "Alpha Blondy": [],
   "DJ Arafat": [],
   "Kiff No Beat": [],
   "Bebi Philip": [],
