@@ -1,5 +1,5 @@
 {
- "genere": "2026-10-28T13:07+00:00",
+ "genere": "2026-10-28T20:20+00:00",
  "fenetre_heures": 72,
  "erreurs": [],
  "artistes": {
@@ -9,34 +9,21 @@
     "lien": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE9PR0cxNlpScnZZVXhiSC1vcW5EckxCWVM0R25JX1VzdnVyU2lZUmZRRG5EZjVjTngyT0hFTmRiMnJoVkpKeGoycGtJWFRlZHdHT3FUTXRKbG82dVJtMlkzaFJB?oc=5",
     "source": "Afrique sur 7",
     "date": "2026-10-26T12:47+00:00"
-   },
-   {
-    "titre": "Fortune de Himra : 30 millions de FCFA et un pari à 60 000 places",
-    "lien": "https://news.google.com/rss/articles/CBMiZkFVX3lxTFB0SUdtdUo3VUVxT0pIbnE5V3MxRmVYRlNqTkliVldpX29KZm9PX1BzOVEteThHeC1kSktsYnFWSUoyWjR0bG9DMjdpQ05uZnV5dDFsZUFBaGlQQ2hROG5nWE1aTGNVUQ?oc=5",
-    "source": "Afrique sur 7",
-    "date": "2026-10-25T18:58+00:00"
-   },
-   {
-    "titre": "Himra et sa fille Eliyah : le papa rappeur vise 60 000 fans",
-    "lien": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTFBYRjhiYXE0QmUwQnRscGZOMmo2dGtLSTVWTVZwTGFLbkdDeXVCZWZHLUY1N1ZHZUljOTNFSktpMDJhT2duemlRUGpDWWZkVVk5RWRTVHlnVENsRVkzLWxrLTVoc285MFU?oc=5",
-    "source": "Afrique sur 7",
-    "date": "2026-10-25T14:57+00:00"
    }
   ],
-  "døpelym": [
-   {
-    "titre": "Døpelym en interview sur Les Propos du T",
-    "lien": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFBNOFpPQ00wamZZTHlsTUJORzhBUGNKZFNtb3I1cWhOTmlwS3BXT3p5QUpuV0k4UFZKcXBEd1VYTnJjWldKa0RQQjNjajdDaVVhU1RkdEZScVZDSjRG?oc=5",
-    "source": "YouTube",
-    "date": "2026-10-25T14:00+00:00"
-   }
-  ],
+  "døpelym": [],
   "Didi B": [
    {
     "titre": "Retrait du Primud 2026: Didi B réclame la maison de l’édition qu’il a remporté",
     "lien": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxNSno3cXZoWUoybHBPMThiWV9DU19DU002TVVkSTFEUjI1TFRDT3Z2dUZDNFVTa21Ybl9TRDZWZXdGMjJlR0pQMmxMNUpZcnp5a29SSWhTOXJld1lId2JudUxfaFJOb3RPa2JHSTRVSS0yZkRWNFd6c0FCa1JaclUwQnRDTDhmNmhuMG0yWXlCTl83dGRpbDYtRnJnRHNsTEZNaHJrOWNuelduMFktQm5vT3BtUVVoNWRRMVpZ?oc=5",
     "source": "Linfodrome",
     "date": "2026-10-27T10:13+00:00"
+   },
+   {
+    "titre": "LELO TALK: PRIMUD 2026, DIDI B PAS NOMINE POURQUOI??",
+    "lien": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5JNnRoMWN6MjZMRHVWcmQtNWlkOUltNGVrTkFxMVVmTmh4Mk5nX3RTQTBnZm56TlZHdHoxZVVmSk5uUm9VSDFPeFJwYlJOeExoTmI2d25MN01yZkQw?oc=5",
+    "source": "YouTube",
+    "date": "2026-10-27T08:26+00:00"
    },
    {
     "titre": "Primud 2026 : sans Didi B, Himra peut-il garder le Primud d’or ?",
@@ -59,22 +46,15 @@
   ],
   "KS Bloom": [],
   "Philipayne": [],
-  "Magic System": [],
   "Suspect 95": [],
   "Jeune Morty": [],
-  "Jeune Lion": [],
-  "Tiken Jah Fakoly": [],
   "Sindika": [],
+  "Tiken Jah Fakoly": [],
+  "Jeune Lion": [],
   "Elow'n": [],
-  "Gadji Céli": [
-   {
-    "titre": "Côte d'Ivoire : 40 ans de carrière artistique de Gadji Celi, Idriss Diallo salut un enfant béni qui symbolise la loyauté",
-    "lien": "https://news.google.com/rss/articles/CBMimgJBVV95cUxQMlhiOUZsYV9UMkhqcmdCcUhqMmNyUmtDLXlZdlJpSHVRU1lmeUdhYzk2Q0dKRXFJc2dBRUdvOUd0RjlRTDg3X0dPemxUdVhkZnllOS05Y1hHUXI2QTNUY1FvcExGUFhXUjRUalYwYVVZTHlwNVdvN2dSajhLQTFnRXF0NVpUZDNfMEdtNDdLU3BFQmVrbURiRi00ajQwdlhhUXBvZUV4d0RVU19DVzJhcmZLeWNjeWtGQjZpY1hjcDQ2aTd4QklZTnFhLWowcmJ0OTM2bklkMXV1d3g0Q1czUnh1a1J0X0l1bXdLMUs5R3k3M29LT3prSVhMd0hlbTdBNC1VUGVFbVJ1Z2wzbzZqYng5dkxUdDIzdHc?oc=5",
-    "source": "Koaci",
-    "date": "2026-10-27T07:21+00:00"
-   }
-  ],
   "Widgunz": [],
+  "Dydy Yeman": [],
+  "Magic System": [],
   "Alpha Blondy": [],
   "DJ Arafat": [],
   "Kiff No Beat": [],
@@ -84,8 +64,8 @@
   "Mix Premier": [],
   "Meiway": [
    {
-    "titre": "VIDÉO. Côte d'Ivoire : Meiway fais ses débuts au cinéma avec le film \"La télé du directeur\"",
-    "lien": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxPMXpTbXdQU3QxZkdaSl83MEN3UDhfaWZmRlFpbnd5QW43UEg4T2tqRWZMV2ZBa29UY3FGSWRfd3VLbFNuSG84cTJYc0ZzR1doeElDRjNSOG9HU1FGOC1GTENLZ2JMR2ZDbld6X2l2VmlBNzNYSWVSY2Y0VW9MenhPVnlTT3pfdE5OOUpmSUtYM2xrWWo1WWRSTFI3RVRJYVRzNDBJemVaQTlsZHdEaE1YYk9CRk1jdnVDaTd3ZTlaSUI0WlQ4Vkk1MVBwTWdaZ0NzQjc1Zg?oc=5",
+    "titre": "VIDÉO. Côte d'Ivoire : Meiway fais ses débuts au cinéma avec le film 'La télé du directeur'",
+    "lien": "https://news.google.com/rss/articles/CBMizwFBVV95cUxQWmxIcURXZ2JDMWR3Y1JtbERkc3VVNnM2V1R6NXdYdXV6aThMR1JUOTVjSlp5ZWZUVkRLRUs2b3lsMkhWWk5WcWlvZFJBdkpXUGhSelFxLW5EUm11dm9jRm5tdGtXeE5TUkpyMVBrOHE2YmFNUWIzRk54dGdxaVFOZ1J6b0NaeThlZDB5VlhVZnhxZnNFVU1wNkVyVElCMERpLXVuZ0VrVkl5V1R1X1ZIbi1qWG5Za2pKUFBzT0RhODhVeHB6MXFtc2J1OXZrQkU?oc=5",
     "source": "tv5monde",
     "date": "2026-10-28T05:47+00:00"
    }
@@ -119,6 +99,14 @@
   "Roseline Layo": [],
   "Team Paiya": [],
   "DJ Kedjevara": [],
+  "Gadji Céli": [
+   {
+    "titre": "Côte d'Ivoire : 40 ans de carrière artistique de Gadji Celi, Idriss Diallo salut un enfant béni qui symbolise la loyauté",
+    "lien": "https://news.google.com/rss/articles/CBMimgJBVV95cUxQMlhiOUZsYV9UMkhqcmdCcUhqMmNyUmtDLXlZdlJpSHVRU1lmeUdhYzk2Q0dKRXFJc2dBRUdvOUd0RjlRTDg3X0dPemxUdVhkZnllOS05Y1hHUXI2QTNUY1FvcExGUFhXUjRUalYwYVVZTHlwNVdvN2dSajhLQTFnRXF0NVpUZDNfMEdtNDdLU3BFQmVrbURiRi00ajQwdlhhUXBvZUV4d0RVU19DVzJhcmZLeWNjeWtGQjZpY1hjcDQ2aTd4QklZTnFhLWowcmJ0OTM2bklkMXV1d3g0Q1czUnh1a1J0X0l1bXdLMUs5R3k3M29LT3prSVhMd0hlbTdBNC1VUGVFbVJ1Z2wzbzZqYng5dkxUdDIzdHc?oc=5",
+    "source": "Koaci",
+    "date": "2026-10-27T07:21+00:00"
+   }
+  ],
   "Monique Séka": [],
   "Lil Jay Bingerack": [],
   "Yabongo Lova": [],
@@ -143,7 +131,13 @@
     "date": "2026-10-26T15:58+00:00"
    }
   ],
-  "Serge Beynaud": [],
-  "Kerozen DJ": []
+  "Serge Beynaud": [
+   {
+    "titre": "Serge Beynaud biographie : vrai nom, âge, épouse, carrière",
+    "lien": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE9hZC12d0tQSlFiVjdBaUZxSnhUQTNmSXlBNHRBeWE4Nmhwa1JmRmprY2E3UENvYXNxVDZabXdOMERsV19JeVpSUjNyZDUwTGRISDNhQ2I1Y3dpR2FoQ1hRYUtB?oc=5",
+    "source": "Afrique sur 7",
+    "date": "2026-10-28T16:40+00:00"
+   }
+  ]
  }
 }
