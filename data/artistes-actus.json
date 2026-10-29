@@ -1,5 +1,5 @@
 {
- "genere": "2026-10-28T20:20+00:00",
+ "genere": "2026-10-29T01:01+00:00",
  "fenetre_heures": 72,
  "erreurs": [],
  "artistes": {
@@ -36,12 +36,6 @@
     "lien": "https://news.google.com/rss/articles/CBMimgFBVV95cUxOLW9wTTV0ZlpxRFNWOElzeVZOVUxtNW5rTjNTMmxhck4tM0NtMGhEa1Z2MlpzZFBfOVYxcHJLcFJTSFZGd3pUNERJSmR0SFItaV9PbGhmMmVJZjU0V21FSlAyTnk2UktVZVlOZ1VXNy1yZXhWeVdUS2dGXzlScjBYb2Q0ZzVPQ1RtVkE0UXRPTDRhTE9kcXJlalBn?oc=5",
     "source": "afrik soir",
     "date": "2026-10-26T11:33+00:00"
-   },
-   {
-    "titre": "Awards : Didi B décline sa nomination aux Primud 2026",
-    "lien": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPbXVPRU9XTHJVRjJpWmdnejBEZjVBcU9aOGxZZ3VVOFN3Q3NKSGdfVDNPSXd4TDdOR1FrNmpGWmVXTWhmQWxienNiaUtCVE5rSE1ZdnFOdlU5VktrNW1COEJpQkZFN2Q4SnFjUDlSQk1kMVdfR2NBdzJSR19FUUVwbHpSVHpuRU9mX3ktOFpSYURJSDZxd2NTOQ?oc=5",
-    "source": "Linfodrome",
-    "date": "2026-10-25T23:06+00:00"
    }
   ],
   "KS Bloom": [],
@@ -60,7 +54,14 @@
   "Kiff No Beat": [],
   "Bebi Philip": [],
   "Josey": [],
-  "Ariel Sheney": [],
+  "Ariel Sheney": [
+   {
+    "titre": "Octobre rose : Ariel Sheney sur tous les fronts après une épreuve personnelle liée au décès de son épouse",
+    "lien": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxPSFRvNTUyeXdSbC1KWDNicU1uRDZGOTl4NkpDcVZoYldYS2VqRVhlRG9JUEF1MHAwSktaanJYMzluREk5SldON3NtSlByVVhpcUhOMkdyekhFUjBZSHFmNUplSlV6MUt2TUxNMzhGRms1Q3hBS3h1WkJWMTNvWlF3cFowWWdCdTlXQnh6QWxlQmNHNVU3QlNMTXRxbmF3c3ctYVU4N2R2U1BfYl9wcWtlVGhIdy1CTVZleE45bVZFNzVEZktDQXNva2NiQWhlZWE0Y3dKVnY5MHBQRlNHMkE?oc=5",
+    "source": "Linfodrome",
+    "date": "2026-10-28T17:46+00:00"
+   }
+  ],
   "Mix Premier": [],
   "Meiway": [
    {
@@ -70,14 +71,7 @@
     "date": "2026-10-28T05:47+00:00"
    }
   ],
-  "Soum Bill": [
-   {
-    "titre": "Côte d’Ivoire : L’artiste Soum Bill reporte ses concerts, la raison",
-    "lien": "https://news.google.com/rss/articles/CBMijgFBVV95cUxPX3BnTGhLUkYtajBVbmZOdEh1YUVHWnRibjNKWk9NbVoybmR5bTBHRnlnWS13Y3hTN0NnY2hldzhpUnpkNW55QXh2M2FEQ0hZV21FZ1g0VnRzdWoxejlNMVBEVFhhVkhxY19vWWxrUVV0NlJRdklmQWZJWTI0cGt6SHp2bi0tNllCaC1EUTJB?oc=5",
-    "source": "afrik soir",
-    "date": "2026-10-27T11:19+00:00"
-   }
-  ],
+  "Soum Bill": [],
   "Shado Chris": [],
   "Fior 2 Bior": [],
   "Debordo Leekunfa": [],
