@@ -1,5 +1,5 @@
 {
- "genere": "2026-10-29T18:31+00:00",
+ "genere": "2026-10-30T01:06+00:00",
  "fenetre_heures": 72,
  "erreurs": [],
  "artistes": {
@@ -29,9 +29,8 @@
   "KS Bloom": [],
   "Philipayne": [],
   "Suspect 95": [],
-  "Tiken Jah Fakoly": [],
   "Jeune Morty": [],
-  "Sindika": [],
+  "Tiken Jah Fakoly": [],
   "Jeune Lion": [
    {
     "titre": "Ivan Nana en route pour Al Hilal SC : le jeune Lion se rapproche d’un nouveau défi",
@@ -40,6 +39,8 @@
     "date": "2026-10-29T08:15+00:00"
    }
   ],
+  "Sindika": [],
+  "Elow'n": [],
   "Magic System": [],
   "Alpha Blondy": [
    {
@@ -64,16 +65,16 @@
   "Ariel Sheney": [
    {
     "titre": "Octobre rose : Ariel Sheney sur tous les fronts après une épreuve personnelle liée au décès de son épouse",
-    "lien": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxPRzhTbE1iQzc1UWhUNkJHT24zYXhJX1d4Mm1yMTdWQzg2U3ZPOVVyWlFoVFhrYV9sTklFRzdSZG04d29WTldJSlFMckZUVVVWNEdjTnp3aWllVHdxVTRsdEF2RVFKejh0dzJac2hxUzlfR08yUVJrS29Gb0RDUThYVWZrcEcwTzNmYktuWXhxbnQwaENoVzVtdUhxMmRmSGJVU3dDUG1NQmlVNHZtWXVoaWZXVzE0Z2JIcjJqYjdBMEJ3OVB6U3VQQjV4OXNSUC1SWGlKSS0tbVFWeE9MRFE?oc=5",
+    "lien": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxPSFRvNTUyeXdSbC1KWDNicU1uRDZGOTl4NkpDcVZoYldYS2VqRVhlRG9JUEF1MHAwSktaanJYMzluREk5SldON3NtSlByVVhpcUhOMkdyekhFUjBZSHFmNUplSlV6MUt2TUxNMzhGRms1Q3hBS3h1WkJWMTNvWlF3cFowWWdCdTlXQnh6QWxlQmNHNVU3QlNMTXRxbmF3c3ctYVU4N2R2U1BfYl9wcWtlVGhIdy1CTVZleE45bVZFNzVEZktDQXNva2NiQWhlZWE0Y3dKVnY5MHBQRlNHMkE?oc=5",
     "source": "Linfodrome",
-    "date": "2026-10-28T23:53+00:00"
+    "date": "2026-10-28T18:17+00:00"
    }
   ],
   "Mix Premier": [],
   "Meiway": [
    {
-    "titre": "VIDÉO. Côte d'Ivoire : Meiway fais ses débuts au cinéma avec le film \"La télé du directeur\"",
-    "lien": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxPMXpTbXdQU3QxZkdaSl83MEN3UDhfaWZmRlFpbnd5QW43UEg4T2tqRWZMV2ZBa29UY3FGSWRfd3VLbFNuSG84cTJYc0ZzR1doeElDRjNSOG9HU1FGOC1GTENLZ2JMR2ZDbld6X2l2VmlBNzNYSWVSY2Y0VW9MenhPVnlTT3pfdE5OOUpmSUtYM2xrWWo1WWRSTFI3RVRJYVRzNDBJemVaQTlsZHdEaE1YYk9CRk1jdnVDaTd3ZTlaSUI0WlQ4Vkk1MVBwTWdaZ0NzQjc1Zg?oc=5",
+    "titre": "VIDÉO. Côte d'Ivoire : Meiway fais ses débuts au cinéma avec le film 'La télé du directeur'",
+    "lien": "https://news.google.com/rss/articles/CBMizwFBVV95cUxQWmxIcURXZ2JDMWR3Y1JtbERkc3VVNnM2V1R6NXdYdXV6aThMR1JUOTVjSlp5ZWZUVkRLRUs2b3lsMkhWWk5WcWlvZFJBdkpXUGhSelFxLW5EUm11dm9jRm5tdGtXeE5TUkpyMVBrOHE2YmFNUWIzRk54dGdxaVFOZ1J6b0NaeThlZDB5VlhVZnhxZnNFVU1wNkVyVElCMERpLXVuZ0VrVkl5V1R1X1ZIbi1qWG5Za2pKUFBzT0RhODhVeHB6MXFtc2J1OXZrQkU?oc=5",
     "source": "tv5monde",
     "date": "2026-10-28T05:47+00:00"
    }
@@ -109,21 +110,21 @@
   "Monique Séka": [],
   "Lil Jay Bingerack": [],
   "Yabongo Lova": [],
-  "Aïcha Koné": [],
+  "Aïcha Koné": [
+   {
+    "titre": "Aïcha Koné à Cassandra : « Je souhaite que tu reviennes un jour à ta maman Dothy Z »",
+    "lien": "https://news.google.com/rss/articles/CBMiowFBVV95cUxPa0hzbHFoZGRKZDVkY0Y5dFJscng2SzVveXFDQ3hWWlpmalcxRUVlOWk5QkdxUnBVLUdEd1Y0bmwzTHlKaFFHdGZ1NVUyd1Z5cExFV1Vubl9RbjlHUDVMQkYxQUx6bEFfZ1J1T0FaZF82MThhdk53Q3lEY3VHS01NNXBDQWtJcnJYUUJ4Rk12YjlKOFZIa3RBVXVEZ2lrck5STW84?oc=5",
+    "source": "afrik soir",
+    "date": "2026-10-29T20:53+00:00"
+   }
+  ],
   "Fadal Dey": [],
   "Kajeem": [],
   "Nayanka Bell": [],
   "Petit Yodé & L'Enfant Siro": [],
   "Bamba Ami Sarah": [],
   "Zoh Cataleya": [],
-  "Nash": [
-   {
-    "titre": "Ted Nash European Quartet Feat à l'ECUJE de Paris 2027 | billets",
-    "lien": "https://news.google.com/rss/articles/CBMihgFBVV95cUxNTWY5bXYyV3hDMkhUOGtSSUVEZzRqUG5GQW10YXMxYWF1TWJkc01pLUszVFJtb3hvRi1HR1hmejJPM2RuSDN3MWNRa0ZDc04wQ3B1UXpUaVI5OHhBUEhjTVBVUFdlRHVQQVJzX2FLZ1VyaTk5YWtvYlZxT09lSHJ0MEdfUkNQZw?oc=5",
-    "source": "jds.fr",
-    "date": "2026-10-26T20:27+00:00"
-   }
-  ],
+  "Nash": [],
   "Black K": [],
   "Kerozen DJ": [],
   "Fior 2 Bior": []
