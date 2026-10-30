@@ -939,6 +939,11 @@
   "statut": "autre",
   "verifie": "2026-10-19T09:02+00:00"
  },
+ "purppx": {
+  "nom": "PurppX",
+  "statut": null,
+  "verifie": "2026-10-30T22:26+00:00"
+ },
  "r2": {
   "nom": "R2",
   "statut": null,

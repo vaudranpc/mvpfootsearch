@@ -1,5 +1,5 @@
 {
- "genere": "2026-10-30T18:04+00:00",
+ "genere": "2026-10-30T22:26+00:00",
  "fenetre_heures": 72,
  "erreurs": [],
  "artistes": {
@@ -19,7 +19,6 @@
   "Sindika": [],
   "Jeune Morty": [],
   "Tiken Jah Fakoly": [],
-  "Elow'n": [],
   "Jeune Lion": [
    {
     "titre": "Ivan Nana en route pour Al Hilal SC : le jeune Lion se rapproche d’un nouveau défi",
@@ -28,6 +27,7 @@
     "date": "2026-10-29T08:15+00:00"
    }
   ],
+  "Elow'n": [],
   "Magic System": [
    {
     "titre": "Ninho, Magic System, Eddy de Pretto, Fabrice Éboué, Dalida : cinq spectacles à ne pas rater en 2027 au Zénith de Rouen",
@@ -75,6 +75,7 @@
   ],
   "Soum Bill": [],
   "Shado Chris": [],
+  "Fior 2 Bior": [],
   "Debordo Leekunfa": [],
   "Widgunz": [],
   "Molare": [],
@@ -85,6 +86,12 @@
   "Dobet Gnahoré": [],
   "Safarel Obiang": [],
   "Roseline Layo": [
+   {
+    "titre": "AIP/Inter/ Danemark: l’ambassadeur Hervé Touré encourage Roseline Layo avant son premier concert en Scandinavie",
+    "lien": "https://news.google.com/rss/articles/CBMixwFBVV95cUxQSWROUGNUTkpzOG5LSFNobHc2NmZMaWlvQzlqNmVhekVXeVhvaVd2VkdOWVJlRnYwYXhLTE8xRnFsWERGZko4cDdGY0FJUjctYk1BcnRPYkhkRlhaMzB4VFI1SmYzZ0s3S09xcVJJbVg5X2hqRmxQTXNQQ3hrVE9Gd01IVnBEeUZzWXc2M29PcXR1ZVBoaTh2TnMxUjRhZXllZ29zd1hQNngxV2R2dkx0Nmo5dmRaTHVVeDVBRUdMREI0MTktTTZB?oc=5",
+    "source": "AIP - Agence Ivoirienne de Presse",
+    "date": "2026-10-30T19:31+00:00"
+   },
    {
     "titre": "Légendes urbaines - Roseline Layo, la diva fédératrice",
     "lien": "https://news.google.com/rss/articles/CBMiugFBVV95cUxQdF85eHZSVFpKbGl0bmxoWmhKZVpxMUtIZ2JPSklvRmlnanpyV3pTTzVSVkNldUswemIyak1md01fSFR1WWttWlF0XzczUlV0d055bnBRSlc3ck9uUWI5OHVGYUlCWkFBUFZ0bmtWN2x4cXN6azBUcTdFNE9oZGVXU2xoRDhmTkxTMXpCQlFhVXhnek9oTnk4blRJQ0c0VS1qN3hLTnVGcVpST2YtbjhheWNrTTNqMUp2a2c?oc=5",
@@ -104,6 +111,7 @@
   ],
   "Monique Séka": [],
   "Lil Jay Bingerack": [],
+  "Nash": [],
   "Yabongo Lova": [],
   "Aïcha Koné": [
    {
@@ -119,9 +127,7 @@
   "Petit Yodé & L'Enfant Siro": [],
   "Bamba Ami Sarah": [],
   "Zoh Cataleya": [],
-  "Nash": [],
   "Black K": [],
-  "Kerozen DJ": [],
-  "Fior 2 Bior": []
+  "Kerozen DJ": []
  }
 }
