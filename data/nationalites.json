@@ -109,6 +109,11 @@
   "statut": null,
   "verifie": "2026-10-26T04:57+00:00"
  },
+ "b one shakazulu": {
+  "nom": "B-One Shakazulu",
+  "statut": null,
+  "verifie": "2026-10-31T12:43+00:00"
+ },
  "babi tape": {
   "nom": "Babi Tape",
   "statut": null,
@@ -249,6 +254,11 @@
   "statut": "autre",
   "verifie": "2026-10-23T11:47+00:00"
  },
+ "darkoo": {
+  "nom": "Darkoo",
+  "statut": "autre",
+  "verifie": "2026-10-31T12:43+00:00"
+ },
  "david guetta": {
   "nom": "David Guetta",
   "statut": "autre",
@@ -268,6 +278,11 @@
   "nom": "Deeper Ace",
   "statut": null,
   "verifie": "2026-10-30T18:04+00:00"
+ },
+ "disiz": {
+  "nom": "disiz",
+  "statut": "autre",
+  "verifie": "2026-10-31T12:43+00:00"
  },
  "dj kerozen": {
   "nom": "DJ KEROZEN",
@@ -294,10 +309,20 @@
   "statut": "autre",
   "verifie": "2026-10-19T02:50+00:00"
  },
+ "dyce": {
+  "nom": "Dyce",
+  "statut": null,
+  "verifie": "2026-10-31T12:43+00:00"
+ },
  "dydy yeman": {
   "nom": "Dydy Yeman",
   "statut": "ivoirien",
   "verifie": "2026-10-26T13:14+00:00"
+ },
+ "efosa": {
+  "nom": "Efosa",
+  "statut": null,
+  "verifie": "2026-10-31T12:43+00:00"
  },
  "elgrandetoto": {
   "nom": "ElGrandeToto",
@@ -353,6 +378,11 @@
   "nom": "Fitz and The Tantrums",
   "statut": "autre",
   "verifie": "2026-10-23T11:47+00:00"
+ },
+ "flocky45": {
+  "nom": "FLOCKY45",
+  "statut": null,
+  "verifie": "2026-10-31T12:43+00:00"
  },
  "fola": {
   "nom": "FOLA",
@@ -453,6 +483,11 @@
   "nom": "Hoodbaby",
   "statut": null,
   "verifie": "2026-10-26T04:57+00:00"
+ },
+ "hotkeed": {
+  "nom": "Hotkeed",
+  "statut": null,
+  "verifie": "2026-10-31T12:43+00:00"
  },
  "huntrill": {
   "nom": "Huntrill",
@@ -794,6 +829,11 @@
   "statut": "autre",
   "verifie": "2026-10-30T18:04+00:00"
  },
+ "mik": {
+  "nom": "MIK",
+  "statut": null,
+  "verifie": "2026-10-31T12:43+00:00"
+ },
  "milky abreggor": {
   "nom": "MiLKY ABREGGOR",
   "statut": null,
@@ -822,7 +862,7 @@
  "mula": {
   "nom": "Mula",
   "statut": null,
-  "verifie": "2026-10-24T11:13+00:00"
+  "verifie": "2026-10-31T12:43+00:00"
  },
  "multimelo": {
   "nom": "Multimelo",
@@ -1074,6 +1114,11 @@
   "statut": null,
   "verifie": "2026-10-26T04:57+00:00"
  },
+ "sparow 69": {
+  "nom": "Sparow 69",
+  "statut": null,
+  "verifie": "2026-10-31T12:43+00:00"
+ },
  "spice girls": {
   "nom": "Spice Girls",
   "statut": "autre",
@@ -1133,6 +1178,11 @@
   "nom": "Tazeboy",
   "statut": null,
   "verifie": "2026-10-26T13:14+00:00"
+ },
+ "tchaikabo": {
+  "nom": "Tchaikabo",
+  "statut": null,
+  "verifie": "2026-10-31T12:43+00:00"
  },
  "thahomey": {
   "nom": "ThaHomey",

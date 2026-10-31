@@ -1,5 +1,5 @@
 {
- "genere": "2026-10-31T05:53+00:00",
+ "genere": "2026-10-31T12:43+00:00",
  "fenetre_heures": 72,
  "erreurs": [],
  "artistes": {
@@ -11,14 +11,14 @@
     "date": "2026-10-29T11:44+00:00"
    }
   ],
-  "døpelym": [],
-  "KS Bloom": [],
-  "Didi B": [],
   "Philipayne": [],
-  "Suspect 95": [],
+  "døpelym": [],
+  "Didi B": [],
   "Sindika": [],
-  "Jeune Morty": [],
+  "KS Bloom": [],
+  "Suspect 95": [],
   "Tiken Jah Fakoly": [],
+  "Jeune Morty": [],
   "Elow'n": [],
   "Jeune Lion": [
    {
@@ -72,17 +72,9 @@
    }
   ],
   "Mix Premier": [],
-  "Meiway": [
-   {
-    "titre": "VIDÉO. Côte d'Ivoire : Meiway fais ses débuts au cinéma avec le film 'La télé du directeur'",
-    "lien": "https://news.google.com/rss/articles/CBMizwFBVV95cUxQWmxIcURXZ2JDMWR3Y1JtbERkc3VVNnM2V1R6NXdYdXV6aThMR1JUOTVjSlp5ZWZUVkRLRUs2b3lsMkhWWk5WcWlvZFJBdkpXUGhSelFxLW5EUm11dm9jRm5tdGtXeE5TUkpyMVBrOHE2YmFNUWIzRk54dGdxaVFOZ1J6b0NaeThlZDB5VlhVZnhxZnNFVU1wNkVyVElCMERpLXVuZ0VrVkl5V1R1X1ZIbi1qWG5Za2pKUFBzT0RhODhVeHB6MXFtc2J1OXZrQkU?oc=5",
-    "source": "tv5monde",
-    "date": "2026-10-28T06:47+00:00"
-   }
-  ],
+  "Meiway": [],
   "Soum Bill": [],
   "Shado Chris": [],
-  "Fior 2 Bior": [],
   "Debordo Leekunfa": [],
   "Widgunz": [],
   "Molare": [],
@@ -142,6 +134,7 @@
   "Bamba Ami Sarah": [],
   "Zoh Cataleya": [],
   "Black K": [],
-  "Kerozen DJ": []
+  "Kerozen DJ": [],
+  "Fior 2 Bior": []
  }
 }
