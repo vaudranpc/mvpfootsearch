@@ -1,5 +1,5 @@
 {
- "genere": "2026-10-31T19:21+00:00",
+ "genere": "2026-11-01T00:11+00:00",
  "fenetre_heures": 72,
  "erreurs": [],
  "artistes": {
@@ -18,8 +18,9 @@
   "KS Bloom": [],
   "Suspect 95": [],
   "Tiken Jah Fakoly": [],
-  "Elow'n": [],
   "Jeune Morty": [],
+  "Elow'n": [],
+  "Espoir 2000": [],
   "Jeune Lion": [
    {
     "titre": "Ivan Nana en route pour Al Hilal SC : le jeune Lion se rapproche d’un nouveau défi",
@@ -56,14 +57,7 @@
     "date": "2026-10-30T23:00+00:00"
    }
   ],
-  "Ariel Sheney": [
-   {
-    "titre": "Octobre rose : Ariel Sheney sur tous les fronts après une épreuve personnelle liée au décès de son épouse",
-    "lien": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxPRzhTbE1iQzc1UWhUNkJHT24zYXhJX1d4Mm1yMTdWQzg2U3ZPOVVyWlFoVFhrYV9sTklFRzdSZG04d29WTldJSlFMckZUVVVWNEdjTnp3aWllVHdxVTRsdEF2RVFKejh0dzJac2hxUzlfR08yUVJrS29Gb0RDUThYVWZrcEcwTzNmYktuWXhxbnQwaENoVzVtdUhxMmRmSGJVU3dDUG1NQmlVNHZtWXVoaWZXVzE0Z2JIcjJqYjdBMEJ3OVB6U3VQQjV4OXNSUC1SWGlKSS0tbVFWeE9MRFE?oc=5",
-    "source": "Linfodrome",
-    "date": "2026-10-28T23:53+00:00"
-   }
-  ],
+  "Ariel Sheney": [],
   "Mix Premier": [],
   "Meiway": [],
   "Soum Bill": [],
@@ -82,7 +76,6 @@
    }
   ],
   "Les Garagistes": [],
-  "Espoir 2000": [],
   "Dobet Gnahoré": [],
   "Safarel Obiang": [],
   "Roseline Layo": [
