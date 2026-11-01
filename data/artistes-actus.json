@@ -1,16 +1,9 @@
 {
- "genere": "2026-11-01T06:18+00:00",
+ "genere": "2026-11-01T16:06+00:00",
  "fenetre_heures": 72,
  "erreurs": [],
  "artistes": {
-  "Himra": [
-   {
-    "titre": "Himra lance un défi à Yan Diomandé",
-    "lien": "https://news.google.com/rss/articles/CBMiekFVX3lxTE5ObVJlLUVvbjFwWk1WaUFELUZhb1Jtc0pMcWVaeC16RUtNSkpSdDZGQzZwSTRqWEVkMDhqMXEwTkxPaWRqZkVFX19CTG9BSGhtSWN1OExnQmF1ZTVqZm91UjZZVEg5OF9BX19sUUxTMllvYTcwaWdHN25B?oc=5",
-    "source": "Mondialsport.ci",
-    "date": "2026-10-29T11:44+00:00"
-   }
-  ],
+  "Himra": [],
   "Philipayne": [
    {
     "titre": "POPPA ET SES MOGOS (PHILIPAYNE FEAT ASAP JO, FOCKY 45, SPAROW, KADJA, TCHAIKABO & YJICK )",
@@ -21,21 +14,13 @@
   ],
   "døpelym": [],
   "Didi B": [],
-  "Sindika": [],
   "KS Bloom": [],
   "Suspect 95": [],
+  "Sindika": [],
   "Tiken Jah Fakoly": [],
-  "Elow'n": [],
   "Jeune Morty": [],
-  "Espoir 2000": [],
-  "Jeune Lion": [
-   {
-    "titre": "Ivan Nana en route pour Al Hilal SC : le jeune Lion se rapproche d’un nouveau défi",
-    "lien": "https://news.google.com/rss/articles/CBMitwFBVV95cUxPNU15ZTY5ZVFaa3ltLUFCVFdwTkk2MEJDMzFidVYtYkxPWWVFNUlYcWwtSndTTzh3bUlxVVUtSmF2WDFtOWw1cE1HeTd0MVU2ZC1OazQ0cFludlFWRmRndmpISk5wcm1SWnQ5MGxfcXdycnk5RjhzY1F1TTVnWmJtamY0bGVibmt5V082T3RnUVB1ZDIxSzZDS0l4OG5tRnlVM2lnRVpCaVR5SFAyRU9KdFBNVmpkU3M?oc=5",
-    "source": "Actu Cameroun",
-    "date": "2026-10-29T08:15+00:00"
-   }
-  ],
+  "Elow'n": [],
+  "Jeune Lion": [],
   "Magic System": [
    {
     "titre": "Ninho, Magic System, Eddy de Pretto, Fabrice Éboué, Dalida : cinq spectacles à ne pas rater en 2027 au Zénith de Rouen",
@@ -44,14 +29,7 @@
     "date": "2026-10-30T15:26+00:00"
    }
   ],
-  "Alpha Blondy": [
-   {
-    "titre": "Alpha Blondy dit « assez » aux coups d’État au Sahel",
-    "lien": "https://news.google.com/rss/articles/CBMidkFVX3lxTE50M0hkSHpvdjhQLUU3QU5Nb3dUTHNZbV80STRxZmIwdzcwWTh6S01hVGNRWUNwZnU0RENXalFLS2NyVl9ESDJIUE9TVW9PSE1IRWFNbEJybFNZMzNwRHZhckx1TUtmTURkZEZia0tKWTQzWDF0cnc?oc=5",
-    "source": "AfrikMag",
-    "date": "2026-10-29T09:19+00:00"
-   }
-  ],
+  "Alpha Blondy": [],
   "DJ Arafat": [],
   "Serge Beynaud": [],
   "Kiff No Beat": [],
@@ -69,20 +47,15 @@
   "Meiway": [],
   "Soum Bill": [],
   "Shado Chris": [],
+  "Fior 2 Bior": [],
   "Debordo Leekunfa": [],
   "Widgunz": [],
   "Molare": [],
   "Black K": [],
   "Tam Sir": [],
-  "Ismaël Isaac": [
-   {
-    "titre": "40 ans de carrière : « J’aurais bien voulu voir à mes côtés les frères Kéïta » (Ismaël Isaac)",
-    "lien": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxNbWRsbmJuYWZIbjRmN3BVekVCVjFBZUxQa3pjNXIyaHRIb01GVGtmZTFQN19XTDVjbFgyTTQ3bmxvc3dYR1llZ2twRjAySjdDTTZvZGhwMkNiQmJOMHFYeHlhZkRSTXVfTjF0SmlDQUlnTlBRcXhBWVhMbjdHQUJwd1U1a2dJcm9TUmJRYnpQT1JBN3ZXYXA5RFlQTG9IQlBOdEZjeWdXdi03V3M?oc=5",
-    "source": "afrik soir",
-    "date": "2026-10-30T21:19+00:00"
-   }
-  ],
+  "Ismaël Isaac": [],
   "Les Garagistes": [],
+  "Espoir 2000": [],
   "Dobet Gnahoré": [],
   "Safarel Obiang": [],
   "Roseline Layo": [
@@ -101,14 +74,7 @@
   ],
   "Team Paiya": [],
   "DJ Kedjevara": [],
-  "Gadji Céli": [
-   {
-    "titre": "Max-Alain Gradel lance un appel pour le concert Apothéose de Gadji Celi",
-    "lien": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxQaFRBdlc5eEc1SGZ5ZnNieU5hSFRFVi05N2s2SU9vSW1HZE1rSGNPeHFaUS1CZDU5bXBlY0Y4WUdTTE9ZOVdLZVVZRWR0dzNqdU5mU1dlUmFXQnpsOExBV1Nya1Q2ZWtuUUdPclgxT3ViMWhpZTk0ajBxT19lTjdRc1h3MmRONE50MUo3Ujh5WXNkTFZ6MDgybXFFLUpNVmZZOEw0b2ZLQ2JTWFE?oc=5",
-    "source": "Mondialsport.ci",
-    "date": "2026-10-29T12:16+00:00"
-   }
-  ],
+  "Gadji Céli": [],
   "Monique Séka": [],
   "Lil Jay Bingerack": [],
   "Yabongo Lova": [],
@@ -134,7 +100,6 @@
     "date": "2026-11-01T02:51+00:00"
    }
   ],
-  "Kerozen DJ": [],
-  "Fior 2 Bior": []
+  "Kerozen DJ": []
  }
 }

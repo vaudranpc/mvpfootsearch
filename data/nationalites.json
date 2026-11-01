@@ -299,6 +299,11 @@
   "statut": null,
   "verifie": "2026-10-27T15:25+00:00"
  },
+ "dosseh": {
+  "nom": "Dosseh",
+  "statut": "autre",
+  "verifie": "2026-11-01T16:06+00:00"
+ },
  "dpelym": {
   "nom": "døpelym",
   "statut": "ivoirien",
@@ -417,7 +422,7 @@
  "generation nerf": {
   "nom": "Generation Nerf",
   "statut": null,
-  "verifie": "2026-10-20T11:47+00:00"
+  "verifie": "2026-11-01T16:06+00:00"
  },
  "genezio": {
   "nom": "Genezio",
@@ -829,6 +834,11 @@
   "statut": "autre",
   "verifie": "2026-10-30T18:04+00:00"
  },
+ "michel bakenda": {
+  "nom": "Michel Bakenda",
+  "statut": "autre",
+  "verifie": "2026-11-01T16:06+00:00"
+ },
  "mik": {
   "nom": "MIK",
   "statut": null,
@@ -858,6 +868,11 @@
   "nom": "Moses Bliss",
   "statut": "autre",
   "verifie": "2026-10-23T11:47+00:00"
+ },
+ "mous k": {
+  "nom": "Mous-K",
+  "statut": null,
+  "verifie": "2026-11-01T16:06+00:00"
  },
  "mula": {
   "nom": "Mula",
@@ -987,7 +1002,7 @@
  "r2": {
   "nom": "R2",
   "statut": null,
-  "verifie": "2026-10-23T11:47+00:00"
+  "verifie": "2026-11-01T16:06+00:00"
  },
  "rbib": {
   "nom": "RBIB",
@@ -1153,6 +1168,11 @@
   "nom": "Suspect95",
   "statut": null,
   "verifie": "2026-10-25T16:31+00:00"
+ },
+ "sylvain kashila": {
+  "nom": "Sylvain Kashila",
+  "statut": null,
+  "verifie": "2026-11-01T16:06+00:00"
  },
  "tate mcrae": {
   "nom": "Tate McRae",
