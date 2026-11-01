@@ -1,5 +1,5 @@
 {
- "genere": "2026-11-01T00:11+00:00",
+ "genere": "2026-11-01T06:18+00:00",
  "fenetre_heures": 72,
  "erreurs": [],
  "artistes": {
@@ -11,15 +11,22 @@
     "date": "2026-10-29T11:44+00:00"
    }
   ],
-  "Philipayne": [],
+  "Philipayne": [
+   {
+    "titre": "POPPA ET SES MOGOS (PHILIPAYNE FEAT ASAP JO, FOCKY 45, SPAROW, KADJA, TCHAIKABO & YJICK )",
+    "lien": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFBLOTBUaGRXcS1saWJMMHNybFpSeHhaV2pWcXZLVkVxMlZUVXVtTGxEN0FvbTJVTFhsSmM1MVhldXgxUDN6M21mSGl0a3VfZTQyaXgzc2JLU29nQ2hS?oc=5",
+    "source": "YouTube",
+    "date": "2026-10-31T19:00+00:00"
+   }
+  ],
   "døpelym": [],
   "Didi B": [],
   "Sindika": [],
   "KS Bloom": [],
   "Suspect 95": [],
   "Tiken Jah Fakoly": [],
-  "Jeune Morty": [],
   "Elow'n": [],
+  "Jeune Morty": [],
   "Espoir 2000": [],
   "Jeune Lion": [
    {
@@ -119,7 +126,14 @@
   "Petit Yodé & L'Enfant Siro": [],
   "Bamba Ami Sarah": [],
   "Zoh Cataleya": [],
-  "Nash": [],
+  "Nash": [
+   {
+    "titre": "Matchs de Nash Walker : stats match par match 2026-27",
+    "lien": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE5VZTAyQjRxbXRDangtQkQ5TDBpa2t3MzBtY3ZQQkJiZ2lPbllNdkpJdlZOYndpUk9lNU5QRGRXcnFsa3FKVFV4Q090eUZvanRDQktwS2dpTHFfWUx5WUFUeg?oc=5",
+    "source": "BeBasket",
+    "date": "2026-11-01T02:51+00:00"
+   }
+  ],
   "Kerozen DJ": [],
   "Fior 2 Bior": []
  }
