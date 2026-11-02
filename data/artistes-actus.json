@@ -1,5 +1,5 @@
 {
- "genere": "2026-11-01T22:08+00:00",
+ "genere": "2026-11-02T06:19+00:00",
  "fenetre_heures": 72,
  "erreurs": [],
  "artistes": {
@@ -16,11 +16,10 @@
   "Didi B": [],
   "KS Bloom": [],
   "Suspect 95": [],
-  "Tiken Jah Fakoly": [],
   "Jeune Morty": [],
+  "Tiken Jah Fakoly": [],
   "Sindika": [],
   "Jeune Lion": [],
-  "Elow'n": [],
   "Magic System": [
    {
     "titre": "Ninho, Magic System, Eddy de Pretto, Fabrice Éboué, Dalida : cinq spectacles à ne pas rater en 2027 au Zénith de Rouen",
@@ -53,7 +52,14 @@
   "Molare": [],
   "Black K": [],
   "Tam Sir": [],
-  "Ismaël Isaac": [],
+  "Ismaël Isaac": [
+   {
+    "titre": "40 ans de carrière : « J’aurais bien voulu voir à mes côtés les frères Kéïta » (Ismaël Isaac)",
+    "lien": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxNbWRsbmJuYWZIbjRmN3BVekVCVjFBZUxQa3pjNXIyaHRIb01GVGtmZTFQN19XTDVjbFgyTTQ3bmxvc3dYR1llZ2twRjAySjdDTTZvZGhwMkNiQmJOMHFYeHlhZkRSTXVfTjF0SmlDQUlnTlBRcXhBWVhMbjdHQUJwd1U1a2dJcm9TUmJRYnpQT1JBN3ZXYXA5RFlQTG9IQlBOdEZjeWdXdi03V3M?oc=5",
+    "source": "afrik soir",
+    "date": "2026-10-30T21:19+00:00"
+   }
+  ],
   "Les Garagistes": [],
   "Espoir 2000": [],
   "Dobet Gnahoré": [],
