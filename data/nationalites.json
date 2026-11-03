@@ -44,6 +44,11 @@
   "statut": "autre",
   "verifie": "2026-10-23T11:47+00:00"
  },
+ "agato": {
+  "nom": "Agato",
+  "statut": null,
+  "verifie": "2026-11-03T10:59+00:00"
+ },
  "akon": {
   "nom": "Akon",
   "statut": "autre",
@@ -133,6 +138,11 @@
   "nom": "Bad Bunny",
   "statut": "autre",
   "verifie": "2026-10-21T11:59+00:00"
+ },
+ "balti": {
+  "nom": "Balti",
+  "statut": null,
+  "verifie": "2026-11-03T10:59+00:00"
  },
  "bambelbee": {
   "nom": "Bambelbee",
@@ -259,6 +269,11 @@
   "statut": "autre",
   "verifie": "2026-10-19T02:50+00:00"
  },
+ "daniel leggs": {
+  "nom": "Daniel Leggs",
+  "statut": null,
+  "verifie": "2026-11-03T10:59+00:00"
+ },
  "danny s": {
   "nom": "Danny S",
   "statut": null,
@@ -293,6 +308,11 @@
   "nom": "Deeper Ace",
   "statut": null,
   "verifie": "2026-10-30T18:04+00:00"
+ },
+ "derek jones": {
+  "nom": "Derek-Jones",
+  "statut": "autre",
+  "verifie": "2026-11-03T10:59+00:00"
  },
  "disiz": {
   "nom": "disiz",
@@ -829,6 +849,11 @@
   "statut": "autre",
   "verifie": "2026-10-19T02:50+00:00"
  },
+ "madonna": {
+  "nom": "Madonna",
+  "statut": "autre",
+  "verifie": "2026-11-03T10:59+00:00"
+ },
  "marya ade": {
   "nom": "Marya Ade",
   "statut": null,
@@ -1044,6 +1069,11 @@
   "statut": null,
   "verifie": "2026-11-01T16:06+00:00"
  },
+ "ravyn lenae": {
+  "nom": "Ravyn Lenae",
+  "statut": "autre",
+  "verifie": "2026-11-03T10:59+00:00"
+ },
  "rbib": {
   "nom": "RBIB",
   "statut": null,
@@ -1119,6 +1149,11 @@
   "statut": null,
   "verifie": "2026-10-30T18:04+00:00"
  },
+ "sda": {
+  "nom": "SDA !!",
+  "statut": null,
+  "verifie": "2026-11-03T10:59+00:00"
+ },
  "sdm": {
   "nom": "SDM",
   "statut": "autre",
@@ -1168,6 +1203,11 @@
   "nom": "SK 07",
   "statut": null,
   "verifie": "2026-11-02T06:19+00:00"
+ },
+ "so la lune": {
+  "nom": "So La Lune",
+  "statut": "autre",
+  "verifie": "2026-11-03T10:59+00:00"
  },
  "sparow 69": {
   "nom": "Sparow 69",
@@ -1279,6 +1319,11 @@
   "statut": null,
   "verifie": "2026-11-02T06:19+00:00"
  },
+ "tiwa savage": {
+  "nom": "Tiwa Savage",
+  "statut": "autre",
+  "verifie": "2026-11-03T10:59+00:00"
+ },
  "travis scott": {
   "nom": "Travis Scott",
   "statut": "autre",
@@ -1298,6 +1343,11 @@
   "nom": "TVLM",
   "statut": null,
   "verifie": "2026-11-02T06:19+00:00"
+ },
+ "twinsick": {
+  "nom": "TWINSICK",
+  "statut": null,
+  "verifie": "2026-11-03T10:59+00:00"
  },
  "twrp": {
   "nom": "TWRP",
