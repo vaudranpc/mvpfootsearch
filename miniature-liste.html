@@ -103,7 +103,16 @@
         </div>
         <button class="small ghost" id="bgRemove" style="margin-top:6px">Retirer l'image de fond</button>
       </div>
-      <label class="check" style="margin-top:10px"><input type="checkbox" id="frame" /> Cadre autour de la miniature</label>
+      <label class="check" style="margin-top:10px"><input type="checkbox" id="fx" /> Lueurs de couleur dans les coins</label>
+      <div id="fxOpts" style="display:none">
+        <div class="row">
+          <div><label>Lueur bas-gauche</label><input type="color" id="glowA" /></div>
+          <div><label>Lueur haut-droite</label><input type="color" id="glowB" /></div>
+        </div>
+        <label>Intensité <span class="val" id="fxPowerVal"></span></label><input type="range" id="fxPower" min="0.1" max="1" step="0.05" />
+        <label class="check"><input type="checkbox" id="fxStars" /> Étoiles en haut à gauche</label>
+      </div>
+      <label class="check"><input type="checkbox" id="frame" /> Cadre autour de la miniature</label>
       <div class="row">
         <div><label>Couleur du cadre</label><input type="color" id="frameColor" /></div>
         <div><label>Épaisseur <span class="val" id="frameWVal"></span></label><input type="range" id="frameW" min="1" max="30" step="1" /></div>
@@ -255,10 +264,13 @@ function paintFlag(ctx, code, x, y, w, h) {
 const mkText = (o) => ({ id: uid(), type: "text", x: 640, y: 360, size: 150, rot: 0, opacity: 1, shadow: false,
   text: "Titre", font: "Comic Neue", color: "#f2f2fa", stroke: "#111111", strokeW: 5, ...o });
 const mkImage = (o) => ({ id: uid(), type: "image", x: 640, y: 420, size: 520, rot: 0, opacity: 1, shadow: false, flip: false,
-  img: null, outline: 0, outlineColor: "#ffffff", ...o });
+  img: null, outline: 0, outlineColor: "#ffffff", halo: 0, haloColor: "#ffffff", ...o });
 const mkFlag = (o) => ({ id: uid(), type: "flag", x: 640, y: 360, size: 240, rot: 0, opacity: 1, shadow: true, flip: false,
   country: "ci", shape: "round", outline: 8, outlineColor: "#ffffff", ...o });
-const DEFAULT_BG = { color: "#05482f", frame: true, frameColor: "#111111", frameW: 6, img: null, blur: 0, dim: 0 };
+const DEFAULT_BG = { color: "#05482f", frame: true, frameColor: "#111111", frameW: 6, img: null, blur: 0, dim: 0,
+  fx: false, glowA: "#0a2fd6", glowB: "#d80f24", fxPower: 0.8, fxStars: true };
+// valeurs des réglages absents des projets enregistrés avant leur ajout
+const LAYER_DEFAULTS = { lh: 1.08, ls: 0, halo: 0, haloColor: "#ffffff" };
 
 const TEMPLATES = {
   liste: { name: "La liste", demo: "La liste", layers: () => [
@@ -282,6 +294,18 @@ const TEMPLATES = {
     mkImage({ x: 340, y: 470, size: 420 }),
     mkFlag({ x: 935, y: 460, size: 320 }),
   ] },
+  footafrica: { name: "Foot Africa", demo: "FOOT AFRICA", bg: "#131315", frame: false, fx: true,
+    swatch: "radial-gradient(circle at 0 100%, #0a2fd6, transparent 60%), radial-gradient(circle at 100% 0, #d80f24, transparent 60%), #131315",
+    layers: () => {
+      const title = { font: "Anton", color: "#ffffff", strokeW: 0, x: 245 };
+      const player = (x) => mkImage({ x, y: 415, size: 640, halo: 26 });
+      return [
+        mkText({ ...title, text: "2027", y: 165, size: 92 }),
+        mkText({ ...title, text: "FOOT\nAFRICA", y: 378, size: 150, lh: 1.04 }),
+        mkText({ ...title, text: "CALENDRIER", y: 556, size: 44, font: "Bebas Neue", ls: 7 }),
+        player(640), player(1130), player(885), // le joueur du milieu passe devant les deux autres
+      ];
+    } },
   vide: { name: "Vide", demo: "…", layers: () => [] },
 };
 
@@ -389,7 +413,8 @@ function sticker(id, img, w, h, o, color, s) {
 function drawText(ctx, L, s) {
   const lines = String(L.text || " ").split("\n");
   ctx.font = fontCss(L.font, L.size); ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.lineJoin = "round"; ctx.miterLimit = 2;
-  const lh = L.size * 1.08, w = Math.max(1, ...lines.map((l) => ctx.measureText(l).width)), h = lines.length * lh;
+  if (L.ls && "letterSpacing" in ctx) ctx.letterSpacing = `${L.ls}px`;
+  const lh = L.size * (L.lh ?? LAYER_DEFAULTS.lh), w = Math.max(1, ...lines.map((l) => ctx.measureText(l).width)), h = lines.length * lh;
   lines.forEach((l, i) => {
     const y = -h / 2 + lh * (i + 0.5);
     if (L.shadow) shadowOn(ctx, s);
@@ -426,8 +451,14 @@ function drawImageLayer(ctx, L, s, preview) {
   const h = L.size, w = (h * img.width) / img.height;
   const st = sticker(L.img, img, w, h, L.outline, L.outlineColor, s);
   if (L.flip) ctx.scale(-1, 1);
+  const paint = () => ctx.drawImage(st.c, -w / 2 - st.pad, -h / 2 - st.pad, w + st.pad * 2, h + st.pad * 2);
+  if (L.halo > 0) { // halo lumineux : un liseré net puis une lueur large
+    ctx.shadowColor = L.haloColor || LAYER_DEFAULTS.haloColor; ctx.shadowOffsetX = 0; ctx.shadowOffsetY = 0;
+    for (const f of [0.25, 1, 1]) { ctx.shadowBlur = L.halo * f * s; paint(); }
+    shadowOff(ctx);
+  }
   if (L.shadow) shadowOn(ctx, s);
-  ctx.drawImage(st.c, -w / 2 - st.pad, -h / 2 - st.pad, w + st.pad * 2, h + st.pad * 2);
+  paint();
   shadowOff(ctx);
   return { w: w + L.outline * 2, h: h + L.outline * 2, st, iw: w, ih: h };
 }
@@ -440,11 +471,29 @@ function drawLayer(ctx, L, s, preview) {
   ctx.restore();
   if (preview) BOX.set(L.id, box);
 }
+function drawBgFx(ctx, B) {
+  const alpha = (hex, a) => hex + Math.round(clamp(a, 0, 1) * 255).toString(16).padStart(2, "0");
+  const glow = (x, y, r, col) => {
+    const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+    g.addColorStop(0, alpha(col, B.fxPower)); g.addColorStop(0.45, alpha(col, B.fxPower * 0.38)); g.addColorStop(1, alpha(col, 0));
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W0, H0);
+  };
+  // bande diagonale très discrète, derrière les joueurs
+  ctx.beginPath(); ctx.moveTo(W0 * 0.42, 0); ctx.lineTo(W0 * 0.8, 0); ctx.lineTo(W0 * 0.4, H0); ctx.lineTo(W0 * 0.1, H0); ctx.closePath();
+  ctx.fillStyle = "rgba(255,255,255,.035)"; ctx.fill();
+  glow(W0 * 0.1, H0 * 1.08, W0 * 0.56, B.glowA);
+  glow(W0 * 0.96, -H0 * 0.08, W0 * 0.5, B.glowB);
+  if (B.fxStars) for (const [x, y, r] of [[18, 22, 62], [225, 14, 52], [112, 150, 70]]) {
+    star(ctx, x, y, r, "rgba(0,0,0,.28)");
+    ctx.lineWidth = 1.5; ctx.lineJoin = "miter"; ctx.strokeStyle = "rgba(255,255,255,.07)"; ctx.stroke();
+  }
+}
 function render(ctx, s, preview) {
   ctx.setTransform(s, 0, 0, s, 0, 0);
   const B = S.bg; ctx.fillStyle = B.color; ctx.fillRect(0, 0, W0, H0);
   const bimg = B.img && IMGS.get(B.img);
   if (bimg) { ctx.drawImage(bgCanvas(bimg, B.img, s), 0, 0, W0, H0); if (B.dim > 0) { ctx.fillStyle = `rgba(0,0,0,${B.dim})`; ctx.fillRect(0, 0, W0, H0); } }
+  if (B.fx) drawBgFx(ctx, B);
   for (const L of S.layers) drawLayer(ctx, L, s, preview);
   if (B.frame && B.frameW > 0) { ctx.strokeStyle = B.frameColor; ctx.lineWidth = B.frameW * 2; ctx.strokeRect(0, 0, W0, H0); }
   if (preview) drawOverlay(ctx);
@@ -595,7 +644,7 @@ function removeLayer(L) { S.layers = S.layers.filter((l) => l !== L); if (S.sel 
 const range = (k, label, min, max, step = 1) => `<div><label>${label} <span class="val" data-v="${k}"></span></label><input type="range" data-k="${k}" min="${min}" max="${max}" step="${step}" /></div>`;
 const color = (k, label) => `<div><label>${label}</label><input type="color" data-k="${k}" /></div>`;
 const check = (k, label) => `<label class="check"><input type="checkbox" data-k="${k}" /> ${label}</label>`;
-const UNITS = { size: "px", rot: "°", strokeW: "px", outline: "px" };
+const UNITS = { size: "px", rot: "°", strokeW: "px", outline: "px", ls: "px", halo: "px" };
 function renderProps() {
   const L = sel(); const box = $("props");
   if (!L) { $("propsTitle").textContent = "✏️ Calque sélectionné"; box.innerHTML = `<div class="empty">Clique un élément dans l'aperçu (ou dans la liste des calques) pour le modifier.</div>`; return; }
@@ -606,6 +655,7 @@ function renderProps() {
       <label>Police</label><select data-k="font">${Object.keys(FONTS).map((f) => `<option style="font-family:'${f}'">${f}</option>`).join("")}</select>
       <div class="row">${color("color", "Couleur")}${color("stroke", "Contour")}</div>
       <div class="row">${range("size", "Taille", 20, 400)}${range("strokeW", "Épaisseur contour", 0, 25)}</div>
+      <div class="row">${range("lh", "Interligne", 0.7, 1.6, 0.02)}${range("ls", "Espace lettres", 0, 30)}</div>
       <div class="row">${range("rot", "Rotation", -45, 45)}${range("opacity", "Opacité", 0.1, 1, 0.05)}</div>
       ${check("shadow", "Ombre portée")}`;
   } else if (L.type === "flag") {
@@ -625,6 +675,7 @@ function renderProps() {
       <div class="status" id="cutStatus"></div>
       <div class="row">${range("size", "Hauteur", 40, 1400)}${range("rot", "Rotation", -45, 45)}</div>
       <div class="row">${range("outline", "Contour sticker", 0, 30)}${color("outlineColor", "Couleur contour")}</div>
+      <div class="row">${range("halo", "Halo lumineux", 0, 80)}${color("haloColor", "Couleur halo")}</div>
       ${range("opacity", "Opacité", 0.1, 1, 0.05)}
       <div class="row">${check("flip", "Miroir ↔")}${check("shadow", "Ombre portée")}</div>
       <div class="hint">Le détourage tourne dans ton navigateur (rien n'est envoyé) ; la 1re fois il télécharge un modèle d'environ 40 Mo.</div>`;
@@ -638,11 +689,12 @@ function renderProps() {
 function syncProps() { // push layer values into the form (without rebuilding it)
   const L = sel(); if (!L) return;
   $("props").querySelectorAll("[data-k]").forEach((el) => {
-    const v = L[el.dataset.k]; if (el === document.activeElement && el.tagName === "TEXTAREA") return;
+    const v = L[el.dataset.k] ?? LAYER_DEFAULTS[el.dataset.k]; if (el === document.activeElement && el.tagName === "TEXTAREA") return;
     if (el.type === "checkbox") el.checked = !!v; else el.value = v;
   });
   $("props").querySelectorAll("[data-v]").forEach((el) => {
-    const k = el.dataset.v, v = L[k]; el.textContent = k === "opacity" ? `(${Math.round(v * 100)}%)` : `(${Math.round(v)}${UNITS[k] || ""})`;
+    const k = el.dataset.v, v = L[k] ?? LAYER_DEFAULTS[k];
+    el.textContent = k === "opacity" ? `(${Math.round(v * 100)}%)` : k === "lh" ? `(${v.toFixed(2)})` : `(${Math.round(v)}${UNITS[k] || ""})`;
   });
 }
 $("props").addEventListener("input", (e) => {
@@ -704,22 +756,26 @@ function bindBg() {
   $("bgBlur").value = B.blur; $("bgDim").value = B.dim;
   $("frameWVal").textContent = `(${B.frameW}px)`; $("bgBlurVal").textContent = `(${B.blur}px)`; $("bgDimVal").textContent = `(${Math.round(B.dim * 100)}%)`;
   $("bgImgOpts").style.display = B.img && IMGS.get(B.img) ? "" : "none";
+  $("fx").checked = B.fx; $("fxStars").checked = B.fxStars; $("glowA").value = B.glowA; $("glowB").value = B.glowB; $("fxPower").value = B.fxPower;
+  $("fxPowerVal").textContent = `(${Math.round(B.fxPower * 100)}%)`; $("fxOpts").style.display = B.fx ? "" : "none";
 }
-for (const [id, k, num] of [["bgColor", "color"], ["frameColor", "frameColor"], ["frameW", "frameW", 1], ["bgBlur", "blur", 1], ["bgDim", "dim", 1]]) {
+for (const [id, k, num] of [["bgColor", "color"], ["frameColor", "frameColor"], ["frameW", "frameW", 1], ["bgBlur", "blur", 1], ["bgDim", "dim", 1], ["glowA", "glowA"], ["glowB", "glowB"], ["fxPower", "fxPower", 1]]) {
   $(id).addEventListener("input", () => { S.bg[k] = num ? +$(id).value : $(id).value; bindBg(); draw(); });
   $(id).addEventListener("change", commit);
 }
 $("frame").onchange = () => { S.bg.frame = $("frame").checked; draw(); commit(); };
+for (const id of ["fx", "fxStars"]) $(id).onchange = () => { S.bg[id] = $(id).checked; bindBg(); draw(); commit(); };
 $("bgFile").onchange = async () => { const f = $("bgFile").files[0]; if (!f) return; S.bg.img = await importBlob(f); $("bgFile").value = ""; bindBg(); draw(); commit(); };
 $("bgRemove").onclick = () => { S.bg.img = null; bindBg(); draw(); commit(); };
 
-$("templates").innerHTML = Object.entries(TEMPLATES).map(([k, t]) => `<button class="tpl" data-k="${k}"><div class="sw" style="background:${t.bg || DEFAULT_BG.color}">${esc(t.demo)}</div><div class="nm">${esc(t.name)}</div></button>`).join("");
+$("templates").innerHTML = Object.entries(TEMPLATES).map(([k, t]) => `<button class="tpl" data-k="${k}"><div class="sw" style="background:${t.swatch || t.bg || DEFAULT_BG.color}">${esc(t.demo)}</div><div class="nm">${esc(t.name)}</div></button>`).join("");
 $("templates").addEventListener("click", (e) => {
   const b = e.target.closest(".tpl"); if (!b) return;
   if (S.layers.some((l) => l.img || l.type === "text") && !confirm("Remplacer les calques actuels par ce modèle ?")) return;
   const t = TEMPLATES[b.dataset.k];
   S.layers = t.layers(); S.sel = null;
   S.bg.color = t.bg || DEFAULT_BG.color; // chaque modèle a sa couleur de fond (modifiable ensuite)
+  S.bg.fx = !!t.fx; S.bg.frame = t.frame ?? true;
   commit(); refresh();
 });
 $("addText").onclick = () => { const L = mkText({ text: "Ton texte", size: 120 }); S.layers.push(L); S.sel = L.id; commit(); refresh(); };
