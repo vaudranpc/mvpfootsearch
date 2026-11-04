@@ -504,6 +504,11 @@
   "statut": "autre",
   "verifie": "2026-10-22T12:02+00:00"
  },
+ "hamza": {
+  "nom": "Hamza",
+  "statut": "autre",
+  "verifie": "2026-11-04T19:50+00:00"
+ },
  "harry styles": {
   "nom": "Harry Styles",
   "statut": "autre",
@@ -671,8 +676,8 @@
  },
  "khaid": {
   "nom": "Khaid",
-  "statut": null,
-  "verifie": "2026-10-28T13:08+00:00"
+  "statut": "autre",
+  "verifie": "2026-11-04T19:50+00:00"
  },
  "kings of leon": {
   "nom": "Kings Of Leon",

@@ -1,5 +1,5 @@
 {
- "genere": "2026-11-04T11:05+00:00",
+ "genere": "2026-11-04T19:50+00:00",
  "fenetre_heures": 72,
  "erreurs": [],
  "artistes": {
@@ -10,8 +10,8 @@
   "KS Bloom": [],
   "Suspect 95": [],
   "Jeune Morty": [],
-  "Jeune Lion": [],
   "Tiken Jah Fakoly": [],
+  "Jeune Lion": [],
   "Magic System": [
    {
     "titre": "Hoshi, Magic System, Ayo, Luiza : le World Festival Ambert annonce de nouveaux noms pour son édition 2027",
@@ -26,15 +26,15 @@
     "date": "2026-11-03T19:04+00:00"
    },
    {
-    "titre": "Magic System, Hoshi, Ayo et Luiza rejoignent la programmation du World Festival Ambert",
-    "lien": "https://news.google.com/rss/articles/CBMixwFBVV95cUxQU2RoaEdSM2NEWjNFMWh3ZTVQd0c0anBrXzFqY08taXY0Q0dYOFRySkNMMnZVWWdpUy1yT2QyaTJhUWVQTDA3c1lLaTdLeTVnNzJMT1N2SWdwX3FMQnF0YW4xdGZBcnhuNWVFYThfSkFoMUdyZm02WHh4dmJGXzZZcG41TGE2aUpGQzVrZjk2LURMUlBFaDZuVkwzcm9TbXItM1ZFUF9GNXp0QVpGMWp4Uk9CZkxkS1FNSHg4WFFrTE9IT3EtYXpV?oc=5",
-    "source": "Radio RVA",
-    "date": "2026-11-03T19:00+00:00"
-   },
-   {
     "titre": "World Festival Ambert 2027 : Hoshi, Magic System et Luiza annoncés, la grande scène métamorphosée",
     "lien": "https://news.google.com/rss/articles/CBMizgFBVV95cUxNTnVRZFBvejQ2N1VHZUI4ejNLbUloRngxVW5MeG9mSXlSWTkyQVMwWGw3NXlUNUdjQ1BKaWRzckVDbmdGWmhiOU9DdkEzbTY5YWtsU2N5aG9raTIybWozTWFHYVRGdHNJdW50LS1qeWk3V3h3R0JvanRYdHFVNWgtc3RkU2dUNkpicHB4aXJkRDZyM0Y3b2RuY2xwMjJHRzlWcWxSV1dENUFNbURhSzV4OU52cUtCVGJ1VkxodTJKYXJpSnpxcGh6MVp6VHZRQQ?oc=5",
     "source": "Radio SCOOP",
+    "date": "2026-11-03T19:00+00:00"
+   },
+   {
+    "titre": "Magic System, Hoshi, Ayo et Luiza rejoignent la programmation du World Festival Ambert",
+    "lien": "https://news.google.com/rss/articles/CBMixwFBVV95cUxQU2RoaEdSM2NEWjNFMWh3ZTVQd0c0anBrXzFqY08taXY0Q0dYOFRySkNMMnZVWWdpUy1yT2QyaTJhUWVQTDA3c1lLaTdLeTVnNzJMT1N2SWdwX3FMQnF0YW4xdGZBcnhuNWVFYThfSkFoMUdyZm02WHh4dmJGXzZZcG41TGE2aUpGQzVrZjk2LURMUlBFaDZuVkwzcm9TbXItM1ZFUF9GNXp0QVpGMWp4Uk9CZkxkS1FNSHg4WFFrTE9IT3EtYXpV?oc=5",
+    "source": "Radio RVA",
     "date": "2026-11-03T19:00+00:00"
    }
   ],
@@ -52,7 +52,14 @@
   "Josey": [],
   "Ariel Sheney": [],
   "Mix Premier": [],
-  "Meiway": [],
+  "Meiway": [
+   {
+    "titre": "Abissa 2026 : la 1ere sortie du roi des N’Zima Kotoko, Meiway qui a provoqué une émeute populaire",
+    "lien": "https://news.google.com/rss/articles/CBMiywFBVV95cUxQTDhtbFFZTVpvQ2lRT1lsa1F2NUVNd1Q4SWY3UEFlV0w1czNZZjBBQzZiQmx1cll4VDR2cThNV2w2RVR5UndaYzFhYkUzZG9OYUV3UVc0VFhrMC1yNnRCalVaOEhVdVdaRHpIUUp0MEo1MnRXaTJjTGVlRGVwdGZOTHRUcnNhWWZUalRHRXMxTHZsZ3Q3TFJDWEtyVHN0MkZJNVd5dlBVazlFQnVkX1RnU0gwUTJKUW9KdFAtaVczSENKSzBHUDVVUV9Ucw?oc=5",
+    "source": "AbidjanTV.net",
+    "date": "2026-11-04T11:44+00:00"
+   }
+  ],
   "Soum Bill": [],
   "Shado Chris": [],
   "Fior 2 Bior": [],
@@ -68,6 +75,18 @@
   "Molare": [],
   "Tam Sir": [],
   "Ismaël Isaac": [
+   {
+    "titre": "Côte d’Ivoire-AIP/ Ismaël Isaac promet un spectacle inédit pour ses 40 ans de carrière",
+    "lien": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQTG9FWElNVkozbXlwTDRvRVFoOU1vU1hXNmxuS2xJWFhVMUFPaU5MNWVrUzY1NlJaaUhmcDE4WEJfZWhVdHhqbnYycUpfSWhHV3I2aUJfR3EyX2ROei1VVmR2azhzY2dtWGhhTnJJNl83eFBySzBqVk9LbS1HdDRXVVpmTEpQcEtUalp5M1hKRWxjTlNXdWQ3WTdBYVNOelg2ekZta283RQ?oc=5",
+    "source": "AIP - Agence Ivoirienne de Presse",
+    "date": "2026-11-04T13:06+00:00"
+   },
+   {
+    "titre": "Ismaël Isaac : 40 ans de carrière, une nuit de reggae et d’émotions ce 7 novembre à Abidjan",
+    "lien": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxPM0ZvYTZrZ01adndaNmlrWllTdVlxM3dYRG5xNEV3ZVB1SmlqcU90bVhxYWI1c3FvdktncTgwOFplWW9tZTUzSXFZMEs2LTNjdEtOdE5KZ3NNNGhyRlRGLUdMVTlZb1dGX28tS3E2Y2puRkdVb2dQZkx3VmxXTXRZUzBEVzdQSDZTamFGZ2pHUjZES0pZWjZFcjZkdmJ4MzQ5NDBkREZ5cTl5S0tUWW1HT29iTGRYY2kyQktHY0ZnVXBQajkyYVpiR2lDX1pVX2ZtcHc?oc=5",
+    "source": "FratMat",
+    "date": "2026-11-04T12:37+00:00"
+   },
    {
     "titre": "Gadji Celi en live: Ismaël Isaac et Nesly enflamment la scène du concert.",
     "lien": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPd1B0TzFsWFQ4dzZGS2pNbF91d3RDVUI4YmVCdzJTUkNXNk9zOTdleHRnWkZ3SExfbGN1Y0ZwaUNleHRJbUdkbkxBMEZ2SGNmMlExZDBQR3RLSzBfcFg4U3htUDYtSHRkQUhDUkNfNE42U3BySWRMTTVXNkd6SXFkVjBhcUhoRTZDYTlyU3lBUmVmdmZIVExnZTh2TjVxYmdQeDlJWFN5UnlhZWZ1dWc?oc=5",
@@ -98,9 +117,9 @@
    },
    {
     "titre": "Côte d’Ivoire : Gadji Céli fait salle comble au Parc des Expositions d’Abidjan pour célébrer ses 40 ans de carrière",
-    "lien": "https://news.google.com/rss/articles/CBMi5gFBVV95cUxQTnpta1F6X1Uxdi12T2s2bllERVlsSFdiM095QzBneTMwLXlsNTgxQlI4OEtEYmVKam9VX2dhX2Q3SWQ5Ykp1VDI4ZnNCZFZCNWVFREZwdm5qc3gyOEt4UjRJdWhwNlk2aEp3Z3p3OUs4Ry0xMGxDMko1VTgxZnhJb05ONmY4SkFwSUl3bmNMb3Zwem9kM0tPT05OSlAxaVVHakpnRTBHTllrcnIzMFJJLVNETUUtMFloMVV0Z21aVzQ1VldLV3JOTlZYbjdMbUhUVThlMHVHSWZ6TzBHcmxqQ1BuT05lUQ?oc=5",
+    "lien": "https://news.google.com/rss/articles/CBMi5AFBVV95cUxQczlyZVhWUnJnOFRDTy1KSklLYXRUZG1jNXEzU25VN1d1UVpzMnEybG1iSmJhRWJVM1VGR3NIVkJNUEFHVHhtQUxqZW01akN3NGJoLVlzUk1IUmFuUkJOVENYblpybEJpZkQyeThHcU1MUi1CLVBLdGpPTjhPNWZ5NFRMSlFzeW9yRFFER2RWOGFkWVd2N1NoVGF4bFZlQUdHakg0Mmk2MUhvdTR3anh6c3dWbWhVMmtkeXZLenRHaG14WWp5blltV29Rc3dqWDBFNldrN214SGowaGhlWFBqTWhsYU0?oc=5",
     "source": "Abidjan.net News",
-    "date": "2026-11-01T18:56+00:00"
+    "date": "2026-11-01T20:15+00:00"
    }
   ],
   "Monique Séka": [],
@@ -116,6 +135,12 @@
   "Zoh Cataleya": [],
   "Black K": [],
   "Nash": [
+   {
+    "titre": "Kevin Nash estime que les exigences de l’équipe créative de la WWE ne lui conviennent pas",
+    "lien": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxNUnh2VkYzb1JwNXY4dldpa2l3NDJSbU1tWUczOWREUWpsdEZkbEZFendIZHB0aGpRZTlzclUxdjJVUXhxV3E1NjN5Q2MxbVZnYVJvNGprOEMtQzl6dTR6SkN3Q2Jpb2w2dTdvNVk1T0p1QlA2Q012THFsYzdrR1BsMjlibTV3WEJwUjdaTmpjWVNLeUNlWV9HUDNpYnowempRbDFZRGlocklxUlNSUGpVaUhVbF94LXgtU3JoMkdVVjN5b190UHRNTkNfNXg4OWZoWG8xcW5RaktWSVpM?oc=5",
+    "source": "www.wrestling-world.com",
+    "date": "2026-11-04T15:10+00:00"
+   },
    {
     "titre": "Naomi Watts et Niecy Nash nous parlent de leur amour mutuel pour Ryan Murphy et leurs grands-mères en face à face sur “All's Fair”",
     "lien": "https://news.google.com/rss/articles/CBMi_wFBVV95cUxPUHJJaHF1NjRIc0kwM19DaW1aQm94M1pzSG5SNVFocW1jU3VYY2g2SnlOVFREbjJ2bl9UbDhydVVIaHhvVHZFeGE0RlZESW1ZbjFkRkY5NWZNZXVBVGJ1TVBGX2xiZmRvay1XRW1wcTY0QkZxUFpfbjJhNm4zaEZaR0l6aHR5ejMzUjM4dy1UVWl5dkRWUGMxbW9RQmJZcm9PVWJ5V29FNl81QjdYZnFDM1hZVURCeDA0QnhtTnVaTzdNU3d2cVQ4UjlydGgwY3BXWnNYenFxa1FIZXE1Y3VuamRqa001cDFYaGNMZVFfLUhHMGo1bFRsUzUxUXBFMEU?oc=5",
