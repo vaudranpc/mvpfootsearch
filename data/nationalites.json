@@ -4,6 +4,11 @@
   "statut": null,
   "verifie": "2026-10-27T15:25+00:00"
  },
+ "1plike140": {
+  "nom": "1PLIKÉ140",
+  "statut": "autre",
+  "verifie": "2026-11-05T20:02+00:00"
+ },
  "4 heures": {
   "nom": "4 Heures",
   "statut": null,
@@ -159,6 +164,11 @@
   "statut": "autre",
   "verifie": "2026-10-22T12:02+00:00"
  },
+ "bigxthaplug": {
+  "nom": "BigXthaPlug",
+  "statut": "autre",
+  "verifie": "2026-11-05T20:02+00:00"
+ },
  "bilouki": {
   "nom": "Bilouki",
   "statut": "autre",
@@ -223,6 +233,11 @@
   "nom": "Cheb Houssem",
   "statut": null,
   "verifie": "2026-10-27T15:25+00:00"
+ },
+ "chidi solomon": {
+  "nom": "Chidi Solomon",
+  "statut": null,
+  "verifie": "2026-11-05T20:02+00:00"
  },
  "chris christodoulou": {
   "nom": "Chris Christodoulou",
@@ -559,6 +574,11 @@
   "statut": null,
   "verifie": "2026-10-23T11:47+00:00"
  },
+ "jagaban001": {
+  "nom": "Jagaban001",
+  "statut": null,
+  "verifie": "2026-11-05T20:02+00:00"
+ },
  "jam$co": {
   "nom": "jam$co",
   "statut": null,
@@ -593,6 +613,11 @@
   "nom": "Jeune Morty",
   "statut": "ivoirien",
   "verifie": "2026-10-19T02:50+00:00"
+ },
+ "jocelyne beroard": {
+  "nom": "Jocelyne Béroard",
+  "statut": "autre",
+  "verifie": "2026-11-05T20:02+00:00"
  },
  "joe dwet file": {
   "nom": "Joé Dwèt Filé",
@@ -638,6 +663,11 @@
   "nom": "Julian Casablancas",
   "statut": null,
   "verifie": "2026-10-22T12:02+00:00"
+ },
+ "junius meyvant": {
+  "nom": "Júníus Meyvant",
+  "statut": "autre",
+  "verifie": "2026-11-05T20:02+00:00"
  },
  "kadirov mania": {
   "nom": "Kadirov Mania",
@@ -802,7 +832,7 @@
  "le couteau": {
   "nom": "Le couteau",
   "statut": null,
-  "verifie": "2026-10-25T04:52+00:00"
+  "verifie": "2026-11-05T20:02+00:00"
  },
  "leeland": {
   "nom": "Leeland",
@@ -847,7 +877,7 @@
  "lynothecosmoskid": {
   "nom": "Lynothecosmoskid",
   "statut": null,
-  "verifie": "2026-10-29T18:32+00:00"
+  "verifie": "2026-11-05T20:02+00:00"
  },
  "m24": {
   "nom": "M24",
@@ -999,6 +1029,11 @@
   "statut": null,
   "verifie": "2026-11-02T06:19+00:00"
  },
+ "olamide": {
+  "nom": "Olamide",
+  "statut": "autre",
+  "verifie": "2026-11-05T20:02+00:00"
+ },
  "oli": {
   "nom": "Oli",
   "statut": null,
@@ -1043,6 +1078,11 @@
   "nom": "Pascal Letoublon",
   "statut": "autre",
   "verifie": "2026-10-27T15:25+00:00"
+ },
+ "paulo chakal": {
+  "nom": "Paulo Chakal",
+  "statut": null,
+  "verifie": "2026-11-05T20:02+00:00"
  },
  "piano 01": {
   "nom": "Piano 01",
@@ -1139,6 +1179,11 @@
   "statut": null,
   "verifie": "2026-10-22T12:02+00:00"
  },
+ "sarz": {
+  "nom": "Sarz",
+  "statut": "autre",
+  "verifie": "2026-11-05T20:02+00:00"
+ },
  "sativamusic": {
   "nom": "SativaMusic",
   "statut": null,
@@ -1193,6 +1238,11 @@
   "nom": "Shenseea",
   "statut": "autre",
   "verifie": "2026-10-22T12:02+00:00"
+ },
+ "shotgun willy": {
+  "nom": "Shotgun Willy",
+  "statut": null,
+  "verifie": "2026-11-05T20:02+00:00"
  },
  "simi": {
   "nom": "Simi",
@@ -1413,6 +1463,11 @@
   "nom": "YJICK",
   "statut": null,
   "verifie": "2026-10-30T18:04+00:00"
+ },
+ "youles international": {
+  "nom": "Youles International",
+  "statut": null,
+  "verifie": "2026-11-05T20:02+00:00"
  },
  "young thug": {
   "nom": "Young Thug",
