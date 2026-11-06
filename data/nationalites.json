@@ -164,6 +164,11 @@
   "statut": "autre",
   "verifie": "2026-10-22T12:02+00:00"
  },
+ "biggodzi": {
+  "nom": "biggodzi*",
+  "statut": null,
+  "verifie": "2026-11-06T19:29+00:00"
+ },
  "bigxthaplug": {
   "nom": "BigXthaPlug",
   "statut": "autre",
@@ -238,6 +243,11 @@
   "nom": "Chidi Solomon",
   "statut": null,
   "verifie": "2026-11-05T20:02+00:00"
+ },
+ "chley": {
+  "nom": "Chley",
+  "statut": null,
+  "verifie": "2026-11-06T19:29+00:00"
  },
  "chris christodoulou": {
   "nom": "Chris Christodoulou",
@@ -328,6 +338,11 @@
   "nom": "Derek-Jones",
   "statut": "autre",
   "verifie": "2026-11-03T10:59+00:00"
+ },
+ "diane dddd": {
+  "nom": "Diane Dddd",
+  "statut": null,
+  "verifie": "2026-11-06T19:29+00:00"
  },
  "disiz": {
   "nom": "disiz",
@@ -449,6 +464,11 @@
   "statut": null,
   "verifie": "2026-10-31T12:43+00:00"
  },
+ "focalistic": {
+  "nom": "Focalistic",
+  "statut": "autre",
+  "verifie": "2026-11-06T19:29+00:00"
+ },
  "fola": {
   "nom": "FOLA",
   "statut": null,
@@ -478,6 +498,11 @@
   "nom": "Gazo",
   "statut": "autre",
   "verifie": "2026-10-19T02:50+00:00"
+ },
+ "gbon lion": {
+  "nom": "gbon lion",
+  "statut": null,
+  "verifie": "2026-11-06T19:29+00:00"
  },
  "generation nerf": {
   "nom": "Generation Nerf",
@@ -609,6 +634,11 @@
   "statut": null,
   "verifie": "2026-10-30T18:04+00:00"
  },
+ "jennifer lopez": {
+  "nom": "Jennifer Lopez",
+  "statut": "autre",
+  "verifie": "2026-11-06T19:29+00:00"
+ },
  "jeune morty": {
   "nom": "Jeune Morty",
   "statut": "ivoirien",
@@ -704,10 +734,20 @@
   "statut": null,
   "verifie": "2026-11-02T19:33+00:00"
  },
+ "keyizi": {
+  "nom": "Keyizi",
+  "statut": null,
+  "verifie": "2026-11-06T19:29+00:00"
+ },
  "khaid": {
   "nom": "Khaid",
   "statut": "autre",
   "verifie": "2026-11-04T19:50+00:00"
+ },
+ "king promise": {
+  "nom": "King Promise",
+  "statut": "autre",
+  "verifie": "2026-11-06T19:29+00:00"
  },
  "kings of leon": {
   "nom": "Kings Of Leon",
@@ -782,7 +822,7 @@
  "la b7": {
   "nom": "LA B7",
   "statut": null,
-  "verifie": "2026-10-30T10:09+00:00"
+  "verifie": "2026-11-06T19:29+00:00"
  },
  "la derniere voix s2": {
   "nom": "La Dernière Voix S2",
@@ -829,6 +869,11 @@
   "statut": null,
   "verifie": "2026-10-27T15:25+00:00"
  },
+ "laufey": {
+  "nom": "Laufey",
+  "statut": "autre",
+  "verifie": "2026-11-06T19:29+00:00"
+ },
  "le couteau": {
   "nom": "Le couteau",
   "statut": null,
@@ -848,6 +893,16 @@
   "nom": "Leto",
   "statut": "autre",
   "verifie": "2026-10-19T02:50+00:00"
+ },
+ "liims": {
+  "nom": "Liim’s",
+  "statut": null,
+  "verifie": "2026-11-06T19:29+00:00"
+ },
+ "lil baby": {
+  "nom": "Lil Baby",
+  "statut": "autre",
+  "verifie": "2026-11-06T19:29+00:00"
  },
  "lil wayne": {
   "nom": "Lil Wayne",
@@ -903,6 +958,11 @@
   "nom": "Mauvais Djo",
   "statut": null,
   "verifie": "2026-11-02T06:19+00:00"
+ },
+ "mavo": {
+  "nom": "Mavo",
+  "statut": null,
+  "verifie": "2026-11-06T19:29+00:00"
  },
  "mc yoshi": {
   "nom": "MC YOSHI",
@@ -1019,6 +1079,11 @@
   "statut": null,
   "verifie": "2026-11-02T06:19+00:00"
  },
+ "nsg": {
+  "nom": "NSG",
+  "statut": null,
+  "verifie": "2026-11-06T19:29+00:00"
+ },
  "nth": {
   "nom": "Nth",
   "statut": null,
@@ -1084,6 +1149,16 @@
   "statut": null,
   "verifie": "2026-11-05T20:02+00:00"
  },
+ "perenimo": {
+  "nom": "PERENIMO",
+  "statut": null,
+  "verifie": "2026-11-06T19:29+00:00"
+ },
+ "phyno": {
+  "nom": "Phyno",
+  "statut": "autre",
+  "verifie": "2026-11-06T19:29+00:00"
+ },
  "piano 01": {
   "nom": "Piano 01",
   "statut": null,
@@ -1109,6 +1184,11 @@
   "statut": null,
   "verifie": "2026-10-30T22:26+00:00"
  },
+ "qing madi": {
+  "nom": "Qing Madi",
+  "statut": "autre",
+  "verifie": "2026-11-06T19:29+00:00"
+ },
  "r2": {
   "nom": "R2",
   "statut": null,
@@ -1118,6 +1198,11 @@
   "nom": "Ravyn Lenae",
   "statut": "autre",
   "verifie": "2026-11-03T10:59+00:00"
+ },
+ "rayo25": {
+  "nom": "Rayo25",
+  "statut": null,
+  "verifie": "2026-11-06T19:29+00:00"
  },
  "rbib": {
   "nom": "RBIB",
@@ -1243,6 +1328,11 @@
   "nom": "Shotgun Willy",
   "statut": null,
   "verifie": "2026-11-05T20:02+00:00"
+ },
+ "sienna spiro": {
+  "nom": "SIENNA SPIRO",
+  "statut": null,
+  "verifie": "2026-11-06T19:29+00:00"
  },
  "simi": {
   "nom": "Simi",
@@ -1389,6 +1479,11 @@
   "statut": "autre",
   "verifie": "2026-10-19T02:50+00:00"
  },
+ "tripa gninnin": {
+  "nom": "Tripa Gninnin",
+  "statut": "ivoirien",
+  "verifie": "2026-11-06T19:29+00:00"
+ },
  "trk": {
   "nom": "TRK.",
   "statut": null,
@@ -1408,6 +1503,11 @@
   "nom": "TWRP",
   "statut": null,
   "verifie": "2026-10-19T02:50+00:00"
+ },
+ "udeyfa": {
+  "nom": "Udeyfa",
+  "statut": null,
+  "verifie": "2026-11-06T19:29+00:00"
  },
  "vacra": {
   "nom": "Vacra",
@@ -1462,12 +1562,17 @@
  "yjick": {
   "nom": "YJICK",
   "statut": null,
-  "verifie": "2026-10-30T18:04+00:00"
+  "verifie": "2026-11-06T19:29+00:00"
  },
  "youles international": {
   "nom": "Youles International",
   "statut": null,
   "verifie": "2026-11-05T20:02+00:00"
+ },
+ "young jonn": {
+  "nom": "Young Jonn",
+  "statut": "autre",
+  "verifie": "2026-11-06T19:29+00:00"
  },
  "young thug": {
   "nom": "Young Thug",
