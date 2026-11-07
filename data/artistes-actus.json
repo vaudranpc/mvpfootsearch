@@ -1,5 +1,5 @@
 {
- "genere": "2026-11-07T10:23+00:00",
+ "genere": "2026-11-07T21:56+00:00",
  "fenetre_heures": 72,
  "erreurs": [],
  "artistes": {
@@ -34,12 +34,26 @@
   "Philipayne": [],
   "døpelym": [],
   "KS Bloom": [],
-  "Sindika": [],
-  "Jeune Morty": [],
   "Tiken Jah Fakoly": [],
+  "Jeune Morty": [],
   "Suspect 95": [],
+  "Sindika": [],
   "Kiff No Beat": [],
+  "Jeune Lion": [],
+  "Espoir 2000": [],
   "Magic System": [
+   {
+    "titre": "🇸🇳 Pathé Mboup, d’un clip de Magic System à l’équipe nationale du Sénégal.",
+    "lien": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxPSFFWWHBHTjNWYlpHbHY4VkxoclNic2Vzd0tub2FyY2VoX0Z4TU9uLVVodlZSMmdTaHpyWjNxcjFpSnBTTmU0cTdUdVhEQUtxendNNnQ3QWRPUUlDTVh6d09uUy1hdFFWVWMzQm5qT1h4S05Ld0JWaFV6cFFQTVQ4bWl0SGdIOFJDQzBoRlcyZVVfVG1BcTZNRUVrT0g2TUFYQ1BwcUJDWDN6UG5iNHlzazZHZnRFSlhwY09ndUhJS1Y?oc=5",
+    "source": "Brut",
+    "date": "2026-11-07T19:20+00:00"
+   },
+   {
+    "titre": "« Il a pris ça comme un jeu » : quand le Brestois Pathé Mboup crevait l'écran dans un clip de Magic System",
+    "lien": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxQNm1nVE40cWE0Y0hQYVB1cnZxQUhBVVZNelBxVjNTYWlDSnZGN0F1UzN1SVVOSWgyZl9rWS1KQ0NxaktWck1SeTk2Ym5WRkxIZFZkVGJDdnJfcG1XXzNjdm9VdzBzNWVVaHlKR0wwSjRUVUNGT2FEWlg1ZGRjQm5WMVVPaFZUVnN5WC1jN3duSkNmVktfU2pDcjBCb3BIZGJtWF9Lc2tuY01uaEk1OGNNWURWdm5uQmlWRjJwWU56Q21MMV9NZFhBcHQyajFXQ2lScExubFRRWFhiWG1BQXZNaFFMMA?oc=5",
+    "source": "L'Équipe",
+    "date": "2026-11-07T10:27+00:00"
+   },
    {
     "titre": "Magic System, Zaho, Skip the Use... Près de Lyon, le Nantua Fest dévoile sa programmation complète",
     "lien": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxNaEJBZ1hIbGdDWFRPZWI3YmtJWG15RTQ3WER1a1NZWkwzYjItYkRTUUFMT3pLaEY2OWZUMGstYjZ4SXpzNkpZd1VMT25QU29ndjc4MUl0UXRoVDZVQlVoS0NfMTlvSmZSUWNWN3daQ0x3dEFKcmc3dVNBTUIwa3hZSk5iOXYzNkp6UXRVUV9aQUJWREpkbm42YXlNLS1kU0tWQzZ0OWt6ZHotQ0NkLUJTdnB0QktMUXNRd2NYNmU4Rmo1M1dpUVVZUGZtN0pjT2ZSSDRQOU1RdWh2VlZvdmVYc3h5cG9XZFFIdE9LUA?oc=5",
@@ -133,14 +147,7 @@
    }
   ],
   "Mix Premier": [],
-  "Meiway": [
-   {
-    "titre": "Abissa 2026 : Première sortie du roi, Meiway provoque une véritable émeute populaire",
-    "lien": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxOaGVyYWZITlphM1g1YzhGQXJLZ2pST1BZclZzTk83UkVXYkxSS3JwNUotVkZDV0k0UFh6TmtoR1FFbXI5Rjk0UDZjQ0R2a1JqOFhHN0l5VlFSdFJqdnZmcUFnelNSQThsOGdPYnZfNXNXQ3lLZU1LRkFZeWhRZGk2SGpmYy05ZUNtdzYyaWE0d3VwTXQwYkVaWUJqRDFxLThuRy1YeEFHaDNuMmFWS2Y1dVJBNXVzM3NXVWRTN0kybmE?oc=5",
-    "source": "Linfodrome",
-    "date": "2026-11-04T11:59+00:00"
-   }
-  ],
+  "Meiway": [],
   "Soum Bill": [],
   "Shado Chris": [],
   "Fior 2 Bior": [],
@@ -148,22 +155,8 @@
   "Widgunz": [],
   "Molare": [],
   "Tam Sir": [],
-  "Ismaël Isaac": [
-   {
-    "titre": "Côte d’Ivoire-AIP/ Ismaël Isaac promet un spectacle inédit pour ses 40 ans de carrière",
-    "lien": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQTG9FWElNVkozbXlwTDRvRVFoOU1vU1hXNmxuS2xJWFhVMUFPaU5MNWVrUzY1NlJaaUhmcDE4WEJfZWhVdHhqbnYycUpfSWhHV3I2aUJfR3EyX2ROei1VVmR2azhzY2dtWGhhTnJJNl83eFBySzBqVk9LbS1HdDRXVVpmTEpQcEtUalp5M1hKRWxjTlNXdWQ3WTdBYVNOelg2ekZta283RQ?oc=5",
-    "source": "AIP - Agence Ivoirienne de Presse",
-    "date": "2026-11-04T13:06+00:00"
-   },
-   {
-    "titre": "Ismaël Isaac : 40 ans de carrière, une nuit de reggae et d’émotions ce 7 novembre à Abidjan",
-    "lien": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxPM0ZvYTZrZ01adndaNmlrWllTdVlxM3dYRG5xNEV3ZVB1SmlqcU90bVhxYWI1c3FvdktncTgwOFplWW9tZTUzSXFZMEs2LTNjdEtOdE5KZ3NNNGhyRlRGLUdMVTlZb1dGX28tS3E2Y2puRkdVb2dQZkx3VmxXTXRZUzBEVzdQSDZTamFGZ2pHUjZES0pZWjZFcjZkdmJ4MzQ5NDBkREZ5cTl5S0tUWW1HT29iTGRYY2kyQktHY0ZnVXBQajkyYVpiR2lDX1pVX2ZtcHc?oc=5",
-    "source": "FratMat",
-    "date": "2026-11-04T12:37+00:00"
-   }
-  ],
+  "Ismaël Isaac": [],
   "Les Garagistes": [],
-  "Espoir 2000": [],
   "Dobet Gnahoré": [],
   "Safarel Obiang": [],
   "Roseline Layo": [],
@@ -190,6 +183,12 @@
   "Black K": [],
   "Nash": [
    {
+    "titre": "Naomi Watts & Niecy Nash : « L’ambition chez une femme, ça a longtemps été mal vu »",
+    "lien": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxPS0s0S01OUkNWTDBuSWkteklxa2xfNkdSajFHQ1JJTHI1dGFFU2poYTczcjQ5RHR3aERlVWo3RTdiZXliUG9iTlA4U0pCeHZWdzhTWjVwaWJKUDRYMWZsckx4SVgyckRDQW1WR1N4d1JEQWNTdmRyZG5hXzdkcjhiZU9aT25aaVZFczl6MnZ4Q0pUeUh1Ti1melZDNXRJSHVjcDcyRk5vVjU1YXZfZlhaNkFsNV9wVkxQcnJHcFdnM3k?oc=5",
+    "source": "Sudinfo",
+    "date": "2026-11-07T15:00+00:00"
+   },
+   {
     "titre": "News : Un inédit de Kate Nash en écoute",
     "lien": "https://news.google.com/rss/articles/CBMijgFBVV95cUxPQ3ZMUkJTMHplSkxhX28tZlhYT25rR3oxUkdXb2c2Y3JyMG9obUhlMXJIbEsxdkROcVloS1ZxcEFwRnRCUG5BS1d0c3M3Uk9ydjRhVmtObWlRNm1BOXhoOGprUHllMDFYdUxLWkc3RkZJQzRldTItUExFNUdISVNXbU5PNWhPX3Vvb1VkbkJB?oc=5",
     "source": "Sound Of Violence",
@@ -200,22 +199,9 @@
     "lien": "https://news.google.com/rss/articles/CBMickFVX3lxTE1QVDFzWTFJOHlsSmRTR3hMQXowUTd3aUJZXzk0X21wS2tRcjZPd01JRndRbVFpVTd5NlhSVGZPZ3VHU2pEMF83OTVSUEdraXNhc2RTaGd3OUpyWExlczBkTWdmSzQtLUM5b1VfNnFaTVFNZw?oc=5",
     "source": "JustMusic.fr",
     "date": "2026-11-06T10:10+00:00"
-   },
-   {
-    "titre": "All's Fair, l'interview de Naomi Watts et Niecy Nash-Betts : \"On parle enfin équitablement des femmes à Hollywood\"",
-    "lien": "https://news.google.com/rss/articles/CBMizwFBVV95cUxOZ1E2TnhKU1lfOTNITUNuYVlPTkRMdW5zeUhsSExsNmUtOVoxWWQ3SmwxSFVSeXZfU05SdWJLMVlLaWF4WUtDWUpZSkRselV5R3ZBcWZZbEZvbGJ1MVlXbENJMTE1TlR2S0dzQjREQ1h6WWZ0dExPYm9GRGxCdlBELXFYUWlPNUlHcm1YeGNmMUhTSkQtOXJDcWJfVlpxZlVpbHFwT0lhQ1d1RmpxcjdKUVdibG1fSXhoQ0N3c0hFa2dhSndBdHJseG9GMjBXMG8?oc=5",
-    "source": "Libre Média",
-    "date": "2026-11-04T19:36+00:00"
-   },
-   {
-    "titre": "Kevin Nash estime que les exigences de l’équipe créative de la WWE ne lui conviennent pas",
-    "lien": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxNUnh2VkYzb1JwNXY4dldpa2l3NDJSbU1tWUczOWREUWpsdEZkbEZFendIZHB0aGpRZTlzclUxdjJVUXhxV3E1NjN5Q2MxbVZnYVJvNGprOEMtQzl6dTR6SkN3Q2Jpb2w2dTdvNVk1T0p1QlA2Q012THFsYzdrR1BsMjlibTV3WEJwUjdaTmpjWVNLeUNlWV9HUDNpYnowempRbDFZRGlocklxUlNSUGpVaUhVbF94LXgtU3JoMkdVVjN5b190UHRNTkNfNXg4OWZoWG8xcW5RaktWSVpM?oc=5",
-    "source": "www.wrestling-world.com",
-    "date": "2026-11-04T15:10+00:00"
    }
   ],
   "Serge Beynaud": [],
-  "Jeune Lion": [],
   "Kerozen DJ": []
  }
 }
