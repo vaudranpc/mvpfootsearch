@@ -1,5 +1,5 @@
 {
- "genere": "2026-11-08T13:37+00:00",
+ "genere": "2026-11-08T19:44+00:00",
  "fenetre_heures": 72,
  "erreurs": [],
  "artistes": {
@@ -55,8 +55,21 @@
   "Sindika": [],
   "Kiff No Beat": [],
   "Jeune Lion": [],
-  "Espoir 2000": [],
+  "Ismaël Isaac": [
+   {
+    "titre": "Ismaël Isaac : 40 ans de reggae célébrés en communion avec son public à Port-Bouët",
+    "lien": "https://news.google.com/rss/articles/CBMivwFBVV95cUxOVWRpNjZYUHF5TXV2eXV6MDVadXZDbnozUncwVy14aU9OMHFQWnJnQ1k3OWxPQ2ZTeVhzOUw2c1RVUk9VLWd0enIwbjQtbFhjeVh1MUxaa3E3VHZyMDRaZF93RWwxc19vWWw4U2hhbVRGNmVfNlRMNkM4Nkl5cEV4emVyTDBlLTYtQWg2RzZpdWtEWEk4cTljZFJYczlYbFE1dHVoLVhnOW1lLWM5MW9CdDg5SlUtOGhobEd5cGhVYw?oc=5",
+    "source": "Linfodrome",
+    "date": "2026-11-08T16:41+00:00"
+   }
+  ],
   "Magic System": [
+   {
+    "titre": "Haut-Bugey. Magic System, Skip the Use, Biga*Ranx : le Nantua Fest de retour en 2027",
+    "lien": "https://news.google.com/rss/articles/CBMivAFBVV95cUxNRC04RlNJSVl6dy1kaU84R19kc2ZIUWYyX0c2YjFkbDRDc0RZN0tYd3lYaUw3SExFS21XWGE3Znd4UnFLVl9TMDlWc3hVN0prM183OUl1TTV5MVFGb2UwNktFU2x4X3I1aXRFdkpfUjNvSzZKU2ZBZ3hiWXRTYkt2Y1NpcTRTbEUwc0hkV2VkSTAtM3JhNVNQVjFQWG5SczNLQWVGSFJoaTlhUm9rb1gydFEwbGNMejZEOGZHNQ?oc=5",
+    "source": "Le Progrès",
+    "date": "2026-11-08T15:58+00:00"
+   },
    {
     "titre": "🇸🇳 Pathé Mboup, d’un clip de Magic System à l’équipe nationale du Sénégal.",
     "lien": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxPSFFWWHBHTjNWYlpHbHY4VkxoclNic2Vzd0tub2FyY2VoX0Z4TU9uLVVodlZSMmdTaHpyWjNxcjFpSnBTTmU0cTdUdVhEQUtxendNNnQ3QWRPUUlDTVh6d09uUy1hdFFWVWMzQm5qT1h4S05Ld0JWaFV6cFFQTVQ4bWl0SGdIOFJDQzBoRlcyZVVfVG1BcTZNRUVrT0g2TUFYQ1BwcUJDWDN6UG5iNHlzazZHZnRFSlhwY09ndUhJS1Y?oc=5",
@@ -112,22 +125,16 @@
     "date": "2026-11-06T09:00+00:00"
    },
    {
-    "titre": "From Magic System to the Senegalese national team: Pathé Mboup was already a star without anyone knowing it",
-    "lien": "https://news.google.com/rss/articles/CBMi9gFBVV95cUxNUVhfQlBZeVQ4NF9BeDNWVGNOeGRVMUZFZG9taTJCYVhBV29pR01DZmd0UjZoUkNJd0lvQ1RmQk5NdEVOdWlvRVRaM1NmREh5eTVjcDBJMzAtNTd6YXREcXh5MjNDVC1wMVRlZUd2RTRQN1VBOWdYVXdtSXY1VERSX3Bmb3FtaFBXVHJmeEpzY0Z2MW04WnVYYXlnRzhqSURydFlqVmxjOFZmR215YmEzRExtZlFFV2xFTXhMeGpjU1c0UFlJcEc0czdNT1V1NzdZNjJjeFlYSmlyem91eHVJLVpKN0ZnZXE0TFFxT2VxYVRQR3VtZFE?oc=5",
+    "titre": "De Magic System à l'équipe nationale du Sénégal: Pathé Mboup était déjà une star sans que personne ne le sache",
+    "lien": "https://news.google.com/rss/articles/CBMi9gFBVV95cUxQczZWbnMxXzhrX3VqQllrZmYzbUN6REttN0hDclFVWFhhWHpELUh5WjNxeWVjdnZPQzRCNktseWNRLXAxYzdzNnJia3pBRXlxcHNvM3VzbUdJSzVOeVJNYm81eXl2dWtsc19pSUVRSlFiMHNteVpFSHhsVXI2TTI3RHNmOHZOQ1FKVDdJWXFKVTlTNkpiaG84SGVYTnAzdEhac3ZFeTdGRGp4aUpnRy1Pc2pXTTBmY21MSXE4SWVadjI1MU44bVpIbXFZekVIS3EyMEdTNW5LVzN5Wi1odzRzcnRFclVRakRZSVh4YUh1WTI0TUtaX1E?oc=5",
     "source": "Seneweb",
     "date": "2026-11-05T19:51+00:00"
    },
    {
-    "titre": "Sénégal : Mboup, du clip Magic System aux Lions",
-    "lien": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPbmE3Q2VFYThnU2FIUTkwX2UxY1VrNVhpMlAyVE9GdUtIT19yV2NPSzA5NWNiOFBsMXZtaWpmQ2Y0bGx3U0h4djRIVHZWS0tMTWJqYU1aMzBUTnU0R1dycUN2TW8wRVVyclEyUWJVeVBKOEVaUVp4S3JTQ05hODlLdg?oc=5",
-    "source": "PenseBet",
-    "date": "2026-11-05T19:18+00:00"
-   },
-   {
-    "titre": "De Magic System à l'équipe nationale du Sénégal: Pathé Mboup était déjà une star sans que personne ne le sache",
-    "lien": "https://news.google.com/rss/articles/CBMijgJBVV95cUxOSVNmN2cxaXphSGpfSUNqSW42Zjk2bDRtdlU3akV4STAxZzIwVk5GVUwyU3RsNXZDRkhsOFRTWXVuSTRFQTFPeDR2X0F0MEQ0dUdvWVlpZEVLN2pYRXdvRXN5NDFxQXdQSTdNc1FfdHRoYS0xTHQ3dGRodGZqMktmUE8xc3ZwelBKVDlSV0lEOUxYMzliMmZ4ZVRpNTlCZUVzM25wZVFlSjhtUHVYUUdyMllhU2RBbWVzSHhYWWE3MFNjYVJkV05sbk9lU0VxZGpGS3VsOFNkZEJJN2dSNVF3aGh5QUFadG1VX1lOMTE2cUdiNDkzTHVxRS1sMkJUVFZOVGdqbkFVVXhaMzZpaWc?oc=5",
-    "source": "RMC Sport",
-    "date": "2026-11-05T18:18+00:00"
+    "titre": "From Magic System to the Senegalese national team: Pathé Mboup was already a star without anyone knowing it",
+    "lien": "https://news.google.com/rss/articles/CBMi9gFBVV95cUxNUVhfQlBZeVQ4NF9BeDNWVGNOeGRVMUZFZG9taTJCYVhBV29pR01DZmd0UjZoUkNJd0lvQ1RmQk5NdEVOdWlvRVRaM1NmREh5eTVjcDBJMzAtNTd6YXREcXh5MjNDVC1wMVRlZUd2RTRQN1VBOWdYVXdtSXY1VERSX3Bmb3FtaFBXVHJmeEpzY0Z2MW04WnVYYXlnRzhqSURydFlqVmxjOFZmR215YmEzRExtZlFFV2xFTXhMeGpjU1c0UFlJcEc0czdNT1V1NzdZNjJjeFlYSmlyem91eHVJLVpKN0ZnZXE0TFFxT2VxYVRQR3VtZFE?oc=5",
+    "source": "Seneweb",
+    "date": "2026-11-05T19:51+00:00"
    }
   ],
   "Alpha Blondy": [
@@ -150,21 +157,14 @@
   "Widgunz": [],
   "Molare": [],
   "Tam Sir": [],
-  "Ismaël Isaac": [],
   "Les Garagistes": [],
+  "Espoir 2000": [],
   "Dobet Gnahoré": [],
   "Safarel Obiang": [],
   "Roseline Layo": [],
   "Team Paiya": [],
   "DJ Kedjevara": [],
-  "Gadji Céli": [
-   {
-    "titre": "« C'est ma fille, non c'est la mienne » : le secret de famille qui gâche le jubilé de Gadji Celi -",
-    "lien": "https://news.google.com/rss/articles/CBMizAFBVV95cUxNMk85TlpKcmZRd1d4TVZUSlNQTmdQVFFqZERxY2FCRHBldDBiLUE3V2RFWEdMNHR5NzJKWU5BalBUSkpueTRISWx2eVdGeTNWOWJmLWNCRG11QjFpQ3ZYdkVFVUZyZDh4c3ZCRGEzbFhhYjktRXNTMnV6QVVPZ05FUS1Zank3aHJFQUtpX0twM0NPaTBHdm1pZVBZUXMxZU5LZmtUdXFtaFJpbnBjY09scEtGVFVHYmQ1N1ZzOVdVVG5GOUFudFFGUmZJTXI?oc=5",
-    "source": "Connectionivoirienne",
-    "date": "2026-11-05T15:25+00:00"
-   }
-  ],
+  "Gadji Céli": [],
   "Monique Séka": [],
   "Lil Jay Bingerack": [],
   "Yabongo Lova": [],
