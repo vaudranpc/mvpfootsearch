@@ -1,5 +1,5 @@
 {
- "genere": "2026-11-07T21:56+00:00",
+ "genere": "2026-11-08T06:14+00:00",
  "fenetre_heures": 72,
  "erreurs": [],
  "artistes": {
@@ -34,12 +34,19 @@
   "Philipayne": [],
   "døpelym": [],
   "KS Bloom": [],
-  "Tiken Jah Fakoly": [],
+  "Tiken Jah Fakoly": [
+   {
+    "titre": "Firminy. Tiken Jah Fakoly et Alpha Blondy têtes d’affiche du premier festival reggae appelou",
+    "lien": "https://news.google.com/rss/articles/CBMixgFBVV95cUxQbVp6amxUS29heFB1aXk5RUd6R0UyMzltRzR6QmZHRW1fcWUwcGI0Z05oUGpOSnVCRkZiWnZ4bk1FTi1LM2pYWHJjY0hGVTRWZWJrR1lrTlpRQ0NXZEZkaVQ4amUxN2hJSjNaNFN6Vk9JWXpTejRzb1doYmlJY1oyN2RQNnhBclNyeXVIeXVQMmFKcVV2ekMzSXQzTldkQjBqTTFxQjh3blNBVGpQWHVnUFpkeHRac09rR0daQTBQSXU5RjhUNXc?oc=5",
+    "source": "Le Progrès",
+    "date": "2026-11-08T05:02+00:00"
+   }
+  ],
   "Jeune Morty": [],
-  "Suspect 95": [],
-  "Sindika": [],
   "Kiff No Beat": [],
+  "Suspect 95": [],
   "Jeune Lion": [],
+  "Sindika": [],
   "Espoir 2000": [],
   "Magic System": [
    {
@@ -127,7 +134,14 @@
     "date": "2026-11-05T11:00+00:00"
    }
   ],
-  "Alpha Blondy": [],
+  "Alpha Blondy": [
+   {
+    "titre": "Firminy. Tiken Jah Fakoly et Alpha Blondy têtes d’affiche du premier festival reggae appelou",
+    "lien": "https://news.google.com/rss/articles/CBMixgFBVV95cUxQbVp6amxUS29heFB1aXk5RUd6R0UyMzltRzR6QmZHRW1fcWUwcGI0Z05oUGpOSnVCRkZiWnZ4bk1FTi1LM2pYWHJjY0hGVTRWZWJrR1lrTlpRQ0NXZEZkaVQ4amUxN2hJSjNaNFN6Vk9JWXpTejRzb1doYmlJY1oyN2RQNnhBclNyeXVIeXVQMmFKcVV2ekMzSXQzTldkQjBqTTFxQjh3blNBVGpQWHVnUFpkeHRac09rR0daQTBQSXU5RjhUNXc?oc=5",
+    "source": "Le Progrès",
+    "date": "2026-11-08T05:02+00:00"
+   }
+  ],
   "DJ Arafat": [],
   "Bebi Philip": [],
   "Josey": [
