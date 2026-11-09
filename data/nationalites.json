@@ -689,6 +689,11 @@
   "statut": null,
   "verifie": "2026-11-09T11:45+00:00"
  },
+ "jonathan c gambela": {
+  "nom": "Jonathan C. Gambela",
+  "statut": "autre",
+  "verifie": "2026-11-09T22:29+00:00"
+ },
  "joochar": {
   "nom": "Joochar",
   "statut": null,
@@ -1472,7 +1477,7 @@
  "stark2": {
   "nom": "STARK2",
   "statut": null,
-  "verifie": "2026-11-02T06:19+00:00"
+  "verifie": "2026-11-09T22:29+00:00"
  },
  "ste milano": {
   "nom": "Ste Milano",
