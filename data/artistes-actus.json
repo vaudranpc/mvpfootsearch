@@ -1,5 +1,5 @@
 {
- "genere": "2026-11-08T19:44+00:00",
+ "genere": "2026-11-09T00:58+00:00",
  "fenetre_heures": 72,
  "erreurs": [],
  "artistes": {
@@ -42,18 +42,17 @@
     "date": "2026-11-06T21:36+00:00"
    }
   ],
+  "Suspect 95": [],
   "Jeune Morty": [],
   "Tiken Jah Fakoly": [
    {
-    "titre": "Firminy. Tiken Jah Fakoly et Alpha Blondy têtes d’affiche du premier festival reggae appelou",
+    "titre": "Loire. Tiken Jah Fakoly et Alpha Blondy têtes d’affiche du premier festival reggae de Firminy",
     "lien": "https://news.google.com/rss/articles/CBMixgFBVV95cUxQbVp6amxUS29heFB1aXk5RUd6R0UyMzltRzR6QmZHRW1fcWUwcGI0Z05oUGpOSnVCRkZiWnZ4bk1FTi1LM2pYWHJjY0hGVTRWZWJrR1lrTlpRQ0NXZEZkaVQ4amUxN2hJSjNaNFN6Vk9JWXpTejRzb1doYmlJY1oyN2RQNnhBclNyeXVIeXVQMmFKcVV2ekMzSXQzTldkQjBqTTFxQjh3blNBVGpQWHVnUFpkeHRac09rR0daQTBQSXU5RjhUNXc?oc=5",
     "source": "Le Progrès",
     "date": "2026-11-08T05:02+00:00"
    }
   ],
-  "Suspect 95": [],
   "Sindika": [],
-  "Kiff No Beat": [],
   "Jeune Lion": [],
   "Ismaël Isaac": [
    {
@@ -63,12 +62,20 @@
     "date": "2026-11-08T16:41+00:00"
    }
   ],
+  "Kiff No Beat": [],
+  "Espoir 2000": [],
   "Magic System": [
+   {
+    "titre": "Sacraboutou Sport - Magic System Football Club scores en direct, face-à-face et compositions",
+    "lien": "https://news.google.com/rss/articles/CBMinwFBVV95cUxNMF9yMF9sYkJFVVVJVTJnVWZiVlRWTVZIU3VUN05xODRWalItV2ZzTGc2NUVyVm5NTEdSNVVJcDd4VG14M0diUEZNb2VEdmZfVllwQjFJZGZKV01uMnljYy1FM2xnTHJkU09rOWM3QXhKbWQ3T2VrM1ZjYkdRS1dGUEM3Yi1fV1FvODZaVnhVVTkxY2o4Q0hZYkJxdVpqNHc?oc=5",
+    "source": "Sofascore",
+    "date": "2026-11-08T06:00+00:00"
+   },
    {
     "titre": "Haut-Bugey. Magic System, Skip the Use, Biga*Ranx : le Nantua Fest de retour en 2027",
     "lien": "https://news.google.com/rss/articles/CBMivAFBVV95cUxNRC04RlNJSVl6dy1kaU84R19kc2ZIUWYyX0c2YjFkbDRDc0RZN0tYd3lYaUw3SExFS21XWGE3Znd4UnFLVl9TMDlWc3hVN0prM183OUl1TTV5MVFGb2UwNktFU2x4X3I1aXRFdkpfUjNvSzZKU2ZBZ3hiWXRTYkt2Y1NpcTRTbEUwc0hkV2VkSTAtM3JhNVNQVjFQWG5SczNLQWVGSFJoaTlhUm9rb1gydFEwbGNMejZEOGZHNQ?oc=5",
     "source": "Le Progrès",
-    "date": "2026-11-08T15:58+00:00"
+    "date": "2026-11-08T00:57+00:00"
    },
    {
     "titre": "🇸🇳 Pathé Mboup, d’un clip de Magic System à l’équipe nationale du Sénégal.",
@@ -123,23 +130,11 @@
     "lien": "https://news.google.com/rss/articles/CBMixwFBVV95cUxNWE9ENENpeFJDaE5LVGpKS2d6X1lNWEx5T0hGbnlGN1lSYVowZEVfaldCT3ZVS0Q3b3ljdmRXQl9jdHBIaHV3N1dEdkhibWt6NlZJYkFnMjZocGRnSG5fQTQxTVBkZmU5XzVzRzFiWDZPVkNnbVVaaFp2WndMOG9nd29UT2RKVTJpdUlfajEtOFdfZXZoY1ZwYzJ5aDM1ZmtfSVNJbG83ajl3MUNCTnRpTDF4aUpVT2w0bWdrWUlfM1JiaG04RG5B?oc=5",
     "source": "SO FOOT.com",
     "date": "2026-11-06T09:00+00:00"
-   },
-   {
-    "titre": "De Magic System à l'équipe nationale du Sénégal: Pathé Mboup était déjà une star sans que personne ne le sache",
-    "lien": "https://news.google.com/rss/articles/CBMi9gFBVV95cUxQczZWbnMxXzhrX3VqQllrZmYzbUN6REttN0hDclFVWFhhWHpELUh5WjNxeWVjdnZPQzRCNktseWNRLXAxYzdzNnJia3pBRXlxcHNvM3VzbUdJSzVOeVJNYm81eXl2dWtsc19pSUVRSlFiMHNteVpFSHhsVXI2TTI3RHNmOHZOQ1FKVDdJWXFKVTlTNkpiaG84SGVYTnAzdEhac3ZFeTdGRGp4aUpnRy1Pc2pXTTBmY21MSXE4SWVadjI1MU44bVpIbXFZekVIS3EyMEdTNW5LVzN5Wi1odzRzcnRFclVRakRZSVh4YUh1WTI0TUtaX1E?oc=5",
-    "source": "Seneweb",
-    "date": "2026-11-05T19:51+00:00"
-   },
-   {
-    "titre": "From Magic System to the Senegalese national team: Pathé Mboup was already a star without anyone knowing it",
-    "lien": "https://news.google.com/rss/articles/CBMi9gFBVV95cUxNUVhfQlBZeVQ4NF9BeDNWVGNOeGRVMUZFZG9taTJCYVhBV29pR01DZmd0UjZoUkNJd0lvQ1RmQk5NdEVOdWlvRVRaM1NmREh5eTVjcDBJMzAtNTd6YXREcXh5MjNDVC1wMVRlZUd2RTRQN1VBOWdYVXdtSXY1VERSX3Bmb3FtaFBXVHJmeEpzY0Z2MW04WnVYYXlnRzhqSURydFlqVmxjOFZmR215YmEzRExtZlFFV2xFTXhMeGpjU1c0UFlJcEc0czdNT1V1NzdZNjJjeFlYSmlyem91eHVJLVpKN0ZnZXE0TFFxT2VxYVRQR3VtZFE?oc=5",
-    "source": "Seneweb",
-    "date": "2026-11-05T19:51+00:00"
    }
   ],
   "Alpha Blondy": [
    {
-    "titre": "Firminy. Tiken Jah Fakoly et Alpha Blondy têtes d’affiche du premier festival reggae appelou",
+    "titre": "Loire. Tiken Jah Fakoly et Alpha Blondy têtes d’affiche du premier festival reggae de Firminy",
     "lien": "https://news.google.com/rss/articles/CBMixgFBVV95cUxQbVp6amxUS29heFB1aXk5RUd6R0UyMzltRzR6QmZHRW1fcWUwcGI0Z05oUGpOSnVCRkZiWnZ4bk1FTi1LM2pYWHJjY0hGVTRWZWJrR1lrTlpRQ0NXZEZkaVQ4amUxN2hJSjNaNFN6Vk9JWXpTejRzb1doYmlJY1oyN2RQNnhBclNyeXVIeXVQMmFKcVV2ekMzSXQzTldkQjBqTTFxQjh3blNBVGpQWHVnUFpkeHRac09rR0daQTBQSXU5RjhUNXc?oc=5",
     "source": "Le Progrès",
     "date": "2026-11-08T05:02+00:00"
@@ -158,7 +153,6 @@
   "Molare": [],
   "Tam Sir": [],
   "Les Garagistes": [],
-  "Espoir 2000": [],
   "Dobet Gnahoré": [],
   "Safarel Obiang": [],
   "Roseline Layo": [],
