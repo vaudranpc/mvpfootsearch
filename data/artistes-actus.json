@@ -1,5 +1,5 @@
 {
- "genere": "2026-11-10T07:26+00:00",
+ "genere": "2026-11-10T23:28+00:00",
  "fenetre_heures": 72,
  "erreurs": [],
  "artistes": {
@@ -9,8 +9,16 @@
   "døpelym": [],
   "KS Bloom": [],
   "Jeune Morty": [],
-  "Jeune Lion": [],
   "Suspect 95": [],
+  "Jeune Lion": [
+   {
+    "titre": "Du Cameroun à Barcelone, le jeune Lion U17 Alain Traoré poursuit son rêve",
+    "lien": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPZDQybHFYT25QVVkyb3RSaDVGOUtHNlhkbkloSDhCYzVZdWFWNXRkM2FONGtlT2xNMlFseHB6dWdFZVZwejJ4WnlRS2xBNHVyd0E4cGpRRUxkTndFQkpKREhHQlFpMjA3YVJ5SVFiTUZQdTUtT2p0LWR1dlFzY09zalE3ZXhabU9nOTBDcXBxOFN1S1lUSWdpYThJal9Fc3E1eWxlRjUxRHU0Z0NScEE?oc=5",
+    "source": "Actu Cameroun",
+    "date": "2026-11-10T10:19+00:00"
+   }
+  ],
+  "Sindika": [],
   "Tiken Jah Fakoly": [
    {
     "titre": "Biographie Tiken Jah Fakoly : l'exil, le reggae et la colère",
@@ -33,8 +41,13 @@
     "date": "2026-11-08T16:41+00:00"
    }
   ],
-  "Sindika": [],
   "Magic System": [
+   {
+    "titre": "Magic System FC enregistre l’arrivée d’un nouveau partenaire",
+    "lien": "https://news.google.com/rss/articles/CBMinAFBVV95cUxOME5NSU9PU183bGNlT2x6RG1RRnM1MGR5VXI5cUN5T3MxaW5QWmhERjkxNUlabFo4dkFFS2NTajJiNTZyZm1YVXZjVElDaEV6cFhqaU51RGMtR01ZWHZHdFoteFBTNWxndlNjTjRsY1pVUUp0ZzdtVE15bTNTeC1jak4yTVJuemxiaXpIQUY0YmY4Q0FiR2tyZFJ2Q3U?oc=5",
+    "source": "Mondialsport.ci",
+    "date": "2026-11-10T14:37+00:00"
+   },
    {
     "titre": "Sacraboutou Sport - Magic System Football Club scores en direct, face-à-face et compositions",
     "lien": "https://news.google.com/rss/articles/CBMinwFBVV95cUxNMF9yMF9sYkJFVVVJVTJnVWZiVlRWTVZIU3VUN05xODRWalItV2ZzTGc2NUVyVm5NTEdSNVVJcDd4VG14M0diUEZNb2VEdmZfVllwQjFJZGZKV01uMnljYy1FM2xnTHJkU09rOWM3QXhKbWQ3T2VrM1ZjYkdRS1dGUEM3Yi1fV1FvODZaVnhVVTkxY2o4Q0hZYkJxdVpqNHc?oc=5",
@@ -46,18 +59,6 @@
     "lien": "https://news.google.com/rss/articles/CBMivAFBVV95cUxNRC04RlNJSVl6dy1kaU84R19kc2ZIUWYyX0c2YjFkbDRDc0RZN0tYd3lYaUw3SExFS21XWGE3Znd4UnFLVl9TMDlWc3hVN0prM183OUl1TTV5MVFGb2UwNktFU2x4X3I1aXRFdkpfUjNvSzZKU2ZBZ3hiWXRTYkt2Y1NpcTRTbEUwc0hkV2VkSTAtM3JhNVNQVjFQWG5SczNLQWVGSFJoaTlhUm9rb1gydFEwbGNMejZEOGZHNQ?oc=5",
     "source": "Le Progrès",
     "date": "2026-11-08T03:57+00:00"
-   },
-   {
-    "titre": "🇸🇳 Pathé Mboup, d’un clip de Magic System à l’équipe nationale du Sénégal.",
-    "lien": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxPSFFWWHBHTjNWYlpHbHY4VkxoclNic2Vzd0tub2FyY2VoX0Z4TU9uLVVodlZSMmdTaHpyWjNxcjFpSnBTTmU0cTdUdVhEQUtxendNNnQ3QWRPUUlDTVh6d09uUy1hdFFWVWMzQm5qT1h4S05Ld0JWaFV6cFFQTVQ4bWl0SGdIOFJDQzBoRlcyZVVfVG1BcTZNRUVrT0g2TUFYQ1BwcUJDWDN6UG5iNHlzazZHZnRFSlhwY09ndUhJS1Y?oc=5",
-    "source": "Brut",
-    "date": "2026-11-07T19:20+00:00"
-   },
-   {
-    "titre": "« Il a pris ça comme un jeu » : quand le Brestois Pathé Mboup crevait l'écran dans un clip de Magic System",
-    "lien": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxQNm1nVE40cWE0Y0hQYVB1cnZxQUhBVVZNelBxVjNTYWlDSnZGN0F1UzN1SVVOSWgyZl9rWS1KQ0NxaktWck1SeTk2Ym5WRkxIZFZkVGJDdnJfcG1XXzNjdm9VdzBzNWVVaHlKR0wwSjRUVUNGT2FEWlg1ZGRjQm5WMVVPaFZUVnN5WC1jN3duSkNmVktfU2pDcjBCb3BIZGJtWF9Lc2tuY01uaEk1OGNNWURWdm5uQmlWRjJwWU56Q21MMV9NZFhBcHQyajFXQ2lScExubFRRWFhiWG1BQXZNaFFMMA?oc=5",
-    "source": "L'Équipe",
-    "date": "2026-11-07T10:27+00:00"
    }
   ],
   "Alpha Blondy": [
@@ -88,9 +89,14 @@
   "Debordo Leekunfa": [],
   "Widgunz": [],
   "Molare": [],
-  "Black K": [],
   "Tam Sir": [],
   "Les Garagistes": [
+   {
+    "titre": "(+) Le rush chez les garagistes pour s'équiper de pneus neige",
+    "lien": "https://news.google.com/rss/articles/CBMipAFBVV95cUxNc3YyTFdnYmJvYnYwRXRVY3B4SzJUcHZKdXNPUVVDT0t0QkE2SnJ4QllReW5zOFo4M2h5QmgtUHZyM0pKR0VtM2RsNmh0QmM2NGNGUV9FUmh5QmhwdmFKM2RRYkh6bnpEaFRwSks5ZnVRSTR0S1p6VlZlakU0a0dqczhHcTRRQXpCbUxsUFFOUk15NmNYT0MyLUlpcFgxR29KZHNxUA?oc=5",
+    "source": "lequotidien",
+    "date": "2026-11-09T16:20+00:00"
+   },
    {
     "titre": "Les garagistes le disent souvent : voici l’accessoire qui va empêcher le givre sur votre voiture cet hiver (l’eau chaude ne sert à rien)",
     "lien": "https://news.google.com/rss/articles/CBMixgJBVV95cUxPXzF1c0VMOGNqZlNSTkRxMEhWNVRwRkNOcWVIYUFxS3d0cVFHa0xGRGxydWFrSzVPUnY1NFRiUm5wYmdoVjRGSlNCR3JfbkxMR0wwNXRpSkVBR2ZPWDVFZnU0em0zY3JiRVNFems3S2FoRldDb3NOVXFxd0RZT3NCRGN0YWZzdll4T1RIUUNEWklOYTFkUS1MUVc2Y2VGTTBaUHlxd0U3SFdJMmNKRWVOanZvNGxmODFNY2R4XzV5dXZLdEJGQmdlLU05akpyVi1ITE1ieVJZbHRsb2pMZkZsLUhROWRPRGRqLXU4czRhS2NGczY4YkN6SVlPUnhqb2Q5c1Q3RTVwR2ZKdmlTYU5JbzFNR2tQa281U3VmVVlpd2txVDdSdkZOOTRCaEtSZER2WVFybnVKOVJFcEg0ZGZYQWtvcTJNQQ?oc=5",
@@ -122,15 +128,16 @@
   "Petit Yodé & L'Enfant Siro": [],
   "Bamba Ami Sarah": [],
   "Zoh Cataleya": [],
+  "Black K": [],
+  "Kerozen DJ": [],
+  "Fior 2 Bior": [],
   "Nash": [
    {
-    "titre": "Naomi Watts & Niecy Nash : « L’ambition chez une femme, ça a longtemps été mal vu »",
-    "lien": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxPS0s0S01OUkNWTDBuSWkteklxa2xfNkdSajFHQ1JJTHI1dGFFU2poYTczcjQ5RHR3aERlVWo3RTdiZXliUG9iTlA4U0pCeHZWdzhTWjVwaWJKUDRYMWZsckx4SVgyckRDQW1WR1N4d1JEQWNTdmRyZG5hXzdkcjhiZU9aT25aaVZFczl6MnZ4Q0pUeUh1Ti1melZDNXRJSHVjcDcyRk5vVjU1YXZfZlhaNkFsNV9wVkxQcnJHcFdnM3k?oc=5",
-    "source": "Sudinfo",
-    "date": "2026-11-07T15:00+00:00"
+    "titre": "Nash à Caluire-et-Cuire 2027 | Tournée de Bonchour : billetterie-",
+    "lien": "https://news.google.com/rss/articles/CBMifkFVX3lxTFA0QTMtOUVUc0cxRDZrTG1QWW10OGNINmp0WVlUR1VQTDFOVVp3eFVleHE4ekYyNHFxVlBCVlN3cTJJeTRGV0lvYXNSWVMtcTJ5cWtDVEdsbG81eU9xOW02dGZBUW1KdVU2QzE3NTlWUWwtZGhobkVXOVhNM0Uzdw?oc=5",
+    "source": "jds.fr",
+    "date": "2026-11-10T20:05+00:00"
    }
-  ],
-  "Kerozen DJ": [],
-  "Fior 2 Bior": []
+  ]
  }
 }
