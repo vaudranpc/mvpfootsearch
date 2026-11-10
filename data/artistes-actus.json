@@ -1,5 +1,5 @@
 {
- "genere": "2026-11-09T22:28+00:00",
+ "genere": "2026-11-10T07:26+00:00",
  "fenetre_heures": 72,
  "erreurs": [],
  "artistes": {
@@ -9,25 +9,31 @@
   "døpelym": [],
   "KS Bloom": [],
   "Jeune Morty": [],
-  "Suspect 95": [],
-  "Sindika": [],
   "Jeune Lion": [],
+  "Suspect 95": [],
   "Tiken Jah Fakoly": [
+   {
+    "titre": "Biographie Tiken Jah Fakoly : l'exil, le reggae et la colère",
+    "lien": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE9ZTnliUldjOGdMa1lTTjJmOUJXd2JkMUZaeDVQUlZtTUtqZE8ycjlXaVZBSTZERU53YXp0eFg5QmFFQWZGemNNUV9WS2JLNS14b2JlMTh5b3VhM3JVajJTMnJlY21Pdw?oc=5",
+    "source": "Afrique sur 7",
+    "date": "2026-11-09T22:59+00:00"
+   },
    {
     "titre": "Loire. Tiken Jah Fakoly et Alpha Blondy têtes d’affiche du premier festival reggae de Firminy",
     "lien": "https://news.google.com/rss/articles/CBMixgFBVV95cUxQbVp6amxUS29heFB1aXk5RUd6R0UyMzltRzR6QmZHRW1fcWUwcGI0Z05oUGpOSnVCRkZiWnZ4bk1FTi1LM2pYWHJjY0hGVTRWZWJrR1lrTlpRQ0NXZEZkaVQ4amUxN2hJSjNaNFN6Vk9JWXpTejRzb1doYmlJY1oyN2RQNnhBclNyeXVIeXVQMmFKcVV2ekMzSXQzTldkQjBqTTFxQjh3blNBVGpQWHVnUFpkeHRac09rR0daQTBQSXU5RjhUNXc?oc=5",
     "source": "Le Progrès",
-    "date": "2026-11-08T05:02+00:00"
+    "date": "2026-11-08T05:00+00:00"
    }
   ],
   "Ismaël Isaac": [
    {
     "titre": "Ismaël Isaac : 40 ans de reggae célébrés en communion avec son public à Port-Bouët",
-    "lien": "https://news.google.com/rss/articles/CBMivwFBVV95cUxOVWRpNjZYUHF5TXV2eXV6MDVadXZDbnozUncwVy14aU9OMHFQWnJnQ1k3OWxPQ2ZTeVhzOUw2c1RVUk9VLWd0enIwbjQtbFhjeVh1MUxaa3E3VHZyMDRaZF93RWwxc19vWWw4U2hhbVRGNmVfNlRMNkM4Nkl5cEV4emVyTDBlLTYtQWg2RzZpdWtEWEk4cTljZFJYczlYbFE1dHVoLVhnOW1lLWM5MW9CdDg5SlUtOGhobEd5cGhVYw?oc=5",
+    "lien": "https://news.google.com/rss/articles/CBMivwFBVV95cUxPMkE4T0NnU2RmMHRlbWR0WHZlUUE0OEtkTWR6c1haZXVzdW05a2NtWjB3bFlhSGJHejFub2FUTDRzdjhGY2czOGhWTFlSNnEtOTRaaWRmT05RMGhadkhRcUFWNnRxRzg2WnZYR0xKakxBeFktSUU1bjNER2pQU0tUaENVcjB2WW9fUVR3ZlRXZHV1VXJNYWpxR1VjVkVqUWFKRDBtcU8ySkJPT1hDQ01HWV9WRFZOc29XejU1b3lPYw?oc=5",
     "source": "Linfodrome",
     "date": "2026-11-08T16:41+00:00"
    }
   ],
+  "Sindika": [],
   "Magic System": [
    {
     "titre": "Sacraboutou Sport - Magic System Football Club scores en direct, face-à-face et compositions",
@@ -52,12 +58,6 @@
     "lien": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxQNm1nVE40cWE0Y0hQYVB1cnZxQUhBVVZNelBxVjNTYWlDSnZGN0F1UzN1SVVOSWgyZl9rWS1KQ0NxaktWck1SeTk2Ym5WRkxIZFZkVGJDdnJfcG1XXzNjdm9VdzBzNWVVaHlKR0wwSjRUVUNGT2FEWlg1ZGRjQm5WMVVPaFZUVnN5WC1jN3duSkNmVktfU2pDcjBCb3BIZGJtWF9Lc2tuY01uaEk1OGNNWURWdm5uQmlWRjJwWU56Q21MMV9NZFhBcHQyajFXQ2lScExubFRRWFhiWG1BQXZNaFFMMA?oc=5",
     "source": "L'Équipe",
     "date": "2026-11-07T10:27+00:00"
-   },
-   {
-    "titre": "Magic System, Zaho, Skip the Use... Près de Lyon, le Nantua Fest dévoile sa programmation complète",
-    "lien": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxNaEJBZ1hIbGdDWFRPZWI3YmtJWG15RTQ3WER1a1NZWkwzYjItYkRTUUFMT3pLaEY2OWZUMGstYjZ4SXpzNkpZd1VMT25QU29ndjc4MUl0UXRoVDZVQlVoS0NfMTlvSmZSUWNWN3daQ0x3dEFKcmc3dVNBTUIwa3hZSk5iOXYzNkp6UXRVUV9aQUJWREpkbm42YXlNLS1kU0tWQzZ0OWt6ZHotQ0NkLUJTdnB0QktMUXNRd2NYNmU4Rmo1M1dpUVVZUGZtN0pjT2ZSSDRQOU1RdWh2VlZvdmVYc3h5cG9XZFFIdE9LUA?oc=5",
-    "source": "Actu.fr",
-    "date": "2026-11-07T07:02+00:00"
    }
   ],
   "Alpha Blondy": [
@@ -65,7 +65,7 @@
     "titre": "Loire. Tiken Jah Fakoly et Alpha Blondy têtes d’affiche du premier festival reggae de Firminy",
     "lien": "https://news.google.com/rss/articles/CBMixgFBVV95cUxQbVp6amxUS29heFB1aXk5RUd6R0UyMzltRzR6QmZHRW1fcWUwcGI0Z05oUGpOSnVCRkZiWnZ4bk1FTi1LM2pYWHJjY0hGVTRWZWJrR1lrTlpRQ0NXZEZkaVQ4amUxN2hJSjNaNFN6Vk9JWXpTejRzb1doYmlJY1oyN2RQNnhBclNyeXVIeXVQMmFKcVV2ekMzSXQzTldkQjBqTTFxQjh3blNBVGpQWHVnUFpkeHRac09rR0daQTBQSXU5RjhUNXc?oc=5",
     "source": "Le Progrès",
-    "date": "2026-11-08T05:02+00:00"
+    "date": "2026-11-08T05:00+00:00"
    }
   ],
   "DJ Arafat": [],

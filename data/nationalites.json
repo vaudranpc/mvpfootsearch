@@ -184,6 +184,11 @@
   "statut": "autre",
   "verifie": "2026-10-30T18:04+00:00"
  },
+ "black sherif": {
+  "nom": "Black Sherif",
+  "statut": "autre",
+  "verifie": "2026-11-10T07:26+00:00"
+ },
  "blaqbonez": {
   "nom": "Blaqbonez",
   "statut": "autre",
@@ -362,7 +367,7 @@
  "dj kerozen": {
   "nom": "DJ KEROZEN",
   "statut": null,
-  "verifie": "2026-10-26T04:57+00:00"
+  "verifie": "2026-11-10T07:26+00:00"
  },
  "dj ram s": {
   "nom": "Dj Ram's",
@@ -532,7 +537,7 @@
  "goh dedi": {
   "nom": "Goh Dedi",
   "statut": null,
-  "verifie": "2026-11-03T02:56+00:00"
+  "verifie": "2026-11-10T07:26+00:00"
  },
  "graham coxon": {
   "nom": "Graham Coxon",
@@ -670,9 +675,9 @@
   "verifie": "2026-11-05T20:02+00:00"
  },
  "joe dwet file": {
-  "nom": "Joé Dwèt Filé",
+  "nom": "Joé Dwet Filé",
   "statut": null,
-  "verifie": "2026-11-02T19:33+00:00"
+  "verifie": "2026-11-10T07:26+00:00"
  },
  "joe kirby": {
   "nom": "Joe Kirby",
@@ -783,6 +788,11 @@
   "nom": "Kings Of Leon",
   "statut": "autre",
   "verifie": "2026-10-23T11:47+00:00"
+ },
+ "kizz daniel": {
+  "nom": "Kizz Daniel",
+  "statut": "autre",
+  "verifie": "2026-11-10T07:26+00:00"
  },
  "koba lad": {
   "nom": "Koba LaD",
@@ -962,7 +972,7 @@
  "lord samosa": {
   "nom": "Lord Samosa",
   "statut": null,
-  "verifie": "2026-10-21T11:59+00:00"
+  "verifie": "2026-11-10T07:26+00:00"
  },
  "lounge ibiza cafe": {
   "nom": "Lounge Ibiza Cafè",
@@ -1047,7 +1057,7 @@
  "milky abreggor": {
   "nom": "MiLKY ABREGGOR",
   "statut": null,
-  "verifie": "2026-11-02T06:19+00:00"
+  "verifie": "2026-11-10T07:26+00:00"
  },
  "minz": {
   "nom": "Minz",
@@ -1324,6 +1334,11 @@
   "statut": "autre",
   "verifie": "2026-10-26T13:14+00:00"
  },
+ "rody mboka": {
+  "nom": "Rody Mboka",
+  "statut": null,
+  "verifie": "2026-11-10T07:26+00:00"
+ },
  "ronisia": {
   "nom": "Ronisia",
   "statut": "autre",
@@ -1397,7 +1412,7 @@
  "sethlo": {
   "nom": "Sethlo",
   "statut": null,
-  "verifie": "2026-10-30T10:09+00:00"
+  "verifie": "2026-11-10T07:26+00:00"
  },
  "seyi vibez": {
   "nom": "Seyi Vibez",
