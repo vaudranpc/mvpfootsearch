@@ -1,5 +1,5 @@
 {
- "genere": "2026-11-10T23:28+00:00",
+ "genere": "2026-11-11T06:38+00:00",
  "fenetre_heures": 72,
  "erreurs": [],
  "artistes": {
@@ -18,27 +18,12 @@
     "date": "2026-11-10T10:19+00:00"
    }
   ],
-  "Sindika": [],
   "Tiken Jah Fakoly": [
    {
     "titre": "Biographie Tiken Jah Fakoly : l'exil, le reggae et la colère",
     "lien": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE9ZTnliUldjOGdMa1lTTjJmOUJXd2JkMUZaeDVQUlZtTUtqZE8ycjlXaVZBSTZERU53YXp0eFg5QmFFQWZGemNNUV9WS2JLNS14b2JlMTh5b3VhM3JVajJTMnJlY21Pdw?oc=5",
     "source": "Afrique sur 7",
     "date": "2026-11-09T22:59+00:00"
-   },
-   {
-    "titre": "Loire. Tiken Jah Fakoly et Alpha Blondy têtes d’affiche du premier festival reggae de Firminy",
-    "lien": "https://news.google.com/rss/articles/CBMixgFBVV95cUxQbVp6amxUS29heFB1aXk5RUd6R0UyMzltRzR6QmZHRW1fcWUwcGI0Z05oUGpOSnVCRkZiWnZ4bk1FTi1LM2pYWHJjY0hGVTRWZWJrR1lrTlpRQ0NXZEZkaVQ4amUxN2hJSjNaNFN6Vk9JWXpTejRzb1doYmlJY1oyN2RQNnhBclNyeXVIeXVQMmFKcVV2ekMzSXQzTldkQjBqTTFxQjh3blNBVGpQWHVnUFpkeHRac09rR0daQTBQSXU5RjhUNXc?oc=5",
-    "source": "Le Progrès",
-    "date": "2026-11-08T05:00+00:00"
-   }
-  ],
-  "Ismaël Isaac": [
-   {
-    "titre": "Ismaël Isaac : 40 ans de reggae célébrés en communion avec son public à Port-Bouët",
-    "lien": "https://news.google.com/rss/articles/CBMivwFBVV95cUxPMkE4T0NnU2RmMHRlbWR0WHZlUUE0OEtkTWR6c1haZXVzdW05a2NtWjB3bFlhSGJHejFub2FUTDRzdjhGY2czOGhWTFlSNnEtOTRaaWRmT05RMGhadkhRcUFWNnRxRzg2WnZYR0xKakxBeFktSUU1bjNER2pQU0tUaENVcjB2WW9fUVR3ZlRXZHV1VXJNYWpxR1VjVkVqUWFKRDBtcU8ySkJPT1hDQ01HWV9WRFZOc29XejU1b3lPYw?oc=5",
-    "source": "Linfodrome",
-    "date": "2026-11-08T16:41+00:00"
    }
   ],
   "Magic System": [
@@ -49,26 +34,13 @@
     "date": "2026-11-10T14:37+00:00"
    },
    {
-    "titre": "Sacraboutou Sport - Magic System Football Club scores en direct, face-à-face et compositions",
-    "lien": "https://news.google.com/rss/articles/CBMinwFBVV95cUxNMF9yMF9sYkJFVVVJVTJnVWZiVlRWTVZIU3VUN05xODRWalItV2ZzTGc2NUVyVm5NTEdSNVVJcDd4VG14M0diUEZNb2VEdmZfVllwQjFJZGZKV01uMnljYy1FM2xnTHJkU09rOWM3QXhKbWQ3T2VrM1ZjYkdRS1dGUEM3Yi1fV1FvODZaVnhVVTkxY2o4Q0hZYkJxdVpqNHc?oc=5",
-    "source": "Sofascore",
-    "date": "2026-11-08T06:00+00:00"
-   },
-   {
     "titre": "Haut-Bugey. Magic System, Skip the Use, Biga*Ranx : le Nantua Fest de retour en 2027",
     "lien": "https://news.google.com/rss/articles/CBMivAFBVV95cUxNRC04RlNJSVl6dy1kaU84R19kc2ZIUWYyX0c2YjFkbDRDc0RZN0tYd3lYaUw3SExFS21XWGE3Znd4UnFLVl9TMDlWc3hVN0prM183OUl1TTV5MVFGb2UwNktFU2x4X3I1aXRFdkpfUjNvSzZKU2ZBZ3hiWXRTYkt2Y1NpcTRTbEUwc0hkV2VkSTAtM3JhNVNQVjFQWG5SczNLQWVGSFJoaTlhUm9rb1gydFEwbGNMejZEOGZHNQ?oc=5",
     "source": "Le Progrès",
-    "date": "2026-11-08T03:57+00:00"
+    "date": "2026-11-08T14:54+00:00"
    }
   ],
-  "Alpha Blondy": [
-   {
-    "titre": "Loire. Tiken Jah Fakoly et Alpha Blondy têtes d’affiche du premier festival reggae de Firminy",
-    "lien": "https://news.google.com/rss/articles/CBMixgFBVV95cUxQbVp6amxUS29heFB1aXk5RUd6R0UyMzltRzR6QmZHRW1fcWUwcGI0Z05oUGpOSnVCRkZiWnZ4bk1FTi1LM2pYWHJjY0hGVTRWZWJrR1lrTlpRQ0NXZEZkaVQ4amUxN2hJSjNaNFN6Vk9JWXpTejRzb1doYmlJY1oyN2RQNnhBclNyeXVIeXVQMmFKcVV2ekMzSXQzTldkQjBqTTFxQjh3blNBVGpQWHVnUFpkeHRac09rR0daQTBQSXU5RjhUNXc?oc=5",
-    "source": "Le Progrès",
-    "date": "2026-11-08T05:00+00:00"
-   }
-  ],
+  "Alpha Blondy": [],
   "DJ Arafat": [],
   "Serge Beynaud": [],
   "Kiff No Beat": [],
@@ -90,7 +62,21 @@
   "Widgunz": [],
   "Molare": [],
   "Tam Sir": [],
+  "Ismaël Isaac": [
+   {
+    "titre": "Ismaël Isaac : 40 ans de reggae célébrés en communion avec son public à Port-Bouët",
+    "lien": "https://news.google.com/rss/articles/CBMivwFBVV95cUxPMkE4T0NnU2RmMHRlbWR0WHZlUUE0OEtkTWR6c1haZXVzdW05a2NtWjB3bFlhSGJHejFub2FUTDRzdjhGY2czOGhWTFlSNnEtOTRaaWRmT05RMGhadkhRcUFWNnRxRzg2WnZYR0xKakxBeFktSUU1bjNER2pQU0tUaENVcjB2WW9fUVR3ZlRXZHV1VXJNYWpxR1VjVkVqUWFKRDBtcU8ySkJPT1hDQ01HWV9WRFZOc29XejU1b3lPYw?oc=5",
+    "source": "Linfodrome",
+    "date": "2026-11-08T16:41+00:00"
+   }
+  ],
   "Les Garagistes": [
+   {
+    "titre": "Avec la loi Montagne, les garagistes sont pris d’assaut : « On est parti pour changer des pneus jusqu’à décembre »",
+    "lien": "https://news.google.com/rss/articles/CBMi7gFBVV95cUxNMXp2eWx0cVpQNGlheUZxTXI4WnVMaV9yZ2FaNnlZWU5ieURZUmtTRFpTMHUyS2NOR0NuYWZCaDYwNDZybmRYd1NTMzhLU1VSYzViSEVFV1JLUEpGT0xwMm5zaUdRLTFXQTdSWlBEZFBHb3NLbWxuTC1PUk42WXRfZHN3Z0NsVUprbHRLeE9SRDJaN2NzbURnZ3phUC1ueGhWMXVVR2JtQkd1UXBOX0R0OVZmUFI1QXprMUtUYzh4RGwtNTd1dkFUY3JPYnQ0aHhBUi0wZjFOWUtabHppRGtYSndwX2lEcWk0alI3c1R3?oc=5",
+    "source": "L'Est Républicain",
+    "date": "2026-11-10T05:31+00:00"
+   },
    {
     "titre": "(+) Le rush chez les garagistes pour s'équiper de pneus neige",
     "lien": "https://news.google.com/rss/articles/CBMipAFBVV95cUxNc3YyTFdnYmJvYnYwRXRVY3B4SzJUcHZKdXNPUVVDT0t0QkE2SnJ4QllReW5zOFo4M2h5QmgtUHZyM0pKR0VtM2RsNmh0QmM2NGNGUV9FUmh5QmhwdmFKM2RRYkh6bnpEaFRwSks5ZnVRSTR0S1p6VlZlakU0a0dqczhHcTRRQXpCbUxsUFFOUk15NmNYT0MyLUlpcFgxR29KZHNxUA?oc=5",
@@ -121,6 +107,7 @@
     "date": "2026-11-09T16:54+00:00"
    }
   ],
+  "Sindika": [],
   "Aïcha Koné": [],
   "Fadal Dey": [],
   "Kajeem": [],
