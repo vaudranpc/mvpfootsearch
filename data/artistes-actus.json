@@ -1,10 +1,16 @@
 {
- "genere": "2026-11-11T17:14+00:00",
+ "genere": "2026-11-12T00:48+00:00",
  "fenetre_heures": 72,
  "erreurs": [],
  "artistes": {
   "Didi B": [],
   "Himra": [
+   {
+    "titre": "Boxe : L'histoire surprenante de Paolicelli Michele, un adversaire de taille pour Himra",
+    "lien": "https://news.google.com/rss/articles/CBMixAFBVV95cUxPUmVFSUR5UU9hOURCVkt0RzdaT0swSm05RHAyWlR6ZTBlUW5GWWNKMnFWSlRiVW1QM3U4anhLamJYRHlzVUZKVGZlaWVIUnlXOFNBMWl0TV9kQmt0bVpjMmliaW1qd1huUmdud0xhcmUyR2owbUxDbzdiM0VrNGxuNmU1cmU5Nmgtclc4TElQVFVyQW1wLVotX3NvY2ZUTUl1bTRwWUdtdzB3Vk1tNlJSXzlzcG5WT25vOUFzS1o4Yy1IM0hq?oc=5",
+    "source": "Linfodrome",
+    "date": "2026-11-11T15:28+00:00"
+   },
    {
     "titre": "Boxe : Himra fixé sur son adversaire",
     "lien": "https://news.google.com/rss/articles/CBMiekFVX3lxTE5OLUdOSjRiTnFVTWcySUVYdXdrUkJYZmJ5YzdfV1FNUk1iTTA1cmszbm1uMWYxbW0tdmZNVGpfUGJXZWlyX1pxNDE4TnZjVFRmbHlzZW5SWUoxLVotUHBDS25HTEV1OUE2YlhhSnNOOXRPZl9lbmNCVmtB?oc=5",
@@ -17,15 +23,6 @@
   "KS Bloom": [],
   "Jeune Morty": [],
   "Suspect 95": [],
-  "Morijah": [],
-  "Tiken Jah Fakoly": [
-   {
-    "titre": "Biographie Tiken Jah Fakoly : l'exil, le reggae et la colère",
-    "lien": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE9ZTnliUldjOGdMa1lTTjJmOUJXd2JkMUZaeDVQUlZtTUtqZE8ycjlXaVZBSTZERU53YXp0eFg5QmFFQWZGemNNUV9WS2JLNS14b2JlMTh5b3VhM3JVajJTMnJlY21Pdw?oc=5",
-    "source": "Afrique sur 7",
-    "date": "2026-11-09T22:59+00:00"
-   }
-  ],
   "Jeune Lion": [
    {
     "titre": "Du Cameroun à Barcelone, le jeune Lion U17 Alain Traoré poursuit son rêve",
@@ -34,6 +31,21 @@
     "date": "2026-11-10T10:19+00:00"
    }
   ],
+  "Tiken Jah Fakoly": [
+   {
+    "titre": "AES - CEDEAO : Tiken Jah Fakoly refuse de choisir une organisation et préfère rester africain",
+    "lien": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxNd2FHeDREanVyVVRfbHVjRjFnQlVZUnFmVW1DakVtVjE1RnpvNmxsOE12bGdCSzdDSWlGaGI0aGpWd2F5X1JlVDZUOG1JU040YWFVQXNwS3l3bkFRbTY2bXpwMjdxVVVwM1dWSnpqRjhSXzZINGNZYThTbWhtdk8ySnJ5YWdTbmd0Ny10dTFXLXNFUmZBNXdjQ3VIVENuUXNJcmF6OWtidlFhUlRtTmhvWGc3bXhtV0lFU2J1SHFrNkFMRWhCWmMxNw?oc=5",
+    "source": "La Nouvelle Tribune",
+    "date": "2026-11-12T00:33+00:00"
+   },
+   {
+    "titre": "Biographie Tiken Jah Fakoly : l'exil, le reggae et la colère",
+    "lien": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE9ZTnliUldjOGdMa1lTTjJmOUJXd2JkMUZaeDVQUlZtTUtqZE8ycjlXaVZBSTZERU53YXp0eFg5QmFFQWZGemNNUV9WS2JLNS14b2JlMTh5b3VhM3JVajJTMnJlY21Pdw?oc=5",
+    "source": "Afrique sur 7",
+    "date": "2026-11-09T22:59+00:00"
+   }
+  ],
+  "Morijah": [],
   "Magic System": [
    {
     "titre": "Magic System FC enregistre l’arrivée d’un nouveau partenaire",
@@ -44,8 +56,14 @@
   ],
   "Alpha Blondy": [
    {
+    "titre": "Côte d’Ivoire : Alpha Blondy, plus de 40 ans de reggae pour la paix",
+    "lien": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxPNmFYcmZlSmRYZElXdEQzRUJEZGsxcU02X29UbEpIWWxDaG41UWdiNkNGWWs4aEVWb09JZUtCaVg3T3YtSUZWNFlHRmNKMFZZNmV2NmdQSzROTk9PTVZPNklUdHdzbHlCcGgteVd3a1JESHRKanJOX28yeUdsRXVkczNpVnp1QkZvOEVKMmJnTWhRRXZwSnNSdTRYYy14ekZPZVk0Z0l1RVZOME4xTEIxTFBXM3h2S2JWOE9wQXFOMmJPZTTSAcMBQVVfeXFMTzZhWHJmZUpkWGRJV3REM0VCRGRrMXFNNl9vVGxKSFlsQ2huNVFnYjZDRllrOGhFVm9PSWVLQmlYN092LUlGVjRZR0ZjSjBWWTZldjZnUEs0Tk5PT01WTzZJVHR3c2x5QnBoLXlXd2tSREh0SmpyTl9vMnlHbEV1ZHMzaVZ6dUJGbzhFSjJiZ01oUUV2cEpzUnU0WGMteHpGT2VZNGdJdUVWTjBOMUxCMUxQVzN4dktiVjhPcEFxTjJiT2U0?oc=5",
+    "source": "MaliActu",
+    "date": "2026-11-11T16:59+00:00"
+   },
+   {
     "titre": "Côte d’Ivoire : Alpha Blondy, plus de quatre décennies de reggae, du dioula aux hymnes de paix",
-    "lien": "https://news.google.com/rss/articles/CBMid0FVX3lxTFAzOFBCTTdlWGpuMDJmczc0OWZFc0otUi1qSU0tUEZERUYxY19kbnpEYVRibkowc1dmR3hla1hUMFVFeDVkcmh4dUh5RXVRdUk0T24xSnd1bDVuWjgtMGpUd2piTDVQY1FLZXE5dlhmUjBlTHg2cWdR0gF3QVVfeXFMUDM4UEJNN2VYam4wMmZzNzQ5ZkVzSi1SLWpJTS1QRkRFRjFjX2RuekRhVGJuSjBzV2ZHeGVrWFQwVUV4NWRyaHh1SHlFdVF1STRPbjFKd3VsNW5aOC0walR3amJMNVBjUUtlcTl2WGZSMGVMeDZxZ1E?oc=5",
+    "lien": "https://news.google.com/rss/articles/CBMib0FVX3lxTFBKWFJJVnJVQUFyYWpzbjNLeDh0bEZaS1c2RklXdHdBSjdHaTZaOXg0RWpoMldHT2JfOVM3S2FKUjc1eVU1djV2NXQ0LXJKMThoTXdncHhTbk5yclktMk9uXzg2eTNqVC1KY0xoZHJ4QdIBd0FVX3lxTFAzOFBCTTdlWGpuMDJmczc0OWZFc0otUi1qSU0tUEZERUYxY19kbnpEYVRibkowc1dmR3hla1hUMFVFeDVkcmh4dUh5RXVRdUk0T24xSnd1bDVuWjgtMGpUd2piTDVQY1FLZXE5dlhmUjBlTHg2cWdR?oc=5",
     "source": "Mali Actu",
     "date": "2026-11-11T15:19+00:00"
    }
@@ -77,6 +95,7 @@
   "Debordo Leekunfa": [],
   "Widgunz": [],
   "Molare": [],
+  "Black K": [],
   "Tam Sir": [],
   "Ismaël Isaac": [],
   "Les Garagistes": [
@@ -84,7 +103,7 @@
     "titre": "Avec la loi Montagne, les garagistes sont pris d’assaut : « On est parti pour changer des pneus jusqu’à décembre »",
     "lien": "https://news.google.com/rss/articles/CBMi7gFBVV95cUxNMXp2eWx0cVpQNGlheUZxTXI4WnVMaV9yZ2FaNnlZWU5ieURZUmtTRFpTMHUyS2NOR0NuYWZCaDYwNDZybmRYd1NTMzhLU1VSYzViSEVFV1JLUEpGT0xwMm5zaUdRLTFXQTdSWlBEZFBHb3NLbWxuTC1PUk42WXRfZHN3Z0NsVUprbHRLeE9SRDJaN2NzbURnZ3phUC1ueGhWMXVVR2JtQkd1UXBOX0R0OVZmUFI1QXprMUtUYzh4RGwtNTd1dkFUY3JPYnQ0aHhBUi0wZjFOWUtabHppRGtYSndwX2lEcWk0alI3c1R3?oc=5",
     "source": "L'Est Républicain",
-    "date": "2026-11-10T05:31+00:00"
+    "date": "2026-11-10T17:32+00:00"
    },
    {
     "titre": "(+) Le rush chez les garagistes pour s'équiper de pneus neige",
@@ -145,7 +164,6 @@
   "Petit Yodé & L'Enfant Siro": [],
   "Bamba Ami Sarah": [],
   "Zoh Cataleya": [],
-  "Black K": [],
   "Serge Beynaud": [],
   "Kerozen DJ": []
  }
