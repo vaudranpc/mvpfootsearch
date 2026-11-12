@@ -69,6 +69,11 @@
   "statut": "autre",
   "verifie": "2026-10-27T15:25+00:00"
  },
+ "al shami": {
+  "nom": "AL SHAMI",
+  "statut": "autre",
+  "verifie": "2026-11-12T20:02+00:00"
+ },
  "albinny": {
   "nom": "Albinny",
   "statut": null,
@@ -474,6 +479,11 @@
   "statut": "autre",
   "verifie": "2026-10-27T15:25+00:00"
  },
+ "fergie": {
+  "nom": "Fergie",
+  "statut": "autre",
+  "verifie": "2026-11-12T20:02+00:00"
+ },
  "fireboy dml": {
   "nom": "Fireboy DML",
   "statut": "autre",
@@ -613,6 +623,11 @@
   "nom": "Huntrill",
   "statut": null,
   "verifie": "2026-10-22T12:02+00:00"
+ },
+ "ino casablanca": {
+  "nom": "Ino Casablanca",
+  "statut": "autre",
+  "verifie": "2026-11-12T20:02+00:00"
  },
  "ivorian doll": {
   "nom": "Ivorian Doll",
@@ -793,6 +808,11 @@
   "nom": "Khaid",
   "statut": "autre",
   "verifie": "2026-11-04T19:50+00:00"
+ },
+ "kidi": {
+  "nom": "KiDi",
+  "statut": "autre",
+  "verifie": "2026-11-12T20:02+00:00"
  },
  "king promise": {
   "nom": "King Promise",
@@ -979,6 +999,11 @@
   "statut": "autre",
   "verifie": "2026-10-23T11:47+00:00"
  },
+ "limoblaze": {
+  "nom": "Limoblaze",
+  "statut": "autre",
+  "verifie": "2026-11-12T20:02+00:00"
+ },
  "linh": {
   "nom": "Linh",
   "statut": "autre",
@@ -1013,6 +1038,11 @@
   "nom": "Lyfestyle Corporation",
   "statut": null,
   "verifie": "2026-10-24T04:44+00:00"
+ },
+ "lynda": {
+  "nom": "Lynda",
+  "statut": "autre",
+  "verifie": "2026-11-12T20:02+00:00"
  },
  "lynothecosmoskid": {
   "nom": "Lynothecosmoskid",
@@ -1063,6 +1093,11 @@
   "nom": "MHD",
   "statut": "autre",
   "verifie": "2026-10-26T20:34+00:00"
+ },
+ "michael bolton": {
+  "nom": "Michael Bolton",
+  "statut": "autre",
+  "verifie": "2026-11-12T20:02+00:00"
  },
  "michael jackson": {
   "nom": "Michael Jackson",
@@ -1138,6 +1173,11 @@
   "nom": "Natasha St-Pier",
   "statut": "autre",
   "verifie": "2026-10-21T11:59+00:00"
+ },
+ "nathaniel bassey": {
+  "nom": "Nathaniel Bassey",
+  "statut": "autre",
+  "verifie": "2026-11-12T20:02+00:00"
  },
  "nayte": {
   "nom": "Nayte",
@@ -1427,12 +1467,12 @@
  "sch": {
   "nom": "SCH",
   "statut": null,
-  "verifie": "2026-10-30T18:04+00:00"
+  "verifie": "2026-11-12T20:02+00:00"
  },
  "sda": {
   "nom": "SDA !!",
   "statut": null,
-  "verifie": "2026-11-03T10:59+00:00"
+  "verifie": "2026-11-12T20:02+00:00"
  },
  "sdm": {
   "nom": "SDM",
@@ -1728,6 +1768,11 @@
   "nom": "Yeat",
   "statut": "autre",
   "verifie": "2026-10-24T04:44+00:00"
+ },
+ "yg marley": {
+  "nom": "YG Marley",
+  "statut": "autre",
+  "verifie": "2026-11-12T20:02+00:00"
  },
  "yjick": {
   "nom": "YJICK",
