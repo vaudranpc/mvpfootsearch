@@ -1,5 +1,5 @@
 {
- "genere": "2026-11-13T01:54+00:00",
+ "genere": "2026-11-13T19:49+00:00",
  "fenetre_heures": 72,
  "erreurs": [],
  "artistes": {
@@ -49,22 +49,27 @@
    }
   ],
   "Philipayne": [],
+  "Jeune Lion": [],
   "døpelym": [],
   "KS Bloom": [],
   "Jeune Morty": [],
   "Suspect 95": [],
-  "Jeune Lion": [
-   {
-    "titre": "Du Cameroun à Barcelone, le jeune Lion U17 Alain Traoré poursuit son rêve",
-    "lien": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPZDQybHFYT25QVVkyb3RSaDVGOUtHNlhkbkloSDhCYzVZdWFWNXRkM2FONGtlT2xNMlFseHB6dWdFZVZwejJ4WnlRS2xBNHVyd0E4cGpRRUxkTndFQkpKREhHQlFpMjA3YVJ5SVFiTUZQdTUtT2p0LWR1dlFzY09zalE3ZXhabU9nOTBDcXBxOFN1S1lUSWdpYThJal9Fc3E1eWxlRjUxRHU0Z0NScEE?oc=5",
-    "source": "Actu Cameroun",
-    "date": "2026-11-10T10:19+00:00"
-   }
-  ],
   "Tiken Jah Fakoly": [
+   {
+    "titre": "Dakar 2026 se referme sur trois scènes dont l’Ivoirien Tiken Jah Fakoly",
+    "lien": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPNjFxZ1ppNFdtTk10d0liOWM2NUxUUkY2UDg5cEVtVGtkb2NnMkViQlRCWmZ4M0JBSVE3MXI4SjU1YlRtNEJvdHAzYTI0dnVlRFMtakhMcHg1N2g0czZaemxQR2xHcU1RY1FtMDJORWJkOWZaSEVCcHBvbndQOXQ5ZnV3OVBpTFNUSDlMckNqWEd3aU5hWldGag?oc=5",
+    "source": "Afrik",
+    "date": "2026-11-13T19:29+00:00"
+   },
    {
     "titre": "JOJ Dakar-2026 : Tiken Jah Fakoly, la voix du reggae pour clôturer la fête !",
     "lien": "https://news.google.com/rss/articles/CBMixAFBVV95cUxQQTF6Y2VJN19GLUlCVnVFMlhkZVpsMV9PMFVXaWIyVzdOOUozNHBaZmN4T3RxWDZQTm5VUHFYd3I5STM1MWN1QnhBNU5zT0tiM2xzQlZCalEwZ1pmMW5HVlhNWGhaTEFxY0IwamZSQ0JiYjAwaDZtUW5DTFdmVEN6cnhxZlZRdTR6QmZNOURBMDJjSm0wa3N3cktQbENiWHkxbTZ0b3JLdlVrd0FDb3MxTndKT0FudHlSLUthbDZuVngxSklt?oc=5",
+    "source": "Seneweb",
+    "date": "2026-11-12T22:08+00:00"
+   },
+   {
+    "titre": "Dakar 2026 Youth Olympic Games: Tiken Jah Fakoly, the voice of reggae to close the party!",
+    "lien": "https://news.google.com/rss/articles/CBMixAFBVV95cUxQSnZBSU9LSko3aWQtS2RaNFhvai1XTjlUdFZBaWR5SnUtUlQtRW5tb2R0UXBLSXY1emNGS3pvM2tpTDItZHN1X0RsQnhuVHNENmFlSktjcmQwRDhVQ1ExbXlJMHNHakwxTzE3Zkd6cGZycmZidFlKQlBHR0pWMFVadmZQVlVZV21oWU9mUGVsYWJWZGlhVl9BR0JpWXB0V2NFVWZmSnNvZ2FfN1BwUER5Wk40VEJqU2tPSkpEWG5walFYaUFw?oc=5",
     "source": "Seneweb",
     "date": "2026-11-12T22:08+00:00"
    },
@@ -87,7 +92,10 @@
     "date": "2026-11-12T00:33+00:00"
    }
   ],
+  "Josey": [],
   "Morijah": [],
+  "Sindika": [],
+  "Magic System": [],
   "Alpha Blondy": [
    {
     "titre": "Côte d’Ivoire : Alpha Blondy, plus de 40 ans de reggae pour la paix",
@@ -102,18 +110,9 @@
     "date": "2026-11-11T15:19+00:00"
    }
   ],
-  "Magic System": [
-   {
-    "titre": "Magic System FC enregistre l’arrivée d’un nouveau partenaire",
-    "lien": "https://news.google.com/rss/articles/CBMinAFBVV95cUxOME5NSU9PU183bGNlT2x6RG1RRnM1MGR5VXI5cUN5T3MxaW5QWmhERjkxNUlabFo4dkFFS2NTajJiNTZyZm1YVXZjVElDaEV6cFhqaU51RGMtR01ZWHZHdFoteFBTNWxndlNjTjRsY1pVUUp0ZzdtVE15bTNTeC1jak4yTVJuemxiaXpIQUY0YmY4Q0FiR2tyZFJ2Q3U?oc=5",
-    "source": "Mondialsport.ci",
-    "date": "2026-11-10T14:37+00:00"
-   }
-  ],
   "DJ Arafat": [],
   "Kiff No Beat": [],
   "Bebi Philip": [],
-  "Josey": [],
   "Ariel Sheney": [
    {
     "titre": "« Le moment est venu de vous donner ce que je vous dois » : Ariel Sheney promet un retour marquant",
@@ -129,16 +128,10 @@
   "Debordo Leekunfa": [],
   "Widgunz": [],
   "Molare": [],
+  "Black K": [],
   "Tam Sir": [],
   "Ismaël Isaac": [],
-  "Les Garagistes": [
-   {
-    "titre": "Avec la loi Montagne, les garagistes sont pris d’assaut : « On est parti pour changer des pneus jusqu’à décembre »",
-    "lien": "https://news.google.com/rss/articles/CBMi7gFBVV95cUxNMXp2eWx0cVpQNGlheUZxTXI4WnVMaV9yZ2FaNnlZWU5ieURZUmtTRFpTMHUyS2NOR0NuYWZCaDYwNDZybmRYd1NTMzhLU1VSYzViSEVFV1JLUEpGT0xwMm5zaUdRLTFXQTdSWlBEZFBHb3NLbWxuTC1PUk42WXRfZHN3Z0NsVUprbHRLeE9SRDJaN2NzbURnZ3phUC1ueGhWMXVVR2JtQkd1UXBOX0R0OVZmUFI1QXprMUtUYzh4RGwtNTd1dkFUY3JPYnQ0aHhBUi0wZjFOWUtabHppRGtYSndwX2lEcWk0alI3c1R3?oc=5",
-    "source": "L'Est Républicain",
-    "date": "2026-11-10T17:32+00:00"
-   }
-  ],
+  "Les Garagistes": [],
   "Espoir 2000": [],
   "Dobet Gnahoré": [],
   "Safarel Obiang": [],
@@ -161,19 +154,6 @@
   "Gadji Céli": [],
   "Monique Séka": [],
   "Lil Jay Bingerack": [],
-  "Yabongo Lova": [],
-  "Sindika": [],
-  "Aïcha Koné": [],
-  "Fadal Dey": [],
-  "Kajeem": [],
-  "Nayanka Bell": [],
-  "Petit Yodé & L'Enfant Siro": [],
-  "Bamba Ami Sarah": [],
-  "Zoh Cataleya": [],
-  "Black K": [],
-  "Serge Beynaud": [],
-  "Kerozen DJ": [],
-  "Fior 2 Bior": [],
   "Nash": [
    {
     "titre": "Nash à Caluire-et-Cuire 2027 | Tournée de Bonchour : billetterie-",
@@ -187,6 +167,17 @@
     "source": "ZikNation",
     "date": "2026-11-12T13:27+00:00"
    }
-  ]
+  ],
+  "Yabongo Lova": [],
+  "Aïcha Koné": [],
+  "Fadal Dey": [],
+  "Kajeem": [],
+  "Nayanka Bell": [],
+  "Petit Yodé & L'Enfant Siro": [],
+  "Bamba Ami Sarah": [],
+  "Zoh Cataleya": [],
+  "Serge Beynaud": [],
+  "Kerozen DJ": [],
+  "Fior 2 Bior": []
  }
 }
