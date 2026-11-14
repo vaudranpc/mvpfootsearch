@@ -429,6 +429,11 @@
   "statut": null,
   "verifie": "2026-10-27T15:25+00:00"
  },
+ "dominic fike": {
+  "nom": "Dominic Fike",
+  "statut": "autre",
+  "verifie": "2026-11-14T10:36+00:00"
+ },
  "don miguelo": {
   "nom": "Don Miguelo",
   "statut": "autre",
@@ -608,6 +613,11 @@
   "nom": "Greedbanks",
   "statut": null,
   "verifie": "2026-11-09T11:45+00:00"
+ },
+ "guizmo": {
+  "nom": "Guizmo",
+  "statut": "autre",
+  "verifie": "2026-11-14T10:36+00:00"
  },
  "gunna": {
   "nom": "Gunna",
@@ -968,6 +978,11 @@
   "nom": "La Rvfleuze",
   "statut": "autre",
   "verifie": "2026-10-19T02:50+00:00"
+ },
+ "labf": {
+  "nom": "LABF",
+  "statut": null,
+  "verifie": "2026-11-14T10:36+00:00"
  },
  "lacrim": {
   "nom": "Lacrim",
@@ -1437,7 +1452,7 @@
  "rbib": {
   "nom": "RBIB",
   "statut": null,
-  "verifie": "2026-11-07T10:24+00:00"
+  "verifie": "2026-11-14T10:36+00:00"
  },
  "rbib archives": {
   "nom": "RBIB archives.",
@@ -1458,6 +1473,11 @@
   "nom": "Rihanna",
   "statut": "autre",
   "verifie": "2026-10-19T09:02+00:00"
+ },
+ "rii": {
+  "nom": "Rii",
+  "statut": null,
+  "verifie": "2026-11-14T10:36+00:00"
  },
  "rnboi": {
   "nom": "RnBoi",
@@ -1512,7 +1532,7 @@
  "sarai": {
   "nom": "Saraï",
   "statut": null,
-  "verifie": "2026-11-07T10:24+00:00"
+  "verifie": "2026-11-14T10:36+00:00"
  },
  "sarz": {
   "nom": "Sarz",
@@ -1548,6 +1568,11 @@
   "nom": "Sethlo",
   "statut": null,
   "verifie": "2026-11-10T07:26+00:00"
+ },
+ "sexion d assaut": {
+  "nom": "Sexion D'Assaut",
+  "statut": "autre",
+  "verifie": "2026-11-14T10:36+00:00"
  },
  "seyi vibez": {
   "nom": "Seyi Vibez",
@@ -1684,6 +1709,11 @@
   "statut": null,
   "verifie": "2026-10-26T13:14+00:00"
  },
+ "tc levrai": {
+  "nom": "TC Levrai",
+  "statut": null,
+  "verifie": "2026-11-14T10:36+00:00"
+ },
  "tchaikabo": {
   "nom": "Tchaikabo",
   "statut": null,
@@ -1804,6 +1834,11 @@
   "statut": null,
   "verifie": "2026-11-13T19:49+00:00"
  },
+ "wally b seck": {
+  "nom": "Wally B. Seck",
+  "statut": null,
+  "verifie": "2026-11-14T10:36+00:00"
+ },
  "wantche": {
   "nom": "Wantché",
   "statut": null,
@@ -1883,6 +1918,11 @@
   "nom": "Zed",
   "statut": null,
   "verifie": "2026-11-13T19:49+00:00"
+ },
+ "zikxo": {
+  "nom": "Zikxo",
+  "statut": "autre",
+  "verifie": "2026-11-14T10:36+00:00"
  },
  "zinoleesky": {
   "nom": "Zinoleesky",
