@@ -1,25 +1,25 @@
 {
- "genere": "2026-11-14T18:13+00:00",
+ "genere": "2026-11-14T22:33+00:00",
  "classements": {
-  "Apple Music": "Sat, 14 Nov 2026 18:13:49 +0000",
-  "Apple Music albums": "Sat, 14 Nov 2026 18:14:24 +0000",
-  "Deezer": "2026-11-14T18:14+00:00"
+  "Apple Music": "Sat, 14 Nov 2026 22:33:19 +0000",
+  "Apple Music albums": "Sat, 14 Nov 2026 22:34:00 +0000",
+  "Deezer": "2026-11-14T22:34+00:00"
  },
  "source": "Apple Music (top morceaux + top albums) et Deezer (Top Ivory Coast), Côte d'Ivoire",
  "artistes": [
   {
    "nom": "Didi B",
-   "score": 2771,
+   "score": 2759,
    "classe": true,
    "titres": [
     {
      "rang": 2,
-     "titre": "ADIOS",
+     "titre": "PARTY",
      "source": "Apple Music"
     },
     {
      "rang": 3,
-     "titre": "PARTY",
+     "titre": "ADIOS",
      "source": "Apple Music"
     },
     {
@@ -35,7 +35,7 @@
   },
   {
    "nom": "Himra",
-   "score": 1919,
+   "score": 1962,
    "classe": true,
    "titres": [
     {
@@ -44,12 +44,12 @@
      "source": "Apple Music"
     },
     {
-     "rang": 10,
+     "rang": 7,
      "titre": "DJOROBITE",
      "source": "Apple Music"
     },
     {
-     "rang": 15,
+     "rang": 13,
      "titre": "STRIP",
      "source": "Apple Music"
     }
@@ -62,7 +62,7 @@
   },
   {
    "nom": "Jeune Lion",
-   "score": 718,
+   "score": 710,
    "classe": true,
    "titres": [
     {
@@ -71,7 +71,7 @@
      "source": "Apple Music"
     },
     {
-     "rang": 67,
+     "rang": 69,
      "titre": "PSAUME 10",
      "source": "Apple Music"
     },
@@ -87,7 +87,7 @@
   },
   {
    "nom": "Philipayne",
-   "score": 170,
+   "score": 172,
    "classe": true,
    "titres": [
     {
@@ -96,12 +96,12 @@
      "source": "Apple Music"
     },
     {
-     "rang": 79,
+     "rang": 78,
      "titre": "N'TAXAIRE",
      "source": "Apple Music"
     },
     {
-     "rang": 96,
+     "rang": 95,
      "titre": "GNAGAMI",
      "source": "Apple Music"
     }
@@ -112,16 +112,16 @@
   },
   {
    "nom": "døpelym",
-   "score": 146,
+   "score": 144,
    "classe": true,
    "titres": [
     {
-     "rang": 48,
+     "rang": 49,
      "titre": "ERMESEY - ÉCHAUFFEMENT - EP",
      "source": "Apple Music albums"
     },
     {
-     "rang": 53,
+     "rang": 54,
      "titre": "WHO IS DØPE?",
      "source": "Apple Music albums"
     },
@@ -137,11 +137,11 @@
   },
   {
    "nom": "Suspect 95",
-   "score": 84,
+   "score": 86,
    "classe": true,
    "titres": [
     {
-     "rang": 76,
+     "rang": 74,
      "titre": "HÉ TCHAI (feat. Jojo le Barbu & Suspect 95)",
      "source": "Apple Music"
     },
@@ -173,11 +173,11 @@
   },
   {
    "nom": "Jeune Morty",
-   "score": 33,
+   "score": 34,
    "classe": true,
    "titres": [
     {
-     "rang": 68,
+     "rang": 67,
      "titre": "Eponyme",
      "source": "Apple Music albums"
     }
@@ -202,33 +202,33 @@
    "rang": 9
   },
   {
-   "nom": "Espoir 2000",
-   "score": 13,
-   "classe": true,
-   "titres": [
-    {
-     "rang": 88,
-     "titre": "Tableau Blanc",
-     "source": "Apple Music albums"
-    }
-   ],
-   "genre": "Zouglou",
-   "lien": "https://music.apple.com/ci/artist/espoir-2000/145734611",
-   "rang": 10
-  },
-  {
    "nom": "Sindika",
-   "score": 10,
+   "score": 9,
    "classe": true,
    "titres": [
     {
-     "rang": 91,
+     "rang": 92,
      "titre": "INVASION TOME II",
      "source": "Apple Music albums"
     }
    ],
    "genre": "Rap",
    "lien": "https://music.apple.com/ci/artist/sindika/1619810116",
+   "rang": 10
+  },
+  {
+   "nom": "Espoir 2000",
+   "score": 7,
+   "classe": true,
+   "titres": [
+    {
+     "rang": 94,
+     "titre": "Tableau Blanc",
+     "source": "Apple Music albums"
+    }
+   ],
+   "genre": "Zouglou",
+   "lien": "https://music.apple.com/ci/artist/espoir-2000/145734611",
    "rang": 11
   },
   {
@@ -265,7 +265,7 @@
    "nom": "Magic System",
    "score": 0,
    "classe": false,
-   "fans_deezer": 827134,
+   "fans_deezer": 827146,
    "titres": [],
    "lien": "https://www.deezer.com/artist/734",
    "info": "Nouvel album Doni Doni défendu en tournée en 2026.",
@@ -277,7 +277,7 @@
    "nom": "Alpha Blondy",
    "score": 0,
    "classe": false,
-   "fans_deezer": 744133,
+   "fans_deezer": 744146,
    "titres": [],
    "lien": "https://www.deezer.com/artist/714",
    "genre": "Reggae",
@@ -287,7 +287,7 @@
    "nom": "DJ Arafat",
    "score": 0,
    "classe": false,
-   "fans_deezer": 201503,
+   "fans_deezer": 201506,
    "titres": [],
    "lien": "https://www.deezer.com/artist/55440",
    "genre": "Coupé-décalé",
@@ -297,7 +297,7 @@
    "nom": "Serge Beynaud",
    "score": 0,
    "classe": false,
-   "fans_deezer": 117537,
+   "fans_deezer": 117539,
    "titres": [],
    "lien": "https://www.deezer.com/artist/895583",
    "info": "Placé dans le top africain 2026.",
@@ -361,7 +361,7 @@
    "nom": "Soum Bill",
    "score": 0,
    "classe": false,
-   "fans_deezer": 28448,
+   "fans_deezer": 28449,
    "titres": [],
    "lien": "https://www.deezer.com/artist/68805",
    "genre": "Zouglou",
@@ -371,7 +371,7 @@
    "nom": "Shado Chris",
    "score": 0,
    "classe": false,
-   "fans_deezer": 28221,
+   "fans_deezer": 28222,
    "titres": [],
    "lien": "https://www.deezer.com/artist/7642532",
    "genre": "Coupé-décalé",
@@ -391,7 +391,7 @@
    "nom": "Widgunz",
    "score": 0,
    "classe": false,
-   "fans_deezer": 23648,
+   "fans_deezer": 23649,
    "titres": [],
    "lien": "https://www.deezer.com/artist/12265454",
    "genre": "Rap",
@@ -411,7 +411,7 @@
    "nom": "Tam Sir",
    "score": 0,
    "classe": false,
-   "fans_deezer": 17836,
+   "fans_deezer": 17838,
    "titres": [],
    "lien": "https://www.deezer.com/artist/14872317",
    "genre": "Coupé-décalé / Afro",
@@ -421,7 +421,7 @@
    "nom": "Ismaël Isaac",
    "score": 0,
    "classe": false,
-   "fans_deezer": 15989,
+   "fans_deezer": 15990,
    "titres": [],
    "lien": "https://www.deezer.com/artist/55407",
    "genre": "Reggae",
@@ -431,7 +431,7 @@
    "nom": "Les Garagistes",
    "score": 0,
    "classe": false,
-   "fans_deezer": 14960,
+   "fans_deezer": 14961,
    "titres": [],
    "lien": "https://www.deezer.com/artist/68838",
    "genre": "Zouglou",
@@ -451,7 +451,7 @@
    "nom": "Safarel Obiang",
    "score": 0,
    "classe": false,
-   "fans_deezer": 13336,
+   "fans_deezer": 13337,
    "titres": [],
    "lien": "https://www.deezer.com/artist/3742541",
    "genre": "Coupé-décalé",
@@ -473,7 +473,7 @@
    "nom": "Team Paiya",
    "score": 0,
    "classe": false,
-   "fans_deezer": 12565,
+   "fans_deezer": 12566,
    "titres": [],
    "lien": "https://www.deezer.com/artist/246149552",
    "genre": "Afro / Coupé-décalé",
@@ -645,7 +645,7 @@
  "a_verifier": [
   {
    "nom": "AsapJo",
-   "score": 299,
+   "score": 306,
    "titre": {
     "rang": 4,
     "titre": "BIRDMAN & WEEZY (feat. Himra)",
@@ -654,36 +654,36 @@
   },
   {
    "nom": "KRM",
-   "score": 269,
+   "score": 287,
    "titre": {
-    "rang": 58,
+    "rang": 55,
     "titre": "PHÉNOMÈNE",
     "source": "Apple Music"
    }
   },
   {
    "nom": "TRK.",
-   "score": 183,
+   "score": 187,
    "titre": {
-    "rang": 73,
+    "rang": 70,
     "titre": "AKWABA",
     "source": "Apple Music"
    }
   },
   {
    "nom": "Lynothecosmoskid",
-   "score": 180,
+   "score": 178,
    "titre": {
-    "rang": 74,
+    "rang": 76,
     "titre": "IMO",
     "source": "Apple Music"
    }
   },
   {
    "nom": "Mauvais Djo",
-   "score": 177,
+   "score": 175,
    "titre": {
-    "rang": 89,
+    "rang": 90,
     "titre": "4",
     "source": "Apple Music"
    }
@@ -699,7 +699,7 @@
   },
   {
    "nom": "Zlatan",
-   "score": 141,
+   "score": 143,
    "titre": {
     "rang": 22,
     "titre": "Je m'appelle (feat. Zlatan & Chley)",
@@ -717,16 +717,16 @@
   },
   {
    "nom": "LA B7",
-   "score": 132,
+   "score": 138,
    "titre": {
-    "rang": 77,
+    "rang": 71,
     "titre": "DIEUDONNÉ",
     "source": "Apple Music"
    }
   },
   {
    "nom": "THB",
-   "score": 114,
+   "score": 117,
    "titre": {
     "rang": 66,
     "titre": "DEUX MONDES",
@@ -753,18 +753,18 @@
   },
   {
    "nom": "Ameka Zrai",
-   "score": 88,
+   "score": 90,
    "titre": {
-    "rang": 90,
+    "rang": 88,
     "titre": "Adriano",
     "source": "Apple Music"
    }
   },
   {
    "nom": "YJICK",
-   "score": 84,
+   "score": 85,
    "titre": {
-    "rang": 94,
+    "rang": 93,
     "titre": "ZAMBELEMAN",
     "source": "Apple Music"
    }
@@ -776,15 +776,6 @@
     "rang": 19,
     "titre": "Fa ye Ope le",
     "source": "Deezer"
-   }
-  },
-  {
-   "nom": "SCH",
-   "score": 81,
-   "titre": {
-    "rang": 20,
-    "titre": "6.35",
-    "source": "Apple Music"
    }
   },
   {
@@ -816,47 +807,47 @@
   },
   {
    "nom": "NSG",
-   "score": 77,
+   "score": 78,
    "titre": {
-    "rang": 24,
+    "rang": 23,
     "titre": "HUM HUM",
     "source": "Apple Music"
    }
   },
   {
-   "nom": "Goh Dedi",
-   "score": 70,
+   "nom": "SCH",
+   "score": 77,
    "titre": {
-    "rang": 31,
-    "titre": "SOUNDSYSTEM",
-    "source": "Apple Music albums"
+    "rang": 24,
+    "titre": "6.35",
+    "source": "Apple Music"
    }
   },
   {
    "nom": "jam$co",
-   "score": 69,
+   "score": 70,
    "titre": {
-    "rang": 32,
+    "rang": 31,
     "titre": "MDMG DELUXE",
     "source": "Apple Music albums"
    }
   },
   {
    "nom": "Mavo",
-   "score": 68,
+   "score": 69,
    "titre": {
-    "rang": 33,
+    "rang": 32,
     "titre": "Fire in your Eyes (feat. Mavo)",
     "source": "Apple Music"
    }
   },
   {
-   "nom": "Pluie et Tonnerre de TraxLab",
-   "score": 68,
+   "nom": "Goh Dedi",
+   "score": 69,
    "titre": {
-    "rang": 65,
-    "titre": "Tonnerre Lointain pour Bien Dormir (P01)",
-    "source": "Apple Music"
+    "rang": 32,
+    "titre": "SOUNDSYSTEM",
+    "source": "Apple Music albums"
    }
   },
   {
@@ -870,10 +861,19 @@
   },
   {
    "nom": "BabyDaiz",
-   "score": 62,
+   "score": 64,
    "titre": {
-    "rang": 39,
+    "rang": 37,
     "titre": "BITCH & MONEY",
+    "source": "Apple Music"
+   }
+  },
+  {
+   "nom": "La B 7",
+   "score": 63,
+   "titre": {
+    "rang": 75,
+    "titre": "Accélération (feat. La B 7)",
     "source": "Apple Music"
    }
   },
@@ -896,20 +896,20 @@
    }
   },
   {
-   "nom": "La B 7",
-   "score": 59,
-   "titre": {
-    "rang": 80,
-    "titre": "Accélération (feat. La B 7)",
-    "source": "Apple Music"
-   }
-  },
-  {
-   "nom": "Ozaki",
+   "nom": "Saraï",
    "score": 57,
    "titre": {
     "rang": 44,
-    "titre": "PLUGACTIVIST EXTENTION VOL.1 - EP",
+    "titre": "CEMAGO (feat. Saraï)",
+    "source": "Deezer"
+   }
+  },
+  {
+   "nom": "OG Mahilet",
+   "score": 56,
+   "titre": {
+    "rang": 82,
+    "titre": "Marcory Trap Shit REEDITION",
     "source": "Apple Music albums"
    }
   }
