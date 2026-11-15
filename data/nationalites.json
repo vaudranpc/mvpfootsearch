@@ -104,6 +104,11 @@
   "statut": null,
   "verifie": "2026-11-13T19:49+00:00"
  },
+ "amadeus": {
+  "nom": "Amadeus",
+  "statut": "autre",
+  "verifie": "2026-11-15T16:25+00:00"
+ },
  "ameka zrai": {
   "nom": "Ameka Zrai",
   "statut": null,
@@ -198,6 +203,11 @@
   "nom": "Beeby",
   "statut": null,
   "verifie": "2026-11-07T10:24+00:00"
+ },
+ "best of hits": {
+  "nom": "Best Of Hits",
+  "statut": null,
+  "verifie": "2026-11-15T16:25+00:00"
  },
  "bigflo": {
   "nom": "Bigflo",
@@ -327,7 +337,7 @@
  "crayon": {
   "nom": "Crayon",
   "statut": null,
-  "verifie": "2026-10-23T11:47+00:00"
+  "verifie": "2026-11-15T16:25+00:00"
  },
  "da uzi": {
   "nom": "DA Uzi",
@@ -1022,7 +1032,7 @@
  "le couteau": {
   "nom": "Le couteau",
   "statut": null,
-  "verifie": "2026-11-05T20:02+00:00"
+  "verifie": "2026-11-15T16:25+00:00"
  },
  "le marco": {
   "nom": "Le Marco",
@@ -1078,6 +1088,11 @@
   "nom": "Lithe",
   "statut": null,
   "verifie": "2026-11-07T10:24+00:00"
+ },
+ "livingston": {
+  "nom": "Livingston",
+  "statut": null,
+  "verifie": "2026-11-15T16:25+00:00"
  },
  "loe shimmy": {
   "nom": "Loe Shimmy",
