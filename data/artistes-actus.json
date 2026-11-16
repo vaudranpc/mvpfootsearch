@@ -1,10 +1,20 @@
 {
- "genere": "2026-11-15T22:55+00:00",
+ "genere": "2026-11-16T19:40+00:00",
  "fenetre_heures": 72,
- "erreurs": [],
+ "erreurs": [
+  "Didi B: HTTP Error 429: Too Many Requests",
+  "Suspect 95: HTTP Error 429: Too Many Requests",
+  "DJ Arafat: HTTP Error 429: Too Many Requests"
+ ],
  "artistes": {
   "Didi B": [],
   "Himra": [
+   {
+    "titre": "ÀRÀWÒ Ambassadeur Awards 2026 : Himra s’offre une triple consécration, dont le ÀRÀWÒ d'Or",
+    "lien": "https://news.google.com/rss/articles/CBMixwFBVV95cUxPWTR1WnoyZVNqa0dpaU5OXzZuQ08wU0FGd0FUckZ4dnFUbUxqZEJkX0N2aHZ4SEtJQnNSRUdsOFUzUDd4RV9KNWUtS3hvUlZJYjFaVGN0X0RtdzJneEVvUFNwVDRaYnVySXFuc2hWVm5wOU84Z2J0SlgzQ2p5ZkkzR1dzQ1R5SVZCaGtCM3plLVFzRTEyOS1uV2ktOVpOSmFiaTJmSGUtWlRnbUdGQUZFSV9GWC1OeXFlbU5XZ1diS1RfWXBDT3VV?oc=5",
+    "source": "Linfodrome",
+    "date": "2026-11-16T12:53+00:00"
+   },
    {
     "titre": "Musique : Himra arrache ses locks pour avoir l’air plus « agressif »",
     "lien": "https://news.google.com/rss/articles/CBMipwFBVV95cUxNVGtvaDRoaFQ4a21fUVE3OXpCcndybjVxVmhMRmQwNzI5UWUyOXVFX1pVUUktd2FTQVpQX3RvVVYzN05ObnhuZ1kwTzFfbWlEQmRxVVRFdmh6dkNaUDliYVRNUDQ2RkNKZ3ltckFoT3ZzSmY0VUFEVnRpNmtxOUUycW45OGZIUmZxR3dISDNNeVhfUU1zQmFPc1ZOdzhqanhzdUI0S0djQQ?oc=5",
@@ -16,10 +26,17 @@
   "Philipayne": [],
   "døpelym": [],
   "KS Bloom": [],
-  "Sindika": [],
   "Suspect 95": [],
   "Jeune Morty": [],
+  "Sindika": [],
+  "Dydy Yeman": [],
   "Tiken Jah Fakoly": [
+   {
+    "titre": "Charente-Maritime : Tiken Jah Fakoly à l’affiche des Fadas du Barouf 2027",
+    "lien": "https://news.google.com/rss/articles/CBMizwFBVV95cUxQNnZvb3ZrMUFyMmh4Ty15Ry14NG9tUlEzQ1N3Mjdnb0hCT1hoc3o4LUI5b09FN1QyenpiN3Bib2NnTEhJYmxJbnl5QnM3QmlUTGxYMHIxVzhsVk5MRnkzVVotZDE4eTUyRlkyM0JMaXY5UmNTS1QzamJyWlZNM0FPdXEtRi1BTnFLMkFqQ0J1aklYWjFFZUNrTXVDSi1iTEFCOExqQnhibzJfRFN6ckZFQS15QlZmSzV6RUdPLUZkdDdHa0Vvd056Q1AwS3cya0E?oc=5",
+    "source": "Sud Ouest",
+    "date": "2026-11-16T11:19+00:00"
+   },
    {
     "titre": "Isère. Tiken Jah Fakoly, Entourloop et Flavia Coelho seront au Théâtre antique de Vienne le 15 juillet 2027",
     "lien": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxQcC1JSmZ6S0pIZkwtSkM1bHQ5Qk9OdElzZy1JUEwyT1ItVjgyakx0a0NXQklROTktQVhOWmkxcWdsdkRGczhfTEM4dEJlY0x0UlZ0UWlCM2VLLXZXa3I1OVFzQk43cUJWR25qMk04NGZWazRQTVRsSlZnQ2VhRi1wRUQ3WmduaDNUNlB4ZDM5UDdpQ29NZU1XNUctNEY1ZGFYRDcydVprV3ZaUHNOWURTc2RLb1NkT3dMQXg4QVM0ZVUyVFVpZGRlUGxLSmxrVmljU29GYVVjeEd5Zmh1VkhTVWhB?oc=5",
@@ -103,15 +120,9 @@
     "lien": "https://news.google.com/rss/articles/CBMitwFBVV95cUxObnhrWVAyeHdQQkxZTVh5cC1zMEJFRnR3eHZVNnpYVHFadldMbGtHSHB1ejhtczNaNzFYSVMyd2hjS2FnSE81d3o3S1A0VDV2bEk0dUhLV0lHQkhWbUU0eXNWNS1OMG5SVXctWG0tM04zY2xnLWRCSmxpVTczTld0SUNnU2lLM0pNRGp5NlJya2tIVFU0cnJIdFdJdFJETG12ZDl6TmZyejlaUVlMSDVQUFRENGlsTUE?oc=5",
     "source": "jds.fr",
     "date": "2026-11-13T21:57+00:00"
-   },
-   {
-    "titre": "Dakar 2026 se referme sur trois scènes dont l’Ivoirien Tiken Jah Fakoly",
-    "lien": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPNjFxZ1ppNFdtTk10d0liOWM2NUxUUkY2UDg5cEVtVGtkb2NnMkViQlRCWmZ4M0JBSVE3MXI4SjU1YlRtNEJvdHAzYTI0dnVlRFMtakhMcHg1N2g0czZaemxQR2xHcU1RY1FtMDJORWJkOWZaSEVCcHBvbndQOXQ5ZnV3OVBpTFNUSDlMckNqWEd3aU5hWldGag?oc=5",
-    "source": "Afrik",
-    "date": "2026-11-13T19:29+00:00"
    }
   ],
-  "Espoir 2000": [],
+  "Kiff No Beat": [],
   "Magic System": [
    {
     "titre": "Magic System, Zénith de Lille, Lille – 21 février 2027",
@@ -123,7 +134,6 @@
   "Alpha Blondy": [],
   "DJ Arafat": [],
   "Serge Beynaud": [],
-  "Kiff No Beat": [],
   "Bebi Philip": [],
   "Josey": [],
   "Ariel Sheney": [],
@@ -145,6 +155,7 @@
   "Tam Sir": [],
   "Ismaël Isaac": [],
   "Les Garagistes": [],
+  "Espoir 2000": [],
   "Dobet Gnahoré": [],
   "Safarel Obiang": [],
   "Roseline Layo": [
@@ -157,7 +168,14 @@
   ],
   "Team Paiya": [],
   "DJ Kedjevara": [],
-  "Gadji Céli": [],
+  "Gadji Céli": [
+   {
+    "titre": "Gadji Celi - Victoire Des éléphants (audio) Mom (NxY9HzA38G)",
+    "lien": "https://news.google.com/rss/articles/CBMibkFVX3lxTFBWYnRzczE3b01aQUJoRFhDSDJfWVB5Zk9WVHAzYVB6SjlfWTRMdDdlX1NOX0VmV0t3U3NXWGdLYk1MMGpWMHZhUWd0TVBWVVpTQ1ZwY3U0aGl5T0JPOUNVTFY3NmtERjlSVnFKamlR?oc=5",
+    "source": "Unisba Media",
+    "date": "2026-11-16T00:18+00:00"
+   }
+  ],
   "Monique Séka": [],
   "Lil Jay Bingerack": [],
   "Yabongo Lova": [],
@@ -169,6 +187,24 @@
   "Bamba Ami Sarah": [],
   "Zoh Cataleya": [],
   "Nash": [
+   {
+    "titre": "Kate Nash finance toujours sa tournée grâce à OnlyFans",
+    "lien": "https://news.google.com/rss/articles/CBMiigFBVV95cUxOZGlGWjRmeGVfV3hBRVN2dnh2cjVvYmZBcDBKVjBvT0FCaS1yNzQ2ZlNlRzJkWWdLaXcyN1RtYndGSVl6c081cVdZTjU0MV9YTTNIUkJrM2NaQmlTX1BQckRoMnZxRjhlSldjVGdhYmtfQ3ZNSWlOUHBDNU1WZWIxaHBLVzhQNTI4VWc?oc=5",
+    "source": "starzone.ch",
+    "date": "2026-11-16T14:06+00:00"
+   },
+   {
+    "titre": "Kate Nash utilise OnlyFans pour soutenir sa tournée",
+    "lien": "https://news.google.com/rss/articles/CBMiugFBVV95cUxQNFVPeVJOS3dIaUtiME1RQUx3cktNMWRrQXphT21SVVEtZVJSRk54Zlp5X1BGV0R0V0hYSDM3eFVnRWM4aVlwY2hvNlJWc1Q0VTJHTWJNNDQzMmJoQTh5eU0yMVgyc0YyLTNvaVV0ZTZaZ3RpSjZYWjB6ZkdjNEVLeG1SYU5wMk1sbGhRT1lpdzZjU2g0X2JRVE8yeUhWeW9UWThOX2xHSl95cnJ0dUVhOHBXU0lJUG9yT1E?oc=5",
+    "source": "KarloBag.eu",
+    "date": "2026-11-16T10:15+00:00"
+   },
+   {
+    "titre": "Nash à Caluire-et-Cuire 2027 | Tournée de Bonchour : billetterie-",
+    "lien": "https://news.google.com/rss/articles/CBMifkFVX3lxTFA0QTMtOUVUc0cxRDZrTG1QWW10OGNINmp0WVlUR1VQTDFOVVp3eFVleHE4ekYyNHFxVlBCVlN3cTJJeTRGV0lvYXNSWVMtcTJ5cWtDVEdsbG81eU9xOW02dGZBUW1KdVU2QzE3NTlWUWwtZGhobkVXOVhNM0Uzdw?oc=5",
+    "source": "jds.fr",
+    "date": "2026-11-15T23:31+00:00"
+   },
    {
     "titre": "Nash – Bonchour, Cité des Congrès, Nantes – 20 janvier 2027",
     "lien": "https://news.google.com/rss/articles/CBMikAFBVV95cUxQaGFnU1dBTTVyYXI0c2YzWWI3eG1DanBHQ21CMXdIb2IyeWdLRUZKa19WRy1aRnM1Q3ZGc0hJcW1kZjhoamFmNUNOVWlhTmU5aS1zM20yTk9KaVlZTkw2ejdydU9rSnhSa0ZlR0FXRzFBYmZuZ1QwTFZEdmg5bFZ0YWhpT01PNjA2Tm1QWmNoalU?oc=5",
