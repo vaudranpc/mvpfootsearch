@@ -1,11 +1,7 @@
 {
- "genere": "2026-11-16T19:40+00:00",
+ "genere": "2026-11-17T03:57+00:00",
  "fenetre_heures": 72,
- "erreurs": [
-  "Didi B: HTTP Error 429: Too Many Requests",
-  "Suspect 95: HTTP Error 429: Too Many Requests",
-  "DJ Arafat: HTTP Error 429: Too Many Requests"
- ],
+ "erreurs": [],
  "artistes": {
   "Didi B": [],
   "Himra": [
@@ -28,8 +24,9 @@
   "KS Bloom": [],
   "Suspect 95": [],
   "Jeune Morty": [],
-  "Sindika": [],
   "Dydy Yeman": [],
+  "Sindika": [],
+  "Kiff No Beat": [],
   "Tiken Jah Fakoly": [
    {
     "titre": "Charente-Maritime : Tiken Jah Fakoly à l’affiche des Fadas du Barouf 2027",
@@ -108,21 +105,8 @@
     "lien": "https://news.google.com/rss/articles/CBMisAJBVV95cUxQd2JNZVpraGxFaVZnNDlZMTIxdzgzN3VlUndDM0RBRklGQnhaR3Vkd214SlFZZVFheGhGYlNHTFE1UEg3TFl0OHd2bE1GNWFrazdJRFpkaGZEY3hhNFpBeXJTMm54M1pIdEQ5aFQ0eXBaZ21VNUJpN0lNTElpMndFa3QxOEZ5SmNpYk1wVUhoMUVxQ0txSWJsQUlIT1EySmx5UjJvekpfdHBQV0RZSVZ6UElzb0ZTbDdzM3R4c0lQN1k4c0NaM3lKTzVsd3Y5TzRNWGdUQjJyLVg2bGdxWFIwOTBzM0lSNkM1UFdNT204Z0ppX2tFQWF6aEQ0U3JpM1kzWE4xejFsNEtqWWdXZV9pXzFiaGh6aHZ5dnRELTlMTU9IV0FyZUpoaU5mZnQ1ZmEy?oc=5",
     "source": "Seneweb",
     "date": "2026-11-14T06:15+00:00"
-   },
-   {
-    "titre": "Dakar : Tiken Jah Fakoly annoncé en concert ce samedi à la Place de la Nation",
-    "lien": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQN3NmOWNXc0xCa1dNRWUzSG1FdkUwQUpJcTlXVkdRdEIzSWhpaUV4UVd0TjlJYjZLMzdfdmo3QTZ4ajFYUU9SQm9iWkNYQ01RejN5N3Z3X00wSGVVZDhwZmgwSVZqN3Mza3lDcjZRQ2Q5aHZ3U3NMOEt5eElnLWxCSGE1NzItQUVTQWN3VGtRTlBDQTFNM1k0YkxQaHNTMFF4TG5vQVZ0Ulk2U2lhZkVGdmZDSQ?oc=5",
-    "source": "Thiesinfo",
-    "date": "2026-11-14T00:21+00:00"
-   },
-   {
-    "titre": "Tiken Jah Fakoly + guests au Théâtre Antique 2027 | billetterie",
-    "lien": "https://news.google.com/rss/articles/CBMitwFBVV95cUxObnhrWVAyeHdQQkxZTVh5cC1zMEJFRnR3eHZVNnpYVHFadldMbGtHSHB1ejhtczNaNzFYSVMyd2hjS2FnSE81d3o3S1A0VDV2bEk0dUhLV0lHQkhWbUU0eXNWNS1OMG5SVXctWG0tM04zY2xnLWRCSmxpVTczTld0SUNnU2lLM0pNRGp5NlJya2tIVFU0cnJIdFdJdFJETG12ZDl6TmZyejlaUVlMSDVQUFRENGlsTUE?oc=5",
-    "source": "jds.fr",
-    "date": "2026-11-13T21:57+00:00"
    }
   ],
-  "Kiff No Beat": [],
   "Magic System": [
    {
     "titre": "Magic System, Zénith de Lille, Lille – 21 février 2027",
@@ -139,6 +123,12 @@
   "Ariel Sheney": [],
   "Mix Premier": [],
   "Meiway": [
+   {
+    "titre": "Concerts de fin d’année : Meiway promet un « bal impérial » d’anthologie",
+    "lien": "https://news.google.com/rss/articles/CBMikAFBVV95cUxOUmxiUnVWWFJobEpJWlJuYU1GUlJfelkyb0V2VnRWMWtEeWJBUEpCOVM0ZUdTNkRlalJhTVlrRnhtX21MUDc3YzB4SnBOSmplRFdqVDZKQ1pKdVBwaHoxbGFXUEFMN1RnZm5hN3NUcUhqR0RWbEJfZWEzSXZBNnNRbnY3MmVfQ0NPRUVuaHpTMXo?oc=5",
+    "source": "afrik soir",
+    "date": "2026-11-16T20:00+00:00"
+   },
    {
     "titre": "Abissa 2026 : la 1ere sortie du roi des N’Zima Kotoko, Meiway qui a provoqué une émeute populaire",
     "lien": "https://news.google.com/rss/articles/CBMiywFBVV95cUxQTDhtbFFZTVpvQ2lRT1lsa1F2NUVNd1Q4SWY3UEFlV0w1czNZZjBBQzZiQmx1cll4VDR2cThNV2w2RVR5UndaYzFhYkUzZG9OYUV3UVc0VFhrMC1yNnRCalVaOEhVdVdaRHpIUUp0MEo1MnRXaTJjTGVlRGVwdGZOTHRUcnNhWWZUalRHRXMxTHZsZ3Q3TFJDWEtyVHN0MkZJNVd5dlBVazlFQnVkX1RnU0gwUTJKUW9KdFAtaVczSENKSzBHUDVVUV9Ucw?oc=5",
@@ -187,6 +177,12 @@
   "Bamba Ami Sarah": [],
   "Zoh Cataleya": [],
   "Nash": [
+   {
+    "titre": "Graham Nash veut chanter Yesterday à deux voix avec Paul McCartney",
+    "lien": "https://news.google.com/rss/articles/CBMirAFBVV95cUxOR2xHZzBnNk9sMlhXcDd1N3Qwcjhodm5YRXNaX1lneGFYVHpBQTZtdGU3dVVzSlJsYV9GcU1RUlhrbG5ZM1hIbVc2UHYzNUJFNjVJckNuY3ZzckZlYjZReDlyZDVXQnhfcjJDWVE3Mkhjbjg2ZlpTY0xiQWpPSDdSbjRzUF9haXdNSE0tOENpLXJXVWZiVDVFekRfb0tSSTNqdTVPQ1pnWGRjejd2?oc=5",
+    "source": "Foro3D",
+    "date": "2026-11-16T22:27+00:00"
+   },
    {
     "titre": "Kate Nash finance toujours sa tournée grâce à OnlyFans",
     "lien": "https://news.google.com/rss/articles/CBMiigFBVV95cUxOZGlGWjRmeGVfV3hBRVN2dnh2cjVvYmZBcDBKVjBvT0FCaS1yNzQ2ZlNlRzJkWWdLaXcyN1RtYndGSVl6c081cVdZTjU0MV9YTTNIUkJrM2NaQmlTX1BQckRoMnZxRjhlSldjVGdhYmtfQ3ZNSWlOUHBDNU1WZWIxaHBLVzhQNTI4VWc?oc=5",
