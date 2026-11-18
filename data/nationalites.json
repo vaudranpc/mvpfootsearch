@@ -124,6 +124,11 @@
   "statut": null,
   "verifie": "2026-10-20T11:47+00:00"
  },
+ "apoutchou national": {
+  "nom": "Apoutchou National",
+  "statut": "ivoirien",
+  "verifie": "2026-11-18T11:53+00:00"
+ },
  "aretha franklin": {
   "nom": "Aretha Franklin",
   "statut": "autre",
@@ -228,6 +233,11 @@
   "nom": "Bilouki",
   "statut": "autre",
   "verifie": "2026-10-30T18:04+00:00"
+ },
+ "birdman": {
+  "nom": "Birdman",
+  "statut": "autre",
+  "verifie": "2026-11-18T11:53+00:00"
  },
  "black sherif": {
   "nom": "Black Sherif",
@@ -474,6 +484,11 @@
   "statut": "autre",
   "verifie": "2026-10-19T02:50+00:00"
  },
+ "dry": {
+  "nom": "Dry",
+  "statut": null,
+  "verifie": "2026-11-18T11:53+00:00"
+ },
  "dyce": {
   "nom": "Dyce",
   "statut": null,
@@ -518,6 +533,11 @@
   "nom": "ENFANT NOIR SD",
   "statut": null,
   "verifie": "2026-10-19T02:50+00:00"
+ },
+ "fallon": {
+  "nom": "Fallon",
+  "statut": "autre",
+  "verifie": "2026-11-18T11:53+00:00"
  },
  "fally ipupa": {
   "nom": "Fally Ipupa",
@@ -873,6 +893,11 @@
   "nom": "Kerchak",
   "statut": "autre",
   "verifie": "2026-11-07T10:24+00:00"
+ },
+ "ketchum": {
+  "nom": "Ketchum",
+  "statut": null,
+  "verifie": "2026-11-18T11:53+00:00"
  },
  "keyizi": {
   "nom": "Keyizi",
@@ -1313,6 +1338,11 @@
   "nom": "Nayte",
   "statut": null,
   "verifie": "2026-10-25T16:31+00:00"
+ },
+ "naza": {
+  "nom": "Naza",
+  "statut": "autre",
+  "verifie": "2026-11-18T11:53+00:00"
  },
  "nej": {
   "nom": "Nej",
@@ -1759,6 +1789,11 @@
   "statut": "autre",
   "verifie": "2026-10-19T02:50+00:00"
  },
+ "stray kids": {
+  "nom": "Stray Kids",
+  "statut": "autre",
+  "verifie": "2026-11-18T11:53+00:00"
+ },
  "suspect95": {
   "nom": "Suspect95",
   "statut": null,
@@ -1902,7 +1937,7 @@
  "vda": {
   "nom": "VDA",
   "statut": null,
-  "verifie": "2026-11-09T11:45+00:00"
+  "verifie": "2026-11-18T11:53+00:00"
  },
  "vianney": {
   "nom": "Vianney",
