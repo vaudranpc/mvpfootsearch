@@ -59,6 +59,11 @@
   "statut": "ivoirien",
   "verifie": "2026-10-19T09:02+00:00"
  },
+ "adela": {
+  "nom": "ADÉLA",
+  "statut": null,
+  "verifie": "2026-11-19T11:50+00:00"
+ },
  "adele": {
   "nom": "Adele",
   "statut": "autre",
@@ -118,6 +123,11 @@
   "nom": "Amerie",
   "statut": "autre",
   "verifie": "2026-11-02T19:33+00:00"
+ },
+ "angelique kidjo": {
+  "nom": "Angélique Kidjo",
+  "statut": "autre",
+  "verifie": "2026-11-19T11:50+00:00"
  },
  "anyidons": {
   "nom": "Anyidons",
@@ -522,7 +532,7 @@
  "elyslime": {
   "nom": "elyslime!",
   "statut": null,
-  "verifie": "2026-11-04T11:05+00:00"
+  "verifie": "2026-11-19T11:50+00:00"
  },
  "enfant noir": {
   "nom": "Enfant Noir",
@@ -533,6 +543,11 @@
   "nom": "ENFANT NOIR SD",
   "statut": null,
   "verifie": "2026-10-19T02:50+00:00"
+ },
+ "evan": {
+  "nom": "EVAN",
+  "statut": null,
+  "verifie": "2026-11-19T11:50+00:00"
  },
  "fallon": {
   "nom": "Fallon",
@@ -603,6 +618,11 @@
   "nom": "Freshlyground",
   "statut": "autre",
   "verifie": "2026-10-19T02:50+00:00"
+ },
+ "future": {
+  "nom": "Future",
+  "statut": "autre",
+  "verifie": "2026-11-19T11:50+00:00"
  },
  "gazo": {
   "nom": "Gazo",
@@ -688,6 +708,11 @@
   "nom": "Highman",
   "statut": null,
   "verifie": "2026-10-23T11:47+00:00"
+ },
+ "hillsong worship": {
+  "nom": "Hillsong Worship",
+  "statut": "autre",
+  "verifie": "2026-11-19T11:50+00:00"
  },
  "hmz": {
   "nom": "Hmz",
@@ -1199,6 +1224,11 @@
   "statut": null,
   "verifie": "2026-11-17T16:11+00:00"
  },
+ "manu dibango": {
+  "nom": "Manu Dibango",
+  "statut": "autre",
+  "verifie": "2026-11-19T11:50+00:00"
+ },
  "marya ade": {
   "nom": "Marya Ade",
   "statut": null,
@@ -1459,6 +1489,11 @@
   "statut": null,
   "verifie": "2026-11-13T19:49+00:00"
  },
+ "papa wemba": {
+  "nom": "Papa Wemba",
+  "statut": "autre",
+  "verifie": "2026-11-19T11:50+00:00"
+ },
  "pascal letoublon": {
   "nom": "Pascal Letoublon",
   "statut": "autre",
@@ -1711,8 +1746,8 @@
  },
  "sienna spiro": {
   "nom": "SIENNA SPIRO",
-  "statut": null,
-  "verifie": "2026-11-06T19:29+00:00"
+  "statut": "autre",
+  "verifie": "2026-11-19T11:50+00:00"
  },
  "simi": {
   "nom": "Simi",
@@ -1839,6 +1874,11 @@
   "statut": null,
   "verifie": "2026-11-07T21:57+00:00"
  },
+ "tems": {
+  "nom": "Tems",
+  "statut": null,
+  "verifie": "2026-11-19T11:50+00:00"
+ },
  "thahomey": {
   "nom": "ThaHomey",
   "statut": null,
@@ -1859,6 +1899,11 @@
   "statut": null,
   "verifie": "2026-10-20T11:47+00:00"
  },
+ "the weeknd": {
+  "nom": "The Weeknd",
+  "statut": "autre",
+  "verifie": "2026-11-19T11:50+00:00"
+ },
  "theodora": {
   "nom": "Theodora",
   "statut": null,
@@ -1873,6 +1918,11 @@
   "nom": "Tiakola",
   "statut": "autre",
   "verifie": "2026-10-19T02:50+00:00"
+ },
+ "ticia deza": {
+  "nom": "Ticia Deza",
+  "statut": null,
+  "verifie": "2026-11-19T11:50+00:00"
  },
  "timar": {
   "nom": "Timar",
@@ -1993,6 +2043,11 @@
   "nom": "Yaknou",
   "statut": null,
   "verifie": "2026-11-08T13:38+00:00"
+ },
+ "yame": {
+  "nom": "Yamê",
+  "statut": null,
+  "verifie": "2026-11-19T11:50+00:00"
  },
  "yaya d": {
   "nom": "Yaya D",
