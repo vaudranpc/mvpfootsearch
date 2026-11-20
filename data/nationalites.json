@@ -159,6 +159,11 @@
   "statut": "autre",
   "verifie": "2026-10-19T09:02+00:00"
  },
+ "athom s mbuma": {
+  "nom": "Athom's Mbuma",
+  "statut": null,
+  "verifie": "2026-11-20T11:51+00:00"
+ },
  "ava max": {
   "nom": "Ava Max",
   "statut": "autre",
@@ -208,6 +213,11 @@
   "nom": "Bambelbee",
   "statut": null,
   "verifie": "2026-11-02T19:33+00:00"
+ },
+ "bamby": {
+  "nom": "Bamby",
+  "statut": "autre",
+  "verifie": "2026-11-20T11:51+00:00"
  },
  "bedry": {
   "nom": "Bedry",
@@ -454,6 +464,11 @@
   "statut": null,
   "verifie": "2026-11-02T19:33+00:00"
  },
+ "dj ramses": {
+  "nom": "Dj Ramses",
+  "statut": null,
+  "verifie": "2026-11-20T11:51+00:00"
+ },
  "dj wizzy 254": {
   "nom": "DJ WIZZY 254",
   "statut": null,
@@ -569,6 +584,11 @@
   "statut": "autre",
   "verifie": "2026-10-27T15:25+00:00"
  },
+ "fela kuti": {
+  "nom": "Fela Kuti",
+  "statut": "autre",
+  "verifie": "2026-11-20T11:51+00:00"
+ },
  "fergie": {
   "nom": "Fergie",
   "statut": "autre",
@@ -598,6 +618,11 @@
   "nom": "FOLA",
   "statut": null,
   "verifie": "2026-11-16T19:41+00:00"
+ },
+ "foo fighters": {
+  "nom": "Foo Fighters",
+  "statut": "autre",
+  "verifie": "2026-11-20T11:51+00:00"
  },
  "fr2d": {
   "nom": "FR2D!",
@@ -677,7 +702,7 @@
  "gunna": {
   "nom": "Gunna",
   "statut": null,
-  "verifie": "2026-10-29T10:08+00:00"
+  "verifie": "2026-11-20T11:51+00:00"
  },
  "guy2bezbar": {
   "nom": "Guy2bezbar",
@@ -874,6 +899,11 @@
   "statut": "autre",
   "verifie": "2026-11-05T20:02+00:00"
  },
+ "justin bieber": {
+  "nom": "Justin Bieber",
+  "statut": "autre",
+  "verifie": "2026-11-20T11:51+00:00"
+ },
  "kadirov mania": {
   "nom": "Kadirov Mania",
   "statut": null,
@@ -982,7 +1012,7 @@
  "kommander samo": {
   "nom": "KOMMANDER SAMO",
   "statut": null,
-  "verifie": "2026-11-11T06:39+00:00"
+  "verifie": "2026-11-20T11:51+00:00"
  },
  "krm": {
   "nom": "KRM",
@@ -1384,6 +1414,11 @@
   "statut": "autre",
   "verifie": "2026-11-09T00:58+00:00"
  },
+ "nemzzz": {
+  "nom": "Nemzzz",
+  "statut": "autre",
+  "verifie": "2026-11-20T11:51+00:00"
+ },
  "nessbeal": {
   "nom": "Nessbeal",
   "statut": "autre",
@@ -1409,10 +1444,20 @@
   "statut": "autre",
   "verifie": "2026-10-19T02:50+00:00"
  },
+ "nk divine": {
+  "nom": "NK Divine",
+  "statut": "autre",
+  "verifie": "2026-11-20T11:51+00:00"
+ },
  "no pain no gain": {
   "nom": "No Pain No Gain",
   "statut": "autre",
   "verifie": "2026-10-22T12:02+00:00"
+ },
+ "nono la grinta": {
+  "nom": "Nono La Grinta",
+  "statut": "autre",
+  "verifie": "2026-11-20T11:51+00:00"
  },
  "nooche": {
   "nom": "Nooche",
@@ -1484,6 +1529,11 @@
   "statut": "autre",
   "verifie": "2026-10-21T11:59+00:00"
  },
+ "paloma faith": {
+  "nom": "Paloma Faith",
+  "statut": "autre",
+  "verifie": "2026-11-20T11:51+00:00"
+ },
  "panther stuff": {
   "nom": "Panther Stuff",
   "statut": null,
@@ -1543,6 +1593,11 @@
   "nom": "PNL",
   "statut": "autre",
   "verifie": "2026-11-02T06:19+00:00"
+ },
+ "projexx": {
+  "nom": "Projexx",
+  "statut": "autre",
+  "verifie": "2026-11-20T11:51+00:00"
  },
  "prototype": {
   "nom": "Prototype",
@@ -1639,6 +1694,11 @@
   "statut": "autre",
   "verifie": "2026-10-19T02:50+00:00"
  },
+ "ruger": {
+  "nom": "Ruger",
+  "statut": "autre",
+  "verifie": "2026-11-20T11:51+00:00"
+ },
  "runtown": {
   "nom": "Runtown",
   "statut": "autre",
@@ -1663,6 +1723,11 @@
   "nom": "Sade",
   "statut": "autre",
   "verifie": "2026-11-09T11:45+00:00"
+ },
+ "samy succes": {
+  "nom": "Samy Succes",
+  "statut": "ivoirien",
+  "verifie": "2026-11-20T11:51+00:00"
  },
  "santos": {
   "nom": "Santos'♱",
@@ -1763,6 +1828,11 @@
   "nom": "SK 07",
   "statut": null,
   "verifie": "2026-11-02T06:19+00:00"
+ },
+ "snappy jit": {
+  "nom": "Snappy Jit",
+  "statut": null,
+  "verifie": "2026-11-20T11:51+00:00"
  },
  "snorre kirk": {
   "nom": "Snorre Kirk",
@@ -1978,6 +2048,11 @@
   "nom": "Udeyfa",
   "statut": null,
   "verifie": "2026-11-06T19:29+00:00"
+ },
+ "v dat": {
+  "nom": "V-Dat",
+  "statut": null,
+  "verifie": "2026-11-20T11:51+00:00"
  },
  "vacra": {
   "nom": "Vacra",
