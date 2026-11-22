@@ -1,9 +1,16 @@
 {
- "genere": "2026-11-21T11:17+00:00",
+ "genere": "2026-11-22T01:23+00:00",
  "fenetre_heures": 72,
  "erreurs": [],
  "artistes": {
-  "Didi B": [],
+  "Didi B": [
+   {
+    "titre": "Didi B sort « Shogun in Lagos », avec Davido et Tayc",
+    "lien": "https://news.google.com/rss/articles/CBMib0FVX3lxTFBZTy14QzR3X2JoM1htRzJRb25URi12a2lmbmtxeThpTTE5YWZ0SDdIWnNKWXdwUUZObVUtZE5pUkNkeVR2NUhMSXFxSVpTMncwemNkRkh1V0I1dDYyb3h6djZjMU5XSVNkXzVUUzZpSQ?oc=5",
+    "source": "AfrikMag",
+    "date": "2026-11-20T18:44+00:00"
+   }
+  ],
   "Himra": [],
   "Suspect 95": [],
   "døpelym": [],
@@ -11,6 +18,7 @@
   "KS Bloom": [],
   "Jeune Lion": [],
   "Jeune Morty": [],
+  "Sindika": [],
   "Tiken Jah Fakoly": [
    {
     "titre": "Tiken Jah Fakoly + guests au Théâtre Antique 2027 | billetterie",
@@ -19,39 +27,26 @@
     "date": "2026-11-20T21:40+00:00"
    },
    {
+    "titre": "Charente-Maritime : Tiken Jah Fakoly à l’affiche des Fadas du Barouf 2027",
+    "lien": "https://news.google.com/rss/articles/CBMizwFBVV95cUxQNnZvb3ZrMUFyMmh4Ty15Ry14NG9tUlEzQ1N3Mjdnb0hCT1hoc3o4LUI5b09FN1QyenpiN3Bib2NnTEhJYmxJbnl5QnM3QmlUTGxYMHIxVzhsVk5MRnkzVVotZDE4eTUyRlkyM0JMaXY5UmNTS1QzamJyWlZNM0FPdXEtRi1BTnFLMkFqQ0J1aklYWjFFZUNrTXVDSi1iTEFCOExqQnhibzJfRFN6ckZFQS15QlZmSzV6RUdPLUZkdDdHa0Vvd056Q1AwS3cya0E?oc=5",
+    "source": "Sud Ouest",
+    "date": "2026-11-19T13:35+00:00"
+   },
+   {
     "titre": "Charente-Maritime. Figure incontournable du reggae, Tiken Jah Fakoly en tête d’affiche des Fadas du Barouf",
     "lien": "https://news.google.com/rss/articles/CBMi5AFBVV95cUxQN1E0WU5kNUpKUmc2RTZGUkprckViV2wzWGI4amtDd2I1WXFjVWZnd3VzSXFYN0FBSmZVRDJ2ZWZiTVNTaDM5SWhTa1V4UkhWRzV2WW9vU3E2R01XTk9jM0FURDJ2TzdWVm9vTDhsempJSmNkV2RXRGhKaDNkSTl5ZUVTWkdranprbmpmaXEtUzk4T2I5ajlLanhFVFVBaFdoVVZocnFrekNHY3J5aXc1MUFhUFlKZGdKdVJLMjdndkljQUYzanB5NzIwUTU0dTNBa29BdDE4U2EtZjNZenUtUEF5MnI?oc=5",
     "source": "hautesaintonge.fr",
     "date": "2026-11-19T10:45+00:00"
-   },
-   {
-    "titre": "Crise institutionnelle au Sénégal : Le chanteur Tiken Jah Fakoly revient à la charge",
-    "lien": "https://news.google.com/rss/articles/CBMiygFBVV95cUxNbmNKM3FtUVZyMVNVRVE5bXRNV0g2WWhnZFJCVkpERV9nUHFrdUNFRktxd29iUkVoc05pcmtzZE8wNkJSVkFvR1JPalNBRnFMZEc0MVZULUpFcW8yekc4TUo3a0tXS3B5alZ4ZXYxZURDRldoaFlTSlVpR0JkeWlxS0ZqeVdhSlBmaEkxYVhCMjZPb3A0YU81V1lsb2YxbXpCS0xBUUZ4Q3RTNDFkZThYcUZTWDZUZEd1Rl9fbTl3N1RwT2tTSUx3Y0tn?oc=5",
-    "source": "SeneNews",
-    "date": "2026-11-18T18:36+00:00"
-   },
-   {
-    "titre": "Tiken Jah Fakoly tête d'affiche d'un concert 'Triptyque' au Théâtre Antique de Vienne cet été",
-    "lien": "https://news.google.com/rss/articles/CBMizwFBVV95cUxOdkNlNko3QVRxczN6V1RTRlV3QThfUG5uZGhDaGhKTnBzbzRibi1HZEVkTzhzYjV5czdqbE8zOU5kSnBVWkVuLWZnTTQ3THJwQlFzNmhnZTB0MEZtQVVXUkgybGdFeHhjaXdfQWhaUUFsNHZuVmRFN01WS0dyaDVhZFJLemFtMkNNOWxnZmdRTUVtX0twd0FMbExDc2RITWxNMjVyZU1hbjNDdVpBYXFtdmxscjExa2FxZnBRdVdHdHU2WE02SWhHQ1g4OWZDYjQ?oc=5",
-    "source": "InfoConcert",
-    "date": "2026-11-18T16:00+00:00"
-   },
-   {
-    "titre": "TIKEN JAH FAKOLY en concert à Paris (ZENITH DE PARIS LA VILLETTE) – 25 mars 2028",
-    "lien": "https://news.google.com/rss/articles/CBMigAFBVV95cUxNQUtzWnFZSW4zbm1MNjVfUTgtTldsLXJhaXJFMDYtNHA0cXJzZmZYXzM5UUhfNDU5Z0xfTm05dlhXWWFUVUZtYVF2UUpwQ2ZqRFp3c1FYMzd6ZkVyM2ZoMHRrZ2VuTVRFS2RJeUZqT2ptb1oxVVpoZXdwNWYzS01NUg?oc=5",
-    "source": "InfoConcert",
-    "date": "2026-11-18T16:00+00:00"
-   },
-   {
-    "titre": "Diomaye-Sonko : Tiken Jah Fakoly relance le débat et revient à la charge",
-    "lien": "https://news.google.com/rss/articles/CBMinAFBVV95cUxPdXc3MmZta25kM0Y1RHU3UGhMZ3FRTUk4cUp1WENjUVV1Q25ncTlXOVp2dXlUc0tZV2steHNaTFJIbTl4eDZ5OEMwM01TamFWd3VRcmVhOUhOeE5sd3pyc0FrLVZRWi01cTFTdjBocXFpWnBPaGl6NUtvQW5iVmZlb1dTRUk2bmpsS1RYZFlXaWFZdEFJcGVsQnZsY2g?oc=5",
-    "source": "SANSLIMITESN.COM",
-    "date": "2026-11-18T13:45+00:00"
    }
   ],
   "Kiff No Beat": [],
-  "Sindika": [],
   "Magic System": [
+   {
+    "titre": "Yopougon FC - Magic System Football Club scores en direct, face-à-face et compositions",
+    "lien": "https://news.google.com/rss/articles/CBMilwFBVV95cUxQaTZTZUQzLWZBSE52X2NQV3BxZW1BNTVjeDY2b0JiM0JocUlHTS1FOHMzcmtXM3Fyb25kNGpBczd3bHBwQm1VM0RKT0tsWUd5amVJRFZFOFFmMkNGN1BIMGNMOWxIam1xQzB0eExEWXhmWnRXb3hRNmlrMjlTQkh0cFM3YXJPM2pTa3VpS2d5cVo5RXMzLWtj?oc=5",
+    "source": "Sofascore",
+    "date": "2026-11-21T06:00+00:00"
+   },
    {
     "titre": "Montauban | Montauban en Scènes 2027 dévoile Youssoupha & MC Solaar, Skip the Use, Magic System, Shaggy… – du 24 au 27 juin 2027",
     "lien": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxNSXBPTUlCcUN0R0xFLWo4QmJ4U1RBZ3M3WkxvVFZ6dTlQYmpsTjNXcXpMQks1bHRzMDBMXzVCQTBPMXNUTmx5alItb0pEc2dIc0ltcWpDU3l1OTlhUmE0SEdaMEJHXzVMS2JNOW5fMERPSkdBY1hrR0tucmswbE9zM2U0NnR3anZoWE5rNE8xQUZ1bGx2Qm5BaGFsSVNhQ0xWM2c2dWNYZUhXY2FlcEw2N29LUElYSVBHanhNOUZYaC0?oc=5",
@@ -89,6 +84,12 @@
   "Bebi Philip": [],
   "Josey": [
    {
+    "titre": "Josey Jewell Stats, Nouvelles, Vidéos, Bio, Faits saillants - Football NFL",
+    "lien": "https://news.google.com/rss/articles/CBMia0FVX3lxTE96bTlMb1FaLVFSSkNIMEdtLXpDZHp2dXlzaVhwZHlKV2d4bWNNRWdZbERyZ3B2NUQ3RDNTZExRWlo0WURkNmZ6cEVwQ0ZsY0Z6ZF94WHFZSGpJd3hfdVFzdnBUOGZaNThYb0Mw?oc=5",
+    "source": "RDS",
+    "date": "2026-11-21T19:13+00:00"
+   },
+   {
     "titre": "YouTube : « Tout laisse » de Josey devient le 2e clip féminin ivoirien le plus vu",
     "lien": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxOdHAwYmxya3B4Ty16S2dNcExzNS1OX0p6MVFTSnF0UnlaS1hGdWxmMzVYdnhVczJhZFZ3UGJ5Z1pwRlpCc1B5Z2hMRGsxTkZRaHYxSHBRWElRbGhaMHNWMzlsZV9senZlZmNvb3o1cExUbTRMOVVVNHowRU16QmNtTmhOOW4wbG4yVFZ5LUdkNlBOai1HeUt1MjlCYlZhVmg2eXI2dEpTMkJybU1qYzRmdkoxZWZma1Bq?oc=5",
     "source": "Linfodrome",
@@ -111,14 +112,7 @@
   "Espoir 2000": [],
   "Dobet Gnahoré": [],
   "Safarel Obiang": [],
-  "Roseline Layo": [
-   {
-    "titre": "Fais ton boucan - Roseline Layo : l’hymne panafricain des Divas résonne au Grand Studio",
-    "lien": "https://news.google.com/rss/articles/CBMixwFBVV95cUxNaVAyaHdRX3pEczZvNTNzLXVzcS1GcW9vQnYtMU03bjVRYXUydG5yVlBqSjdKMEZPQmNrVGJwQmZ1RVBRMWpZTDJhZDJ3dWlLdUNLWjVuYThPRnRQM3FXQXNubng2bC1yZU54eUIxbUpSdVRITzEwLUVfUVNiRUFpaWNZcVAzZGZIYUQ3aFhvVUtXOWhqZUZEOEtzVmE5bEcwclplSnc3dGJ5MWNGaG1nal82ZUtNMlBiYUxudFBJSGFSUDJJSG4w?oc=5",
-    "source": "RFI",
-    "date": "2026-11-18T21:00+00:00"
-   }
-  ],
+  "Roseline Layo": [],
   "Team Paiya": [],
   "DJ Kedjevara": [],
   "Gadji Céli": [],
@@ -133,7 +127,20 @@
    }
   ],
   "Yabongo Lova": [],
-  "Aïcha Koné": [],
+  "Aïcha Koné": [
+   {
+    "titre": "Aïcha Koné : « La Première Dame Dominique Ouattara a énormément fait pour moi »",
+    "lien": "https://news.google.com/rss/articles/CBMinAFBVV95cUxQdE53RWFUT0VUZmF2ZGpDdUJXbUkxSS0ycjJJZ3J0a3R6LWgwLTFsN2d6dUt5UnJORWEzUkZOdy0tZ3p6WWYzNURmRHA4bDJsU1RoOG5meVotYWFSekgtb0NnVzZ1MUdqcGN5MXBGTzdXWnRFdnpxLWY0TlI5U1hjZjhGS0dpaUVQXzY2LVg1R2xRZEdjcm9RUHg1M2o?oc=5",
+    "source": "afrik soir",
+    "date": "2026-11-21T17:21+00:00"
+   },
+   {
+    "titre": "Aïcha Koné : « J’ai été déçue par Affou Kéïta »",
+    "lien": "https://news.google.com/rss/articles/CBMicEFVX3lxTE9yZmVVLXhGZFVXNUVha21oQVYxTGJRbEw3X2ZqMmpaZTlVZW44dDRTb3Y2MUMyUFZ5V2tnMEJDb3B2R1dpdllwN2RTTlhkbFdLYzlZS1RTX2gtNDNYV0QwVm0tR1ptV0N4VmtmQVgtQnI?oc=5",
+    "source": "afrik soir",
+    "date": "2026-11-21T17:18+00:00"
+   }
+  ],
   "Fadal Dey": [],
   "Kajeem": [],
   "Nayanka Bell": [],
