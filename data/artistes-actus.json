@@ -1,5 +1,5 @@
 {
- "genere": "2026-11-22T01:23+00:00",
+ "genere": "2026-11-22T11:36+00:00",
  "fenetre_heures": 72,
  "erreurs": [],
  "artistes": {
@@ -11,12 +11,20 @@
     "date": "2026-11-20T18:44+00:00"
    }
   ],
-  "Himra": [],
-  "Suspect 95": [],
+  "Himra": [
+   {
+    "titre": "Himra sacré meilleur artiste africain 2026 aux Galsen Urban Awards",
+    "lien": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNWGs3WWtERF9aVDNacUpVcHNBMjRjVGQ3ZEhYNFhxTS1IaURXVHVsSzd3bjBmTnh2bVBHeVM2QkpiNnVRby16c0p5Y3FCbldONGJLb2FlaFJ6YmdEZzRQem15X3FqVHMxNGJnS2JRS216RHdzUWItNkVPOVYtNTNnRU1CdmYyMEk0Y2JYQW52UHRvOTBjTGJUZVFKZTNzYTJLZ3NiS2lFdzJyOVRqU1RIc291aDE?oc=5",
+    "source": "Banouto.bj",
+    "date": "2026-11-22T11:00+00:00"
+   }
+  ],
   "døpelym": [],
+  "Suspect 95": [],
   "Philipayne": [],
-  "KS Bloom": [],
   "Jeune Lion": [],
+  "Ernesto djédjé": [],
+  "KS Bloom": [],
   "Jeune Morty": [],
   "Sindika": [],
   "Tiken Jah Fakoly": [
@@ -31,12 +39,6 @@
     "lien": "https://news.google.com/rss/articles/CBMizwFBVV95cUxQNnZvb3ZrMUFyMmh4Ty15Ry14NG9tUlEzQ1N3Mjdnb0hCT1hoc3o4LUI5b09FN1QyenpiN3Bib2NnTEhJYmxJbnl5QnM3QmlUTGxYMHIxVzhsVk5MRnkzVVotZDE4eTUyRlkyM0JMaXY5UmNTS1QzamJyWlZNM0FPdXEtRi1BTnFLMkFqQ0J1aklYWjFFZUNrTXVDSi1iTEFCOExqQnhibzJfRFN6ckZFQS15QlZmSzV6RUdPLUZkdDdHa0Vvd056Q1AwS3cya0E?oc=5",
     "source": "Sud Ouest",
     "date": "2026-11-19T13:35+00:00"
-   },
-   {
-    "titre": "Charente-Maritime. Figure incontournable du reggae, Tiken Jah Fakoly en tête d’affiche des Fadas du Barouf",
-    "lien": "https://news.google.com/rss/articles/CBMi5AFBVV95cUxQN1E0WU5kNUpKUmc2RTZGUkprckViV2wzWGI4amtDd2I1WXFjVWZnd3VzSXFYN0FBSmZVRDJ2ZWZiTVNTaDM5SWhTa1V4UkhWRzV2WW9vU3E2R01XTk9jM0FURDJ2TzdWVm9vTDhsempJSmNkV2RXRGhKaDNkSTl5ZUVTWkdranprbmpmaXEtUzk4T2I5ajlLanhFVFVBaFdoVVZocnFrekNHY3J5aXc1MUFhUFlKZGdKdVJLMjdndkljQUYzanB5NzIwUTU0dTNBa29BdDE4U2EtZjNZenUtUEF5MnI?oc=5",
-    "source": "hautesaintonge.fr",
-    "date": "2026-11-19T10:45+00:00"
    }
   ],
   "Kiff No Beat": [],
@@ -101,11 +103,9 @@
   "Meiway": [],
   "Soum Bill": [],
   "Shado Chris": [],
-  "Fior 2 Bior": [],
   "Debordo Leekunfa": [],
   "Widgunz": [],
   "Molare": [],
-  "Black K": [],
   "Tam Sir": [],
   "Ismaël Isaac": [],
   "Les Garagistes": [],
@@ -118,16 +118,20 @@
   "Gadji Céli": [],
   "Monique Séka": [],
   "Lil Jay Bingerack": [],
-  "Nash": [
-   {
-    "titre": "Nash à Tours 2027 | Tournée Bonchour de Nash : billets",
-    "lien": "https://news.google.com/rss/articles/CBMif0FVX3lxTE1UUFBQTm9uZ0MyakVvQ2txZWtvWWNtek9jcUo5T0w4RlJIQWkxYnpNVi1kR3I0VUlsTlBvNVZTN3VZcXlPY3poSmdtS3RCQlZGRGtEYzNDSmlPLUgzbDdNZXg0VHk5SFhGZWxPbzgxMHhCWDhoYlY1dlNrQzZIeUU?oc=5",
-    "source": "jds.fr",
-    "date": "2026-11-20T17:22+00:00"
-   }
-  ],
   "Yabongo Lova": [],
   "Aïcha Koné": [
+   {
+    "titre": "Aïcha Koné : « Laurent Gbagbo et moi, avons des liens familiaux »",
+    "lien": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQUk4wLV80VnZ1MlVxU1Z0TjVMSGFIeWxkSl9VeGZIZnNFcXF6eDN3Y1ZmM3NVbkRXNHJ0cVBZR3ZzdFF6Vzh1amVtMnRUbFl1eGV2TW5sb0M5azhVWjZGV3RmVnVvU2dTQVZnMkxnUUM2WmNwYi1qbjgxa2tqOWxCNGV1RTNsbXRSRGRhLVd3?oc=5",
+    "source": "afrik soir",
+    "date": "2026-11-22T09:14+00:00"
+   },
+   {
+    "titre": "Aïcha Koné à propos de la mère d’Affou Kéïta : « Je ne pardonnerai jamais à Koumba »",
+    "lien": "https://news.google.com/rss/articles/CBMiogFBVV95cUxNam1udW9xWFM0czNJZ1lIOHNOelQ5M0syTWFNYnhQc0REYnJRRmxuNVNOcUJKYmw4Ny10V3hjWldpZXFlaWdRMU05a24zRGUtaDBSTG5INkE4OGJPemRnZHVIYTNYWHVyQUpIalY5MUlSRWN2YWRXajBYUDZZV2J6MV9uU0JOUTNUMVVMZ2hSS25mRk9JYkxDeG5TUFR5WVFMWnc?oc=5",
+    "source": "afrik soir",
+    "date": "2026-11-22T08:42+00:00"
+   },
    {
     "titre": "Aïcha Koné : « La Première Dame Dominique Ouattara a énormément fait pour moi »",
     "lien": "https://news.google.com/rss/articles/CBMinAFBVV95cUxQdE53RWFUT0VUZmF2ZGpDdUJXbUkxSS0ycjJJZ3J0a3R6LWgwLTFsN2d6dUt5UnJORWEzUkZOdy0tZ3p6WWYzNURmRHA4bDJsU1RoOG5meVotYWFSekgtb0NnVzZ1MUdqcGN5MXBGTzdXWnRFdnpxLWY0TlI5U1hjZjhGS0dpaUVQXzY2LVg1R2xRZEdjcm9RUHg1M2o?oc=5",
@@ -147,6 +151,22 @@
   "Petit Yodé & L'Enfant Siro": [],
   "Bamba Ami Sarah": [],
   "Zoh Cataleya": [],
-  "Kerozen DJ": []
+  "Black K": [],
+  "Nash": [
+   {
+    "titre": "Nash à Caluire-et-Cuire 2027 | Tournée de Bonchour : billetterie-",
+    "lien": "https://news.google.com/rss/articles/CBMifkFVX3lxTFA0QTMtOUVUc0cxRDZrTG1QWW10OGNINmp0WVlUR1VQTDFOVVp3eFVleHE4ekYyNHFxVlBCVlN3cTJJeTRGV0lvYXNSWVMtcTJ5cWtDVEdsbG81eU9xOW02dGZBUW1KdVU2QzE3NTlWUWwtZGhobkVXOVhNM0Uzdw?oc=5",
+    "source": "jds.fr",
+    "date": "2026-11-22T00:17+00:00"
+   },
+   {
+    "titre": "Nash à Tours 2027 | Tournée Bonchour de Nash : billets",
+    "lien": "https://news.google.com/rss/articles/CBMif0FVX3lxTE1UUFBQTm9uZ0MyakVvQ2txZWtvWWNtek9jcUo5T0w4RlJIQWkxYnpNVi1kR3I0VUlsTlBvNVZTN3VZcXlPY3poSmdtS3RCQlZGRGtEYzNDSmlPLUgzbDdNZXg0VHk5SFhGZWxPbzgxMHhCWDhoYlY1dlNrQzZIeUU?oc=5",
+    "source": "jds.fr",
+    "date": "2026-11-20T17:22+00:00"
+   }
+  ],
+  "Kerozen DJ": [],
+  "Fior 2 Bior": []
  }
 }

@@ -154,6 +154,11 @@
   "statut": null,
   "verifie": "2026-11-16T19:41+00:00"
  },
+ "ashe": {
+  "nom": "Ashe",
+  "statut": null,
+  "verifie": "2026-11-22T11:36+00:00"
+ },
  "astrid s": {
   "nom": "Astrid S",
   "statut": "autre",
@@ -289,6 +294,11 @@
   "statut": null,
   "verifie": "2026-11-16T19:41+00:00"
  },
+ "brandi carlile": {
+  "nom": "Brandi Carlile",
+  "statut": "autre",
+  "verifie": "2026-11-22T11:36+00:00"
+ },
  "bujaa beats": {
   "nom": "BuJaa Beats",
   "statut": null,
@@ -328,6 +338,11 @@
   "nom": "Cheb Houssem",
   "statut": null,
   "verifie": "2026-10-27T15:25+00:00"
+ },
+ "chella": {
+  "nom": "Chella",
+  "statut": null,
+  "verifie": "2026-11-22T11:36+00:00"
  },
  "chidi solomon": {
   "nom": "Chidi Solomon",
@@ -564,6 +579,11 @@
   "statut": null,
   "verifie": "2026-10-19T02:50+00:00"
  },
+ "ernesto djedje": {
+  "nom": "Ernesto djédjé",
+  "statut": "ivoirien",
+  "verifie": "2026-11-22T11:36+00:00"
+ },
  "evan": {
   "nom": "EVAN",
   "statut": null,
@@ -667,7 +687,7 @@
  "generation nerf": {
   "nom": "Generation Nerf",
   "statut": null,
-  "verifie": "2026-11-09T11:45+00:00"
+  "verifie": "2026-11-22T11:36+00:00"
  },
  "genezio": {
   "nom": "Genezio",
@@ -763,6 +783,11 @@
   "nom": "Huntrill",
   "statut": null,
   "verifie": "2026-10-22T12:02+00:00"
+ },
+ "iamddb": {
+  "nom": "IAMDDB",
+  "statut": "autre",
+  "verifie": "2026-11-22T11:36+00:00"
  },
  "ino casablanca": {
   "nom": "Ino Casablanca",
@@ -1012,7 +1037,7 @@
  "kokosvoice": {
   "nom": "Kokosvoice",
   "statut": null,
-  "verifie": "2026-11-15T06:44+00:00"
+  "verifie": "2026-11-22T11:36+00:00"
  },
  "kommander samo": {
   "nom": "KOMMANDER SAMO",
@@ -1189,6 +1214,11 @@
   "statut": "autre",
   "verifie": "2026-11-06T19:29+00:00"
  },
+ "lil pcs": {
+  "nom": "LIL PCS",
+  "statut": null,
+  "verifie": "2026-11-22T11:36+00:00"
+ },
  "lil wayne": {
   "nom": "Lil Wayne",
   "statut": "autre",
@@ -1218,6 +1248,11 @@
   "nom": "Loe Shimmy",
   "statut": "autre",
   "verifie": "2026-11-11T06:39+00:00"
+ },
+ "lojay": {
+  "nom": "Lojay",
+  "statut": null,
+  "verifie": "2026-11-22T11:36+00:00"
  },
  "lord samosa": {
   "nom": "Lord Samosa",
@@ -1294,10 +1329,15 @@
   "statut": null,
   "verifie": "2026-11-16T19:41+00:00"
  },
+ "mc kauan pv": {
+  "nom": "MC Kauan PV",
+  "statut": null,
+  "verifie": "2026-11-22T11:36+00:00"
+ },
  "mc yoshi": {
   "nom": "MC YOSHI",
   "statut": null,
-  "verifie": "2026-11-15T06:44+00:00"
+  "verifie": "2026-11-22T11:36+00:00"
  },
  "meryl": {
   "nom": "Meryl",
