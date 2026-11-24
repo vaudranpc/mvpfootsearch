@@ -1,5 +1,5 @@
 {
- "genere": "2026-11-24T02:16+00:00",
+ "genere": "2026-11-24T13:53+00:00",
  "fenetre_heures": 72,
  "erreurs": [],
  "artistes": {
@@ -30,6 +30,7 @@
   "Jeune Morty": [],
   "Jeune Lion": [],
   "KS Bloom": [],
+  "Sindika": [],
   "Tiken Jah Fakoly": [
    {
     "titre": "Tiken Jah Fakoly + guests au Théâtre Antique 2027 | billetterie",
@@ -38,16 +39,8 @@
     "date": "2026-11-22T17:47+00:00"
    }
   ],
-  "Sindika": [],
   "Kiff No Beat": [],
-  "Magic System": [
-   {
-    "titre": "Yopougon FC - Magic System Football Club scores en direct, face-à-face et compositions",
-    "lien": "https://news.google.com/rss/articles/CBMilwFBVV95cUxQaTZTZUQzLWZBSE52X2NQV3BxZW1BNTVjeDY2b0JiM0JocUlHTS1FOHMzcmtXM3Fyb25kNGpBczd3bHBwQm1VM0RKT0tsWUd5amVJRFZFOFFmMkNGN1BIMGNMOWxIam1xQzB0eExEWXhmWnRXb3hRNmlrMjlTQkh0cFM3YXJPM2pTa3VpS2d5cVo5RXMzLWtj?oc=5",
-    "source": "Sofascore",
-    "date": "2026-11-21T06:00+00:00"
-   }
-  ],
+  "Magic System": [],
   "Alpha Blondy": [],
   "DJ Arafat": [],
   "Bebi Philip": [],
@@ -135,6 +128,19 @@
   ],
   "Serge Beynaud": [],
   "Kerozen DJ": [],
-  "Nash": []
+  "Nash": [
+   {
+    "titre": "Nash à Toulon 2027 | de la tournée Bonchour : billets",
+    "lien": "https://news.google.com/rss/articles/CBMigAFBVV95cUxNSHFkVHFiV0FkSi1WSGE0ZWFwelE1Z0hrRkp2b1YzV09ZbnpLZjdPNEZHUHRxZWIzWUdOd2RRRUEzQ3NRd0ctdm9Cc2JqZThmNkxqa2VFVFc5SEt5OTVBQVA2bFJKaW9wNG1RN1FLWGlzZW9tZ3A0Q1V3M1Z2WkM0aw?oc=5",
+    "source": "jds.fr",
+    "date": "2026-11-24T11:20+00:00"
+   },
+   {
+    "titre": "Nash à Caluire-et-Cuire 2027 | Tournée de Bonchour : billetterie-",
+    "lien": "https://news.google.com/rss/articles/CBMifkFVX3lxTFA0QTMtOUVUc0cxRDZrTG1QWW10OGNINmp0WVlUR1VQTDFOVVp3eFVleHE4ekYyNHFxVlBCVlN3cTJJeTRGV0lvYXNSWVMtcTJ5cWtDVEdsbG81eU9xOW02dGZBUW1KdVU2QzE3NTlWUWwtZGhobkVXOVhNM0Uzdw?oc=5",
+    "source": "jds.fr",
+    "date": "2026-11-22T00:17+00:00"
+   }
+  ]
  }
 }
