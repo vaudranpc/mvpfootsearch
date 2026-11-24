@@ -37,7 +37,7 @@
  "63kluf": {
   "nom": "63KLUF",
   "statut": null,
-  "verifie": "2026-11-16T19:41+00:00"
+  "verifie": "2026-11-24T02:16+00:00"
  },
  "63og": {
   "nom": "63OG",
@@ -47,7 +47,7 @@
  "6kohsly": {
   "nom": "6kohsly",
   "statut": null,
-  "verifie": "2026-11-16T19:41+00:00"
+  "verifie": "2026-11-24T02:16+00:00"
  },
  "6uff": {
   "nom": "6uff",
@@ -117,7 +117,7 @@
  "ameka zrai": {
   "nom": "Ameka Zrai",
   "statut": null,
-  "verifie": "2026-11-16T19:41+00:00"
+  "verifie": "2026-11-24T02:16+00:00"
  },
  "amerie": {
   "nom": "Amerie",
@@ -152,7 +152,7 @@
  "asapjo": {
   "nom": "AsapJo",
   "statut": null,
-  "verifie": "2026-11-16T19:41+00:00"
+  "verifie": "2026-11-24T02:16+00:00"
  },
  "ashe": {
   "nom": "Ashe",
@@ -189,6 +189,11 @@
   "statut": null,
   "verifie": "2026-11-17T16:11+00:00"
  },
+ "azzi on the beat": {
+  "nom": "Azzi on the beat",
+  "statut": null,
+  "verifie": "2026-11-24T02:16+00:00"
+ },
  "b one shakazulu": {
   "nom": "B-One Shakazulu",
   "statut": null,
@@ -202,7 +207,7 @@
  "babydaiz": {
   "nom": "BabyDaiz",
   "statut": null,
-  "verifie": "2026-11-16T19:41+00:00"
+  "verifie": "2026-11-24T02:16+00:00"
  },
  "bad bunny": {
   "nom": "Bad Bunny",
@@ -227,7 +232,7 @@
  "bedry": {
   "nom": "Bedry",
   "statut": null,
-  "verifie": "2026-11-16T19:41+00:00"
+  "verifie": "2026-11-24T02:16+00:00"
  },
  "beeby": {
   "nom": "Beeby",
@@ -277,7 +282,7 @@
  "bne": {
   "nom": "Bné",
   "statut": null,
-  "verifie": "2026-11-16T19:41+00:00"
+  "verifie": "2026-11-24T02:16+00:00"
  },
  "bnxn": {
   "nom": "BNXN",
@@ -327,7 +332,7 @@
  "cca": {
   "nom": "CØCA",
   "statut": null,
-  "verifie": "2026-11-16T19:41+00:00"
+  "verifie": "2026-11-24T02:16+00:00"
  },
  "chapito": {
   "nom": "Chapito",
@@ -717,7 +722,7 @@
  "greedbanks": {
   "nom": "Greedbanks",
   "statut": null,
-  "verifie": "2026-11-16T19:41+00:00"
+  "verifie": "2026-11-24T02:16+00:00"
  },
  "guizmo": {
   "nom": "Guizmo",
@@ -772,7 +777,7 @@
  "hoodbaby": {
   "nom": "Hoodbaby",
   "statut": null,
-  "verifie": "2026-11-16T19:41+00:00"
+  "verifie": "2026-11-24T02:16+00:00"
  },
  "hotkeed": {
   "nom": "Hotkeed",
@@ -812,7 +817,7 @@
  "jam$co": {
   "nom": "jam$co",
   "statut": null,
-  "verifie": "2026-11-16T19:41+00:00"
+  "verifie": "2026-11-24T02:16+00:00"
  },
  "james blunt": {
   "nom": "James Blunt",
@@ -828,6 +833,11 @@
   "nom": "Jarodjersey",
   "statut": null,
   "verifie": "2026-10-30T18:04+00:00"
+ },
+ "jason derulo": {
+  "nom": "Jason Derulo",
+  "statut": "autre",
+  "verifie": "2026-11-24T02:16+00:00"
  },
  "jazz lounge coffee music": {
   "nom": "Jazz Lounge Coffee Music",
@@ -882,12 +892,12 @@
  "jojo le barbu": {
   "nom": "Jojo le Barbu",
   "statut": null,
-  "verifie": "2026-11-16T19:41+00:00"
+  "verifie": "2026-11-24T02:16+00:00"
  },
  "jolagreen23": {
   "nom": "Jolagreen23",
   "statut": null,
-  "verifie": "2026-11-16T19:41+00:00"
+  "verifie": "2026-11-24T02:16+00:00"
  },
  "jonathan c gambela": {
   "nom": "Jonathan C. Gambela",
@@ -947,7 +957,7 @@
  "kage": {
   "nom": "KAGE",
   "statut": null,
-  "verifie": "2026-11-16T19:41+00:00"
+  "verifie": "2026-11-24T02:16+00:00"
  },
  "karol g": {
   "nom": "KAROL G",
@@ -1047,7 +1057,7 @@
  "krm": {
   "nom": "KRM",
   "statut": null,
-  "verifie": "2026-11-16T19:41+00:00"
+  "verifie": "2026-11-24T02:16+00:00"
  },
  "krslyam": {
   "nom": "KrsLyam",
@@ -1087,7 +1097,7 @@
  "la b 7": {
   "nom": "La B 7",
   "statut": null,
-  "verifie": "2026-11-16T19:41+00:00"
+  "verifie": "2026-11-24T02:16+00:00"
  },
  "la b7": {
   "nom": "LA B7",
@@ -1137,7 +1147,7 @@
  "lamoula$": {
   "nom": "Lamoula$",
   "statut": null,
-  "verifie": "2026-11-16T19:41+00:00"
+  "verifie": "2026-11-24T02:16+00:00"
  },
  "lana del rey": {
   "nom": "Lana Del Rey",
@@ -1172,7 +1182,7 @@
  "le couteau": {
   "nom": "Le couteau",
   "statut": null,
-  "verifie": "2026-11-15T16:25+00:00"
+  "verifie": "2026-11-24T02:16+00:00"
  },
  "le marco": {
   "nom": "Le Marco",
@@ -1192,7 +1202,7 @@
  "les patrons": {
   "nom": "Les Patrons",
   "statut": null,
-  "verifie": "2026-11-08T13:38+00:00"
+  "verifie": "2026-11-24T02:16+00:00"
  },
  "leto": {
   "nom": "Leto",
@@ -1317,7 +1327,7 @@
  "mauvais djo": {
   "nom": "Mauvais Djo",
   "statut": null,
-  "verifie": "2026-11-16T19:41+00:00"
+  "verifie": "2026-11-24T02:16+00:00"
  },
  "mavo": {
   "nom": "Mavo",
@@ -1517,7 +1527,7 @@
  "nooche": {
   "nom": "Nooche",
   "statut": null,
-  "verifie": "2026-11-16T19:41+00:00"
+  "verifie": "2026-11-24T02:16+00:00"
  },
  "nsg": {
   "nom": "NSG",
@@ -1537,7 +1547,7 @@
  "og mahilet": {
   "nom": "OG Mahilet",
   "statut": null,
-  "verifie": "2026-11-16T19:41+00:00"
+  "verifie": "2026-11-24T02:16+00:00"
  },
  "olamide": {
   "nom": "Olamide",
@@ -1607,7 +1617,7 @@
  "paulo chakal": {
   "nom": "Paulo Chakal",
   "statut": null,
-  "verifie": "2026-11-05T20:02+00:00"
+  "verifie": "2026-11-24T02:16+00:00"
  },
  "perenimo": {
   "nom": "PERENIMO",
@@ -1642,7 +1652,7 @@
  "pluie et tonnerre de traxlab": {
   "nom": "Pluie et Tonnerre de TraxLab",
   "statut": null,
-  "verifie": "2026-11-16T19:41+00:00"
+  "verifie": "2026-11-24T02:16+00:00"
  },
  "pnl": {
   "nom": "PNL",
@@ -1677,7 +1687,7 @@
  "r2": {
   "nom": "R2",
   "statut": null,
-  "verifie": "2026-11-01T16:06+00:00"
+  "verifie": "2026-11-24T02:16+00:00"
  },
  "ravyn lenae": {
   "nom": "Ravyn Lenae",
@@ -1784,6 +1794,11 @@
   "statut": "autre",
   "verifie": "2026-11-09T11:45+00:00"
  },
+ "salif keita": {
+  "nom": "Salif Keïta",
+  "statut": "autre",
+  "verifie": "2026-11-24T02:16+00:00"
+ },
  "samy succes": {
   "nom": "Samy Succes",
   "statut": "ivoirien",
@@ -1888,6 +1903,11 @@
   "nom": "SK 07",
   "statut": null,
   "verifie": "2026-11-02T06:19+00:00"
+ },
+ "slayyyter": {
+  "nom": "Slayyyter",
+  "statut": "autre",
+  "verifie": "2026-11-24T02:16+00:00"
  },
  "snappy jit": {
   "nom": "Snappy Jit",
@@ -2022,7 +2042,7 @@
  "thb": {
   "nom": "THB",
   "statut": null,
-  "verifie": "2026-11-16T19:41+00:00"
+  "verifie": "2026-11-24T02:16+00:00"
  },
  "the chainsmokers": {
   "nom": "The Chainsmokers",
@@ -2042,7 +2062,7 @@
  "theodora": {
   "nom": "Theodora",
   "statut": null,
-  "verifie": "2026-11-16T19:41+00:00"
+  "verifie": "2026-11-24T02:16+00:00"
  },
  "thunder jackson": {
   "nom": "Thunder Jackson",
@@ -2067,7 +2087,7 @@
  "tino thebenzoboy": {
   "nom": "Tino thebenzoboy",
   "statut": null,
-  "verifie": "2026-11-16T19:41+00:00"
+  "verifie": "2026-11-24T02:16+00:00"
  },
  "tiwa savage": {
   "nom": "Tiwa Savage",
@@ -2092,12 +2112,12 @@
  "trk": {
   "nom": "TRK.",
   "statut": null,
-  "verifie": "2026-11-16T19:41+00:00"
+  "verifie": "2026-11-24T02:16+00:00"
  },
  "tvlm": {
   "nom": "TVLM",
   "statut": null,
-  "verifie": "2026-11-16T19:41+00:00"
+  "verifie": "2026-11-24T02:16+00:00"
  },
  "twinsick": {
   "nom": "TWINSICK",
@@ -2157,7 +2177,7 @@
  "wantche": {
   "nom": "Wantché",
   "statut": null,
-  "verifie": "2026-11-16T19:41+00:00"
+  "verifie": "2026-11-24T02:16+00:00"
  },
  "werenoi": {
   "nom": "Werenoi",
@@ -2252,6 +2272,6 @@
  "zlatan": {
   "nom": "Zlatan",
   "statut": null,
-  "verifie": "2026-11-16T19:41+00:00"
+  "verifie": "2026-11-24T02:16+00:00"
  }
 }
