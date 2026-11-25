@@ -109,6 +109,11 @@
   "statut": null,
   "verifie": "2026-11-13T19:49+00:00"
  },
+ "alpha wann": {
+  "nom": "Alpha Wann",
+  "statut": "autre",
+  "verifie": "2026-11-25T19:23+00:00"
+ },
  "amadeus": {
   "nom": "Amadeus",
   "statut": "autre",
@@ -278,6 +283,11 @@
   "nom": "Black Sherif",
   "statut": "autre",
   "verifie": "2026-11-10T07:26+00:00"
+ },
+ "blanche bailly": {
+  "nom": "Blanche Bailly",
+  "statut": "autre",
+  "verifie": "2026-11-25T19:23+00:00"
  },
  "blaqbonez": {
   "nom": "Blaqbonez",
@@ -614,6 +624,11 @@
   "statut": null,
   "verifie": "2026-11-19T11:50+00:00"
  },
+ "fairuz": {
+  "nom": "Fairuz",
+  "statut": "autre",
+  "verifie": "2026-11-25T19:23+00:00"
+ },
  "fallon": {
   "nom": "Fallon",
   "statut": "autre",
@@ -713,6 +728,11 @@
   "nom": "Generation Nerf",
   "statut": null,
   "verifie": "2026-11-22T11:36+00:00"
+ },
+ "genevieve brou": {
+  "nom": "Geneviève Brou",
+  "statut": null,
+  "verifie": "2026-11-25T19:23+00:00"
  },
  "genezio": {
   "nom": "Genezio",
@@ -1102,7 +1122,7 @@
  "kylliann tyga": {
   "nom": "KYLLIANN TYGA",
   "statut": null,
-  "verifie": "2026-10-30T18:04+00:00"
+  "verifie": "2026-11-25T19:23+00:00"
  },
  "l oiseau rare": {
   "nom": "L'Oiseau Rare",
@@ -1299,6 +1319,11 @@
   "statut": null,
   "verifie": "2026-10-26T13:14+00:00"
  },
+ "luckson padaud": {
+  "nom": "Luckson Padaud",
+  "statut": "ivoirien",
+  "verifie": "2026-11-25T19:23+00:00"
+ },
  "lyfestyle corporation": {
   "nom": "Lyfestyle Corporation",
   "statut": null,
@@ -1313,6 +1338,11 @@
   "nom": "Lynothecosmoskid",
   "statut": null,
   "verifie": "2026-11-20T20:29+00:00"
+ },
+ "m i l o": {
+  "nom": "M I L O",
+  "statut": null,
+  "verifie": "2026-11-25T19:23+00:00"
  },
  "m kido": {
   "nom": "M'Kido",
@@ -2027,7 +2057,7 @@
  "suspect95": {
   "nom": "Suspect95",
   "statut": null,
-  "verifie": "2026-11-16T19:41+00:00"
+  "verifie": "2026-11-25T19:23+00:00"
  },
  "sylvain kashila": {
   "nom": "Sylvain Kashila",
@@ -2187,7 +2217,7 @@
  "vda": {
   "nom": "VDA",
   "statut": null,
-  "verifie": "2026-11-18T11:53+00:00"
+  "verifie": "2026-11-25T19:23+00:00"
  },
  "vianney": {
   "nom": "Vianney",
