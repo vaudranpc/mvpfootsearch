@@ -309,6 +309,11 @@
   "statut": "autre",
   "verifie": "2026-10-19T02:50+00:00"
  },
+ "booska p": {
+  "nom": "Booska-P",
+  "statut": null,
+  "verifie": "2026-11-26T17:02+00:00"
+ },
  "bouss": {
   "nom": "Bouss",
   "statut": null,
@@ -343,6 +348,11 @@
   "nom": "Capcom Sound Team",
   "statut": null,
   "verifie": "2026-10-27T15:25+00:00"
+ },
+ "capo plaza": {
+  "nom": "Capo Plaza",
+  "statut": "autre",
+  "verifie": "2026-11-26T17:02+00:00"
  },
  "cca": {
   "nom": "CØCA",
@@ -388,6 +398,11 @@
   "nom": "Consoul Trainin",
   "statut": null,
   "verifie": "2026-10-20T11:47+00:00"
+ },
+ "cortis": {
+  "nom": "CORTIS",
+  "statut": "autre",
+  "verifie": "2026-11-26T17:02+00:00"
  },
  "cory asbury": {
   "nom": "Cory Asbury",
@@ -518,6 +533,11 @@
   "nom": "Djelykaba Bintou",
   "statut": "autre",
   "verifie": "2026-11-17T16:11+00:00"
+ },
+ "dmx": {
+  "nom": "DMX",
+  "statut": "autre",
+  "verifie": "2026-11-26T17:02+00:00"
  },
  "dominic fike": {
   "nom": "Dominic Fike",
@@ -682,12 +702,17 @@
  "fola": {
   "nom": "FOLA",
   "statut": null,
-  "verifie": "2026-11-16T19:41+00:00"
+  "verifie": "2026-11-26T17:02+00:00"
  },
  "foo fighters": {
   "nom": "Foo Fighters",
   "statut": "autre",
   "verifie": "2026-11-20T11:51+00:00"
+ },
+ "forest blakk": {
+  "nom": "Forest Blakk",
+  "statut": null,
+  "verifie": "2026-11-26T17:02+00:00"
  },
  "fr2d": {
   "nom": "FR2D!",
@@ -708,6 +733,11 @@
   "nom": "Freshlyground",
   "statut": "autre",
   "verifie": "2026-10-19T02:50+00:00"
+ },
+ "fridayy": {
+  "nom": "Fridayy",
+  "statut": null,
+  "verifie": "2026-11-26T17:02+00:00"
  },
  "future": {
   "nom": "Future",
@@ -823,6 +853,11 @@
   "nom": "Hotkeed",
   "statut": null,
   "verifie": "2026-10-31T12:43+00:00"
+ },
+ "hugh masekela": {
+  "nom": "Hugh Masekela",
+  "statut": "autre",
+  "verifie": "2026-11-26T17:02+00:00"
  },
  "huntrill": {
   "nom": "Huntrill",
@@ -998,6 +1033,11 @@
   "nom": "KAGE",
   "statut": null,
   "verifie": "2026-11-24T02:16+00:00"
+ },
+ "kalash": {
+  "nom": "Kalash",
+  "statut": "autre",
+  "verifie": "2026-11-26T17:02+00:00"
  },
  "karol g": {
   "nom": "KAROL G",
@@ -1324,6 +1364,11 @@
   "statut": "ivoirien",
   "verifie": "2026-11-25T19:23+00:00"
  },
+ "luidji": {
+  "nom": "Luidji",
+  "statut": "autre",
+  "verifie": "2026-11-26T17:02+00:00"
+ },
  "lyfestyle corporation": {
   "nom": "Lyfestyle Corporation",
   "statut": null,
@@ -1364,10 +1409,20 @@
   "statut": null,
   "verifie": "2026-11-17T16:11+00:00"
  },
+ "malcolm todd": {
+  "nom": "Malcolm Todd",
+  "statut": "autre",
+  "verifie": "2026-11-26T17:02+00:00"
+ },
  "manu dibango": {
   "nom": "Manu Dibango",
   "statut": "autre",
   "verifie": "2026-11-19T11:50+00:00"
+ },
+ "mark morrison": {
+  "nom": "Mark Morrison",
+  "statut": "autre",
+  "verifie": "2026-11-26T17:02+00:00"
  },
  "marvin": {
   "nom": "Marvin",
@@ -1477,7 +1532,7 @@
  "moses akoh": {
   "nom": "Moses Akoh",
   "statut": null,
-  "verifie": "2026-11-16T19:41+00:00"
+  "verifie": "2026-11-26T17:02+00:00"
  },
  "moses bliss": {
   "nom": "Moses Bliss",
@@ -2007,7 +2062,7 @@
  "sound of salem": {
   "nom": "Sound Of Salem",
   "statut": null,
-  "verifie": "2026-11-16T19:41+00:00"
+  "verifie": "2026-11-26T17:02+00:00"
  },
  "sparow 69": {
   "nom": "Sparow 69",

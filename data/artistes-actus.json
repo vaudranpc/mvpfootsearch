@@ -1,5 +1,5 @@
 {
- "genere": "2026-11-26T03:37+00:00",
+ "genere": "2026-11-26T17:01+00:00",
  "fenetre_heures": 72,
  "erreurs": [],
  "artistes": {
@@ -20,6 +20,7 @@
   "Didi B": [],
   "døpelym": [],
   "Philipayne": [],
+  "KS Bloom": [],
   "Suspect 95": [
    {
     "titre": "Suspect 95 : « Parfois, c’est ma femme qui paye tout »",
@@ -28,14 +29,8 @@
     "date": "2026-11-26T00:20+00:00"
    }
   ],
-  "Jeune Morty": [],
   "Jeune Lion": [],
-  "KS Bloom": [],
-  "Luckson Padaud": [],
-  "Kiff No Beat": [],
-  "Sindika": [],
-  "Magic System": [],
-  "Alpha Blondy": [],
+  "Jeune Morty": [],
   "Tiken Jah Fakoly": [
    {
     "titre": "Tiken Jah Fakoly + guests au Théâtre Antique 2027 | billetterie",
@@ -44,6 +39,11 @@
     "date": "2026-11-25T02:26+00:00"
    }
   ],
+  "Kiff No Beat": [],
+  "Sindika": [],
+  "Espoir 2000": [],
+  "Magic System": [],
+  "Alpha Blondy": [],
   "DJ Arafat": [],
   "Serge Beynaud": [],
   "Bebi Philip": [],
@@ -59,7 +59,6 @@
   "Tam Sir": [],
   "Ismaël Isaac": [],
   "Les Garagistes": [],
-  "Espoir 2000": [],
   "Dobet Gnahoré": [],
   "Safarel Obiang": [],
   "Roseline Layo": [
@@ -73,6 +72,12 @@
   "Team Paiya": [],
   "DJ Kedjevara": [],
   "Nash": [
+   {
+    "titre": "Nino Arial, Nash… Cinq humoristes débarquent au cinéma CGR de Bourges pour une soirée stand-up inédite",
+    "lien": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxOQzZ0c3l2RHlHS2ZiQmVHR0pDaXlibmszZGNaOXA1TUhiNkttS190eGhXYjJqVXZhOUNyN3lSd285ZC0xS1lTeXl1MWdQa1lHZWt2TGt2Znd5UnBYSko1VExBYUlUVFFCV000SnN2ZXpQTlBJVTRZUmNkcXpUOXJVVy1CUFJ5akhxT2Y5Mk9CWTZ6TEhha29pUHlZUmdFaklTeXdTaVIyOVpJQm1haTJ1UkhmeDQyZUNZclNZMzhkTEh2dlZweHZWV2JqNmlnNEdEUExkY3pyQ3BQaERLNW5HYmk5YU5STkprMExrLVdxcw?oc=5",
+    "source": "Le Berry Républicain",
+    "date": "2026-11-26T12:47+00:00"
+   },
    {
     "titre": "Graham Nash se souvient de Deja Vu comme d'un disque enregistré dans les tensions",
     "lien": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQVzVaclJETzFWZWtjamRzOU91T2tyMV9fbE9OTXJzenc5bU5KSHA4UkI1LTBpcnUycUllQi1HZ3NoR0VXeEJaVU9HQktKYzdjdFdLMUVJQl9tNXFJOW1oU2Z4STh0ckpheS10UGJHdFQ3Zl82LVhVM0xfLUVjcGVfOGlqUXRlOG9DV2VjMTJ3Si10LXdMWnVvTC1iOUdFTTFYNHNkaW5JdVhxQWFH?oc=5",
@@ -101,19 +106,13 @@
     "titre": "Côte d’Ivoire : Après un an de fuite, le meurtrier présumé d'Aïcha Koné piégé dans un vol en réunion à Odienné",
     "lien": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxNSGdlOHRienRRMGV1VUJWS2kxWXdlV0hxdWFTWGZTRTdwdzhQUmVmZnpLQldvQjF3Ny1Tbm9XaS1KWTlFcUJRd2xhTXNXTlVUcHUwOVUtdERmV1VRTzVHYkNEQ09kYVRUcE9aMVkyMzlsSG1wM1lwOEVYSFp3S2xRQ0JLVDlqSFoyS0c0a25TRy16VFVMMW0xbW9Ma1ZHU3VKYzVfSW9kOVRYR2RQUV9sUV8xS0VhTHVlaEhhMWNGV2F0RHhOdEdabkxnNU1GVDBBbkg4M3lUYlRwT3dIT1JSR3pjQ2hVRl9TU3c?oc=5",
     "source": "Linfodrome",
-    "date": "2026-11-25T18:34+00:00"
+    "date": "2026-11-25T19:14+00:00"
    },
    {
     "titre": "Aïcha Koné : « Les propositions indécentes, je n’en ai pas eu besoin pour évoluer dans ma carrière",
     "lien": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOTmN3QWVTMXZMQ2o1QU5GTng4QzVaWHdOdUo0dzNFcjVfUFg1ZDBhdUI3WnBwMXB5X19MeGhHRDNFYklrbHVfSWFwZVg4YldhZ29Qc0p1YzZ1NmROQm9Sd010a1JMUGxiRHl4Z19jcTQxeDRVUWh1bDlBOTFnVkZGdnY5Y3hxcHdtVld5UDB1NFhBYkFQY3VmeXoycnpDeVQ0T3phOTZOdE0xX0l6NHI0ZERVSUtXUQ?oc=5",
     "source": "afrik soir",
     "date": "2026-11-23T17:45+00:00"
-   },
-   {
-    "titre": "Henri Bourgoin et Aïcha Koné : qui était le père de Tchaga ?",
-    "lien": "https://news.google.com/rss/articles/CBMibEFVX3lxTE1sSVZZc3UxRXp3WE00QmRIZjdpb1ZPUV9CZ3JjVkdfQlBxWk9pLUlNalFRa1BqSEZ3RzdUUmZyVF9jT1lZdEduT2lXb1QzaHhlTEc3Y09BTkF3ZjYxVktPb2ZDZW9ueEF6ZmYydg?oc=5",
-    "source": "Afrique sur 7",
-    "date": "2026-11-23T10:53+00:00"
    }
   ],
   "Ariel Sheney": [
