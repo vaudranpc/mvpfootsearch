@@ -1,9 +1,15 @@
 {
- "genere": "2026-11-27T01:47+00:00",
+ "genere": "2026-11-27T12:39+00:00",
  "fenetre_heures": 72,
  "erreurs": [],
  "artistes": {
   "Himra": [
+   {
+    "titre": "Himra refuse un featuring avec Booba malgré la proposition du rappeur français",
+    "lien": "https://news.google.com/rss/articles/CBMisgFBVV95cUxNamFXS01DOFpRdVpkQjNVa2pDWFRyRkx6NWYzalFYTnlJYVFkbkwtNlN5dXNkV0lzZDQzaFFPeG5NM0ZtbmFNWDhWZ2hJZndsdUp4bl9aSFhGTFZMakpNSmpYUkluM2MtMk1qb2RDZ3lPQXE4ampUWjZlUkhJc3YxcU5SS2Q4MkhibWlVT2FTOEhFODQtYXJiYnBSQ0xYSkZxVk9ycHdmN0dWSzlVUndYbW93?oc=5",
+    "source": "Mbote - Buzz",
+    "date": "2026-11-27T08:45+00:00"
+   },
    {
     "titre": "« C’est pas moi » : Himra dément les rumeurs sur un tatouage de sa tête",
     "lien": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxNSFYtYUd2NVdkTkdCbk82c1JBWGdvN3hSbl9wZDQ1dGxKV2tmd2JSYXEydVk5Q1FabUZyLU9fV0VLQ1RYcV83VkZhSVE0NVdLYlFiOXJXWDRpcFZNZzhWRjFiQlBBcUlyczVnTGtSX0hTaGFCbmFiYlFfa0VaYk5uaTZpT0Q4Tzk1d3pmQ3hHdlh2YUpoUHNfQjB3bVUtalhMOG9WLVBoWTRldVE?oc=5",
@@ -20,7 +26,6 @@
   "Didi B": [],
   "døpelym": [],
   "Philipayne": [],
-  "KS Bloom": [],
   "Suspect 95": [
    {
     "titre": "Suspect 95 : « Parfois, c’est ma femme qui paye tout »",
@@ -29,13 +34,14 @@
     "date": "2026-11-26T00:20+00:00"
    }
   ],
-  "Jeune Lion": [],
   "Jeune Morty": [],
-  "Kiff No Beat": [],
+  "Jeune Lion": [],
+  "KS Bloom": [],
+  "Sindika": [],
   "Tiken Jah Fakoly": [
    {
     "titre": "Un nouveau festival de reggae arrive en 2027 à Firminy avec Alpha Blondy et Tiken Jah Fakoly en têtes d'affiche",
-    "lien": "https://news.google.com/rss/articles/CBMi6wFBVV95cUxPamVSVk9EckMxTVNWMEpBLTNYTFVSZVJrR1I5bGhNNU1oY19qaXNWUm8zWjBPUEtWQU8xWlNHWHlHbl96OWF3QWlBdUE4RTYyWTdaenVHZHNBSnRIaU01NGJEMVdoeFZIeGVVUU1RdjE1NTFjMjVWSE96bk1XTlg5dGZuV2kxeWEtQ0xFVzRrdmxVWVQwWnF0X3A0QXZqR0dXcDdjdC1yMjRsMjJwS1FtTDM4MUV6WkpMRU1UWVVuYnlYVVRHbVVGS3Vnd1RUQnBQcUJZdFpUU001OXRfNTVnanA1T2wzWnp3Vmlj?oc=5",
+    "lien": "https://news.google.com/rss/articles/CBMi6wFBVV95cUxNQlhrWHR4X3BZeUkzbWRJZ2R5eTBaUGJYcXcydmdYWW5rZlVXcG5ZcGcxdllWVVlBbXFwU1B1SWhfTkVjUC1IMXU0MTRxcGxfWmpxaW9BeUFWUW1RNHVuSUlUYVg4UnFtT0l5UmlOc2pFaHlMRDBfaUl5RTEweUcya2FoYzhYckdXbFRYQUdPWDFpUWtweXEtX3RHeEJ6dC11OVIxbzN0NHI4c1hONGZ4cmRBTmw3TFJiODZVSVVUdHRsc0xoWF9QRUdMYXpFZGMySEttb3U1dWdXU0NJX2FWWFVkUmhxdFpTYmNF?oc=5",
     "source": "La Commère 43",
     "date": "2026-11-26T21:37+00:00"
    },
@@ -46,12 +52,12 @@
     "date": "2026-11-25T02:26+00:00"
    }
   ],
-  "Sindika": [],
+  "Kiff No Beat": [],
   "Magic System": [],
   "Alpha Blondy": [
    {
     "titre": "Un nouveau festival de reggae arrive en 2027 à Firminy avec Alpha Blondy et Tiken Jah Fakoly en têtes d'affiche",
-    "lien": "https://news.google.com/rss/articles/CBMi6wFBVV95cUxPamVSVk9EckMxTVNWMEpBLTNYTFVSZVJrR1I5bGhNNU1oY19qaXNWUm8zWjBPUEtWQU8xWlNHWHlHbl96OWF3QWlBdUE4RTYyWTdaenVHZHNBSnRIaU01NGJEMVdoeFZIeGVVUU1RdjE1NTFjMjVWSE96bk1XTlg5dGZuV2kxeWEtQ0xFVzRrdmxVWVQwWnF0X3A0QXZqR0dXcDdjdC1yMjRsMjJwS1FtTDM4MUV6WkpMRU1UWVVuYnlYVVRHbVVGS3Vnd1RUQnBQcUJZdFpUU001OXRfNTVnanA1T2wzWnp3Vmlj?oc=5",
+    "lien": "https://news.google.com/rss/articles/CBMi6wFBVV95cUxNQlhrWHR4X3BZeUkzbWRJZ2R5eTBaUGJYcXcydmdYWW5rZlVXcG5ZcGcxdllWVVlBbXFwU1B1SWhfTkVjUC1IMXU0MTRxcGxfWmpxaW9BeUFWUW1RNHVuSUlUYVg4UnFtT0l5UmlOc2pFaHlMRDBfaUl5RTEweUcya2FoYzhYckdXbFRYQUdPWDFpUWtweXEtX3RHeEJ6dC11OVIxbzN0NHI4c1hONGZ4cmRBTmw3TFJiODZVSVVUdHRsc0xoWF9QRUdMYXpFZGMySEttb3U1dWdXU0NJX2FWWFVkUmhxdFpTYmNF?oc=5",
     "source": "La Commère 43",
     "date": "2026-11-26T21:37+00:00"
    }
@@ -90,6 +96,12 @@
   "Safarel Obiang": [],
   "Roseline Layo": [
    {
+    "titre": "Musique : Roseline Layo dévoile « Divas » un album aux collaborations féminines panafricaines",
+    "lien": "https://news.google.com/rss/articles/CBMirwFBVV95cUxQaGZ1U0U2NHFwYUZRdEQ1WkRUUWl5cDYxR1pxQkNFdF9mZEc3V0JWV1RJSzdYdFY3Mnk2UEk1S1Z4V3I3U0RLUE1XN1owOElaenlBTWR6Y29oZUFHeWt2TEM4QVM1OWdkWWF3NWxnQ2l0RVlGN0RHaDJtdUpsR3RRWlpiYWZzazBsWXJZYTBSZFdfMGZQMUJqVzVycGN1Tm5NUTBRX2s1SzZzcXJUUmNz?oc=5",
+    "source": "afrik soir",
+    "date": "2026-11-27T11:00+00:00"
+   },
+   {
     "titre": "Roseline Layo, une diva au charme magnétique",
     "lien": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNbGcxeEprenZob0tmMm03M1pvS0dlUDl1UnBXYUM1cmlPblpBS1ZrZVlwek1xV1hpWWxacVZmdDRYdjlYMEk3aHBXWUtYSjRwSkJXaTZmZVIzRGR4OEFoTGpnYUR3TkJpM1BJaEhXN200YjJrNzYtbWc3RWNPSHZSZUhRSEdlRDVtdXgwUzU3ZV93Y1Jr?oc=5",
     "source": "RFI",
@@ -116,12 +128,6 @@
     "lien": "https://news.google.com/rss/articles/CBMiugFBVV95cUxPS1ZLaDUzQjhOeThRZ1JIbUVyLTdYQVBOT1NJaENKU0tVNDFnX2dTUFRfa0tYWnRVeFdNM1pTXzNVYl9TWWdqUFJGZUpJMG91bXBMNGw1d1ZEWllHaU56S3BuTVpBUm1aYlBvRk1SZElwWTAzNmRVTVhUdWdVVjRVbUk2MG95QTRuRmJHV0pIQ25USjB0VGt4bUdnQTlnLW5EemZvTnktSFFDZVJYZVFTb3dlWDFJY1VFMHc?oc=5",
     "source": "KarloBag.eu",
     "date": "2026-11-24T22:45+00:00"
-   },
-   {
-    "titre": "Nash à Toulon 2027 | de la tournée Bonchour : billets",
-    "lien": "https://news.google.com/rss/articles/CBMigAFBVV95cUxNSHFkVHFiV0FkSi1WSGE0ZWFwelE1Z0hrRkp2b1YzV09ZbnpLZjdPNEZHUHRxZWIzWUdOd2RRRUEzQ3NRd0ctdm9Cc2JqZThmNkxqa2VFVFc5SEt5OTVBQVA2bFJKaW9wNG1RN1FLWGlzZW9tZ3A0Q1V3M1Z2WkM0aw?oc=5",
-    "source": "jds.fr",
-    "date": "2026-11-24T11:20+00:00"
    }
   ],
   "Monique Séka": [],
